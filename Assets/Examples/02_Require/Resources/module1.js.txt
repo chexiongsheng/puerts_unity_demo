@@ -1,0 +1,7 @@
+console.log('module1 loading');
+
+function callMe(msg) {
+    console.log('callMe called', msg);
+}
+
+exports.callMe = callMe;
