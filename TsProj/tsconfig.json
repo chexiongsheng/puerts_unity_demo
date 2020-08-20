@@ -5,8 +5,8 @@
     "jsx": "react",
     "sourceMap": true,
     "typeRoots": [
-      "../UnityProj/Assets/Puerts/Typing",
-      "../UnityProj/Assets/Gen/Typing",
+      "../Assets/Puerts/Typing",
+      "../Assets/Gen/Typing",
       "./node_modules/@types",
     ],
     "outDir": "output",
