@@ -1,7 +1,7 @@
 //部署:npm run build
 
 import {UnityEngine, PuertsTest, System} from 'csharp'
-import {$ref, $unref, $generic, $promise} from 'puerts'
+import {$ref, $unref, $generic, $promise, $typeof} from 'puerts'
 
 //静态函数
 UnityEngine.Debug.Log('hello world');
@@ -60,6 +60,11 @@ lst.Add(0);
 lst.Add(2);
 lst.Add(4);
 obj.PrintList(lst);
+
+//引擎api
+let go = new UnityEngine.GameObject("testObject");
+go.AddComponent($typeof(UnityEngine.ParticleSystem));
+go.transform.position = new UnityEngine.Vector3(7, 8,  9);
 
 //typescript和c#的async，await联动，为了不在低版本的Unity下报错，先注释，c#7.3以上版本可以打开这些注释
 /*async function asyncCall() {
