@@ -36,6 +36,9 @@ public class ExamplesCfg
                 typeof(GameObject),
                 typeof(UnityEngine.Object),
                 typeof(Delegate),
+                typeof(System.Object),
+                typeof(Type),
+                typeof(ParticleSystem)
             };
         }
     }

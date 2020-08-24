@@ -53,6 +53,10 @@ lst.Add(0);
 lst.Add(2);
 lst.Add(4);
 obj.PrintList(lst);
+//引擎api
+let go = new csharp_1.UnityEngine.GameObject("testObject");
+go.AddComponent(puerts_1.$typeof(csharp_1.UnityEngine.ParticleSystem));
+go.transform.position = new csharp_1.UnityEngine.Vector3(7, 8, 9);
 //typescript和c#的async，await联动，为了不在低版本的Unity下报错，先注释，c#7.3以上版本可以打开这些注释
 /*async function asyncCall() {
     let task = obj.GetFileLength("Assets/Examples/05_Typescript/TsQuickStart.cs");
