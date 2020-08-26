@@ -438,6 +438,90 @@ declare module 'csharp' {
         }
         enum ParticleSystemCustomData { Custom1 = 0, Custom2 = 1 }
         enum ParticleSystemStopBehavior { StopEmittingAndClear = 0, StopEmitting = 1 }
+        class Canvas extends UnityEngine.Behaviour {
+            public renderMode: UnityEngine.RenderMode;
+            public isRootCanvas: boolean;
+            public pixelRect: UnityEngine.Rect;
+            public scaleFactor: number;
+            public referencePixelsPerUnit: number;
+            public overridePixelPerfect: boolean;
+            public pixelPerfect: boolean;
+            public planeDistance: number;
+            public renderOrder: number;
+            public overrideSorting: boolean;
+            public sortingOrder: number;
+            public targetDisplay: number;
+            public sortingLayerID: number;
+            public cachedSortingLayerValue: number;
+            public additionalShaderChannels: UnityEngine.AdditionalCanvasShaderChannels;
+            public sortingLayerName: string;
+            public rootCanvas: UnityEngine.Canvas;
+            public worldCamera: UnityEngine.Camera;
+            public normalizedSortingGridSize: number;
+            public sortingGridNormalizedSize: number;
+            public constructor();
+            public static add_willRenderCanvases(value: UnityEngine.Canvas.WillRenderCanvases):void;
+            public static remove_willRenderCanvases(value: UnityEngine.Canvas.WillRenderCanvases):void;
+            public static GetDefaultCanvasTextMaterial():UnityEngine.Material;
+            public static GetDefaultCanvasMaterial():UnityEngine.Material;
+            public static GetETC1SupportedCanvasMaterial():UnityEngine.Material;
+            public static ForceUpdateCanvases():void;
+            
+        }
+        enum RenderMode { ScreenSpaceOverlay = 0, ScreenSpaceCamera = 1, WorldSpace = 2 }
+        class Rect {
+            
+        }
+        enum AdditionalCanvasShaderChannels { None = 0, TexCoord1 = 1, TexCoord2 = 2, TexCoord3 = 4, Normal = 8, Tangent = 16 }
+        class Camera {
+            
+        }
+        class Material {
+            
+        }
+        class Behaviour extends UnityEngine.Component {
+            public enabled: boolean;
+            public isActiveAndEnabled: boolean;
+            public constructor();
+            
+        }
+        class MonoBehaviour extends UnityEngine.Behaviour {
+            public useGUILayout: boolean;
+            public runInEditMode: boolean;
+            public constructor();
+            public IsInvoking():boolean;
+            public CancelInvoke():void;
+            public Invoke(methodName: string, time: number):void;
+            public InvokeRepeating(methodName: string, time: number, repeatRate: number):void;
+            public CancelInvoke(methodName: string):void;
+            public IsInvoking(methodName: string):boolean;
+            public StartCoroutine(methodName: string):UnityEngine.Coroutine;
+            public StartCoroutine(methodName: string, value: any):UnityEngine.Coroutine;
+            public StartCoroutine(routine: System.Collections.IEnumerator):UnityEngine.Coroutine;
+            public StartCoroutine_Auto(routine: System.Collections.IEnumerator):UnityEngine.Coroutine;
+            public StopCoroutine(routine: System.Collections.IEnumerator):void;
+            public StopCoroutine(routine: UnityEngine.Coroutine):void;
+            public StopCoroutine(methodName: string):void;
+            public StopAllCoroutines():void;
+            public static print(message: any):void;
+            
+        }
+        class Coroutine {
+            
+        }
+        class Animator {
+            
+        }
+        class TouchScreenKeyboard {
+            
+        }
+        enum TouchScreenKeyboardType { Default = 0, ASCIICapable = 1, NumbersAndPunctuation = 2, URL = 3, NumberPad = 4, PhonePad = 5, NamePhonePad = 6, EmailAddress = 7, NintendoNetworkAccount = 8, Social = 9, Search = 10, DecimalPad = 11 }
+        class Vector2 {
+            
+        }
+        class Event {
+            
+        }
         
     }
     namespace System {
@@ -985,6 +1069,190 @@ declare module 'csharp' {
         class CustomDataModule {
             
         }
+        
+    }
+    namespace UnityEngine.Canvas {
+        type WillRenderCanvases = () => void;
+        var WillRenderCanvases: {new (func: () => void): WillRenderCanvases;}
+        
+    }
+    namespace UnityEngine.EventSystems {
+        class UIBehaviour extends UnityEngine.MonoBehaviour {
+            public IsActive():boolean;
+            public IsDestroyed():boolean;
+            
+        }
+        class AxisEventData {
+            
+        }
+        class PointerEventData {
+            
+        }
+        class BaseEventData {
+            
+        }
+        
+    }
+    namespace UnityEngine.UI {
+        class Selectable extends UnityEngine.EventSystems.UIBehaviour {
+            public static allSelectablesArray: UnityEngine.UI.Selectable[];
+            public static allSelectableCount: number;
+            public static allSelectables: System.Collections.Generic.List$1<UnityEngine.UI.Selectable>;
+            public navigation: UnityEngine.UI.Navigation;
+            public transition: UnityEngine.UI.Selectable.Transition;
+            public colors: UnityEngine.UI.ColorBlock;
+            public spriteState: UnityEngine.UI.SpriteState;
+            public animationTriggers: UnityEngine.UI.AnimationTriggers;
+            public targetGraphic: UnityEngine.UI.Graphic;
+            public interactable: boolean;
+            public image: UnityEngine.UI.Image;
+            public animator: UnityEngine.Animator;
+            public static AllSelectablesNoAlloc(selectables: UnityEngine.UI.Selectable[]):number;
+            public IsInteractable():boolean;
+            public FindSelectable(dir: UnityEngine.Vector3):UnityEngine.UI.Selectable;
+            public FindSelectableOnLeft():UnityEngine.UI.Selectable;
+            public FindSelectableOnRight():UnityEngine.UI.Selectable;
+            public FindSelectableOnUp():UnityEngine.UI.Selectable;
+            public FindSelectableOnDown():UnityEngine.UI.Selectable;
+            public OnMove(eventData: UnityEngine.EventSystems.AxisEventData):void;
+            public OnPointerDown(eventData: UnityEngine.EventSystems.PointerEventData):void;
+            public OnPointerUp(eventData: UnityEngine.EventSystems.PointerEventData):void;
+            public OnPointerEnter(eventData: UnityEngine.EventSystems.PointerEventData):void;
+            public OnPointerExit(eventData: UnityEngine.EventSystems.PointerEventData):void;
+            public OnSelect(eventData: UnityEngine.EventSystems.BaseEventData):void;
+            public OnDeselect(eventData: UnityEngine.EventSystems.BaseEventData):void;
+            public Select():void;
+            
+        }
+        class Navigation {
+            
+        }
+        class ColorBlock {
+            
+        }
+        class SpriteState {
+            
+        }
+        class AnimationTriggers {
+            
+        }
+        class Graphic {
+            
+        }
+        class Image {
+            
+        }
+        class Button extends UnityEngine.UI.Selectable {
+            public onClick: UnityEngine.UI.Button.ButtonClickedEvent;
+            public OnPointerClick(eventData: UnityEngine.EventSystems.PointerEventData):void;
+            public OnSubmit(eventData: UnityEngine.EventSystems.BaseEventData):void;
+            
+        }
+        class InputField extends UnityEngine.UI.Selectable {
+            public shouldHideMobileInput: boolean;
+            public text: string;
+            public isFocused: boolean;
+            public caretBlinkRate: number;
+            public caretWidth: number;
+            public textComponent: UnityEngine.UI.Text;
+            public placeholder: UnityEngine.UI.Graphic;
+            public caretColor: UnityEngine.Color;
+            public customCaretColor: boolean;
+            public selectionColor: UnityEngine.Color;
+            public onEndEdit: UnityEngine.UI.InputField.SubmitEvent;
+            public onValueChange: UnityEngine.UI.InputField.OnChangeEvent;
+            public onValueChanged: UnityEngine.UI.InputField.OnChangeEvent;
+            public onValidateInput: UnityEngine.UI.InputField.OnValidateInput;
+            public characterLimit: number;
+            public contentType: UnityEngine.UI.InputField.ContentType;
+            public lineType: UnityEngine.UI.InputField.LineType;
+            public inputType: UnityEngine.UI.InputField.InputType;
+            public touchScreenKeyboard: UnityEngine.TouchScreenKeyboard;
+            public keyboardType: UnityEngine.TouchScreenKeyboardType;
+            public characterValidation: UnityEngine.UI.InputField.CharacterValidation;
+            public readOnly: boolean;
+            public multiLine: boolean;
+            public asteriskChar: System.Char;
+            public wasCanceled: boolean;
+            public caretPosition: number;
+            public selectionAnchorPosition: number;
+            public selectionFocusPosition: number;
+            public minWidth: number;
+            public preferredWidth: number;
+            public flexibleWidth: number;
+            public minHeight: number;
+            public preferredHeight: number;
+            public flexibleHeight: number;
+            public layoutPriority: number;
+            public SetTextWithoutNotify(input: string):void;
+            public MoveTextEnd(shift: boolean):void;
+            public MoveTextStart(shift: boolean):void;
+            public ScreenToLocal(screen: UnityEngine.Vector2):UnityEngine.Vector2;
+            public OnBeginDrag(eventData: UnityEngine.EventSystems.PointerEventData):void;
+            public OnDrag(eventData: UnityEngine.EventSystems.PointerEventData):void;
+            public OnEndDrag(eventData: UnityEngine.EventSystems.PointerEventData):void;
+            public OnPointerDown(eventData: UnityEngine.EventSystems.PointerEventData):void;
+            public ProcessEvent(e: UnityEngine.Event):void;
+            public OnUpdateSelected(eventData: UnityEngine.EventSystems.BaseEventData):void;
+            public ForceLabelUpdate():void;
+            public Rebuild(update: UnityEngine.UI.CanvasUpdate):void;
+            public LayoutComplete():void;
+            public GraphicUpdateComplete():void;
+            public ActivateInputField():void;
+            public OnSelect(eventData: UnityEngine.EventSystems.BaseEventData):void;
+            public OnPointerClick(eventData: UnityEngine.EventSystems.PointerEventData):void;
+            public DeactivateInputField():void;
+            public OnDeselect(eventData: UnityEngine.EventSystems.BaseEventData):void;
+            public OnSubmit(eventData: UnityEngine.EventSystems.BaseEventData):void;
+            public CalculateLayoutInputHorizontal():void;
+            public CalculateLayoutInputVertical():void;
+            
+        }
+        class Text {
+            
+        }
+        enum CanvasUpdate { Prelayout = 0, Layout = 1, PostLayout = 2, PreRender = 3, LatePreRender = 4, MaxUpdateValue = 5 }
+        
+    }
+    namespace UnityEngine.UI.Selectable {
+        enum Transition { None = 0, ColorTint = 1, SpriteSwap = 2, Animation = 3 }
+        
+    }
+    namespace UnityEngine.UI.Button {
+        class ButtonClickedEvent extends UnityEngine.Events.UnityEvent {
+            public constructor();
+            
+        }
+        
+    }
+    namespace UnityEngine.Events {
+        class UnityEvent extends UnityEngine.Events.UnityEventBase {
+            public constructor();
+            public AddListener(call: UnityEngine.Events.UnityAction):void;
+            public RemoveListener(call: UnityEngine.Events.UnityAction):void;
+            public Invoke():void;
+            
+        }
+        class UnityEventBase {
+            
+        }
+        type UnityAction = () => void;
+        var UnityAction: {new (func: () => void): UnityAction;}
+        
+    }
+    namespace UnityEngine.UI.InputField {
+        class SubmitEvent {
+            
+        }
+        class OnChangeEvent {
+            
+        }
+        type OnValidateInput = (text: string, charIndex: number, addedChar: System.Char) => System.Char;
+        var OnValidateInput: {new (func: (text: string, charIndex: number, addedChar: System.Char) => System.Char): OnValidateInput;}
+        enum ContentType { Standard = 0, Autocorrected = 1, IntegerNumber = 2, DecimalNumber = 3, Alphanumeric = 4, Name = 5, EmailAddress = 6, Password = 7, Pin = 8, Custom = 9 }
+        enum LineType { SingleLine = 0, MultiLineSubmit = 1, MultiLineNewline = 2 }
+        enum InputType { Standard = 0, AutoCorrect = 1, Password = 2 }
+        enum CharacterValidation { None = 0, Integer = 1, Decimal = 2, Alphanumeric = 3, Name = 4, EmailAddress = 5 }
         
     }
     

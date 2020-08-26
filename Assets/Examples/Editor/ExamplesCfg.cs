@@ -38,7 +38,19 @@ public class ExamplesCfg
                 typeof(Delegate),
                 typeof(System.Object),
                 typeof(Type),
-                typeof(ParticleSystem)
+                typeof(ParticleSystem),
+                typeof(Canvas),
+                typeof(RenderMode),
+                typeof(Behaviour),
+                typeof(MonoBehaviour),
+
+                typeof(UnityEngine.EventSystems.UIBehaviour),
+                typeof(UnityEngine.UI.Selectable),
+                typeof(UnityEngine.UI.Button),
+                typeof(UnityEngine.UI.Button.ButtonClickedEvent),
+                typeof(UnityEngine.Events.UnityEvent),
+                typeof(UnityEngine.UI.InputField),
+                
             };
         }
     }
