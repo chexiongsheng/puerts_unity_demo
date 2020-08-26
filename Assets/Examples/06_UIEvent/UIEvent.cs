@@ -8,7 +8,11 @@ public class UIEvent : MonoBehaviour
 
     void Start()
     {
-        if (jsEnv == null) jsEnv = new JsEnv();
+        if (jsEnv == null)
+        {
+            jsEnv = new JsEnv();
+            jsEnv.UsingAction<bool>();//toggle.onValueChanged用到
+        }
 
         var init = jsEnv.Eval<Action<MonoBehaviour>>("const m = require('UIEvent'); m.init;");
 

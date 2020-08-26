@@ -50,7 +50,10 @@ public class ExamplesCfg
                 typeof(UnityEngine.UI.Button.ButtonClickedEvent),
                 typeof(UnityEngine.Events.UnityEvent),
                 typeof(UnityEngine.UI.InputField),
-                
+                typeof(UnityEngine.UI.Toggle),
+                typeof(UnityEngine.UI.Toggle.ToggleEvent),
+                typeof(UnityEngine.Events.UnityEvent<bool>),
+
             };
         }
     }
