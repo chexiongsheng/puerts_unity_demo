@@ -7,8 +7,8 @@
     "typeRoots": [
       "../Assets/Puerts/Typing",
       "../Assets/Gen/Typing",
-      "./node_modules/@types",
+      "./node_modules/@types"
     ],
-    "outDir": "output",
+    "outDir": "output"
   }
 }
