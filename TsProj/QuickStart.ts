@@ -61,6 +61,15 @@ lst.Add(2);
 lst.Add(4);
 obj.PrintList(lst);
 
+//arraybuffer
+let ab  = obj.GetAb(5);
+let u8a0 = new Uint8Array(ab);
+console.log(obj.SumOfAb(u8a0));
+let u8a1 = new Uint8Array(2);
+u8a1[0] = 123;
+u8a1[1] = 101;
+console.log(obj.SumOfAb(u8a1));
+
 //引擎api
 let go = new UnityEngine.GameObject("testObject");
 go.AddComponent($typeof(UnityEngine.ParticleSystem));

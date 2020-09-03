@@ -771,6 +771,8 @@ declare module 'csharp' {
             public ParamsFunc(a: number, ...b: string[]):number;
             public InOutArgFunc(a: number, b: $Ref<number>, c: $Ref<number>):number;
             public PrintList(lst: System.Collections.Generic.List$1<number>):void;
+            public GetAb(size: number):ArrayBuffer;
+            public SumOfAb(ab: ArrayBuffer):number;
             
         }
         type MyCallback = (msg: string) => void;

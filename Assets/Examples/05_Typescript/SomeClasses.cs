@@ -107,6 +107,26 @@ namespace PuertsTest
             }
         }
 
+        public Puerts.ArrayBuffer GetAb(int size)
+        {
+            byte[] bytes = new byte[size];
+            for(int i = 0; i < size; i++)
+            {
+                bytes[i] = (byte)(i + 10);
+            }
+            return new Puerts.ArrayBuffer(bytes);
+        }
+
+        public int SumOfAb(Puerts.ArrayBuffer ab)
+        {
+            int sum = 0;
+            foreach (var b in ab.Bytes)
+            {
+                sum += b;
+            }
+            return sum;
+        }
+
 #if CSHARP_7_3_OR_NEWER
         public async Task<int> GetFileLength(string path)
         {
