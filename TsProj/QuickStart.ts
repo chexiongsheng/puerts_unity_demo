@@ -28,7 +28,7 @@ let delegate = new PuertsTest.MyCallback(msg => console.log('can be removed, msg
 //由于ts不支持操作符重载，Delegate.Combine相当于C#里头的obj.myCallback += delegate;
 obj.MyCallback = System.Delegate.Combine(obj.MyCallback, delegate) as PuertsTest.MyCallback;
 obj.Trigger();
-//Delegate.Remove相当于C#里头的obj.myCallback += delegate;
+//Delegate.Remove相当于C#里头的obj.myCallback -= delegate;
 obj.MyCallback = System.Delegate.Remove(obj.MyCallback, delegate) as PuertsTest.MyCallback;
 obj.Trigger();
 //事件
