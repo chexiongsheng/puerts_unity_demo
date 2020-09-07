@@ -1,0 +1,259 @@
+namespace Js
+{
+#if UNITY_EDITOR
+    using System.Linq;
+    using System.Reflection;
+    using UnityEditor;
+#endif
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
+
+    /// <summary>
+    /// 绑定参数
+    /// </summary>
+    public class JsBinding : MonoBehaviour
+    {
+        public JsArg[] args;
+    }
+    [Serializable]
+    public struct JsArg
+    {
+        public string name;
+        public Object value;
+    }
+
+#if UNITY_EDITOR
+    [CustomEditor(typeof(JsBinding))]
+    [CanEditMultipleObjects]
+    public class JsBindingEditor : Editor
+    {
+        private JsBinding ins;
+        private SerializedProperty argsProp;
+        //当前选中行
+        private int select;
+
+        //组件缓存
+        private Dictionary<SerializedProperty, State> components;
+
+        void OnEnable()
+        {
+            ins = target as JsBinding;
+            argsProp = serializedObject.FindProperty("args");
+
+            //Debug.Log("OnEnable");
+            select = -1;
+            components?.Clear();
+            components = new Dictionary<SerializedProperty, State>();
+        }
+        void OnDisable()
+        {
+            //Debug.Log("OnDisable");
+            components?.Clear();
+            components = null;
+        }
+        List<Object> GetCompoents(Object obj)
+        {
+            if (obj != null)
+            {
+                var lst = new List<Object>() { };
+                var type = obj.GetType();
+                //使用反射, 获取GameObject和Transform组件
+                var gobj = type.GetProperty("gameObject")?.GetValue(obj) as GameObject;
+                var trf = type.GetProperty("tranform")?.GetValue(obj) as Transform;
+                if (gobj != null)
+                    lst.Add(gobj);
+                if (trf != null)
+                    lst.Add(trf);
+                //Self
+                if (!lst.Contains(obj))
+                    lst.Add(obj);
+                //使用反射调用GetComponents方法, 获取所有组件
+                MethodInfo get_components = (
+                    from method in type.GetMethods()
+                    where method.Name == "GetComponents"
+                       && method.ReturnType == typeof(Component[])
+                       && method.GetParameters().Length == 1
+                       && method.GetParameters()[0].ParameterType == typeof(Type)
+                    select method).FirstOrDefault();
+                if (get_components != null)
+                {
+                    var components = get_components.Invoke(obj, new object[] { typeof(Component) }) as Component[];
+                    foreach (var o in components)
+                    {
+                        if (!lst.Contains(o)) lst.Add(o);
+                    }
+                }
+                return lst;
+            }
+            return new List<Object>() { };
+        }
+        State GetState(SerializedProperty prop)
+        {
+            State v;
+            if (!components.TryGetValue(prop, out v) || v.refObject != prop.objectReferenceValue)
+            {
+                var _components = GetCompoents(prop.objectReferenceValue);
+                var _names = (from c in _components
+                              where c != null
+                              select c.GetType().Name)
+                            .ToArray();
+                var _index = _components.IndexOf(prop.objectReferenceValue);
+
+                v = new State(_index, _names, _components);
+                v.refObject = prop.objectReferenceValue;
+
+                components.Remove(prop);
+                components.Add(prop, v);
+            }
+            return v;
+        }
+        void SetState(SerializedProperty prop, State state)
+        {
+            if (state.index >= 0 && state.index < state.components.Count)
+                prop.objectReferenceValue = state.components[state.index];
+
+            if (this.components.ContainsKey(prop))
+                this.components.Remove(prop);
+            this.components.Add(prop, state);
+        }
+
+        public override void OnInspectorGUI()
+        {
+            if (ins == null)
+            {
+                base.OnInspectorGUI();
+                return;
+            }
+            serializedObject.Update();
+
+            //Args Menu
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Size", GUILayout.Width(50f));
+            argsProp.arraySize = EditorGUILayout.IntField(argsProp.arraySize, GUILayout.Width(50f));
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("○"))
+            {
+                //Refresh
+                components?.Clear();
+            }
+            GUILayout.Space(5f);
+            if (GUILayout.Button("+"))
+            {
+                //Add Row
+                argsProp.arraySize++;
+                select = argsProp.arraySize - 1;
+                //Name
+                argsProp.GetArrayElementAtIndex(select).FindPropertyRelative("name").stringValue = "arg" + select;
+            }
+            if (GUILayout.Button("-"))
+            {
+                //Remove Row
+                if (select >= 0)
+                {
+                    argsProp.DeleteArrayElementAtIndex(select);
+                    if (select >= argsProp.arraySize)
+                        select = argsProp.arraySize - 1;
+                }
+                else if (argsProp.arraySize > 0)
+                    argsProp.arraySize--;
+            }
+            GUILayout.Space(5f);
+            if (GUILayout.Button("↑") && select > 0)
+            {
+                //Move Up Row
+                argsProp.MoveArrayElement(select, --select);
+            }
+            if (GUILayout.Button("↓") && select >= 0 && select < argsProp.arraySize - 1)
+            {
+                //Move Down Row
+                argsProp.MoveArrayElement(select, ++select);
+            }
+            EditorGUILayout.EndHorizontal();
+            //Args Title
+            EditorGUILayout.BeginHorizontal();
+            argsProp.isExpanded = EditorGUILayout.Foldout(argsProp.isExpanded, "Name");
+            GUILayout.FlexibleSpace();
+            EditorGUILayout.LabelField("Object", GUILayout.Width(80f));
+            EditorGUILayout.LabelField("Components", GUILayout.Width(80f));
+            EditorGUILayout.EndHorizontal();
+            //Element Array
+            if (argsProp.isExpanded)
+            {
+                for (int i = 0; i < argsProp.arraySize; i++)
+                {
+                    var element = argsProp.GetArrayElementAtIndex(i);
+                    var el_name = element.FindPropertyRelative("name");
+                    var el_value = element.FindPropertyRelative("value");
+
+                    var state = GetState(el_value);
+                    var index = state.index;
+                    var tog = select == i;
+                    //GUI
+                    EditorGUILayout.BeginHorizontal();
+                    GUILayout.Space(10f);
+                    var g_name = GUILayout.TextField(el_name.stringValue) ?? "";
+                    var g_obj = EditorGUILayout.ObjectField(el_value.objectReferenceValue, typeof(Object), true, GUILayout.Width(80f));
+                    var g_index = EditorGUILayout.Popup(index, state.names, GUILayout.Width(80f));
+                    var g_tog = EditorGUILayout.Toggle(tog, GUILayout.Width(15f));
+                    EditorGUILayout.EndHorizontal();
+                    //GUI Update
+                    el_name.stringValue = g_name;
+                    if (el_value.objectReferenceValue != g_obj)
+                    {
+                        var before_type = state.Now();
+                        //New Object
+                        el_value.objectReferenceValue = g_obj;
+                        state = GetState(el_value);
+
+                        index = int.MinValue;
+                        g_index = state.IndexOf(before_type);
+                    }
+                    if (g_index != index)
+                    {
+                        state.index = g_index;
+                        SetState(el_value, state);
+                    }
+                    if (g_tog) select = i;
+                    else if (tog) select = -1;
+                }
+            }
+
+            //保存更改
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        private class State
+        {
+            public Object refObject { get; set; }
+            public int index { get; set; }
+            public string[] names { get; }
+            public List<Object> components { get; }
+
+            public State(int index, string[] names, List<Object> components)
+            {
+                this.index = index;
+                this.names = names;
+                this.components = components;
+            }
+
+            public string Now()
+            {
+                if (index >= 0 && index < names.Length)
+                    return names[index];
+                return "";
+            }
+            public int IndexOf(string type)
+            {
+                for (int i = 0; i < names.Length; i++)
+                {
+                    if (type == names[i])
+                        return i;
+                }
+                return index;
+            }
+        }
+    }
+#endif
+}
