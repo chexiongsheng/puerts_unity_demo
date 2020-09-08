@@ -1,0 +1,15 @@
+const CS = require("csharp");
+const util = require("util");
+
+function* func() {
+    yield null;
+    console.log("func", 111);
+    while (true) {
+        yield new CS.UnityEngine.WaitForSeconds(1);
+        console.log(222);
+    }
+}
+
+exports.init = function (mono) {
+    mono.StartCoroutine(util.cs_generator(func));
+}
