@@ -61,15 +61,9 @@ namespace Js
                 var type = obj.GetType();
                 //使用反射, 获取GameObject和Transform组件
                 var gobj = type.GetProperty("gameObject")?.GetValue(obj) as GameObject;
-                var trf = type.GetProperty("tranform")?.GetValue(obj) as Transform;
-                if (gobj != null)
-                    lst.Add(gobj);
-                if (trf != null)
-                    lst.Add(trf);
-                //Self
-                if (!lst.Contains(obj))
-                    lst.Add(obj);
-                //使用反射调用GetComponents方法, 获取所有组件
+                var trf = type.GetProperty("transform")?.GetValue(obj) as Transform;
+                //使用反射调用GetComponents方法, 获取所有组件, 如果有gameObject则从Gameobject对象中获取所有组件(排除obj自身对排序的干扰)
+                if (gobj != null) type = gobj.GetType();
                 MethodInfo get_components = (
                     from method in type.GetMethods()
                     where method.Name == "GetComponents"
@@ -79,12 +73,20 @@ namespace Js
                     select method).FirstOrDefault();
                 if (get_components != null)
                 {
-                    var components = get_components.Invoke(obj, new object[] { typeof(Component) }) as Component[];
+                    var components = get_components.Invoke(gobj ?? obj, new object[] { typeof(Component) }) as Component[];
                     foreach (var o in components)
                     {
                         if (!lst.Contains(o)) lst.Add(o);
                     }
                 }
+                //obj自身
+                if (!lst.Contains(obj)) lst.Add(obj);
+                //通过Type名进行排序
+                lst = (from o in lst orderby o.GetType().Name select o).ToList();
+                //GameObject / Transform
+                if (trf != null) { lst.Remove(trf); lst.Insert(0, trf); }
+                if (gobj != null) { lst.Remove(gobj); lst.Insert(0, gobj); }
+
                 return lst;
             }
             return new List<Object>() { };
@@ -100,12 +102,32 @@ namespace Js
                               select c.GetType().Name)
                             .ToArray();
                 var _index = _components.IndexOf(prop.objectReferenceValue);
+                //重命名同类型组件
+                var _name_dict = new Dictionary<string, int>();
+                foreach (var _name in _names)
+                {
+                    if (_name_dict.ContainsKey(_name))
+                    {
+                        var _count = _name_dict[_name];
+                        _name_dict[_name] = _count == 0 ? 2 : _count++;
+                    }
+                    else _name_dict.Add(_name, 0);
+                }
+                for (int i = _names.Length - 1; i >= 0; i--)
+                {
+                    var _count = _name_dict[_names[i]];
+                    if (_count > 0)
+                    {
+                        _name_dict[_names[i]] = _count - 1;
+                        _names[i] += "(" + _count + ")";
+                    }
+                }
 
                 v = new State(_index, _names, _components);
                 v.refObject = prop.objectReferenceValue;
 
-                components.Remove(prop);
-                components.Add(prop, v);
+                this.components.Remove(prop);
+                this.components.Add(prop, v);
             }
             return v;
         }
@@ -114,14 +136,13 @@ namespace Js
             if (state.index >= 0 && state.index < state.components.Count)
                 prop.objectReferenceValue = state.components[state.index];
 
-            if (this.components.ContainsKey(prop))
-                this.components.Remove(prop);
+            this.components.Remove(prop);
             this.components.Add(prop, state);
         }
 
         public override void OnInspectorGUI()
         {
-            if (ins == null)
+            if (ins == null || argsProp == null)
             {
                 base.OnInspectorGUI();
                 return;
@@ -246,9 +267,14 @@ namespace Js
             }
             public int IndexOf(string type)
             {
+                //Type是重命名的类型
+                var repeat_i = type.IndexOf("(");
+                if (repeat_i >= 0)
+                    type = type.Substring(0, repeat_i);
+                //在names中查找Type, Name中可能包含重命名
                 for (int i = 0; i < names.Length; i++)
                 {
-                    if (type == names[i])
+                    if (type == names[i] || names[i].Contains(type + "("))
                         return i;
                 }
                 return index;
