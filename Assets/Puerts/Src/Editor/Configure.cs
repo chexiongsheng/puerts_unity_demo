@@ -184,8 +184,6 @@ namespace Puerts
                     }
                 }
             }
-
-            UnityEngine.Debug.Log("Blacklist: " + blacklist.Count);
             return blacklist;
         }
     }
