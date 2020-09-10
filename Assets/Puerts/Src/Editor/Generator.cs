@@ -568,10 +568,13 @@ namespace Puerts.Editor
             if (refTypes.Contains(type)) return;
             if (type.IsGenericType)
             {
+                //修复: class ClassA : ClassBase<ClassA> 类型造成的crash
+                refTypes.Add(type);
                 foreach (var gt in type.GetGenericArguments())
                 {
                     AddRefType(refTypes, gt);
                 }
+                refTypes.Remove(type);
             }
 
             if (IsDelegate(type) && type != typeof(Delegate) && type != typeof(MulticastDelegate))
