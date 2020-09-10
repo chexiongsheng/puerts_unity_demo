@@ -106,11 +106,10 @@ namespace Puerts
                         where type.IsDefined(typeof(ConfigureAttribute), false)
                         select type;
 
-            var flags = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
             List<MethodInfo> filters = new List<MethodInfo>();
             foreach (var type in types)
             {
-                foreach (var method in type.GetMethods(flags))
+                foreach (var method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
                 {
                     if (method.IsDefined(typeof(FilterAttribute), false))
                     {
@@ -132,6 +131,28 @@ namespace Puerts
 
             Dictionary<string, Dictionary<string, List<string[]>>> blacklist = new Dictionary<string, Dictionary<string, List<string[]>>>();
 
+            Action<List<List<string>>> Config = (config_list) =>
+            {
+                foreach (var config in config_list)
+                {
+                    if (config.Count < 2)
+                        continue;
+
+                    Dictionary<string, List<string[]>> methodOrProp;
+                    if (!blacklist.TryGetValue(config[0], out methodOrProp))
+                    {
+                        methodOrProp = new Dictionary<string, List<string[]>>();
+                        blacklist.Add(config[0], methodOrProp);
+                    }
+                    List<string[]> paramtersList;
+                    if (!methodOrProp.TryGetValue(config[1], out paramtersList))
+                    {
+                        paramtersList = new List<string[]>();
+                        methodOrProp.Add(config[1], paramtersList);
+                    }
+                    paramtersList.Add(config.GetRange(2, config.Count - 2).ToArray());
+                }
+            };
             var flags = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
             foreach (var type in types)
             {
@@ -139,31 +160,27 @@ namespace Puerts
                 {
                     if (prop.IsDefined(typeof(BlacklistAttribute), false)
                         && prop.GetMethod != null
+                        && prop.GetMethod.IsStatic
                         && typeof(List<List<string>>).IsAssignableFrom(prop.PropertyType))
                     {
-                        var config_list = prop.GetValue(prop.GetMethod.IsStatic ? null : Activator.CreateInstance(type)) as List<List<string>>;
+                        var config_list = prop.GetValue(null) as List<List<string>>;
                         if (config_list == null)
                             continue;
 
-                        foreach (var config in config_list)
-                        {
-                            if (config.Count < 2)
-                                continue;
+                        Config(config_list);
+                    }
+                }
+                foreach (var field in type.GetFields(flags))
+                {
+                    if (field.IsDefined(typeof(BlacklistAttribute), false)
+                        && field.IsStatic
+                        && typeof(List<List<string>>).IsAssignableFrom(field.FieldType))
+                    {
+                        var config_list = field.GetValue(null) as List<List<string>>;
+                        if (config_list == null)
+                            continue;
 
-                            Dictionary<string, List<string[]>> methodOrProp;
-                            if (!blacklist.TryGetValue(config[0], out methodOrProp))
-                            {
-                                methodOrProp = new Dictionary<string, List<string[]>>();
-                                blacklist.Add(config[0], methodOrProp);
-                            }
-                            List<string[]> paramtersList;
-                            if (!methodOrProp.TryGetValue(config[1], out paramtersList))
-                            {
-                                paramtersList = new List<string[]>();
-                                methodOrProp.Add(config[1], paramtersList);
-                            }
-                            paramtersList.Add(config.GetRange(2, config.Count - 2).ToArray());
-                        }
+                        Config(config_list);
                     }
                 }
             }
