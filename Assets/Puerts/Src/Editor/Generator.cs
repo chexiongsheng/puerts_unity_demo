@@ -32,6 +32,7 @@ namespace Puerts.Editor
         }
 
         static List<MethodInfo> filters;
+        static Dictionary<string, Dictionary<string, List<string[]>>> blacklist;
 
         public class TypeGenInfo
         {
@@ -247,18 +248,18 @@ namespace Puerts.Editor
 
         static TypeGenInfo ToTypeGenInfo(Type type)
         {
-            var methodGroups = type.GetMethods(Flags).Where(m => !isFiltered(m))
+            var methodGroups = type.GetMethods(Flags).Where(m => !isFiltered(m) && !isBlacklist(type, m))
                 .Where(m => !m.IsSpecialName && !m.IsGenericMethodDefinition)
                 .GroupBy(m => new MethodKey { Name = m.Name, IsStatic = m.IsStatic })
                 .Select(i => i.Cast<MethodBase>().ToList());
-            var indexs = type.GetProperties(Flags).Where(m => !isFiltered(m))
+            var indexs = type.GetProperties(Flags).Where(m => !isFiltered(m) && !isBlacklist(type, m))
                 .Where(p => p.GetIndexParameters().GetLength(0) == 1).Select(p => ToIndexGenInfo(p)).ToArray();
             var operatorGroups = type.GetMethods(Flags)
-                .Where(m => !isFiltered(m) && m.IsSpecialName && m.Name.StartsWith("op_") && m.IsStatic)
+                .Where(m => !isFiltered(m) && !isBlacklist(type, m) && m.IsSpecialName && m.Name.StartsWith("op_") && m.IsStatic)
                 .GroupBy(m => new MethodKey { Name = m.Name, IsStatic = m.IsStatic })
                 .Select(i => i.Cast<MethodBase>().ToList());
 
-            var constructors = type.GetConstructors(Flags).Where(m => !isFiltered(m)).Cast<MethodBase>().ToList();
+            var constructors = type.GetConstructors(Flags).Where(m => !isFiltered(m) && !isBlacklist(type, m)).Cast<MethodBase>().ToList();
 
             return new TypeGenInfo
             {
@@ -268,14 +269,14 @@ namespace Puerts.Editor
                 IsValueType = type.IsValueType,
                 Constructor = (!type.IsAbstract && constructors.Count > 0) ? ToMethodGenInfo(constructors) : null,
                 Properties = type.GetProperties(Flags)
-                    .Where(m => !isFiltered(m))
+                    .Where(m => !isFiltered(m) && !isBlacklist(type, m))
                     .Where(p => !p.IsSpecialName && p.GetIndexParameters().GetLength(0) == 0)
                     .Select(p => ToPropertyGenInfo(p)).Concat(
-                        type.GetFields(Flags).Where(m => !isFiltered(m)).Select(f => ToPropertyGenInfo(f))).ToArray(),
+                        type.GetFields(Flags).Where(m => !isFiltered(m) && !isBlacklist(type, m)).Select(f => ToPropertyGenInfo(f))).ToArray(),
                 GetIndexs = indexs.Where(i => i.HasGetter).ToArray(),
                 SetIndexs = indexs.Where(i => i.HasSetter).ToArray(),
                 Operators = operatorGroups.Select(m => ToMethodGenInfo(m)).ToArray(),
-                Events = type.GetEvents(Flags).Where(m => !isFiltered(m)).Select(e => ToEventGenInfo(e)).ToArray(),
+                Events = type.GetEvents(Flags).Where(m => !isFiltered(m) && !isBlacklist(type, m)).Select(e => ToEventGenInfo(e)).ToArray(),
             };
         }
 
@@ -438,14 +439,13 @@ namespace Puerts.Editor
                 Name = type.Name.Replace('`', '$'),
                 Methods = genTypeSet.Contains(type) ? (type.IsAbstract ? new MethodBase[] { } : type.GetConstructors(Flags).Where(m => !isFiltered(m)).Cast<MethodBase>())
                     .Concat(type.GetMethods(Flags)
-                        .Where(m => !isFiltered(m) && !IsGetterOrSetter(m) && !m.IsGenericMethodDefinition)
-                        .Cast<MethodBase>())
+                    .Where(m => !isFiltered(m) && !IsGetterOrSetter(m) && !m.IsGenericMethodDefinition)
+                    .Cast<MethodBase>())
                     .Select(m => ToTsMethodGenInfo(m)).ToArray() : new TsMethodGenInfo[] { },
                 Properties = genTypeSet.Contains(type) ? type.GetFields(Flags).Where(m => !isFiltered(m))
                     .Select(f => new TsPropertyGenInfo() { Name = f.Name, TypeName = GetTsTypeName(f.FieldType), IsStatic = f.IsStatic })
-                    .Concat(
-                        type.GetProperties(Flags).Where(m => !isFiltered(m))
-                        .Select(p => new TsPropertyGenInfo() { Name = p.Name, TypeName = GetTsTypeName(p.PropertyType), IsStatic = IsStatic(p)}))
+                    .Concat(type.GetProperties(Flags).Where(m => !isFiltered(m))
+                    .Select(p => new TsPropertyGenInfo() { Name = p.Name, TypeName = GetTsTypeName(p.PropertyType), IsStatic = IsStatic(p) }))
                     .ToArray() : new TsPropertyGenInfo[] { },
                 IsGenericTypeDefinition = type.IsGenericTypeDefinition,
                 IsDelegate = (IsDelegate(type) && type != typeof(Delegate)),
@@ -496,7 +496,7 @@ namespace Puerts.Editor
             {
                 result.BaseType = new TsTypeGenInfo()
                 {
-                    Name = type.BaseType.IsGenericType ? GetTsTypeName(type.BaseType): type.BaseType.Name.Replace('`', '$'),
+                    Name = type.BaseType.IsGenericType ? GetTsTypeName(type.BaseType) : type.BaseType.Name.Replace('`', '$'),
                     Namespace = type.BaseType.Namespace
                 };
                 if (type.BaseType.IsGenericType && type.BaseType.Namespace != null)
@@ -548,7 +548,6 @@ namespace Puerts.Editor
             {
                 return true;
             }
-
             if (filters != null && filters.Count > 0)
             {
                 foreach (var filter in filters)
@@ -559,6 +558,43 @@ namespace Puerts.Editor
                     }
                 }
             }
+            return false;
+        }
+
+        static bool isBlacklist(Type type, MemberInfo mb)
+        {
+            List<string[]> paramtersList;
+            Dictionary<string, List<string[]>> methodOrProp;
+            if (blacklist.TryGetValue(type.FullName.Replace("+", "."), out methodOrProp)
+                && methodOrProp.TryGetValue(mb.Name, out paramtersList))
+            {
+                if (!(mb is MethodInfo))
+                    return true;
+
+                var m_info = (MethodInfo)mb;
+                var m_paramters = (from p_info in m_info.GetParameters()
+                                   select p_info.ParameterType.FullName.Replace("+", ".")).ToArray();
+                foreach (var paramters in paramtersList)
+                {
+                    if (paramters.Length == 1 && paramters[0] == "*")
+                        return true;
+                    if (paramters.Length == m_paramters.Length)
+                    {
+                        var exclude = true;
+                        for (int i = 0; i < paramters.Length; i++)
+                        {
+                            if (paramters[i] != m_paramters[i])
+                            {
+                                exclude = false;
+                                break;
+                            }
+                        }
+                        if (exclude) return true;
+                    }
+
+                }
+                return false;
+            }
 
             return false;
         }
@@ -568,7 +604,7 @@ namespace Puerts.Editor
             if (refTypes.Contains(type)) return;
             if (type.IsGenericType)
             {
-                //修复: class ClassA : ClassBase<ClassA> 类型造成的crash
+                //修复: class A : Base<A> 类型造成的crash
                 refTypes.Add(type);
                 foreach (var gt in type.GetGenericArguments())
                 {
@@ -611,7 +647,7 @@ namespace Puerts.Editor
 
             HashSet<Type> refTypes = new HashSet<Type>();
 
-            foreach(var type in types)
+            foreach (var type in types)
             {
                 AddRefType(refTypes, type);
                 var defType = type.IsGenericType ? type.GetGenericTypeDefinition() : type;
@@ -621,15 +657,15 @@ namespace Puerts.Editor
                     AddRefType(refTypes, field.FieldType);
                 }
 
-                foreach(var method in type.GetMethods(Flags))
+                foreach (var method in type.GetMethods(Flags))
                 {
                     AddRefType(refTypes, method.ReturnType);
-                    foreach(var pinfo in method.GetParameters())
+                    foreach (var pinfo in method.GetParameters())
                     {
                         AddRefType(refTypes, pinfo.ParameterType);
                     }
                 }
-                foreach(var constructor in type.GetConstructors())
+                foreach (var constructor in type.GetConstructors())
                 {
                     foreach (var pinfo in constructor.GetParameters())
                     {
@@ -663,7 +699,7 @@ namespace Puerts.Editor
             var saveTo = Application.dataPath + "/Gen/";
             Directory.CreateDirectory(saveTo);
             Directory.CreateDirectory(saveTo + "Typing/csharp");
-            GenerateCode(saveTo);
+            try { GenerateCode(saveTo); } catch (Exception e) { Debug.LogError(e.Message + "\n" + e.StackTrace); };
             Debug.Log("finished! use " + (DateTime.Now - start).TotalMilliseconds + " ms");
             AssetDatabase.Refresh();
         }
@@ -675,7 +711,7 @@ namespace Puerts.Editor
             var saveTo = Application.dataPath + "/Gen/";
             Directory.CreateDirectory(saveTo);
             Directory.CreateDirectory(saveTo + "Typing/csharp");
-            GenerateCode(saveTo, true);
+            try { GenerateCode(saveTo, true); } catch (Exception e) { Debug.LogError(e.Message + "\n" + e.StackTrace); };
             Debug.Log("finished! use " + (DateTime.Now - start).TotalMilliseconds + " ms");
             AssetDatabase.Refresh();
         }
@@ -695,16 +731,18 @@ namespace Puerts.Editor
         public static void GenerateCode(string saveTo, bool tsOnly = false)
         {
             filters = Configure.GetFilters();
+            blacklist = Configure.GetBlacklist();
             var configure = Configure.GetConfigureByTags(new List<string>() {
                 "Puerts.BindingAttribute",
                 "Puerts.BlittableCopyAttribute",
                 "Puerts.TypingAttribute",
             });
 
-            var genTypes = configure["Puerts.BindingAttribute"].Select( kv => kv.Key)
+            var genTypes = configure["Puerts.BindingAttribute"].Select(kv => kv.Key)
                 .Where(o => o is Type)
                 .Cast<Type>()
-                .Where(t => !t.IsGenericTypeDefinition);
+                .Where(t => !t.IsGenericTypeDefinition)
+                .Distinct();
 
             var blittableCopyTypes = new HashSet<Type>(configure["Puerts.BlittableCopyAttribute"].Select(kv => kv.Key)
                 .Where(o => o is Type)
