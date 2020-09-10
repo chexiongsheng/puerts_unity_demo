@@ -256,11 +256,6 @@ namespace Puerts
 
         internal void AddLazyStaticWrapLoader(Type type, Func<TypeRegisterInfo> lazyStaticWrapLoader)
         {
-            if (lazyStaticWrapLoaders.ContainsKey(type))
-            {
-                UnityEngine.Debug.LogWarning(type + " repeat");
-                lazyStaticWrapLoaders.Remove(type);
-            }
             lazyStaticWrapLoaders.Add(type, lazyStaticWrapLoader);
         }
 
