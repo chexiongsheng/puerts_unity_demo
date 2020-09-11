@@ -44,13 +44,13 @@ namespace Js
 
             //Debug.Log("OnEnable");
             select = -1;
-            components?.Clear();
+            if(components != null) components.Clear();
             components = new Dictionary<SerializedProperty, State>();
         }
         void OnDisable()
         {
             //Debug.Log("OnDisable");
-            components?.Clear();
+            if (components != null) components.Clear();
             components = null;
         }
         List<Object> GetCompoents(Object obj)
@@ -60,8 +60,10 @@ namespace Js
                 var lst = new List<Object>() { };
                 var type = obj.GetType();
                 //使用反射, 获取GameObject和Transform组件
-                var gobj = type.GetProperty("gameObject")?.GetValue(obj) as GameObject;
-                var trf = type.GetProperty("transform")?.GetValue(obj) as Transform;
+                var gameObjectProperty = type.GetProperty("gameObject");
+                var transformProperty = type.GetProperty("transform");
+                var gobj = (gameObjectProperty == null ? null : gameObjectProperty.GetValue(obj, null)) as GameObject;
+                var trf = (transformProperty == null ? null : transformProperty.GetValue(obj, null)) as Transform;
                 //使用反射调用GetComponents方法, 获取所有组件, 如果有gameObject则从Gameobject对象中获取所有组件(排除obj自身对排序的干扰)
                 if (gobj != null) type = gobj.GetType();
                 MethodInfo get_components = (
@@ -157,7 +159,7 @@ namespace Js
             if (GUILayout.Button("○"))
             {
                 //Refresh
-                components?.Clear();
+                if (components != null) components.Clear();
             }
             GUILayout.Space(5f);
             if (GUILayout.Button("+"))
@@ -249,8 +251,8 @@ namespace Js
         {
             public Object refObject { get; set; }
             public int index { get; set; }
-            public string[] names { get; }
-            public List<Object> components { get; }
+            public string[] names { get; private set; }
+            public List<Object> components { get; private set; }
 
             public State(int index, string[] names, List<Object> components)
             {
