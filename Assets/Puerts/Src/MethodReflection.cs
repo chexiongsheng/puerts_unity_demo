@@ -58,6 +58,8 @@ namespace Puerts
 
         private JsValueType[] typeMasks = null;
 
+        private int beginOptional = 0;
+        
         private Type[] types = null;
 
         private object[] args = null;
@@ -70,10 +72,10 @@ namespace Puerts
 
         private GeneralSetter[] byRefValueSetFuncs = null;
 
-        public Parameters(ParameterInfo[] parameterInfos, GeneralGetterManager generalGetterManager, GeneralSetterManager generalSetterManager,int Length = -1)
+        public Parameters(ParameterInfo[] parameterInfos, GeneralGetterManager generalGetterManager, GeneralSetterManager generalSetterManager)
         {
             this.generalGetterManager = generalGetterManager;
-            length = Length < 0? parameterInfos.Length: Length;
+            length = parameterInfos.Length;
             typeMasks = new JsValueType[parameterInfos.Length];
             types = new Type[parameterInfos.Length];
             args = new object[parameterInfos.Length];
@@ -81,7 +83,7 @@ namespace Puerts
             byRefValueSetFuncs = new GeneralSetter[parameterInfos.Length];
             byRef = new bool[parameterInfos.Length];
             isOut = new bool[parameterInfos.Length];
-
+            beginOptional = this.length + 1;
             for (int i = 0; i < parameterInfos.Length; i++)
             {
                 var parameterInfo = parameterInfos[i];
@@ -100,10 +102,14 @@ namespace Puerts
                     byRefValueSetFuncs[i] = generalSetterManager.GetTranslateFunc(parameterType.GetElementType());
                 }
                 isOut[i] = parameterType.IsByRef && parameterInfo.IsOut && !parameterInfo.IsIn;
+                if (i < beginOptional && parameterInfo.IsOptional)
+                {
+                    beginOptional = i;
+                }
             }
         }
 
-        public bool IsMatch(CallInfo callInfo)//TODO: 先不支持默认值
+        public bool IsMatch(CallInfo callInfo)
         {
             if (hasParamArray)
             {
@@ -111,6 +117,14 @@ namespace Puerts
                 {
                     return false;
                 }
+            }
+            else if (callInfo.Length > length)
+            {
+                return false;
+            }
+            else if (callInfo.Length < beginOptional - 1)
+            {
+                return false;
             }
 
             for (int i = 0; i < callInfo.Length; i++)
@@ -156,11 +170,7 @@ namespace Puerts
         {
             for (int i = 0; i < length; i++)
             {
-                if (i >= callInfo.Length)
-                {
-                    args[i] = Type.Missing;
-                }
-                else if(hasParamArray && i == length - 1)
+                if(hasParamArray && i == length - 1)
                 {
                     Array paramArray = Array.CreateInstance(types[length - 1], callInfo.Length + 1 - length);
                     var translateFunc = argsTranslateFuncs[i];
@@ -169,6 +179,10 @@ namespace Puerts
                         paramArray.SetValue(translateFunc(callInfo.Isolate, NativeValueApi.GetValueFromArgument, callInfo.NativePtrs[j], false), j - i); 
                     }
                     args[i] = paramArray;
+                }
+				else if (i >= callInfo.Length && i >= beginOptional)
+                {
+                    args[i] = Type.Missing;
                 }
                 else
                 {
