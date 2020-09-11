@@ -43,7 +43,7 @@ namespace Puerts
                 Array array = jsEnv.GeneralGetterManager.GetSelf(self) as Array;
                 PuertsDLL.ReturnNumber(isolate, info, array.Length);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 PuertsDLL.ThrowException(isolate, "array.length throw c# exception:" + e.Message + ",stack:" + e.StackTrace);
             }
@@ -367,7 +367,7 @@ namespace Puerts
             {
                 if (registerInfo.BlittableCopy)
                 {
-                    typeId = PuertsDLL.RegisterStruct(jsEnv.isolate, -1, type.AssemblyQualifiedName, registerInfo.Constructor, 
+                    typeId = PuertsDLL.RegisterStruct(jsEnv.isolate, -1, type.AssemblyQualifiedName, registerInfo.Constructor,
                         null, jsEnv.Idx, System.Runtime.InteropServices.Marshal.SizeOf(type));
                 }
                 else
@@ -385,7 +385,7 @@ namespace Puerts
                     PuertsDLL.RegisterProperty(jsEnv.isolate, typeId, kv.Key, kv.Value.IsStatic, kv.Value.Getter, jsEnv.Idx, kv.Value.Setter, jsEnv.Idx);
                 }
             }
-            
+
             //int typeId = PuertsDLL.RegisterClass(jsEngine, type.AssemblyQualifiedName, null, null, Utils.TwoIntToLong(idx, 0));
 
             foreach (var kv in methodGroup)
@@ -394,9 +394,9 @@ namespace Puerts
                 PuertsDLL.RegisterFunction(jsEnv.isolate, typeId, kv.Key.Name, kv.Key.IsStatic, callbackWrap, jsEnv.AddCallback(methodReflectionWrap.Invoke));
             }
 
-            foreach(var kv in propertyGroup)
+            foreach (var kv in propertyGroup)
             {
-                V8FunctionCallback getter = null; 
+                V8FunctionCallback getter = null;
                 long getterData = 0;
                 bool isStatic = false;
                 if (kv.Value.Getter != null)
@@ -422,7 +422,7 @@ namespace Puerts
                 PuertsDLL.RegisterProperty(jsEnv.isolate, typeId, kv.Key, isStatic, getter, getterData, setter, setterData);
             }
 
-            foreach(var field in type.GetFields(flag))
+            foreach (var field in type.GetFields(flag))
             {
                 if (registerInfo != null && registerInfo.Properties.ContainsKey(field.Name))
                 {
