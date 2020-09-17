@@ -385,7 +385,7 @@ namespace Puerts
                     }
                     return _ref(id);
                 }
-                return env.Eval<bool>(string.Format("$puertsRef.ref({0})", id));
+                return env.Eval<bool>(string.Format("$puertsRef.ref('{0}')", id));
             }
             public bool Delete(string id)
             {
@@ -398,7 +398,7 @@ namespace Puerts
                     }
                     return _delete(id);
                 }
-                return env.Eval<bool>(string.Format("$puertsRef.delete({0})", id));
+                return env.Eval<bool>(string.Format("$puertsRef.delete('{0}')", id));
             }
             public bool Release(string id, int count = 1)
             {
@@ -411,7 +411,7 @@ namespace Puerts
                     }
                     return _release(id, count);
                 }
-                return env.Eval<bool>(string.Format("$puertsRef.release({0},{1})", id, count));
+                return env.Eval<bool>(string.Format("$puertsRef.release('{0}',{1})", id, count));
             }
 
             Func<string, TKey, TResult> Getter<TKey, TResult>()
