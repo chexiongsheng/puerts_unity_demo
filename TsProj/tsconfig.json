@@ -4,6 +4,7 @@
     "module": "commonjs",
     "jsx": "react",
     "sourceMap": true,
+    "noImplicitAny": true,
     "typeRoots": [
       "../Assets/Puerts/Typing",
       "../Assets/Gen/Typing",
