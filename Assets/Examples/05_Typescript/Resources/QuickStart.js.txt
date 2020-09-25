@@ -24,7 +24,7 @@ let delegate = new csharp_1.PuertsTest.MyCallback(msg => console.log('can be rem
 //由于ts不支持操作符重载，Delegate.Combine相当于C#里头的obj.myCallback += delegate;
 obj.MyCallback = csharp_1.System.Delegate.Combine(obj.MyCallback, delegate);
 obj.Trigger();
-//Delegate.Remove相当于C#里头的obj.myCallback += delegate;
+//Delegate.Remove相当于C#里头的obj.myCallback -= delegate;
 obj.MyCallback = csharp_1.System.Delegate.Remove(obj.MyCallback, delegate);
 obj.Trigger();
 //事件
@@ -46,13 +46,17 @@ let ret = obj.InOutArgFunc(100, p1, p2);
 console.log('ret=' + ret + ', out=' + puerts_1.$unref(p1) + ', ref=' + puerts_1.$unref(p2));
 //泛型
 //先通过$generic实例化泛型参数
-let List = puerts_1.$generic(csharp_1.System.Collections.Generic.List$1, csharp_1.System.Int32);
+let List = puerts_1.$generic(csharp_1.System.Collections.Generic.List$1, csharp_1.System.Int32); //$generic调用性能不会太好，同样泛型参数建议整个工程，至少一个文件内只做一次
+let Dictionary = puerts_1.$generic(csharp_1.System.Collections.Generic.Dictionary$2, csharp_1.System.String, List);
 let lst = new List();
 lst.Add(1);
 lst.Add(0);
 lst.Add(2);
 lst.Add(4);
 obj.PrintList(lst);
+let dic = new Dictionary();
+dic.Add("aaa", lst);
+obj.PrintList(dic.get_Item("aaa"));
 //arraybuffer
 let ab = obj.GetAb(5);
 let u8a0 = new Uint8Array(ab);

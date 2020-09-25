@@ -26,7 +26,7 @@ public class ExamplesCfg
                 typeof(PuertsTest.TestClass),
                 typeof(Vector3),
                 typeof(List<int>),
-                //typeof(Dictionary<string, int>),
+                typeof(Dictionary<string, List<int>>),
                 typeof(PuertsTest.BaseClass),
                 typeof(PuertsTest.DerivedClass),
                 typeof(PuertsTest.MyEnum),

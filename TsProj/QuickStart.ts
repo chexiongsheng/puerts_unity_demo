@@ -53,13 +53,18 @@ console.log('ret=' + ret + ', out=' + $unref(p1) + ', ref='+ $unref(p2));
 
 //泛型
 //先通过$generic实例化泛型参数
-let List = $generic(System.Collections.Generic.List$1, System.Int32);
+let List = $generic(System.Collections.Generic.List$1, System.Int32);//$generic调用性能不会太好，同样泛型参数建议整个工程，至少一个文件内只做一次
+let Dictionary = $generic(System.Collections.Generic.Dictionary$2, System.String, List);
+
 let lst = new List<number>();
 lst.Add(1);
 lst.Add(0);
 lst.Add(2);
 lst.Add(4);
 obj.PrintList(lst);
+let dic = new Dictionary<string, System.Collections.Generic.List$1<number>>();
+dic.Add("aaa", lst)
+obj.PrintList(dic.get_Item("aaa"));
 
 //arraybuffer
 let ab  = obj.GetAb(5);
