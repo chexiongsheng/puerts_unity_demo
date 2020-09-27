@@ -140,4 +140,43 @@ namespace PuertsTest
         }
 #endif
     }
+
+    public class BaseClass1
+    {
+
+    }
+
+    public class DerivedClass1 : BaseClass1
+    {
+    }
+
+    public static class BaseClassExtension
+    {
+        public static void PlainExtension(this BaseClass a)
+        {
+            Debug.Log("PlainExtension");
+        }
+
+        public static T Extension1<T>(this T a) where T : BaseClass
+        {
+            Debug.Log(string.Format("Extension1<{0}>", typeof(T)));
+            return a;
+        }
+
+        public static T Extension2<T>(this T a, GameObject b) where T : BaseClass
+        {
+            Debug.Log(string.Format("Extension2<{0}>", typeof(T)), b);
+            return a;
+        }
+
+        public static void Extension2<T1, T2>(this T1 a, T2 b) where T1 : BaseClass where T2 : BaseClass1
+        {
+            Debug.Log(string.Format("Extension2<{0},{1}>", typeof(T1), typeof(T2)));
+        }
+
+        public static T UnsupportedExtension<T>(this GameObject obj) where T : Component
+        {
+            return obj.GetComponent<T>();
+        }
+    }
 }

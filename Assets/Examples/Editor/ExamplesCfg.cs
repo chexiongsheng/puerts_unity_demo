@@ -29,6 +29,7 @@ public class ExamplesCfg
                 typeof(Dictionary<string, List<int>>),
                 typeof(PuertsTest.BaseClass),
                 typeof(PuertsTest.DerivedClass),
+                typeof(PuertsTest.BaseClassExtension),
                 typeof(PuertsTest.MyEnum),
                 typeof(Time),
                 typeof(Transform),

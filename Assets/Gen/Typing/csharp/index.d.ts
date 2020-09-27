@@ -130,6 +130,7 @@ declare module 'csharp' {
             public GetInstanceID():number;
             public static Instantiate(original: UnityEngine.Object, position: UnityEngine.Vector3, rotation: UnityEngine.Quaternion):UnityEngine.Object;
             public static Instantiate(original: UnityEngine.Object):UnityEngine.Object;
+            public static Instantiate(original: UnityEngine.Object):UnityEngine.Object;
             public static FindObjectOfType(type: System.Type):UnityEngine.Object;
             public static op_Implicit(exists: UnityEngine.Object):boolean;
             public static op_Equality(x: UnityEngine.Object, y: UnityEngine.Object):boolean;
@@ -707,6 +708,16 @@ declare module 'csharp' {
         type MyCallback = (msg: string) => void;
         var MyCallback: {new (func: (msg: string) => void): MyCallback;}
         enum MyEnum { E1 = 0, E2 = 1 }
+        class BaseClassExtension extends System.Object {
+            public static PlainExtension(a: PuertsTest.BaseClass):void;
+            public static Extension1(a: PuertsTest.BaseClass):PuertsTest.BaseClass;
+            public static Extension2(a: PuertsTest.BaseClass, b: UnityEngine.GameObject):PuertsTest.BaseClass;
+            public static Extension2(a: PuertsTest.BaseClass, b: PuertsTest.BaseClass1):void;
+            
+        }
+        class BaseClass1 extends System.Object {
+            
+        }
         
     }
     namespace System.Collections.Generic {
