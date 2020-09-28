@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const csharp_1 = require("csharp");
 const puerts_1 = require("puerts");
+require("./ExtensionDecl");
 //静态函数
 csharp_1.UnityEngine.Debug.Log('hello world');
 //对象构造
@@ -69,6 +70,12 @@ console.log(obj.SumOfAb(u8a1));
 let go = new csharp_1.UnityEngine.GameObject("testObject");
 go.AddComponent(puerts_1.$typeof(csharp_1.UnityEngine.ParticleSystem));
 go.transform.position = new csharp_1.UnityEngine.Vector3(7, 8, 9);
+//extension methods
+obj.PlainExtension();
+obj.Extension1();
+obj.Extension2(go);
+let obj1 = new csharp_1.PuertsTest.BaseClass1();
+obj.Extension2(obj1);
 //typescript和c#的async，await联动，为了不在低版本的Unity下报错，先注释，c#7.3以上版本可以打开这些注释
 /*async function asyncCall() {
     let task = obj.GetFileLength("Assets/Examples/05_Typescript/TsQuickStart.cs");

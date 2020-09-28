@@ -2,6 +2,7 @@
 
 import {UnityEngine, PuertsTest, System} from 'csharp'
 import {$ref, $unref, $generic, $promise, $typeof} from 'puerts'
+import './ExtensionDecl'
 
 //静态函数
 UnityEngine.Debug.Log('hello world');
@@ -79,6 +80,14 @@ console.log(obj.SumOfAb(u8a1));
 let go = new UnityEngine.GameObject("testObject");
 go.AddComponent($typeof(UnityEngine.ParticleSystem));
 go.transform.position = new UnityEngine.Vector3(7, 8,  9);
+
+//extension methods
+obj.PlainExtension();
+obj.Extension1();
+obj.Extension2(go);
+let obj1 = new PuertsTest.BaseClass1();
+obj.Extension2(obj1);
+
 
 //typescript和c#的async，await联动，为了不在低版本的Unity下报错，先注释，c#7.3以上版本可以打开这些注释
 /*async function asyncCall() {

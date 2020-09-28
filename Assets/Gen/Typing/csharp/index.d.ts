@@ -2,6 +2,10 @@
 declare module 'csharp' {
     interface $Ref<T> {}
     
+    type $Extension<T1, T2> = {
+        [P in keyof T2] : T2[P] extends (obj:T1, ...args: infer P) => infer R ? (...args: P) => R : never;
+    }
+    
     namespace System {
         interface Array$1<T> extends System.Array {
             get_Item(index: number):T;
@@ -137,6 +141,79 @@ declare module 'csharp' {
             public static op_Inequality(x: UnityEngine.Object, y: UnityEngine.Object):boolean;
             
         }
+        class GameObject extends UnityEngine.Object {
+            public transform: UnityEngine.Transform;
+            public layer: number;
+            public activeSelf: boolean;
+            public activeInHierarchy: boolean;
+            public isStatic: boolean;
+            public tag: string;
+            public gameObject: UnityEngine.GameObject;
+            public constructor(name: string);
+            public constructor();
+            public constructor(name: string, ...components: System.Type[]);
+            public static CreatePrimitive(type: UnityEngine.PrimitiveType):UnityEngine.GameObject;
+            public GetComponent(type: System.Type):UnityEngine.Component;
+            public GetComponent(type: string):UnityEngine.Component;
+            public GetComponentInChildren(type: System.Type):UnityEngine.Component;
+            public GetComponentInParent(type: System.Type):UnityEngine.Component;
+            public GetComponents(type: System.Type):System.Array$1<UnityEngine.Component>;
+            public GetComponents(type: System.Type, results: System.Collections.Generic.List$1<UnityEngine.Component>):void;
+            public GetComponentsInChildren(type: System.Type):System.Array$1<UnityEngine.Component>;
+            public GetComponentsInChildren(type: System.Type, includeInactive: boolean):System.Array$1<UnityEngine.Component>;
+            public GetComponentsInParent(type: System.Type):System.Array$1<UnityEngine.Component>;
+            public GetComponentsInParent(type: System.Type, includeInactive: boolean):System.Array$1<UnityEngine.Component>;
+            public SetActive(value: boolean):void;
+            public CompareTag(tag: string):boolean;
+            public static FindGameObjectWithTag(tag: string):UnityEngine.GameObject;
+            public static FindWithTag(tag: string):UnityEngine.GameObject;
+            public static FindGameObjectsWithTag(tag: string):System.Array$1<UnityEngine.GameObject>;
+            public SendMessageUpwards(methodName: string, value: any, options: UnityEngine.SendMessageOptions):void;
+            public SendMessageUpwards(methodName: string, value: any):void;
+            public SendMessageUpwards(methodName: string):void;
+            public SendMessageUpwards(methodName: string, options: UnityEngine.SendMessageOptions):void;
+            public SendMessage(methodName: string, value: any, options: UnityEngine.SendMessageOptions):void;
+            public SendMessage(methodName: string, value: any):void;
+            public SendMessage(methodName: string):void;
+            public SendMessage(methodName: string, options: UnityEngine.SendMessageOptions):void;
+            public BroadcastMessage(methodName: string, parameter: any, options: UnityEngine.SendMessageOptions):void;
+            public BroadcastMessage(methodName: string, parameter: any):void;
+            public BroadcastMessage(methodName: string):void;
+            public BroadcastMessage(methodName: string, options: UnityEngine.SendMessageOptions):void;
+            public AddComponent(componentType: System.Type):UnityEngine.Component;
+            public static Find(name: string):UnityEngine.GameObject;
+            
+        }
+        class Component extends UnityEngine.Object {
+            public transform: UnityEngine.Transform;
+            public gameObject: UnityEngine.GameObject;
+            public tag: string;
+            public constructor();
+            public GetComponent(type: System.Type):UnityEngine.Component;
+            public GetComponent(type: string):UnityEngine.Component;
+            public GetComponentInChildren(t: System.Type):UnityEngine.Component;
+            public GetComponentsInChildren(t: System.Type):System.Array$1<UnityEngine.Component>;
+            public GetComponentsInChildren(t: System.Type, includeInactive: boolean):System.Array$1<UnityEngine.Component>;
+            public GetComponentInParent(t: System.Type):UnityEngine.Component;
+            public GetComponentsInParent(t: System.Type):System.Array$1<UnityEngine.Component>;
+            public GetComponentsInParent(t: System.Type, includeInactive: boolean):System.Array$1<UnityEngine.Component>;
+            public GetComponents(type: System.Type):System.Array$1<UnityEngine.Component>;
+            public GetComponents(type: System.Type, results: System.Collections.Generic.List$1<UnityEngine.Component>):void;
+            public CompareTag(tag: string):boolean;
+            public SendMessageUpwards(methodName: string, value: any, options: UnityEngine.SendMessageOptions):void;
+            public SendMessageUpwards(methodName: string, value: any):void;
+            public SendMessageUpwards(methodName: string):void;
+            public SendMessageUpwards(methodName: string, options: UnityEngine.SendMessageOptions):void;
+            public SendMessage(methodName: string, value: any, options: UnityEngine.SendMessageOptions):void;
+            public SendMessage(methodName: string, value: any):void;
+            public SendMessage(methodName: string):void;
+            public SendMessage(methodName: string, options: UnityEngine.SendMessageOptions):void;
+            public BroadcastMessage(methodName: string, parameter: any, options: UnityEngine.SendMessageOptions):void;
+            public BroadcastMessage(methodName: string, parameter: any):void;
+            public BroadcastMessage(methodName: string):void;
+            public BroadcastMessage(methodName: string, options: UnityEngine.SendMessageOptions):void;
+            
+        }
         class Time extends System.Object {
             public static time: number;
             public static timeSinceLevelLoad: number;
@@ -216,36 +293,6 @@ declare module 'csharp' {
             public GetChild(index: number):UnityEngine.Transform;
             
         }
-        class Component extends UnityEngine.Object {
-            public transform: UnityEngine.Transform;
-            public gameObject: UnityEngine.GameObject;
-            public tag: string;
-            public constructor();
-            public GetComponent(type: System.Type):UnityEngine.Component;
-            public GetComponent(type: string):UnityEngine.Component;
-            public GetComponentInChildren(t: System.Type):UnityEngine.Component;
-            public GetComponentsInChildren(t: System.Type):System.Array$1<UnityEngine.Component>;
-            public GetComponentsInChildren(t: System.Type, includeInactive: boolean):System.Array$1<UnityEngine.Component>;
-            public GetComponentInParent(t: System.Type):UnityEngine.Component;
-            public GetComponentsInParent(t: System.Type):System.Array$1<UnityEngine.Component>;
-            public GetComponentsInParent(t: System.Type, includeInactive: boolean):System.Array$1<UnityEngine.Component>;
-            public GetComponents(type: System.Type):System.Array$1<UnityEngine.Component>;
-            public GetComponents(type: System.Type, results: System.Collections.Generic.List$1<UnityEngine.Component>):void;
-            public CompareTag(tag: string):boolean;
-            public SendMessageUpwards(methodName: string, value: any, options: UnityEngine.SendMessageOptions):void;
-            public SendMessageUpwards(methodName: string, value: any):void;
-            public SendMessageUpwards(methodName: string):void;
-            public SendMessageUpwards(methodName: string, options: UnityEngine.SendMessageOptions):void;
-            public SendMessage(methodName: string, value: any, options: UnityEngine.SendMessageOptions):void;
-            public SendMessage(methodName: string, value: any):void;
-            public SendMessage(methodName: string):void;
-            public SendMessage(methodName: string, options: UnityEngine.SendMessageOptions):void;
-            public BroadcastMessage(methodName: string, parameter: any, options: UnityEngine.SendMessageOptions):void;
-            public BroadcastMessage(methodName: string, parameter: any):void;
-            public BroadcastMessage(methodName: string):void;
-            public BroadcastMessage(methodName: string, options: UnityEngine.SendMessageOptions):void;
-            
-        }
         class Quaternion extends System.ValueType {
             
         }
@@ -253,49 +300,6 @@ declare module 'csharp' {
             
         }
         enum Space { World = 0, Self = 1 }
-        class GameObject extends UnityEngine.Object {
-            public transform: UnityEngine.Transform;
-            public layer: number;
-            public activeSelf: boolean;
-            public activeInHierarchy: boolean;
-            public isStatic: boolean;
-            public tag: string;
-            public gameObject: UnityEngine.GameObject;
-            public constructor(name: string);
-            public constructor();
-            public constructor(name: string, ...components: System.Type[]);
-            public static CreatePrimitive(type: UnityEngine.PrimitiveType):UnityEngine.GameObject;
-            public GetComponent(type: System.Type):UnityEngine.Component;
-            public GetComponent(type: string):UnityEngine.Component;
-            public GetComponentInChildren(type: System.Type):UnityEngine.Component;
-            public GetComponentInParent(type: System.Type):UnityEngine.Component;
-            public GetComponents(type: System.Type):System.Array$1<UnityEngine.Component>;
-            public GetComponents(type: System.Type, results: System.Collections.Generic.List$1<UnityEngine.Component>):void;
-            public GetComponentsInChildren(type: System.Type):System.Array$1<UnityEngine.Component>;
-            public GetComponentsInChildren(type: System.Type, includeInactive: boolean):System.Array$1<UnityEngine.Component>;
-            public GetComponentsInParent(type: System.Type):System.Array$1<UnityEngine.Component>;
-            public GetComponentsInParent(type: System.Type, includeInactive: boolean):System.Array$1<UnityEngine.Component>;
-            public SetActive(value: boolean):void;
-            public CompareTag(tag: string):boolean;
-            public static FindGameObjectWithTag(tag: string):UnityEngine.GameObject;
-            public static FindWithTag(tag: string):UnityEngine.GameObject;
-            public static FindGameObjectsWithTag(tag: string):System.Array$1<UnityEngine.GameObject>;
-            public SendMessageUpwards(methodName: string, value: any, options: UnityEngine.SendMessageOptions):void;
-            public SendMessageUpwards(methodName: string, value: any):void;
-            public SendMessageUpwards(methodName: string):void;
-            public SendMessageUpwards(methodName: string, options: UnityEngine.SendMessageOptions):void;
-            public SendMessage(methodName: string, value: any, options: UnityEngine.SendMessageOptions):void;
-            public SendMessage(methodName: string, value: any):void;
-            public SendMessage(methodName: string):void;
-            public SendMessage(methodName: string, options: UnityEngine.SendMessageOptions):void;
-            public BroadcastMessage(methodName: string, parameter: any, options: UnityEngine.SendMessageOptions):void;
-            public BroadcastMessage(methodName: string, parameter: any):void;
-            public BroadcastMessage(methodName: string):void;
-            public BroadcastMessage(methodName: string, options: UnityEngine.SendMessageOptions):void;
-            public AddComponent(componentType: System.Type):UnityEngine.Component;
-            public static Find(name: string):UnityEngine.GameObject;
-            
-        }
         enum SendMessageOptions { RequireReceiver = 0, DontRequireReceiver = 1 }
         enum PrimitiveType { Sphere = 0, Capsule = 1, Cylinder = 2, Cube = 3, Plane = 4, Quad = 5 }
         enum HideFlags { None = 0, HideInHierarchy = 1, HideInInspector = 2, DontSaveInEditor = 4, NotEditable = 8, DontSaveInBuild = 16, DontUnloadUnusedAsset = 32, DontSave = 52, HideAndDontSave = 61 }
@@ -685,6 +689,8 @@ declare module 'csharp' {
             public BMFunc():void;
             
         }
+        interface BaseClass extends $Extension<BaseClass, typeof BaseClassExtension> {}
+        
         class DerivedClass extends PuertsTest.BaseClass {
             public static DSF: number;
             public MyCallback: PuertsTest.MyCallback;
