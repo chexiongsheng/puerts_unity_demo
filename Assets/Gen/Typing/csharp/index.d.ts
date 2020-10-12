@@ -485,12 +485,12 @@ declare module 'csharp' {
             public static op_Inequality(d1: Function, d2: Function):boolean;
             
         }
+        type Action$1<T> = (obj: T) => void;
         class Int32 extends System.ValueType {
             
         }
         type Converter$2<TInput,TOutput> = (input: TInput) => TOutput;
         type Predicate$1<T> = (obj: T) => boolean;
-        type Action$1<T> = (obj: T) => void;
         type Comparison$1<T> = (x: T, y: T) => number;
         class Enum extends System.ValueType {
             
@@ -669,10 +669,16 @@ declare module 'csharp' {
     }
     namespace PuertsTest {
         class TestClass extends System.Object {
+            public callback1: PuertsTest.Callback1;
             public constructor();
+            public add_callback0(value: System.Action$1<ArrayBuffer>):void;
+            public remove_callback0(value: System.Action$1<ArrayBuffer>):void;
             public AddEventCallback1(callback1: PuertsTest.Callback1):void;
             public RemoveEventCallback1(callback1: PuertsTest.Callback1):void;
             public AddEventCallback2(callback2: PuertsTest.Callback2):void;
+            public AddEventCallback3(callback3: PuertsTest.TestClass.Callback3):void;
+            public AddCallback0(callback0: System.Action$1<ArrayBuffer>):void;
+            public Foo2(s?: string):void;
             public Trigger():void;
             public Foo():void;
             
@@ -689,7 +695,7 @@ declare module 'csharp' {
             public BMFunc():void;
             
         }
-        interface BaseClass extends $Extension<BaseClass, typeof BaseClassExtension> {}
+        interface BaseClass extends $Extension<BaseClass, typeof PuertsTest.BaseClassExtension> {}
         
         class DerivedClass extends PuertsTest.BaseClass {
             public static DSF: number;
@@ -724,6 +730,17 @@ declare module 'csharp' {
         class BaseClass1 extends System.Object {
             
         }
+        
+    }
+    namespace Puerts {
+        class ArrayBuffer extends System.Object {
+            
+        }
+        
+    }
+    namespace PuertsTest.TestClass {
+        type Callback3 = (b: boolean) => void;
+        var Callback3: {new (func: (b: boolean) => void): Callback3;}
         
     }
     namespace System.Collections.Generic {
@@ -849,12 +866,6 @@ declare module 'csharp' {
             
         }
         class Enumerator<TKey,TValue> extends System.ValueType {
-            
-        }
-        
-    }
-    namespace Puerts {
-        class ArrayBuffer extends System.Object {
             
         }
         
