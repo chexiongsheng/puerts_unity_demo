@@ -86,8 +86,6 @@ declare module 'csharp' {
             public static Scale(a: UnityEngine.Vector3, b: UnityEngine.Vector3):UnityEngine.Vector3;
             public Scale(scale: UnityEngine.Vector3):void;
             public static Cross(lhs: UnityEngine.Vector3, rhs: UnityEngine.Vector3):UnityEngine.Vector3;
-            public GetHashCode():number;
-            public Equals(other: any):boolean;
             public static Reflect(inDirection: UnityEngine.Vector3, inNormal: UnityEngine.Vector3):UnityEngine.Vector3;
             public static Normalize(value: UnityEngine.Vector3):UnityEngine.Vector3;
             public Normalize():void;
@@ -128,9 +126,6 @@ declare module 'csharp' {
             public static DontDestroyOnLoad(target: UnityEngine.Object):void;
             public static DestroyObject(obj: UnityEngine.Object, t: number):void;
             public static DestroyObject(obj: UnityEngine.Object):void;
-            public ToString():string;
-            public Equals(o: any):boolean;
-            public GetHashCode():number;
             public GetInstanceID():number;
             public static Instantiate(original: UnityEngine.Object, position: UnityEngine.Vector3, rotation: UnityEngine.Quaternion):UnityEngine.Object;
             public static Instantiate(original: UnityEngine.Object):UnityEngine.Object;
@@ -473,8 +468,6 @@ declare module 'csharp' {
             public static CreateDelegate(type: System.Type, target: any, method: string, ignoreCase: boolean):Function;
             public DynamicInvoke(...args: any[]):any;
             public Clone():any;
-            public Equals(obj: any):boolean;
-            public GetHashCode():number;
             public GetObjectData(info: System.Runtime.Serialization.SerializationInfo, context: System.Runtime.Serialization.StreamingContext):void;
             public GetInvocationList():System.Array$1<Function>;
             public static Combine(a: Function, b: Function):Function;
@@ -485,12 +478,12 @@ declare module 'csharp' {
             public static op_Inequality(d1: Function, d2: Function):boolean;
             
         }
-        type Action$1<T> = (obj: T) => void;
         class Int32 extends System.ValueType {
             
         }
         type Converter$2<TInput,TOutput> = (input: TInput) => TOutput;
         type Predicate$1<T> = (obj: T) => boolean;
+        type Action$1<T> = (obj: T) => void;
         type Comparison$1<T> = (x: T, y: T) => number;
         class Enum extends System.ValueType {
             
@@ -499,7 +492,7 @@ declare module 'csharp' {
             
         }
         class Type extends System.Reflection.MemberInfo {
-            public static Delimiter: System.Char;
+            public static Delimiter: number;
             public static EmptyTypes: System.Array$1<System.Type>;
             public static FilterAttribute: System.Reflection.MemberFilter;
             public static FilterName: System.Reflection.MemberFilter;
@@ -597,7 +590,6 @@ declare module 'csharp' {
             public GetField(name: string, bindingAttr: System.Reflection.BindingFlags):System.Reflection.FieldInfo;
             public GetFields():System.Array$1<System.Reflection.FieldInfo>;
             public GetFields(bindingAttr: System.Reflection.BindingFlags):System.Array$1<System.Reflection.FieldInfo>;
-            public GetHashCode():number;
             public GetMember(name: string):System.Array$1<System.Reflection.MemberInfo>;
             public GetMember(name: string, bindingAttr: System.Reflection.BindingFlags):System.Array$1<System.Reflection.MemberInfo>;
             public GetMember(name: string, type: System.Reflection.MemberTypes, bindingAttr: System.Reflection.BindingFlags):System.Array$1<System.Reflection.MemberInfo>;
@@ -634,7 +626,6 @@ declare module 'csharp' {
             public InvokeMember(name: string, invokeAttr: System.Reflection.BindingFlags, binder: System.Reflection.Binder, target: any, args: System.Array$1<any>):any;
             public InvokeMember(name: string, invokeAttr: System.Reflection.BindingFlags, binder: System.Reflection.Binder, target: any, args: System.Array$1<any>, culture: System.Globalization.CultureInfo):any;
             public InvokeMember(name: string, invokeAttr: System.Reflection.BindingFlags, binder: System.Reflection.Binder, target: any, args: System.Array$1<any>, modifiers: System.Array$1<System.Reflection.ParameterModifier>, culture: System.Globalization.CultureInfo, namedParameters: System.Array$1<string>):any;
-            public ToString():string;
             public GetGenericArguments():System.Array$1<System.Type>;
             public GetGenericTypeDefinition():System.Type;
             public MakeGenericType(...typeArguments: System.Type[]):System.Type;
@@ -644,6 +635,7 @@ declare module 'csharp' {
             public MakeByRefType():System.Type;
             public MakePointerType():System.Type;
             public static ReflectionOnlyGetType(typeName: string, throwIfNotFound: boolean, ignoreCase: boolean):System.Type;
+            public GetType():System.Type;
             
         }
         class Array extends System.Object {
@@ -669,16 +661,10 @@ declare module 'csharp' {
     }
     namespace PuertsTest {
         class TestClass extends System.Object {
-            public callback1: PuertsTest.Callback1;
             public constructor();
-            public add_callback0(value: System.Action$1<ArrayBuffer>):void;
-            public remove_callback0(value: System.Action$1<ArrayBuffer>):void;
             public AddEventCallback1(callback1: PuertsTest.Callback1):void;
             public RemoveEventCallback1(callback1: PuertsTest.Callback1):void;
             public AddEventCallback2(callback2: PuertsTest.Callback2):void;
-            public AddEventCallback3(callback3: PuertsTest.TestClass.Callback3):void;
-            public AddCallback0(callback0: System.Action$1<ArrayBuffer>):void;
-            public Foo2(s?: string):void;
             public Trigger():void;
             public Foo():void;
             
@@ -730,17 +716,6 @@ declare module 'csharp' {
         class BaseClass1 extends System.Object {
             
         }
-        
-    }
-    namespace Puerts {
-        class ArrayBuffer extends System.Object {
-            
-        }
-        
-    }
-    namespace PuertsTest.TestClass {
-        type Callback3 = (b: boolean) => void;
-        var Callback3: {new (func: (b: boolean) => void): Callback3;}
         
     }
     namespace System.Collections.Generic {
@@ -866,6 +841,12 @@ declare module 'csharp' {
             
         }
         class Enumerator<TKey,TValue> extends System.ValueType {
+            
+        }
+        
+    }
+    namespace Puerts {
+        class ArrayBuffer extends System.Object {
             
         }
         
@@ -1037,7 +1018,7 @@ declare module 'csharp' {
             public keyboardType: UnityEngine.TouchScreenKeyboardType;
             public characterValidation: UnityEngine.UI.InputField.CharacterValidation;
             public multiLine: boolean;
-            public asteriskChar: System.Char;
+            public asteriskChar: number;
             public wasCanceled: boolean;
             public caretPosition: number;
             public selectionAnchorPosition: number;
@@ -1048,17 +1029,14 @@ declare module 'csharp' {
             public OnBeginDrag(eventData: UnityEngine.EventSystems.PointerEventData):void;
             public OnDrag(eventData: UnityEngine.EventSystems.PointerEventData):void;
             public OnEndDrag(eventData: UnityEngine.EventSystems.PointerEventData):void;
-            public OnPointerDown(eventData: UnityEngine.EventSystems.PointerEventData):void;
             public ProcessEvent(e: UnityEngine.Event):void;
             public OnUpdateSelected(eventData: UnityEngine.EventSystems.BaseEventData):void;
             public Rebuild(update: UnityEngine.UI.CanvasUpdate):void;
             public LayoutComplete():void;
             public GraphicUpdateComplete():void;
             public ActivateInputField():void;
-            public OnSelect(eventData: UnityEngine.EventSystems.BaseEventData):void;
             public OnPointerClick(eventData: UnityEngine.EventSystems.PointerEventData):void;
             public DeactivateInputField():void;
-            public OnDeselect(eventData: UnityEngine.EventSystems.BaseEventData):void;
             public OnSubmit(eventData: UnityEngine.EventSystems.BaseEventData):void;
             
         }
@@ -1130,8 +1108,8 @@ declare module 'csharp' {
         class OnChangeEvent extends UnityEngine.Events.UnityEvent$1<string> {
             
         }
-        type OnValidateInput = (text: string, charIndex: number, addedChar: System.Char) => System.Char;
-        var OnValidateInput: {new (func: (text: string, charIndex: number, addedChar: System.Char) => System.Char): OnValidateInput;}
+        type OnValidateInput = (text: string, charIndex: number, addedChar: number) => number;
+        var OnValidateInput: {new (func: (text: string, charIndex: number, addedChar: number) => number): OnValidateInput;}
         enum ContentType { Standard = 0, Autocorrected = 1, IntegerNumber = 2, DecimalNumber = 3, Alphanumeric = 4, Name = 5, EmailAddress = 6, Password = 7, Pin = 8, Custom = 9 }
         enum LineType { SingleLine = 0, MultiLineSubmit = 1, MultiLineNewline = 2 }
         enum InputType { Standard = 0, AutoCorrect = 1, Password = 2 }
