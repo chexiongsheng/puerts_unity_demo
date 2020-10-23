@@ -9,7 +9,7 @@ class Rotate {
     }
     
     onUpdate() {
-        //js²»Ö§³Ö²Ù×÷·ûÖØÔØËùÒÔVector3µÄ³ËÕâÃ´ÓÃ
+        //jsä¸æ”¯æŒæ“ä½œç¬¦é‡è½½æ‰€ä»¥Vector3çš„ä¹˜è¿™ä¹ˆç”¨
         let r = CS.UnityEngine.Vector3.op_Multiply(CS.UnityEngine.Vector3.up, CS.UnityEngine.Time.deltaTime * speed);
         this.bindTo.transform.Rotate(r);
     }
