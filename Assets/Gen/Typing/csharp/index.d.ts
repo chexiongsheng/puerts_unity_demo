@@ -2,10 +2,6 @@
 declare module 'csharp' {
     interface $Ref<T> {}
     
-    type $Extension<T1, T2> = {
-        [P in keyof T2] : T2[P] extends (obj:T1, ...args: infer P) => infer R ? (...args: P) => R : never;
-    }
-    
     namespace System {
         interface Array$1<T> extends System.Array {
             get_Item(index: number):T;
@@ -681,7 +677,13 @@ declare module 'csharp' {
             public BMFunc():void;
             
         }
-        interface BaseClass extends $Extension<BaseClass, typeof PuertsTest.BaseClassExtension> {}
+        interface BaseClass {
+            PlainExtension():void;
+            Extension1():PuertsTest.BaseClass;
+            Extension2(b: UnityEngine.GameObject):PuertsTest.BaseClass;
+            Extension2(b: PuertsTest.BaseClass1):void;
+            
+        }
         
         class DerivedClass extends PuertsTest.BaseClass {
             public static DSF: number;
