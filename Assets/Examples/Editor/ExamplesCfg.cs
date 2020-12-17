@@ -71,4 +71,14 @@ public class ExamplesCfg
             };
         }
     }
+    
+    [Filter]
+    static bool FilterMethods(MemberInfo mb)
+    {
+        // 排除 MonoBehaviour.runInEditMode, 在 Editor 环境下可用发布后不存在
+        if (mb.DeclaringType == typeof(MonoBehaviour) && mb.Name == "runInEditMode") {
+            return true;
+        }
+        return false;
+    }
 }
