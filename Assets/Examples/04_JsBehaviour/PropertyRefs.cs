@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 #if UNITY_EDITOR
 using System.Reflection;
-using System.Collections.Generic;
 using UnityEditor;
 #endif
 
@@ -27,17 +27,21 @@ public class PropertyRefs : MonoBehaviour
     }
     internal ResultPair[] GenPairs()
     {
-        if (ObjectPairs == null)
-            return null;
-        var pairs = ((IEnumerable<IPair>)ObjectPairs)
-            .Concat(StringPairs)
-            .Concat(NumberPairs)
-            .Concat(BooleanPairs)
-            .Concat(ObjectArrayPairs)
-            .Concat(GameObjectArrayPairs)
-            .ToList();
-        pairs.Sort((v1, v2) => v1.getIndex < v2.getIndex ? -1 : v1.getIndex > v2.getIndex ? 1 : 0);
-        return pairs.Select(o => new ResultPair(o)).ToArray();
+        var pairsArray = new IEnumerable<IPair>[] {
+            ObjectPairs,
+            StringPairs,
+            NumberPairs,
+            BooleanPairs,
+            ObjectArrayPairs,
+            GameObjectArrayPairs
+        };
+        var list = (from pairs in pairsArray
+                    where pairs != null
+                    from pair in pairs
+                    where pair != null
+                    select pair).ToList();
+        list.Sort((v1, v2) => v1.getIndex < v2.getIndex ? -1 : v1.getIndex > v2.getIndex ? 1 : 0);
+        return list.Select(o => new ResultPair(o)).ToArray();
     }
 
     #region 序列化字段
@@ -133,11 +137,27 @@ public class PropertyRefs_CustomEditor : Editor
     //Select Index
     private int _selectIndex;
     //fodout
-    private static bool menuFoldout = true;
-    private static bool arrayFoldout = true;
+    private static bool menuFoldout
+    {
+        get { return ValueGetter("menuFoldout", true); }
+        set { ValueSetter("menuFoldout", value); }
+    }
+    private static bool arrayFoldout
+    {
+        get { return ValueGetter("arrayFoldout", true); }
+        set { ValueSetter("arrayFoldout", value); }
+    }
     //Check Switch
-    private static bool checkKeyRedefinition = true;
-    private static bool checkKeyValidity = true;
+    private static bool checkKeyRedefinition
+    {
+        get { return ValueGetter("checkKeyRedefinition", true); }
+        set { ValueSetter("checkKeyRedefinition", value); }
+    }
+    private static bool checkKeyValidity
+    {
+        get { return ValueGetter("checkKeyValidity", true); }
+        set { ValueSetter("checkKeyValidity", value); }
+    }
 
     void OnEnable()
     {
@@ -249,6 +269,25 @@ public class PropertyRefs_CustomEditor : Editor
         }
         return result;
     }
+    static Dictionary<string, bool> _cacheValues = new Dictionary<string, bool>();
+    static bool ValueGetter(string key, bool defaultValue)
+    {
+        bool value;
+        if (!_cacheValues.TryGetValue(key, out value))
+        {
+            value = EditorPrefs.GetBool(key, defaultValue);
+            _cacheValues.Add(key, value);
+        }
+        return value;
+    }
+    static void ValueSetter(string key, bool value)
+    {
+        if (value != ValueGetter(key, !value))
+        {
+            EditorPrefs.SetBool(key, value);
+            _cacheValues[key] = value;
+        }
+    }
     #endregion
 
     #region 渲染节点
@@ -268,7 +307,7 @@ public class PropertyRefs_CustomEditor : Editor
             GUILayout.Space(5f);
             if (GUILayout.Button("copy declare code [public]"))
             {
-                var code = GenCode(_instance.GenPairs(), "public ", false);
+                var code = GenCode(_instance.GenPairs(), "public", false);
                 var editor = new TextEditor();
                 editor.text = code;
                 editor.OnFocus();
@@ -277,15 +316,22 @@ public class PropertyRefs_CustomEditor : Editor
             }
             if (GUILayout.Button("copy declare code [private]"))
             {
-                var code = GenCode(_instance.GenPairs(), "private ", false);
+                var code = GenCode(_instance.GenPairs(), "private", false);
                 var editor = new TextEditor();
                 editor.text = code;
                 editor.OnFocus();
                 editor.Copy();
                 Debug.Log("已复制到剪贴板:\n" + code);
             }
-            checkKeyRedefinition = EditorGUILayout.Toggle("Check Key Redefinition", checkKeyRedefinition);
-            checkKeyValidity = EditorGUILayout.Toggle("Check Key Validity", checkKeyValidity);
+            //Check key Toggles
+            EditorGUILayout.BeginHorizontal();
+            checkKeyRedefinition = EditorGUILayout.Toggle("", checkKeyRedefinition, GUILayout.Width(20f));
+            EditorGUILayout.LabelField("check key redefinition");
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            checkKeyValidity = EditorGUILayout.Toggle("", checkKeyValidity, GUILayout.Width(20f));
+            EditorGUILayout.LabelField("check key validity");
+            EditorGUILayout.EndHorizontal();
             //Check key redefinition
             PropertyRefs.ResultPair[] pairs;
             if (checkKeyRedefinition && (pairs = _instance.GenPairs()) != null)
@@ -314,13 +360,22 @@ public class PropertyRefs_CustomEditor : Editor
         EditorGUILayout.BeginHorizontal();
         arrayFoldout = EditorGUILayout.Foldout(arrayFoldout, "COUNT: " + count);
         GUILayout.FlexibleSpace();
+        if (GUILayout.Button(new GUIContent("☰", "如果index重复, 点击此按钮重新排序")))
+        {
+            for (int i = 0; i < packages.Count; i++)
+            {
+                var element = packages[i].element;
+                element.index = i;
+            }
+        }
+        GUILayout.Space(5f);
         //Add 
-        if (GUILayout.Button("+"))
+        if (GUILayout.Button(new GUIContent("+", "添加一行")))
         {
             PopupCreate(count);
         }
         //Remove 
-        if (GUILayout.Button("-") && count > 0)
+        if (GUILayout.Button(new GUIContent("-", "移除选中行或者移除最后一行")) && count > 0)
         {
             if (_selectIndex < 0 || _selectIndex >= count)
             {
@@ -341,7 +396,7 @@ public class PropertyRefs_CustomEditor : Editor
         }
         GUILayout.Space(5f);
         //Move Up 
-        if (GUILayout.Button("↑") && _selectIndex > 0 && _selectIndex < count)
+        if (GUILayout.Button(new GUIContent("↑", "向上移动选中行")) && _selectIndex > 0 && _selectIndex < count)
         {
             var element = packages[_selectIndex].element;
             element.index--;
@@ -350,7 +405,7 @@ public class PropertyRefs_CustomEditor : Editor
             _selectIndex--;
         }
         //Move Down
-        if (GUILayout.Button("↓") && _selectIndex >= 0 && _selectIndex < count - 1)
+        if (GUILayout.Button(new GUIContent("↓", "向下移动选中行")) && _selectIndex >= 0 && _selectIndex < count - 1)
         {
             var element = packages[_selectIndex].element;
             element.index++;
@@ -379,7 +434,7 @@ public class PropertyRefs_CustomEditor : Editor
         DisplayField(element.valueNode, element.valueType);
         GUILayout.Space(5f);
         if (element.valueNode.propertyType == SerializedPropertyType.ObjectReference)
-            DisplayComponentsAndTypes(element, element.valueNode.objectReferenceValue);
+            DisplayComponentsAndTypes(element, element.valueNode.objectReferenceValue, element.valueType);
         else
             DisplayTypes(element);
         EditorGUILayout.EndHorizontal();
@@ -454,7 +509,7 @@ public class PropertyRefs_CustomEditor : Editor
                     DisplayField(node, element.valueType.GetElementType());
                     GUILayout.Space(5f);
                     if (node.propertyType == SerializedPropertyType.ObjectReference)
-                        DisplayComponents(node, node.objectReferenceValue);
+                        DisplayComponents(node, node.objectReferenceValue, element.valueType.GetElementType());
                     else
                         GUILayout.Space(POPUP_WIDTH);
                     EditorGUILayout.EndHorizontal();
@@ -529,7 +584,7 @@ public class PropertyRefs_CustomEditor : Editor
     void DisplaySelect(Element element)
     {
         //if (GUILayout.Button("", "PaneOptions", GUILayout.Width(15f)))
-        if (GUILayout.Button("", "PreSliderThumb", GUILayout.Width(15f)))
+        if (GUILayout.Button(new GUIContent("", "选中/取消选中当前行"), "PreSliderThumb", GUILayout.Width(15f)))
         {
             _selectIndex = _selectIndex != element.index ? element.index : -1;
         }
@@ -541,21 +596,21 @@ public class PropertyRefs_CustomEditor : Editor
             PopupTypes(element);
         }
     }
-    void DisplayComponentsAndTypes(Element element, Object obj)
+    void DisplayComponentsAndTypes(Element element, Object obj, Type targetType)
     {
         if (GUILayout.Button("", "AssetLabel Icon", GUILayout.Width(POPUP_WIDTH)))
         {
-            PopupComponentsAndTypes(element, obj);
+            PopupComponentsAndTypes(element, obj, targetType);
         }
     }
-    void DisplayComponents(SerializedProperty node, Object obj)
+    void DisplayComponents(SerializedProperty node, Object obj, Type targetType)
     {
         //TextFieldDropDown
         //AssetLabel Icon
         //PaneOptions
         if (GUILayout.Button("", "PaneOptions", GUILayout.Width(POPUP_WIDTH)))
         {
-            PopupComponents(node, obj);
+            PopupComponents(node, obj, targetType);
         }
     }
     void DisplayWarning(string content)
@@ -606,7 +661,7 @@ public class PropertyRefs_CustomEditor : Editor
                 create.valueNode.isExpanded = element.valueNode.isArray ? element.valueNode.isExpanded : true;
             }
             create.Clean();
-            CopyObject(element, create);
+            Copy(element.valueNode, create.valueNode, create.valueType);
             CopyArray(element, create);
             //Delete Element
             element.DeleteCommand();
@@ -614,12 +669,12 @@ public class PropertyRefs_CustomEditor : Editor
             ApplyModifiedProperties();
         });
     }
-    void PopupComponentsAndTypes(Element element, Object obj)
+    void PopupComponentsAndTypes(Element element, Object obj, Type targetType)
     {
         var options = _optionsMapping.Values.ToArray();
         var selected = new[] { options.ToList().IndexOf(element.type.Name) };
         string[] separator = null;
-        var objects = GetCompoents(obj);
+        var objects = GetCompoents(obj, targetType);
         if (objects != null)
         {
             //Options
@@ -655,7 +710,7 @@ public class PropertyRefs_CustomEditor : Editor
                     create.valueNode.isExpanded = element.valueNode.isArray ? element.valueNode.isExpanded : true;
                 }
                 create.Clean();
-                CopyObject(element, create);
+                Copy(element.valueNode, create.valueNode, create.valueType);
                 CopyArray(element, create);
                 //Delete Element
                 element.DeleteCommand();
@@ -668,12 +723,12 @@ public class PropertyRefs_CustomEditor : Editor
             ApplyModifiedProperties();
         });
     }
-    void PopupComponents(SerializedProperty node, Object obj)
+    void PopupComponents(SerializedProperty node, Object obj, Type targetType)
     {
         var options = new[] { "<NULL>" };
         var selected = new[] { 0 };
         string[] separator = null;
-        var objects = GetCompoents(obj);
+        var objects = GetCompoents(obj, targetType);
         if (objects != null)
         {
             //Options
@@ -755,33 +810,69 @@ public class PropertyRefs_CustomEditor : Editor
             && (key = type.GetField(KEY_FIELD)) != null && key.FieldType == typeof(string)
             && type.GetField(VALUE_FIELD) != null;
     }
-    /// <summary> 尝试Copy值 </summary>
-    static void CopyObject(Element from, Element to)
-    {
-        if (from.valueNode.propertyType == SerializedPropertyType.ObjectReference
-            && to.valueNode.propertyType == SerializedPropertyType.ObjectReference
-            && from.valueNode.objectReferenceValue != null
-            && to.valueType.IsAssignableFrom(from.valueNode.objectReferenceValue.GetType()))
-        {
-            to.valueNode.objectReferenceValue = from.valueNode.objectReferenceValue;
-        }
-    }
     static void CopyArray(Element from, Element to)
     {
-        if (from.valueType.IsArray
-            && to.valueType.IsArray
-            && typeof(UnityEngine.Object).IsAssignableFrom(from.valueType.GetElementType())
-            && typeof(UnityEngine.Object).IsAssignableFrom(to.valueType.GetElementType()))
+        if (from.valueType.IsArray && to.valueType.IsArray)
         {
             var targetType = to.valueType.GetElementType();
-            for (int i = 0; i < from.valueNode.arraySize; i++)
+            for (int i = 0; i < from.valueNode.arraySize && i < to.valueNode.arraySize; i++)
             {
-                var node = from.valueNode.GetArrayElementAtIndex(i);
-                if (node.objectReferenceValue != null
-                && targetType.IsAssignableFrom(node.objectReferenceValue.GetType()))
-                {
-                    from.valueNode.GetArrayElementAtIndex(i).objectReferenceValue = node.objectReferenceValue;
-                }
+                Copy(from.valueNode.GetArrayElementAtIndex(i), to.valueNode.GetArrayElementAtIndex(i), targetType);
+            }
+        }
+    }
+    static void Copy(SerializedProperty fromNode, SerializedProperty toNode, Type targetType)
+    {
+        if (fromNode.propertyType == toNode.propertyType)
+        {
+            switch (fromNode.propertyType)
+            {
+                case SerializedPropertyType.Integer:
+                    toNode.intValue = fromNode.intValue;
+                    break;
+                case SerializedPropertyType.Boolean:
+                    toNode.boolValue = fromNode.boolValue;
+                    break;
+                case SerializedPropertyType.Float:
+                    toNode.doubleValue = fromNode.doubleValue;
+                    break;
+                case SerializedPropertyType.String:
+                    toNode.stringValue = fromNode.stringValue;
+                    break;
+                case SerializedPropertyType.Color:
+                    toNode.colorValue = fromNode.colorValue;
+                    break;
+                case SerializedPropertyType.ObjectReference:
+                    if (fromNode.objectReferenceValue != null && targetType.IsAssignableFrom(fromNode.objectReferenceValue.GetType()))
+                        toNode.objectReferenceValue = fromNode.objectReferenceValue;
+                    break;
+                case SerializedPropertyType.Vector2:
+                    toNode.vector2Value = fromNode.vector2Value;
+                    break;
+                case SerializedPropertyType.Vector3:
+                    toNode.vector3Value = fromNode.vector3Value;
+                    break;
+                case SerializedPropertyType.Vector4:
+                    toNode.vector4Value = fromNode.vector4Value;
+                    break;
+                case SerializedPropertyType.Rect:
+                    toNode.rectValue = fromNode.rectValue;
+                    break;
+                case SerializedPropertyType.Bounds:
+                    toNode.boundsValue = fromNode.boundsValue;
+                    break;
+                case SerializedPropertyType.Vector2Int:
+                    toNode.vector2IntValue = fromNode.vector2IntValue;
+                    break;
+                case SerializedPropertyType.Vector3Int:
+                    toNode.vector3IntValue = fromNode.vector3IntValue;
+                    break;
+                case SerializedPropertyType.RectInt:
+                    toNode.rectIntValue = fromNode.rectIntValue;
+                    break;
+                case SerializedPropertyType.BoundsInt:
+                    toNode.boundsIntValue = fromNode.boundsIntValue;
+                    break;
             }
         }
     }
@@ -810,7 +901,7 @@ public class PropertyRefs_CustomEditor : Editor
         }
         return options;
     }
-    static Object[] GetCompoents(Object obj)
+    static Object[] GetCompoents(Object obj, Type targetType)
     {
         if (obj != null)
         {
@@ -856,6 +947,17 @@ public class PropertyRefs_CustomEditor : Editor
                 result.Remove(gameObject);
                 result.Insert(0, gameObject);
             }
+            //移除无效项
+            if (targetType != null)
+            {
+                for (int i = result.Count - 1; i >= 0; i--)
+                {
+                    if (result[i] == null || !targetType.IsAssignableFrom(result[i].GetType()))
+                    {
+                        result.RemoveAt(i);
+                    }
+                }
+            }
             return result.ToArray();
         }
         return null;
@@ -863,13 +965,16 @@ public class PropertyRefs_CustomEditor : Editor
     static string GenCode(PropertyRefs.ResultPair[] pairs, string declareType, bool useFullname)
     {
         var resultCode = "";
+        declareType = declareType.Trim();
         foreach (var pair in pairs)
         {
             if (!string.IsNullOrEmpty(resultCode))
                 resultCode += "\n";
-            var type = pair.value != null ? pair.value.GetType() : null;
-            var typeStr = GetTypeName(type, useFullname);
-            resultCode += declareType + pair.key + ": " + typeStr + ";";
+            var typeStr = GetTypeName(pair.value != null ? pair.value.GetType() : null, useFullname);
+            var keyStr = pair.key;
+            if (!CheckKeyValidity(keyStr))
+                keyStr = "[\"" + keyStr + "\"]";
+            resultCode += declareType + " " + keyStr + ": " + typeStr + ";";
         }
         return resultCode;
     }
