@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
@@ -135,7 +135,12 @@ public class PropertyRefs_CustomEditor : Editor
     private Dictionary<string, string> _optionsMapping;
     private Dictionary<string, Action<Element>> _displayMapping;
     //Select Index
-    private int _selectIndex;
+    private static bool keepSelect
+    {
+        get { return ValueGetter("keepSelect", true); }
+        set { ValueSetter("keepSelect", value); }
+    }
+    private List<int> _selectIndex;
     //fodout
     private static bool menuFoldout
     {
@@ -163,7 +168,7 @@ public class PropertyRefs_CustomEditor : Editor
     {
         //Debug.Log("OnEnable");
         _instance = target as PropertyRefs;
-        _selectIndex = -1;
+        _selectIndex = new List<int>();
         _typeMapping = new Dictionary<string, Type>();
         _optionsMapping = new Dictionary<string, string>();
         _displayMapping = new Dictionary<string, Action<Element>>();
@@ -189,11 +194,6 @@ public class PropertyRefs_CustomEditor : Editor
         UpdateProperties();
 
         var packages = GetPacksges();
-        packages.Sort((v1, v2) =>
-        {
-            int index1 = v1.element.index, index2 = v2.element.index;
-            return index1 < index2 ? -1 : index1 > index2 ? 1 : 0;
-        });
         DisplayScriptName();
         DisplayScriptMenu();
         DisplayMenu(packages);
@@ -267,6 +267,7 @@ public class PropertyRefs_CustomEditor : Editor
                 result.Add(new Package(element, display));
             }
         }
+        result.Sort((v1, v2) => v1.element.index > v2.element.index ? 1 : v1.element.index < v2.element.index ? -1 : 0);
         return result;
     }
     static Dictionary<string, bool> _cacheValues = new Dictionary<string, bool>();
@@ -294,7 +295,7 @@ public class PropertyRefs_CustomEditor : Editor
     void DisplayScriptName()
     {
         EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Script", new GUIStyle("PR DisabledLabel"));
+        EditorGUILayout.LabelField("Script", new GUIStyle("PR DisabledLabel"), GUILayout.Width(100f));
         EditorGUILayout.ObjectField(_scriptObject, typeof(void), false);
         EditorGUILayout.EndHorizontal();
     }
@@ -332,6 +333,10 @@ public class PropertyRefs_CustomEditor : Editor
             checkKeyValidity = EditorGUILayout.Toggle("", checkKeyValidity, GUILayout.Width(20f));
             EditorGUILayout.LabelField("check key validity");
             EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            keepSelect = EditorGUILayout.Toggle("", keepSelect, GUILayout.Width(20f));
+            EditorGUILayout.LabelField("keep select");
+            EditorGUILayout.EndHorizontal();
             //Check key redefinition
             PropertyRefs.ResultPair[] pairs;
             if (checkKeyRedefinition && (pairs = _instance.GenPairs()) != null)
@@ -356,9 +361,8 @@ public class PropertyRefs_CustomEditor : Editor
     }
     void DisplayMenu(List<Package> packages)
     {
-        var count = packages.Count;
         EditorGUILayout.BeginHorizontal();
-        arrayFoldout = EditorGUILayout.Foldout(arrayFoldout, "COUNT: " + count);
+        arrayFoldout = EditorGUILayout.Foldout(arrayFoldout, "COUNT: " + packages.Count);
         GUILayout.FlexibleSpace();
         if (GUILayout.Button(new GUIContent("☰", "如果index重复, 点击此按钮重新排序")))
         {
@@ -367,51 +371,108 @@ public class PropertyRefs_CustomEditor : Editor
                 var element = packages[i].element;
                 element.index = i;
             }
+            ApplyModifiedProperties();
         }
         GUILayout.Space(5f);
         //Add 
         if (GUILayout.Button(new GUIContent("+", "添加一行")))
         {
-            PopupCreate(count);
+            PopupCreate(packages.Count);
+
+            packages.Clear();
+            packages.AddRange(GetPacksges());
+            ApplyModifiedProperties();
         }
         //Remove 
-        if (GUILayout.Button(new GUIContent("-", "移除选中行或者移除最后一行")) && count > 0)
+        if (GUILayout.Button(new GUIContent("-", "移除选中行或者移除最后一行")) && packages.Count > 0)
         {
-            if (_selectIndex < 0 || _selectIndex >= count)
+            if (_selectIndex.Count < 0)
             {
-                packages[count - 1].element.DeleteCommand();
-                packages.RemoveAt(count - 1);
+                packages[packages.Count - 1].element.DeleteCommand();
+                packages.RemoveAt(packages.Count - 1);
             }
             else
             {
-                for (int i = _selectIndex + 1; i < packages.Count; i++)
+                DeleteElements((from index in _selectIndex select packages[index].element).ToArray());
+                packages.Clear();
+                packages.AddRange(GetPacksges());
+                for (int i = 0; i < packages.Count; i++)
                 {
                     var element = packages[i].element;
-                    element.index--;
+                    element.index = i;
                 }
-                packages[_selectIndex].element.DeleteCommand();
-                packages.RemoveAt(_selectIndex);
-                _selectIndex--;
+                //Select
+                int count = _selectIndex.Count, first = _selectIndex[0];
+                _selectIndex.Clear();
+                if (count == 1 && first > 0)
+                {
+                    _selectIndex.Add(--first);
+                }
             }
+            ApplyModifiedProperties();
         }
         GUILayout.Space(5f);
         //Move Up 
-        if (GUILayout.Button(new GUIContent("↑", "向上移动选中行")) && _selectIndex > 0 && _selectIndex < count)
+        if (GUILayout.Button(new GUIContent("↑", "向上移动选中行")) && _selectIndex.Count > 0)
         {
-            var element = packages[_selectIndex].element;
-            element.index--;
-            element = packages[_selectIndex - 1].element;
-            element.index++;
-            _selectIndex--;
+            var grouping = Grouping(packages.ToArray(), new List<int>(_selectIndex));
+            for (int i = 1; i < grouping.Length; i++)
+            {
+                if (_selectIndex.Contains(grouping[i][0].element.index))
+                {
+                    var temp = grouping[i];
+                    grouping[i] = grouping[i - 1];
+                    grouping[i - 1] = temp;
+                }
+            }
+            packages.Clear();
+            packages.AddRange((from array in grouping
+                               from package in array
+                               select package));
+            var gSelectIndex = new List<int>();
+            for (int i = 0; i < packages.Count; i++)
+            {
+                var element = packages[i].element;
+                if (_selectIndex.Contains(element.index))
+                {
+                    if (element.index != i) gSelectIndex.Add(i);
+                    else gSelectIndex.Add(element.index);
+                }
+                element.index = i;
+            }
+            _selectIndex = gSelectIndex;
+            ApplyModifiedProperties();
         }
         //Move Down
-        if (GUILayout.Button(new GUIContent("↓", "向下移动选中行")) && _selectIndex >= 0 && _selectIndex < count - 1)
+        if (GUILayout.Button(new GUIContent("↓", "向下移动选中行")) && _selectIndex.Count >= 0)
         {
-            var element = packages[_selectIndex].element;
-            element.index++;
-            element = packages[_selectIndex + 1].element;
-            element.index--;
-            _selectIndex++;
+            var grouping = Grouping(packages.ToArray(), new List<int>(_selectIndex));
+            for (int i = grouping.Length - 2; i >= 0; i--)
+            {
+                if (_selectIndex.Contains(grouping[i][0].element.index))
+                {
+                    var temp = grouping[i];
+                    grouping[i] = grouping[i + 1];
+                    grouping[i + 1] = temp;
+                }
+            }
+            packages.Clear();
+            packages.AddRange((from array in grouping
+                               from package in array
+                               select package));
+            var gSelectIndex = new List<int>();
+            for (int i = 0; i < packages.Count; i++)
+            {
+                var element = packages[i].element;
+                if (_selectIndex.Contains(element.index))
+                {
+                    if (element.index != i) gSelectIndex.Add(i);
+                    else gSelectIndex.Add(element.index);
+                }
+                element.index = i;
+            }
+            _selectIndex = gSelectIndex;
+            ApplyModifiedProperties();
         }
         EditorGUILayout.EndHorizontal();
     }
@@ -426,7 +487,7 @@ public class PropertyRefs_CustomEditor : Editor
     void DisplayItem(Element element)
     {
         //EditorGUILayout.BeginVertical(_selectIndex == element.index ? "U2D.createRect" : "Box");
-        EditorGUILayout.BeginVertical(_selectIndex == element.index ? "SelectionRect" : "Box");
+        EditorGUILayout.BeginVertical(_selectIndex.Contains(element.index) ? "SelectionRect" : "Box");
         //Content
         EditorGUILayout.BeginHorizontal();
         DisplaySelect(element);
@@ -453,7 +514,7 @@ public class PropertyRefs_CustomEditor : Editor
         //Array
         var arrayParentNode = element.valueNode;
 
-        EditorGUILayout.BeginVertical(_selectIndex == element.index ? "SelectionRect" : "Box");
+        EditorGUILayout.BeginVertical(_selectIndex.Contains(element.index) ? "SelectionRect" : "Box");
         //Content
         EditorGUILayout.BeginHorizontal();
         DisplaySelect(element);
@@ -586,7 +647,11 @@ public class PropertyRefs_CustomEditor : Editor
         //if (GUILayout.Button("", "PaneOptions", GUILayout.Width(15f)))
         if (GUILayout.Button(new GUIContent("", "选中/取消选中当前行"), "PreSliderThumb", GUILayout.Width(15f)))
         {
-            _selectIndex = _selectIndex != element.index ? element.index : -1;
+            if (!keepSelect) _selectIndex.Clear();
+            if (_selectIndex.Contains(element.index))
+                _selectIndex.Remove(element.index);
+            else
+                _selectIndex.Add(element.index);
         }
     }
     void DisplayTypes(Element element)
@@ -661,8 +726,7 @@ public class PropertyRefs_CustomEditor : Editor
                 create.valueNode.isExpanded = element.valueNode.isArray ? element.valueNode.isExpanded : true;
             }
             create.Clean();
-            Copy(element.valueNode, create.valueNode, create.valueType);
-            CopyArray(element, create);
+            Copy(element, create);
             //Delete Element
             element.DeleteCommand();
             //应用更改
@@ -710,8 +774,7 @@ public class PropertyRefs_CustomEditor : Editor
                     create.valueNode.isExpanded = element.valueNode.isArray ? element.valueNode.isExpanded : true;
                 }
                 create.Clean();
-                Copy(element.valueNode, create.valueNode, create.valueType);
-                CopyArray(element, create);
+                Copy(element, create);
                 //Delete Element
                 element.DeleteCommand();
             }
@@ -810,7 +873,7 @@ public class PropertyRefs_CustomEditor : Editor
             && (key = type.GetField(KEY_FIELD)) != null && key.FieldType == typeof(string)
             && type.GetField(VALUE_FIELD) != null;
     }
-    static void CopyArray(Element from, Element to)
+    static void Copy(Element from, Element to)
     {
         if (from.valueType.IsArray && to.valueType.IsArray)
         {
@@ -819,6 +882,10 @@ public class PropertyRefs_CustomEditor : Editor
             {
                 Copy(from.valueNode.GetArrayElementAtIndex(i), to.valueNode.GetArrayElementAtIndex(i), targetType);
             }
+        }
+        else
+        {
+            Copy(from.valueNode, to.valueNode, to.valueType);
         }
     }
     static void Copy(SerializedProperty fromNode, SerializedProperty toNode, Type targetType)
@@ -901,6 +968,7 @@ public class PropertyRefs_CustomEditor : Editor
         }
         return options;
     }
+    /// <summary> 获取UnityEngine.Object上的组件 </summary>
     static Object[] GetCompoents(Object obj, Type targetType)
     {
         if (obj != null)
@@ -962,6 +1030,57 @@ public class PropertyRefs_CustomEditor : Editor
         }
         return null;
     }
+    /// <summary> 依据选中状态, 对package进行分组 </summary>
+    static Package[][] Grouping(Package[] packages, List<int> selectIndex)
+    {
+        var result = new List<Package[]>();
+        var select = new List<Package>();
+        foreach (var package in packages)
+        {
+            if (selectIndex.Contains(package.element.index))
+            {
+                select.Add(package);
+            }
+            else
+            {
+                if (select.Count > 0)
+                {
+                    result.Add(select.ToArray());
+                    select.Clear();
+                }
+                result.Add(new[] { package });
+            }
+        }
+        if (select.Count > 0)
+            result.Add(select.ToArray());
+        return result.ToArray();
+    }
+    /// <summary> 删除选中的节点 </summary>
+    static void DeleteElements(Element[] elements)
+    {
+        //依据父节点进行分组
+        var grouping = new Dictionary<SerializedProperty, List<Element>>();
+        foreach (var element in elements)
+        {
+            List<Element> list;
+            if (!grouping.TryGetValue(element.arrayParentNode, out list))
+            {
+                list = new List<Element>();
+                grouping.Add(element.arrayParentNode, list);
+            }
+            list.Add(element);
+        }
+        //进行排序然后删除(先删除arrayIndex大的节点)
+        foreach (var group in grouping)
+        {
+            var values = group.Value.ToList();
+            values.Sort((v1, v2) => v1.arrayIndex > v2.arrayIndex ? -1 : v1.arrayIndex < v2.arrayIndex ? 1 : 0);
+            foreach (var element in values)
+            {
+                element.DeleteCommand();
+            }
+        }
+    }
     static string GenCode(PropertyRefs.ResultPair[] pairs, string declareType, bool useFullname)
     {
         var resultCode = "";
@@ -1018,12 +1137,12 @@ public class PropertyRefs_CustomEditor : Editor
         public Type type { get; private set; }
         /// <summary> valueNode节点对应的类型(any)  </summary>
         public Type valueType { get; private set; }
-        private int _arrayIndex;
+        public int arrayIndex { get; private set; }
+        public SerializedProperty arrayParentNode { get; private set; }
         private SerializedProperty _node;
         private SerializedProperty _keyNode;
         private SerializedProperty _indexNode;
         private SerializedProperty _valueNode;
-        private SerializedProperty _arrayParentNode;
         public SerializedProperty keyNode
         {
             get
@@ -1066,8 +1185,8 @@ public class PropertyRefs_CustomEditor : Editor
             this._node = node;
             this.type = pairType;
             this.valueType = pairType.GetField(VALUE_FIELD).FieldType;
-            this._arrayIndex = arrayIndex;
-            this._arrayParentNode = arrayParentNode;
+            this.arrayIndex = arrayIndex;
+            this.arrayParentNode = arrayParentNode;
             this._keyNode = null;
             this._valueNode = null;
             this._indexNode = null;
@@ -1075,7 +1194,7 @@ public class PropertyRefs_CustomEditor : Editor
         /// <summary>从父节点上删除此节点</summary>
         public void DeleteCommand()
         {
-            _arrayParentNode.DeleteArrayElementAtIndex(_arrayIndex);
+            arrayParentNode.DeleteArrayElementAtIndex(arrayIndex);
         }
         /// <summary>清理"值"节点属性</summary>
         public void Clean()
