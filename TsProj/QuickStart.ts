@@ -47,7 +47,7 @@ obj.Trigger();
 obj.ParamsFunc(1024, 'haha', 'hehe', 'heihei');
 
 //in out 参数
-let p1 = $ref();
+let p1 = $ref(1);
 let p2 = $ref(10);
 let ret = obj.InOutArgFunc(100, p1, p2);
 console.log('ret=' + ret + ', out=' + $unref(p1) + ', ref='+ $unref(p2));
