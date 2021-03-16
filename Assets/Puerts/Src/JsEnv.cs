@@ -36,13 +36,22 @@ namespace Puerts
 
         internal ObjectPool objectPool;
 
-        public JsEnv() : this(new DefaultLoader(), -1)
+        public JsEnv() : this(new DefaultLoader(), -1, IntPtr.Zero, IntPtr.Zero)
         {
         }
 
-        public JsEnv(ILoader loader, int debugPort = -1)
+        public JsEnv(ILoader loader, int debugPort = -1) : this(loader, debugPort, IntPtr.Zero, IntPtr.Zero)
         {
-            const int libVersionExpect = 9;
+        }
+
+        public JsEnv(ILoader loader, IntPtr externalRuntime, IntPtr externalContext)
+            : this(loader, -1, externalRuntime, externalContext)
+        {
+        }
+
+        public JsEnv(ILoader loader, int debugPort, IntPtr externalRuntime, IntPtr externalContext)
+        {
+            const int libVersionExpect = 10;
             int libVersion = PuertsDLL.GetLibVersion();
             if (libVersion != libVersionExpect)
             {
@@ -50,7 +59,19 @@ namespace Puerts
             }
             //PuertsDLL.SetLogCallback(LogCallback, LogWarningCallback, LogErrorCallback);
             this.loader = loader;
-            isolate = PuertsDLL.CreateJSEngine();
+            if (externalRuntime != IntPtr.Zero && externalContext != IntPtr.Zero)
+            {
+                isolate = PuertsDLL.CreateJSEngineWithExternalEnv(externalRuntime, externalContext);
+            }
+            else
+            {
+                isolate = PuertsDLL.CreateJSEngine();
+            }
+            
+            if (isolate == IntPtr.Zero)
+            {
+                throw new InvalidProgramException("create jsengine fail");
+            }
             lock (jsEnvs)
             {
                 Idx = -1;
@@ -77,10 +98,12 @@ namespace Puerts
             GeneralGetterManager = new GeneralGetterManager(this);
             GeneralSetterManager = new GeneralSetterManager(this);
 
+            // 注册JS对象通用GC回调
             PuertsDLL.SetGeneralDestructor(isolate, StaticCallbacks.GeneralDestructor);
 
             TypeRegister.InitArrayTypeId(isolate);
 
+            // 把JSEnv的id和Callback的id拼成一个long存起来，并将StaticCallbacks.JsEnvCallbackWrap注册给V8。而后通过StaticCallbacks.JsEnvCallbackWrap从long中取出函数和envid并调用。
             PuertsDLL.SetGlobalFunction(isolate, "__tgjsRegisterTickHandler", StaticCallbacks.JsEnvCallbackWrap, AddCallback(RegisterTickHandler));
             PuertsDLL.SetGlobalFunction(isolate, "__tgjsLoadType", StaticCallbacks.JsEnvCallbackWrap, AddCallback(LoadType));
             PuertsDLL.SetGlobalFunction(isolate, "__tgjsGetNestedTypes", StaticCallbacks.JsEnvCallbackWrap, AddCallback(GetNestedTypes));
@@ -489,6 +512,7 @@ namespace Puerts
 #endif
             CheckLiveness();
             ReleasePendingJSFunctions();
+            ReleasePendingJSObjects();
             if (PuertsDLL.InspectorTick(isolate))
             {
 #if CSHARP_7_3_OR_NEWER
@@ -598,6 +622,7 @@ namespace Puerts
         }
 
         Queue<IntPtr> pendingReleaseFuncs = new Queue<IntPtr>();
+        Queue<IntPtr> pendingReleaseObjs = new Queue<IntPtr>();
 
         internal void addPenddingReleaseFunc(IntPtr nativeJsFuncPtr)
         {
@@ -606,6 +631,15 @@ namespace Puerts
             lock (pendingReleaseFuncs)
             {
                 pendingReleaseFuncs.Enqueue(nativeJsFuncPtr);
+            }
+        }
+        internal void addPenddingReleaseObject(IntPtr nativeJsObjPtr)
+        {
+            if (disposed || nativeJsObjPtr == IntPtr.Zero) return;
+
+            lock (pendingReleaseObjs)
+            {
+                pendingReleaseObjs.Enqueue(nativeJsObjPtr);
             }
         }
 
@@ -619,6 +653,20 @@ namespace Puerts
                     if (!genericDelegateFactory.IsJsFunctionAlive(nativeJsFuncPtr))
                     {
                         PuertsDLL.ReleaseJSFunction(isolate, nativeJsFuncPtr);
+                    }
+                }
+            }
+        }
+        internal void ReleasePendingJSObjects()
+        {
+            lock (pendingReleaseObjs)
+            {
+                while (pendingReleaseObjs.Count > 0)
+                {
+                    IntPtr nativeJsObjPtr = pendingReleaseObjs.Dequeue();
+                    if (!JSObject.IsJsObjectAlive(nativeJsObjPtr))
+                    {
+                        PuertsDLL.ReleaseJSObject(isolate, nativeJsObjPtr);
                     }
                 }
             }
