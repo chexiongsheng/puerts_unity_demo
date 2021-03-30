@@ -21,6 +21,17 @@ namespace PuertsTest
             Debug.Log(Getter.Func<string, double>("b.a"));
             Debug.Log(Getter.Func<string, int>("c"));
         }
+
+        private JSObject obj;
+        public void storeJSObject(JSObject jsobj) 
+        {
+            obj = jsobj;
+        }
+
+        public JSObject getStoredJSObject() 
+        {
+            return obj;
+        }
     }
 
     public class JsObjectAccess : MonoBehaviour
@@ -56,6 +67,10 @@ namespace PuertsTest
                 obj.SetSomeData();
                 obj.GetSomeData();
                 console.log(JSON.stringify(jsObj));
+
+                const a = {a: 1};
+                obj.storeJSObject(a);
+                console.log(obj.getStoredJSObject() == a)
             ");
             jsEnv.Dispose();
         }
