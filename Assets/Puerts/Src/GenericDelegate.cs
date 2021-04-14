@@ -298,6 +298,30 @@ namespace Puerts
         }
     }
 
+    internal class JSObjectFactory
+    {
+        private Dictionary<IntPtr, WeakReference> nativePtrToJSObject = new Dictionary<IntPtr, WeakReference>();
+
+        public JSObject GetOrCreateJSObject(IntPtr ptr, JsEnv jsEnv) 
+        {
+            WeakReference maybeOne;
+            if (nativePtrToJSObject.TryGetValue(ptr, out maybeOne) && maybeOne.IsAlive)
+            {
+               return maybeOne.Target as JSObject;
+            }
+            JSObject jsObject = new JSObject(ptr, jsEnv);
+            nativePtrToJSObject[ptr] = new WeakReference(jsObject);
+            return jsObject;
+        }
+
+        internal bool IsJsObjectAlive(IntPtr ptr)
+        {
+            WeakReference maybeOne;
+            return nativePtrToJSObject.TryGetValue(ptr, out maybeOne) && maybeOne.IsAlive;
+        }
+
+    }
+
     public class JSObject
     {
         private readonly JsEnv jsEnv;
@@ -314,27 +338,11 @@ namespace Puerts
             this.jsEnv = jsEnv;
         }
 
-        private static Dictionary<IntPtr, WeakReference> nativePtrToJSObject = new Dictionary<IntPtr, WeakReference>();
-        public static JSObject GetOrCreateJSObject(IntPtr ptr, JsEnv jsEnv) {
-            WeakReference maybeOne;
-            if (nativePtrToJSObject.TryGetValue(ptr, out maybeOne) && maybeOne.IsAlive)
-            {
-               return maybeOne.Target as JSObject;
-            }
-            JSObject jsObject = new JSObject(ptr, jsEnv);
-            nativePtrToJSObject[ptr] = new WeakReference(jsObject);
-            return jsObject;
-        }
-
-        internal static bool IsJsObjectAlive(IntPtr ptr)
+        ~JSObject() 
         {
-            WeakReference maybeOne;
-            return nativePtrToJSObject.TryGetValue(ptr, out maybeOne) && maybeOne.IsAlive;
-        }
-
-        ~JSObject() {
 #if THREAD_SAFE
-            lock(jsEnv) {
+            lock(jsEnv) 
+            {
 #endif
             jsEnv.addPenddingReleaseObject(nativeJsObjectPtr);
 #if THREAD_SAFE
@@ -354,7 +362,8 @@ namespace Puerts
         private Delegate firstValue = null;
         private Dictionary<Type, Delegate> bindTo = null;
 
-        internal IntPtr getJsFuncPtr() {
+        internal IntPtr getJsFuncPtr() 
+        {
             return nativeJsFuncPtr;
         }
 

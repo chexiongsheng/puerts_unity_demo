@@ -144,6 +144,11 @@ namespace Puerts
                             argJsType = PuertsDLL.GetJsValueType(callInfo.Isolate, callInfo.NativePtrs[i], true);
                         }
                     }
+                    if (argJsType == JsValueType.NativeObject && types[i] == typeof(JSObject)) 
+                    {
+                        // 非要把一个NativeObject赋值给JSObject是允许的。
+                        continue;
+                    }
                     if ((typeMasks[i] & argJsType) != argJsType)
                     {
                         //UnityEngine.Debug.Log("arg " + i + " not match, expected " + typeMasks[i] + ", but got " + argJsType);
@@ -236,6 +241,9 @@ namespace Puerts
 
         ConstructorInfo constructorInfo = null;
 
+        Type type = null;
+
+
         GeneralGetterManager generalGetterManager = null;
 
         GeneralSetter resultSetter = null;
@@ -255,6 +263,17 @@ namespace Puerts
                 methodInfo = methodBase as MethodInfo;
                 resultSetter = generalSetterManager.GetTranslateFunc(methodInfo.ReturnType);
             }
+        }
+
+        // 供struct的无参默认构造函数使用
+        public OverloadReflectionWrap(Type type, GeneralGetterManager generalGetterManager)
+        {
+            ParameterInfo[] info = { };
+            parameters = new Parameters(info, generalGetterManager, null);
+
+            this.generalGetterManager = generalGetterManager;
+
+            this.type = type;
         }
 
         public bool IsMatch(CallInfo callInfo)
@@ -279,6 +298,10 @@ namespace Puerts
 
         public object Construct(CallInfo callInfo)
         {
+            if (constructorInfo == null && type != null) 
+            {
+                return Activator.CreateInstance(type);
+            }
             return constructorInfo.Invoke(parameters.GetArguments(callInfo));
         }
     }
