@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Puerts;
 using System;
+using System.Collections;
 
 namespace PuertsTest
 {
@@ -20,7 +21,7 @@ namespace PuertsTest
 
         void Awake()
         {
-            if (jsEnv == null) jsEnv = new JsEnv();
+            if (jsEnv == null) jsEnv = new JsEnv(new DefaultLoader(), 9229);
 
             var init = jsEnv.Eval<ModuleInit>("const m = require('" + ModuleName + "'); m.init;");
 
@@ -34,6 +35,7 @@ namespace PuertsTest
 
         void Update()
         {
+            jsEnv.Tick();
             if (JsUpdate != null) JsUpdate();
         }
 
@@ -43,6 +45,17 @@ namespace PuertsTest
             JsStart = null;
             JsUpdate = null;
             JsOnDestroy = null;
+        }
+
+        public IEnumerator Coroutine()
+        {
+            yield return new WaitForSeconds(1);
+            UnityEngine.Debug.Log("coroutine done");
+        }
+
+        public void Haha()
+        {
+            UnityEngine.Debug.Log("haha done");
         }
     }
 }

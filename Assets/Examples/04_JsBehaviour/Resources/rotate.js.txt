@@ -6,6 +6,7 @@ class Rotate {
         this.bindTo = bindTo;
         this.bindTo.JsUpdate = () => this.onUpdate();
         this.bindTo.JsOnDestroy = () => this.onDestroy();
+        bindTo.StartCoroutine(bindTo.Coroutine());
     }
     
     onUpdate() {
