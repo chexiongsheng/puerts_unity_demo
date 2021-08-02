@@ -52,10 +52,5 @@ namespace PuertsTest
             yield return new WaitForSeconds(1);
             UnityEngine.Debug.Log("coroutine done");
         }
-
-        public void Haha()
-        {
-            UnityEngine.Debug.Log("haha done");
-        }
     }
 }
