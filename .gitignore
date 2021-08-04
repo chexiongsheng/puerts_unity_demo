@@ -1,1 +1,12 @@
 *.meta
+Library
+Logs
+Packages
+ProjectSettings
+Temp
+UserSettings
+*.sln
+*.csproj
+.vscode
+*.log
+*.lighting

@@ -55,6 +55,11 @@ public class ExamplesCfg
                 typeof(UnityEngine.UI.Toggle.ToggleEvent),
                 typeof(UnityEngine.Events.UnityEvent<bool>),
 
+                typeof(PuertsDeclareTest.Plants.pumkinPeaShooter),
+                typeof(PuertsDeclareTest.Plants.Shootable),
+                typeof(PuertsDeclareTest.Zombies.Walkable),
+                typeof(PuertsDeclareTest.Zombies.Flyable),
+                typeof(PuertsDeclareTest.Zombies.BalloonZombie)
             };
         }
     }

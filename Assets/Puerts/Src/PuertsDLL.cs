@@ -45,6 +45,7 @@ namespace Puerts
     [Flags]
     public enum JsValueType
     {
+        Invalid = 0,
         NullOrUndefined = 1,
         BigInt = 2,
         Number = 4,
@@ -57,7 +58,7 @@ namespace Puerts
         Date = 512,
         ArrayBuffer = 1024,
         Unknow = 2048,
-        Any = NullOrUndefined | BigInt | Number | String | Boolean | NativeObject | Array | Function | Date | ArrayBuffer,
+        Any = NullOrUndefined | BigInt | Number | String | Boolean | NativeObject | JsObject | Array | Function | Date | ArrayBuffer,
     };
 
     public class PuertsDLL
@@ -91,7 +92,7 @@ namespace Puerts
             IntPtr fn = v8FunctionCallback == null ? IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(v8FunctionCallback);
             SetGlobalFunction(isolate, name, fn, data);
         }
-
+        
         private static string GetStringFromNative(IntPtr str, int strlen)
         {
             if (str != IntPtr.Zero)
