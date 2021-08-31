@@ -9,9 +9,7 @@ using UnityEngine;
 
 namespace Puerts.Editor
 {
-    /// <summary>
-    /// 遍历Binding类型的字段丶属性丶方法参数, 找到所有含值类型的Delegate类型, 并生成静态代码
-    /// </summary>
+
     public static class GeneratorUsing
     {
         const BindingFlags Flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
@@ -101,20 +99,39 @@ namespace Puerts.Editor
                 refs.Add(type);
             }
         }
-        static bool HasValueParameter(Type type)
+        static bool IsSafeType(Type type)
+        {
+            var fullname = type.FullName;
+            if (fullname != null && (fullname.Contains("*") || fullname.Contains("&")))
+            {
+                return false;
+            }
+            return true;
+        }
+        static bool IsGenericType(Type type)
+        {
+            if (type.IsGenericParameter)
+                return true;
+            if (type.IsGenericType)
+            {
+                return type.GetGenericArguments().FirstOrDefault(argType => IsGenericType(argType)) != null;
+            }
+            return false;
+        }
+        static bool ContainsValueParameter(Type type)
         {
             var invoke = type.GetMethod("Invoke", Flags);
             if (invoke != null)
             {
-                var valueType = invoke.ReturnType != typeof(void) && invoke.ReturnType.IsValueType;
+                var containsValueType = invoke.ReturnType != typeof(void) && invoke.ReturnType.IsValueType;
                 foreach (var param in invoke.GetParameters())
                 {
-                    if (param.ParameterType.IsGenericParameter)
+                    if (IsGenericType(param.ParameterType) || !IsSafeType(param.ParameterType))
                         return false;
                     if (param.ParameterType.IsValueType)
-                        valueType = true;
+                        containsValueType = true;
                 }
-                return valueType && !invoke.ReturnType.IsGenericParameter;
+                return containsValueType && !IsGenericType(invoke.ReturnType) && IsSafeType(invoke.ReturnType);
             }
             return false;
         }
@@ -126,7 +143,7 @@ namespace Puerts.Editor
                 .ToList();
         }
 
-        [MenuItem("Puerts/Generate Using", false, 1)]
+        [MenuItem("Puerts/Generate UsingCode", false, 1)]
         public static void GenerateUsingCode()
         {
             var start = DateTime.Now;
@@ -174,7 +191,7 @@ namespace Puerts.Editor
             var genInfos = new List<GenInfo>();
             foreach (var type in refTypes.Distinct())
             {
-                if (HasValueParameter(type))
+                if (ContainsValueParameter(type))
                 {
                     var info = ToGenInfo(type);
                     if (info.HasReturn && !allowReturn.Contains(info.Parameters.Length) || !info.HasReturn && !allowVoid.Contains(info.Parameters.Length))
