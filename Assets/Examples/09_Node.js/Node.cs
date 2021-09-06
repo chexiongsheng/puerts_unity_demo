@@ -18,13 +18,15 @@ public class Node : MonoBehaviour
             );
             
         } else {
-            UnityEngine.Debug.Log("NodeBackend is not supported");
+            UnityEngine.Debug.LogError("NodeBackend is not supported");
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        env.Tick();
+        if (env != null) {
+            env.Tick();
+        }
     }
 }
