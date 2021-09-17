@@ -13,7 +13,7 @@ namespace PuertsTest
         void Start()
         {
             jsEnv = new JsEnv();
-            //jsEnv = new JsEnv(new DefaultLoader("E:/puerts_unity_demo/TsProj/output/"), 8080);
+            //jsEnv = new JsEnv(new DefaultLoader(UnityEngine.Application.dataPath + "../TsProj/output/"), 8080);
             //jsEnv.WaitDebugger();
             jsEnv.Eval("require('QuickStart')");
         }

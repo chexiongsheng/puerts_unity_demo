@@ -11,10 +11,12 @@ public class Node : MonoBehaviour
     {
         if (PuertsDLL.IsJSEngineBackendSupported(JsEnvMode.Node)) 
         {
-            env = new JsEnv(JsEnvMode.Node);
+            // env = new JsEnv(JsEnvMode.Node);
+            env = new JsEnv(new DefaultLoader(), 9222, JsEnvMode.Node);
             env.Eval(
-                "console.log(require('os').cpus().length); " + 
-                "require('fs').readFile('/Users/zombieyang/Documents/build.sh', (err, res)=> { console.log(res.toString('utf-8')) })"
+                @"console.log(require('os').cpus().length); 
+                require('fs').readFile('" + Application.dataPath + @"/Examples/09_Node.js/Node.cs', (err, res)=> { console.log(res.toString('utf-8')) });
+                "
             );
             
         } else {
@@ -27,6 +29,12 @@ public class Node : MonoBehaviour
     {
         if (env != null) {
             env.Tick();
-        }
+        } 
+    }
+
+    void OnDestroy()
+    {
+        env.Dispose();
+        env = null;
     }
 }

@@ -11,3 +11,4 @@ UserSettings
 *.log
 *.lighting
 .DS_Store
+node_modules
