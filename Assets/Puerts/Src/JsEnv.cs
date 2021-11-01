@@ -16,12 +16,6 @@ namespace Puerts
     public delegate void FunctionCallback(IntPtr isolate, IntPtr info, IntPtr self, int argumentsLen);
     public delegate object ConstructorCallback(IntPtr isolate, IntPtr info, int argumentsLen);
 
-    public enum JsEnvMode {
-        Default = 0,
-        Node = 1,
-        External = 2
-    }
-
     public class JsEnv : IDisposable
     {
         internal readonly int Idx;
@@ -36,15 +30,13 @@ namespace Puerts
 
         internal readonly JSObjectFactory jsObjectFactory;
 
-        private readonly ILoader loader;
-
-        public static List<JsEnv> jsEnvs = new List<JsEnv>();
-
         internal IntPtr isolate;
 
         internal ObjectPool objectPool;
 
-        JsEnvMode mode;
+        private readonly ILoader loader;
+
+        public static List<JsEnv> jsEnvs = new List<JsEnv>();
 
 #if UNITY_EDITOR
         public delegate void JsEnvCreateCallback(JsEnv env, ILoader loader, int debugPort);
@@ -55,29 +47,24 @@ namespace Puerts
         public int debugPort;
 #endif
 
-        public JsEnv(JsEnvMode mode = JsEnvMode.Default) 
-            : this(new DefaultLoader(), -1, mode, IntPtr.Zero, IntPtr.Zero)
+        public JsEnv() 
+            : this(new DefaultLoader(), -1, IntPtr.Zero, IntPtr.Zero)
         {
         }
 
-        public JsEnv(ILoader loader, int debugPort = -1, JsEnvMode mode = JsEnvMode.Default)
-             : this(loader, debugPort, mode, IntPtr.Zero, IntPtr.Zero)
+        public JsEnv(ILoader loader, int debugPort = -1)
+             : this(loader, debugPort, IntPtr.Zero, IntPtr.Zero)
         {
         }
 
         public JsEnv(ILoader loader, IntPtr externalRuntime, IntPtr externalContext)
-            : this(loader, -1, JsEnvMode.External, externalRuntime, externalContext)
+            : this(loader, -1, externalRuntime, externalContext)
         {
         }
 
         public JsEnv(ILoader loader, int debugPort, IntPtr externalRuntime, IntPtr externalContext)
-            : this(loader, debugPort, JsEnvMode.External, externalRuntime, externalContext)
         {
-        }
-
-        public JsEnv(ILoader loader, int debugPort, JsEnvMode mode, IntPtr externalRuntime, IntPtr externalContext)
-        {
-            const int libVersionExpect = 13;
+            const int libVersionExpect = 14;
             int libVersion = PuertsDLL.GetLibVersion();
             if (libVersion != libVersionExpect)
             {
@@ -85,14 +72,10 @@ namespace Puerts
             }
             // PuertsDLL.SetLogCallback(LogCallback, LogWarningCallback, LogErrorCallback);
             this.loader = loader;
-            this.mode = mode;
-            if (mode == JsEnvMode.External)
+            
+            if (externalRuntime != IntPtr.Zero)
             {
                 isolate = PuertsDLL.CreateJSEngineWithExternalEnv(externalRuntime, externalContext);
-            }
-            else if (mode == JsEnvMode.Node)
-            {
-                isolate = PuertsDLL.CreateJSEngineWithNode();
             }
             else
             {
@@ -165,21 +148,34 @@ namespace Puerts
                 PuertsDLL.CreateInspector(isolate, debugPort);
             }
 
+            bool isNode = PuertsDLL.GetLibBackend() == 1;
             ExecuteFile("puerts/init.js");
             ExecuteFile("puerts/log.js");
             ExecuteFile("puerts/cjsload.js");
             ExecuteFile("puerts/modular.js");
             ExecuteFile("puerts/csharp.js");
-            if (mode != JsEnvMode.Node) 
+#if !PUERTS_GENERAL
+            if (!isNode) 
             {
+#endif
                 ExecuteFile("puerts/timer.js");
+#if !PUERTS_GENERAL
             }
+#endif
             ExecuteFile("puerts/events.js");
             ExecuteFile("puerts/promises.js");
-            if (mode != JsEnvMode.Node) 
+#if !PUERTS_GENERAL
+            if (!isNode) 
             {
+#endif
                 ExecuteFile("puerts/polyfill.js");
+#if !PUERTS_GENERAL
             }
+            else
+            {
+                ExecuteFile("puerts/nodepatch.js");
+            }
+#endif
 
 #if UNITY_EDITOR
             if (OnJsEnvCreate != null) 

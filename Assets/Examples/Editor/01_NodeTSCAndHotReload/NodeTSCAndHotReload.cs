@@ -79,7 +79,7 @@ and run `npm i` in NodeTSCAndHotReload/js~ directory
     static void Compile() 
     {
         EditorUtility.DisplayProgressBar("complile ts", "create jsEnv", 0);
-        JsEnv env = new JsEnv(JsEnvMode.Node);
+        JsEnv env = new JsEnv();
         bool result = env.Eval<bool>(@"
             try {
                 const moduleRequire = require('module').createRequire('" + Application.dataPath + @"/Examples/Editor/01_NodeTSCAndHotReload/js~/')
@@ -115,13 +115,13 @@ and run `npm i` in NodeTSCAndHotReload/js~ directory
     [MenuItem("NodeTSC/Compile TsProj")] 
     static bool CompileValidate() 
     {
-        return PuertsDLL.IsJSEngineBackendSupported(JsEnvMode.Node);
+        return PuertsDLL.GetLibBackend() == 1;
     }
 
     [MenuItem("NodeTSC/Watch tsProj And HotReload/on")]
     static void Watch() 
     {
-        env = new JsEnv(JsEnvMode.Node);
+        env = new JsEnv();
         env.UsingAction<int>();
         bool result = env.Eval<bool>(@"
             global.CS = require('csharp');
@@ -176,7 +176,7 @@ and run `npm i` in NodeTSCAndHotReload/js~ directory
     [MenuItem("NodeTSC/Watch tsProj And HotReload/on", true)]
     static bool WatchValidate() 
     {
-        return PuertsDLL.IsJSEngineBackendSupported(JsEnvMode.Node) && env == null;
+        return PuertsDLL.GetLibBackend() == 1 && env == null;
     }
 
     [MenuItem("NodeTSC/Watch tsProj And HotReload/off")]
@@ -191,6 +191,6 @@ and run `npm i` in NodeTSCAndHotReload/js~ directory
     [MenuItem("NodeTSC/Watch tsProj And HotReload/off", true)]
     static bool UnWatchValidate() 
     {
-        return PuertsDLL.IsJSEngineBackendSupported(JsEnvMode.Node) && env != null;
+        return PuertsDLL.GetLibBackend() == 1 && env != null;
     }
 }
