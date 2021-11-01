@@ -10,3 +10,4 @@ UserSettings
 .vscode
 *.log
 *.lighting
+.DS_Store
