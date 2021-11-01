@@ -11,3 +11,7 @@
 * 实例05是typescript工程生成的代码，用vscode打开根目录的TsProj工程，修改ts代码，然后在vscode里打开一个TERMINAL，敲入“npm run build”，这个命令编译并拷贝到相应的目录。
     - 需要安装vscode，node，npm，typescript
     - 用window命令行工具到TsProj下执行“npm run build”也可以
+
+## 关于版本
+本demo使用的是最新版本puerts，而非最稳定版本puerts。如果您是处在前期体验阶段，可以切换至1.0.x分支体验。
+> this demo is using the latest version of puerts instead of the stable version. if you found some fatal problem, we suggest you to use the branch 1.0.x.
