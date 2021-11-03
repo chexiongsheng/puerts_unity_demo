@@ -389,7 +389,7 @@ namespace Puerts.Editor
                         .Select(i => i.Cast<MethodBase>().ToList());
 
                     var constructors = type.GetConstructors(Utils.Flags)
-                        .Where(m => !Utils.isFiltered(m))
+                        .Where(m => !Utils.isFiltered(m) && Utils.getBindingMode(m) != Utils.BindingMode.LazyBinding)
                         .Cast<MethodBase>()
                         .ToList();
 
@@ -738,11 +738,15 @@ namespace Puerts.Editor
                         isStatic = false;
                     }
 
+                    var FirstOverload = overloads != null && overloads.Count > 0 ? overloads[0] : (
+                        extensionOverloads != null && extensionOverloads.Count > 0 ? extensionOverloads[0] : null
+                    );
+
                     var result = new MethodGenInfo()
                     {
                         Name = name,
                         IsStatic = isStatic,
-                        IsLazyMember = Utils.getBindingMode(overloads[0]) == Utils.BindingMode.LazyBinding,
+                        IsLazyMember = FirstOverload == null ? false : Utils.getBindingMode(FirstOverload) == Utils.BindingMode.LazyBinding,
                         HasOverloads = ret.Count > 1,
                         OverloadCount = ret.Count,
                         OverloadGroups = ret
