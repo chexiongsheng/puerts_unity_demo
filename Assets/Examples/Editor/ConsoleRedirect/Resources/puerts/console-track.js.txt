@@ -31,25 +31,20 @@ function getTrack() {
 };
 const log = console.log, info = console.info, warn = console.warn, error = console.error;
 console.log = function (...args) {
-    args.push("\n" + getTrack());
-    log(...args);
+    log(...args, "\n" + getTrack());
 };
 console.info = function (...args) {
-    args.push("\n" + getTrack());
-    info(...args);
+    info(...args, "\n" + getTrack());
 };
 console.warn = function (...args) {
-    args.push("\n" + getTrack());
-    warn(...args);
+    warn(...args, "\n" + getTrack());
 };
 console.error = function (...args) {
-    args.push("\n" + getTrack());
-    error(...args);
+    error(...args, "\n" + getTrack());
 };
 
 // 捕获普通异常
 puerts.on('uncaughtException', function (err) {
-    //console.error(pinus.app.getServerId() + ' uncaughtException Caught exception: ' + err);
     let output = "";
     output += "==== EXCEPTION START ===========================================================";
     output += "\nType: uncaughtException Caught exception";
