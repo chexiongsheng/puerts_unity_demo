@@ -2,13 +2,18 @@ import * as fs from "fs";
 import * as ts from "typescript";
 import * as path from "path";
 import * as mkdirp from "mkdirp";
+import * as glob from "glob";
 import { getCompilerOptions, getTsProjectPath } from './lib/util'
 import { Debugger } from './lib/debugger';
 
 const watcher = new class Watcher {
   constructor() {
     setTimeout(()=> {
-      watch([`${getTsProjectPath()}/QuickStart.ts`], getCompilerOptions());
+      glob.glob(`${getTsProjectPath()}/**/*.ts`, function(er, files) {
+        watch(files, getCompilerOptions());
+        console.log('watch fileCount:' + files.length);
+        console.log('watch files:' + JSON.stringify(files));
+      });
     }, 16);
   }
 

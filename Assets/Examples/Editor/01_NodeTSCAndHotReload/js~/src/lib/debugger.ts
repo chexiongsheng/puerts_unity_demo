@@ -38,18 +38,24 @@ export class Debugger extends EventEmitter {
     }
 
     public async open(host: string, port?: number, local?: boolean) {
-        console.log('open1');
+        if (this._trace) {
+            console.log('open1');
+        }
         if (this._state === State.Connecting || this._state === State.Open)
             throw new Error("socket is opening");
 
         this.close();
         if (typeof local === "undefined")
             local = true;
-        console.log('open2');
+        if (this._trace) {
+            console.log('open2');
+        }
         try {
             this._state = State.Connecting;
             this._client = await (CDPFunc as any)({ host, port, local });
-        console.log('open3');
+        if (this._trace) {
+            console.log('open3');
+        }
         const { Runtime, Debugger } = this._client;
             this._debugger = Debugger;
 
@@ -57,9 +63,13 @@ export class Debugger extends EventEmitter {
             Debugger.on("scriptFailedToParse", this._scriptFailedToParseHandler);
 
             await Runtime.enable();
-        console.log('open4');
+        if (this._trace) {
+            console.log('open4');
+        }
         await Debugger.enable({ "maxScriptsCacheSize": MAX_SCRIPTS_CACHE_SIZE });
-        console.log('open5');
+        if (this._trace) {
+            console.log('open5');
+        }
 
             this._client.on("disconnect", this._disconnectHandler);
 
@@ -102,36 +112,66 @@ export class Debugger extends EventEmitter {
     }
 
     private async _pushUpdate(filepath: string) {
-        console.log('update debugger:', filepath);
+        if (this._trace) {
+            console.log('update debugger filePath:' + filepath);
+        }
         let scriptId = this._scriptParsed[filepath] || this._scriptParsed[(os.platform() == 'win32' ? "file:/" : "file:") + filepath];
+        if (this._trace) {
+            console.log('ScriptId:' + scriptId);
+            console.log(JSON.stringify(this._scriptParsed));
+        }
         if (scriptId && fs.existsSync(filepath) && fs.lstatSync(filepath).isFile()) {
+            if (this._trace) {
+                console.log("===================Do Update Script!!!");
+            }
             let scriptSource = fs.readFileSync(filepath).toString("utf-8");
             scriptSource = ("(function (exports, require, module, __filename, __dirname) { " + scriptSource + "\n});");
 
             let lock = await this._lock(scriptId);
-            if (!this._debugger)
-                return;
-
-            if (this._trace) console.log(`check: \t${scriptId}:${filepath}`);
-            let exist = await this._debugger.getScriptSource({ scriptId });
-            if (!exist || exist.scriptSource === scriptSource || !this._debugger)
-                return;
-
-            if (this._trace) console.log(`send: \t${scriptId}:${filepath}`);
-            let response = await this._debugger.setScriptSource({ scriptId, scriptSource });
-            if (this._trace) {
-                console.log(`completed: \t${scriptId}:${filepath}` /** + `| \t${JSON.stringify(response)}` */);
-            } 
-
+            try {
+                await this.sendUpdateMessage(scriptId, filepath, scriptSource);
+            } catch (error) {
+                console.error(error);
+            }
             lock.release();
         }
     }
 
+    private async sendUpdateMessage(scriptId: any, filepath: string, scriptSource: string)
+    {
+        if (!this._debugger)
+            return;
+
+        if (this._scriptParsed[(os.platform() == 'win32' ? "file:/" : "file:") + filepath])
+        {
+            filepath = (os.platform() == 'win32' ? "file:/" : "file:") + filepath;
+        }
+        if (this._trace) {
+            console.log("===================Has The Lock!!!");
+        }
+        if (this._trace) console.log(`check: \t${scriptId}:${filepath}`);
+        let exist = await this._debugger.getScriptSource({ scriptId });
+        if (!exist || exist.scriptSource === scriptSource || !this._debugger)
+            return;
+
+        if (this._trace) console.log(`send: \t${scriptId}:${filepath}:${scriptSource}`);
+        let response = await this._debugger.setScriptSource({ scriptId, scriptSource });
+        if (this._trace) {
+            console.log(`completed: \t${scriptId}:${filepath}` + `| \t${JSON.stringify(response)}`);
+        } 
+    }
+
     private _scriptParsedHanlder = (params: ScriptParsedEvent) => {
+        if (this._trace) {
+            console.log("============ScriptParsed!!!");
+        }
         if (!params || !params.url || !params.scriptId)
             return;
 
         let scriptId = params.scriptId;
+        if (this._trace) {
+            console.log("Parsed ScriptId: " + scriptId);
+        }
         let filepath = path.normalize(params.url).replace(/\\/g, "/");;
         if (this._ignorePathCase) filepath = filepath.toLowerCase();
         if (this._trace) {
