@@ -1,5 +1,5 @@
 import * as ts from "typescript";
-import * as glob form "glob";
+import * as glob from "glob";
 import { getCompilerOptions, getTsProjectPath } from './lib/util'
 
 declare const puertsRequire: any;
@@ -26,6 +26,5 @@ function compile(fileNames: string[], options: ts.CompilerOptions): void {
     CS.UnityEditor.EditorUtility.ClearProgressBar();
 }
 
-glob.glob(`${getTsProjectPath()}/**/*.ts`, function(er, files) {
-    compile(files, getCompilerOptions());
-});
+const files = glob.sync(`${getTsProjectPath()}/**/*.ts`);
+compile(files, getCompilerOptions());

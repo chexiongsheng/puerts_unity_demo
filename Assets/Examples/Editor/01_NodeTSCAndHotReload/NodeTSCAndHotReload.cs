@@ -78,7 +78,7 @@ and run `npm i` in NodeTSCAndHotReload/js~ directory
     [MenuItem("NodeTSC/Compile TsProj")] 
     static void Compile() 
     {
-        EditorUtility.DisplayProgressBar("complile ts", "create jsEnv", 0);
+        EditorUtility.DisplayProgressBar("compile ts", "create jsEnv", 0);
         JsEnv env = new JsEnv();
         bool result = env.Eval<bool>(@"
             try {
@@ -112,7 +112,7 @@ and run `npm i` in NodeTSCAndHotReload/js~ directory
         env.Dispose();
         env = null;
     }
-    [MenuItem("NodeTSC/Compile TsProj")] 
+    [MenuItem("NodeTSC/Compile TsProj", true)] 
     static bool CompileValidate() 
     {
         return PuertsDLL.GetLibBackend() == 1;
