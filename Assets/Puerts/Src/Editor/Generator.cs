@@ -813,9 +813,9 @@ namespace Puerts.Editor
                     {
                         return this.Name == info.Name &&
                             this.TypeName == info.TypeName &&
-                            this.IsByRef != info.IsByRef &&
-                            this.IsParams != info.IsParams &&
-                            this.IsOptional != info.IsOptional;
+                            this.IsByRef == info.IsByRef &&
+                            this.IsParams == info.IsParams &&
+                            this.IsOptional == info.IsOptional;
                     }
                     return base.Equals(obj);
                 }
@@ -1501,7 +1501,7 @@ namespace Puerts.Editor
 
                 using (var jsEnv = new JsEnv())
                 {
-                    var templateGetter = jsEnv.Eval<Func<string, Func<object, string>>>("require('puerts/gencode/main.js')");
+                    var templateGetter = jsEnv.Eval<Func<string, Func<object, string>>>("require('puerts/gencode/main.cjs')");
                     var wrapRender = templateGetter("type.tpl");
 
                     if (!tsOnly)
