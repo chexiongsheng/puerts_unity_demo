@@ -76,6 +76,8 @@ public class PuertsFilter : Editor
                 new List<string>(){"System.IO.File", "GetAccessControl", "System.String"},
                 new List<string>(){"System.IO.File", "GetAccessControl", "System.String", "System.Security.AccessControl.AccessControlSections"},
                 new List<string>(){"System.IO.File", "Create", "System.String", "System.Int32", "System.IO.FileOptions", "System.Security.AccessControl.FileSecurity"},
+                new List<string>(){"System.Type", "MakeGenericSignatureType", "System.Type", "System.Type[]"},
+                new List<string>(){"System.Type", "IsCollectible"},
             };
         }
     }
