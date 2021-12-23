@@ -1,7 +1,7 @@
 //部署:npm run build
 
-import {UnityEngine, PuertsTest, System} from 'csharp'
-import {$ref, $unref, $generic, $promise, $typeof} from 'puerts'
+import { UnityEngine, PuertsTest, System } from 'csharp'
+import { $ref, $unref, $generic, $promise, $typeof } from 'puerts'
 import './ExtensionDecl'
 
 //静态函数
@@ -50,7 +50,7 @@ obj.ParamsFunc(1024, 'haha', 'hehe', 'heihei');
 let p1 = $ref(1);
 let p2 = $ref(10);
 let ret = obj.InOutArgFunc(100, p1, p2);
-console.log('ret=' + ret + ', out=' + $unref(p1) + ', ref='+ $unref(p2));
+console.log('ret=' + ret + ', out=' + $unref(p1) + ', ref=' + $unref(p2));
 
 //泛型
 //先通过$generic实例化泛型参数
@@ -68,7 +68,7 @@ dic.Add("aaa", lst)
 obj.PrintList(dic.get_Item("aaa"));
 
 //arraybuffer
-let ab  = obj.GetAb(5);
+let ab = obj.GetAb(5);
 let u8a0 = new Uint8Array(ab);
 console.log(obj.SumOfAb(u8a0));
 let u8a1 = new Uint8Array(2);
@@ -79,7 +79,7 @@ console.log(obj.SumOfAb(u8a1));
 //引擎api
 let go = new UnityEngine.GameObject("testObject");
 go.AddComponent($typeof(UnityEngine.ParticleSystem));
-go.transform.position = new UnityEngine.Vector3(7, 8,  9);
+go.transform.position = new UnityEngine.Vector3(7, 8, 9);
 
 //extension methods
 obj.PlainExtension();
