@@ -12,3 +12,4 @@ UserSettings
 *.lighting
 .DS_Store
 node_modules
+obj
