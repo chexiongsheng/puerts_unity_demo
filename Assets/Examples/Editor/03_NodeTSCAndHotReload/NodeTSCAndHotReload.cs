@@ -82,7 +82,7 @@ and run `npm i` in NodeTSCAndHotReload/js~ directory
         JsEnv env = new JsEnv();
         bool result = env.Eval<bool>(@"
             try {
-                const moduleRequire = require('module').createRequire('" + Application.dataPath + @"/Examples/Editor/01_NodeTSCAndHotReload/js~/')
+                const moduleRequire = require('module').createRequire('" + Application.dataPath + @"/Examples/Editor/03_NodeTSCAndHotReload/js~/')
                 moduleRequire('ts-node').register({
                     compilerOptions: {
                         'strict': false,
@@ -127,7 +127,7 @@ and run `npm i` in NodeTSCAndHotReload/js~ directory
             global.CS = require('csharp');
             process.on('uncaughtException', function(e) { console.error('uncaughtException', e) });
             try {
-                const moduleRequire = require('module').createRequire('" + Application.dataPath + @"/Examples/Editor/01_NodeTSCAndHotReload/js~/')
+                const moduleRequire = require('module').createRequire('" + Application.dataPath + @"/Examples/Editor/03_NodeTSCAndHotReload/js~/')
                 moduleRequire('ts-node').register({
                     compilerOptions: {
                         'strict': false,
