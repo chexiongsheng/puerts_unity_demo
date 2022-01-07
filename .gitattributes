@@ -1,0 +1,5 @@
+Assets/Plugins/Android filter=lfs diff=lfs merge=lfs -text
+Assets/Plugins/iOS filter=lfs diff=lfs merge=lfs -text
+Assets/Plugins/macOS filter=lfs diff=lfs merge=lfs -text
+Assets/Plugins/x86 filter=lfs diff=lfs merge=lfs -text
+Assets/Plugins/x86_64 filter=lfs diff=lfs merge=lfs -text
