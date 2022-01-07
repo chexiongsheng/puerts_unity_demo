@@ -272,7 +272,7 @@ namespace Puerts.Editor
             }
 
             // #lizard forgives
-            public static string GetTsTypeName(Type type, bool isParams = false)
+            public static string GetTsTypeName(Type type, bool isParams = false, ParameterInfo paramInfo = null)
             {
                 if (type == typeof(int))
                     return "number";
@@ -310,6 +310,8 @@ namespace Puerts.Editor
                     return "any";
                 else if (type == typeof(Delegate) || type == typeof(Puerts.GenericDelegate))
                     return "Function";
+                else if (paramInfo != null && paramInfo.IsIn)
+                    return GetTsTypeName(type.GetElementType());
                 else if (type.IsByRef)
                     return "$Ref<" + GetTsTypeName(type.GetElementType()) + ">";
                 else if (type.IsArray)
@@ -462,10 +464,11 @@ namespace Puerts.Editor
                     JsValueType ExpectJsType = isParams ?
                         GeneralGetterManager.GetJsTypeMask(parameterInfo.ParameterType.GetElementType()) : 
                         GeneralGetterManager.GetJsTypeMask(parameterInfo.ParameterType);
+                    bool IsByRef = parameterInfo.ParameterType.IsByRef;
                     var result = new ParameterGenInfo()
                     {
-                        IsOut = !parameterInfo.IsIn && parameterInfo.IsOut && parameterInfo.ParameterType.IsByRef,
-                        IsByRef = parameterInfo.ParameterType.IsByRef,
+                        IsOut = parameterInfo.IsOut && IsByRef,
+                        IsByRef = IsByRef && !parameterInfo.IsIn,
                         TypeName = Utils.RemoveRefAndToConstraintType(parameterInfo.ParameterType).GetFriendlyName(),
                         ExpectJsType = Utils.ToCode(ExpectJsType),
                         IsParams = isParams,
@@ -752,8 +755,7 @@ namespace Puerts.Editor
                         OverloadGroups = ret
                             .GroupBy(m => m.ParameterInfos.Length + (m.HasParams ? 0 : 9999))
                             .Select(lst => {
-                                // 因为加上了查找父类的同名函数，这里要去除参数一样的overload
-                                // there are some overload from baseclass, so we need to distinct the overloads with same parameterinfo
+                                // some overloads are from the base class, some overloads may have the same parameters, so we need to distinct the overloads with same parameterinfo
                                 Dictionary<string, OverloadGenInfo> distincter = new Dictionary<string, OverloadGenInfo>();
 
                                 foreach (var overload in lst) 
@@ -766,6 +768,11 @@ namespace Puerts.Editor
                                     }
                                     else 
                                     {
+                                        // if the value in distincter is null. Means that this overload is unavailable(will cause ambigious)
+                                        if (existedOverload == null) 
+                                        {
+                                            continue;
+                                        }
                                         if (!overload.EllipsisedParameters)
                                         {
                                             if (existedOverload == null || existedOverload.EllipsisedParameters) 
@@ -809,8 +816,9 @@ namespace Puerts.Editor
                 public bool IsOptional;
                 public override bool Equals(object obj)
                 {
-                    if (obj != null && obj is TsParameterGenInfo info)
+                    if (obj != null && obj is TsParameterGenInfo)
                     {
+                        TsParameterGenInfo info = (TsParameterGenInfo)obj;
                         return this.Name == info.Name &&
                             this.TypeName == info.TypeName &&
                             this.IsByRef == info.IsByRef &&
@@ -834,8 +842,8 @@ namespace Puerts.Editor
                     return new TsParameterGenInfo()
                     {
                         Name = parameterInfo.Name,
-                        IsByRef = parameterInfo.ParameterType.IsByRef,
-                        TypeName = Utils.GetTsTypeName(Utils.ToConstraintType(parameterInfo.ParameterType, isGenericTypeDefinition), isParams),
+                        IsByRef = parameterInfo.ParameterType.IsByRef && !parameterInfo.IsIn,
+                        TypeName = Utils.GetTsTypeName(Utils.ToConstraintType(parameterInfo.ParameterType, isGenericTypeDefinition), isParams, parameterInfo),
                         IsParams = isParams,
                         IsOptional = parameterInfo.IsOptional
                     };
@@ -860,8 +868,9 @@ namespace Puerts.Editor
                 public bool IsStatic;
                 public override bool Equals(object obj)
                 {
-                    if (obj != null && obj is TsMethodGenInfo info)
+                    if (obj != null && obj is TsMethodGenInfo)
                     {
+                        TsMethodGenInfo info = (TsMethodGenInfo)obj;
                         if (this.ParameterInfos.Length != info.ParameterInfos.Length ||
                             this.Name != info.Name ||
                             this.TypeName != info.TypeName ||
@@ -1078,7 +1087,7 @@ namespace Puerts.Editor
                         else
                         {
                             var m = type.GetMethod("Invoke");
-                            var tsFuncDef = "(" + string.Join(", ", m.GetParameters().Select(p => p.Name + ": " + Utils.GetTsTypeName(p.ParameterType)).ToArray()) + ") => " + Utils.GetTsTypeName(m.ReturnType);
+                            var tsFuncDef = "(" + string.Join(", ", m.GetParameters().Select(p => p.Name + ": " + Utils.GetTsTypeName(p.ParameterType, false, p)).ToArray()) + ") => " + Utils.GetTsTypeName(m.ReturnType);
                             result.DelegateDef = tsFuncDef;
                         }
                     }
@@ -1267,7 +1276,8 @@ namespace Puerts.Editor
 
                     foreach (var info in methodInfos)
                     {
-                        if (!result.TryGetValue(info.Name, out var list))
+                        List<TsMethodGenInfo> list;
+                        if (!result.TryGetValue(info.Name, out list))
                         {
                             list = new List<TsMethodGenInfo>();
                             result.Add(info.Name, list);

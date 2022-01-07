@@ -64,7 +64,7 @@ namespace Puerts
 
         public JsEnv(ILoader loader, int debugPort, IntPtr externalRuntime, IntPtr externalContext)
         {
-            const int libVersionExpect = 14;
+            const int libVersionExpect = 15;
             int libVersion = PuertsDLL.GetLibVersion();
             if (libVersion != libVersionExpect)
             {
@@ -192,24 +192,58 @@ namespace Puerts
             return loader.ReadFile(identifer, out debugPath);
         }
 
+        /**
+        * execute the module and get the result
+        * when exportee is null, get the module namespace
+        * when exportee is not null, get the specified member of the module namespace
+        */
+        public T ExecuteModule<T>(string filename, string exportee = "")
+        {
+            if (exportee == "" && typeof(T) != typeof(JSObject)) {
+                throw new Exception("T must be Puerts.JSObject when getting the module namespace");
+            }
+            if (loader.FileExists(filename))
+            {
+#if THREAD_SAFE
+            lock(this) {
+#endif
+                IntPtr resultInfo = PuertsDLL.ExecuteModule(isolate, filename, exportee);
+                if (resultInfo == IntPtr.Zero)
+                {
+                    string exceptionInfo = PuertsDLL.GetLastExceptionInfo(isolate);
+                    throw new Exception(exceptionInfo);
+                }
+                T result = StaticTranslate<T>.Get(Idx, isolate, NativeValueApi.GetValueFromResult, resultInfo, false);
+                PuertsDLL.ResetResult(resultInfo);
+
+                return result;
+#if THREAD_SAFE
+            }
+#endif
+            }
+            else
+            {
+                throw new InvalidProgramException("can not find " + filename);
+            }
+        }
+
         public void ExecuteModule(string filename)
         {
             if (loader.FileExists(filename))
             {
-                IntPtr resultInfo = PuertsDLL.ExecuteModule(isolate, filename);
+#if THREAD_SAFE
+            lock(this) {
+#endif
+                IntPtr resultInfo = PuertsDLL.ExecuteModule(isolate, filename, null);
                 if (resultInfo == IntPtr.Zero)
                 {
                     string exceptionInfo = PuertsDLL.GetLastExceptionInfo(isolate);
                     throw new Exception(exceptionInfo);
                 }
                 PuertsDLL.ResetResult(resultInfo);
-                // string debugPath;
-                // var context = loader.ReadFile(filename, out debugPath);
-                // if (context == null)
-                // {
-                //     throw new InvalidProgramException("can not find " + filename);
-                // }
-                // Eval(context, debugPath);
+#if THREAD_SAFE
+            }
+#endif
             }
             else
             {
