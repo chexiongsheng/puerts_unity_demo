@@ -285,10 +285,12 @@ namespace PuertsStaticWrap
                 tt`
                         ${overload.IsVoid ? "" : "var result = "}${method.IsStatic ? data.Name : refSelf()}.${UnK(method.Name)}(${toJsArray(overload.ParameterInfos).map(paramListLambda).join(', ')});
                 `
-                toJsArray(overload.ParameterInfos).filter(p => p.IsByRef).forEach((paramInfo, idx) => {
-                    tt`
+                toJsArray(overload.ParameterInfos).forEach((paramInfo, idx) => {
+                    if (paramInfo.IsByRef) {
+                        tt`
                         argHelper${idx}.SetByRefValue(Arg${idx});
-                    `
+                        `
+                    }
                 })
                 tt`
                         ${!overload.IsVoid ? setReturn(overload) + ';' : ''}
