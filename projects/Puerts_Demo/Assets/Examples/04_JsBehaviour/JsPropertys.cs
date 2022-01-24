@@ -534,11 +534,14 @@ namespace UnityEditor.GUI
         }
         public void ApplyModifiedProperties()
         {
-            serializedObject?.ApplyModifiedProperties();
+            if (serializedObject != null)
+            {
+                serializedObject.ApplyModifiedProperties();
+            }
         }
         public SerializedProperty GetSerializedProperty(string name)
         {
-            return serializedObject?.FindProperty(name);
+            return serializedObject != null ? serializedObject.FindProperty(name) : null;
         }
     }
     public class Display
@@ -599,7 +602,7 @@ namespace UnityEditor.GUI
                 //应用更改
                 info.ApplyModifiedProperties();
 
-                callback?.Invoke();
+                if (callback != null) callback.Invoke();
             });
         }
         public static void PopupTypes(DrawerInfo info, Element element)
