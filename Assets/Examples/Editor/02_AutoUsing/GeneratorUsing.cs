@@ -9,7 +9,6 @@ using UnityEngine;
 
 namespace Puerts.Editor
 {
-
     public static class GeneratorUsing
     {
         const BindingFlags Flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
@@ -143,7 +142,7 @@ namespace Puerts.Editor
                 .ToList();
         }
 
-        [MenuItem("PuertsEditorDemo/Generate UsingCode", false, 1)]
+        [MenuItem("Puerts/Generate UsingCode", false, 1)]
         public static void GenerateUsingCode()
         {
             var start = DateTime.Now;
@@ -206,11 +205,10 @@ namespace Puerts.Editor
             }
             using (var jsEnv = new JsEnv())
             {
-                var templateGetter = jsEnv.Eval<Func<string, Func<object, string>>>("require('puerts/gencode/main.js')");
-                var autoUsing = templateGetter("autousing.tpl");
+                var autoRegisterRender = jsEnv.Eval<Func<GenInfo[], string>>("require('puerts/templates/wrapper-reg-using.tpl.cjs')");
                 using (StreamWriter textWriter = new StreamWriter(saveTo + "AutoStaticCodeUsing.cs", false, Encoding.UTF8))
                 {
-                    string fileContext = autoUsing(genInfos.OrderBy(o => (o.Name + "<" + string.Join(", ", o.Parameters))).ToArray());
+                    string fileContext = autoRegisterRender(genInfos.OrderBy(o => (o.Name + "<" + string.Join(", ", o.Parameters))).ToArray());
                     textWriter.Write(fileContext);
                     textWriter.Flush();
                 }
