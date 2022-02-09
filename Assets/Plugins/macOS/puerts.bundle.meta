@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6aa6a553f4c364c5091dd004ae8f2493
+guid: 76b80a6e0b42f4f27bf2416e396e11f6
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -19,49 +19,11 @@ PluginImporter:
         Exclude Android: 1
         Exclude Editor: 1
         Exclude Linux64: 1
-        Exclude OSXUniversal: 1
+        Exclude OSXUniversal: 0
         Exclude WebGL: 1
         Exclude Win: 1
-        Exclude Win64: 0
+        Exclude Win64: 1
         Exclude iOS: 1
-  - first:
-      : Linux
-    second:
-      enabled: 0
-      settings:
-        CPU: None
-  - first:
-      : LinuxUniversal
-    second:
-      enabled: 0
-      settings:
-        CPU: x86_64
-  - first:
-      : OSXIntel
-    second:
-      enabled: 0
-      settings:
-        CPU: None
-  - first:
-      : OSXIntel64
-    second:
-      enabled: 0
-      settings:
-        CPU: AnyCPU
-  - first:
-      : SamsungTV
-    second:
-      enabled: 0
-      settings:
-        STV_MODEL: STANDARD_13
-  - first:
-      : WP8
-    second:
-      enabled: 0
-      settings:
-        CPU: AnyCPU
-        DontProcess: False
-        PlaceholderPath: 
   - first:
       Android: Android
     second:
@@ -78,7 +40,7 @@ PluginImporter:
     second:
       enabled: 0
       settings:
-        CPU: x86_64
+        CPU: AnyCPU
         DefaultValueInitialized: true
         OS: AnyOS
   - first:
@@ -86,11 +48,11 @@ PluginImporter:
     second:
       enabled: 0
       settings:
-        CPU: AnyCPU
+        CPU: x86_64
   - first:
       Standalone: OSXUniversal
     second:
-      enabled: 0
+      enabled: 1
       settings:
         CPU: x86_64
   - first:
@@ -98,22 +60,13 @@ PluginImporter:
     second:
       enabled: 0
       settings:
-        CPU: None
+        CPU: x86
   - first:
       Standalone: Win64
     second:
-      enabled: 1
-      settings:
-        CPU: AnyCPU
-  - first:
-      Windows Store Apps: WindowsStoreApps
-    second:
       enabled: 0
       settings:
-        CPU: AnyCPU
-        DontProcess: False
-        PlaceholderPath: 
-        SDK: AnySDK
+        CPU: x86_64
   - first:
       iPhone: iOS
     second:
