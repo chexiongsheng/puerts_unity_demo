@@ -1,13 +1,13 @@
-{{
-function parameters(params) {
-    var str = "";
-    for (let i = 0; i < params.Length; i++) {
-        if (i > 0) str += ", ";
-        str += params.get_Item(i);
-    }
-    return str;
-}
-}}namespace PuertsStaticWrap
+/**
+ * this template file is write for generating the wrapper register code
+ * 
+ * @param {GenInfo[]} infos
+ * @returns 
+ */
+module.exports = function AutoRegTemplate(infos) {
+    infos = toJsArray(infos);
+    return `
+namespace PuertsStaticWrap
 {
     using System;
     using System.Linq;
@@ -19,9 +19,14 @@ function parameters(params) {
     {
         public static void AutoUsing(this JsEnv jsEnv)
         {
-            {{~it :info}}jsEnv.{{=info.Name}}<{{=parameters(info.Parameters)}}>();
-            {{~}}
+${
+    infos.map(info => {
+        return '            ' +
+            `jsEnv.${info.Name}<${toJsArray(info.Parameters).join(', ')}>();`;
+    }).join("\n")
+}
         }
+
         public static void UsingAction(this JsEnv jsEnv, params string[] args)
         {
             jsEnv.UsingGeneric(true, FindTypes(args));
@@ -59,4 +64,15 @@ function parameters(params) {
             return types.ToArray();
         }
     }
+}
+
+    `.trim();
+};
+
+function toJsArray(csArr) {
+    let arr = [];
+    for (var i = 0; i < csArr.Length; i++) {
+        arr.push(csArr.get_Item(i));
+    }
+    return arr;
 }
