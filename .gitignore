@@ -1,8 +1,6 @@
-*.meta
+.idea
 Library
 Logs
-Packages
-ProjectSettings
 Temp
 UserSettings
 *.sln
@@ -13,3 +11,5 @@ UserSettings
 .DS_Store
 node_modules
 obj
+projects/**/Gen/Typing/csharp/*.ts
+projects/*/builds
