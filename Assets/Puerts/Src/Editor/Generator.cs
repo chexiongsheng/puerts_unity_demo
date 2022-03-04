@@ -5,8 +5,10 @@
 * This file is subject to the terms and conditions defined in file 'LICENSE', which is part of this source code package.
 */
 
+#if !PUERTS_GENERAL
 using UnityEngine;
 using UnityEditor;
+#endif
 using System;
 using System.Linq;
 using System.Reflection;
@@ -260,7 +262,7 @@ namespace Puerts.Editor
                 {
                     extensionMethods = (from type in genTypeSet
                                         from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
-                                        where isDefined(method, typeof(ExtensionAttribute)) && Puerts.Utils.IsSupportedMethod(method)
+                                        where isDefined(method, typeof(ExtensionAttribute)) && Puerts.Utils.IsMethodSupportGenerate(method)
                                         group method by getExtendedType(method)).ToDictionary(g => g.Key, g => g.ToArray());
                 }
                 MethodInfo[] ret;
@@ -272,7 +274,7 @@ namespace Puerts.Editor
             }
 
             // #lizard forgives
-            public static string GetTsTypeName(Type type, bool isParams = false, ParameterInfo paramInfo = null)
+            public static string GetTsTypeName(Type type, bool isParams = false)
             {
                 if (type == typeof(int))
                     return "number";
@@ -310,8 +312,6 @@ namespace Puerts.Editor
                     return "any";
                 else if (type == typeof(Delegate) || type == typeof(Puerts.GenericDelegate))
                     return "Function";
-                else if (paramInfo != null && paramInfo.IsIn)
-                    return GetTsTypeName(type.GetElementType());
                 else if (type.IsByRef)
                     return "$Ref<" + GetTsTypeName(type.GetElementType()) + ">";
                 else if (type.IsArray)
@@ -361,7 +361,7 @@ namespace Puerts.Editor
                 {
                     var methodGroups = Puerts.Utils.GetMethodAndOverrideMethod(type, Utils.Flags)
                         .Where(m => !Utils.isFiltered(m))
-                        .Where(m => !m.IsSpecialName && Puerts.Utils.IsSupportedMethod(m))
+                        .Where(m => !m.IsSpecialName && Puerts.Utils.IsMethodSupportGenerate(m))
                         .GroupBy(m => new MethodKey { Name = m.Name, IsStatic = m.IsStatic, IsLazyMember = Utils.getBindingMode(m) == Utils.BindingMode.LazyBinding })
                         .ToDictionary(i => i.Key, i => i.Cast<MethodBase>().ToList());
                     var extensionMethods = Puerts.Utils.GetExtensionMethodsOf(type);
@@ -369,7 +369,7 @@ namespace Puerts.Editor
                     {
                         extensionMethods = extensionMethods
                             .Where(m => !Utils.isFiltered(m))
-                            .Where(m => !m.IsGenericMethodDefinition || Puerts.Utils.IsSupportedMethod(m));
+                            .Where(m => !m.IsGenericMethodDefinition || Puerts.Utils.IsMethodSupportGenerate(m));
                         if (genTypes != null)
                         {
                             extensionMethods = extensionMethods.Where(m => genTypes.Contains(m.DeclaringType));
@@ -464,11 +464,10 @@ namespace Puerts.Editor
                     JsValueType ExpectJsType = isParams ?
                         GeneralGetterManager.GetJsTypeMask(parameterInfo.ParameterType.GetElementType()) : 
                         GeneralGetterManager.GetJsTypeMask(parameterInfo.ParameterType);
-                    bool IsByRef = parameterInfo.ParameterType.IsByRef;
                     var result = new ParameterGenInfo()
                     {
-                        IsOut = parameterInfo.IsOut && IsByRef,
-                        IsByRef = IsByRef && !parameterInfo.IsIn,
+                        IsOut = !parameterInfo.IsIn && parameterInfo.IsOut && parameterInfo.ParameterType.IsByRef,
+                        IsByRef = parameterInfo.ParameterType.IsByRef,
                         TypeName = Utils.RemoveRefAndToConstraintType(parameterInfo.ParameterType).GetFriendlyName(),
                         ExpectJsType = Utils.ToCode(ExpectJsType),
                         IsParams = isParams,
@@ -842,8 +841,8 @@ namespace Puerts.Editor
                     return new TsParameterGenInfo()
                     {
                         Name = parameterInfo.Name,
-                        IsByRef = parameterInfo.ParameterType.IsByRef && !parameterInfo.IsIn,
-                        TypeName = Utils.GetTsTypeName(Utils.ToConstraintType(parameterInfo.ParameterType, isGenericTypeDefinition), isParams, parameterInfo),
+                        IsByRef = parameterInfo.ParameterType.IsByRef,
+                        TypeName = Utils.GetTsTypeName(Utils.ToConstraintType(parameterInfo.ParameterType, isGenericTypeDefinition), isParams),
                         IsParams = isParams,
                         IsOptional = parameterInfo.IsOptional
                     };
@@ -924,7 +923,7 @@ namespace Puerts.Editor
                     var methods = type.GetMethods(Utils.Flags)
                         .Where(m => genTypeSet.Contains(m.DeclaringType) && methodNames.Contains(m.Name))
                         .Concat(declMethods)
-                        .Where(m => !Utils.isFiltered(m, true) && !Utils.IsGetterOrSetter(m) && (type.IsGenericTypeDefinition && !m.IsGenericMethodDefinition || Puerts.Utils.IsSupportedMethod(m)))
+                        .Where(m => !Utils.isFiltered(m, true) && !Utils.IsGetterOrSetter(m) && (type.IsGenericTypeDefinition && !m.IsGenericMethodDefinition || Puerts.Utils.IsMethodSupportGenerate(m)))
                         .Cast<MethodBase>()
                         .Distinct();
 
@@ -1087,7 +1086,7 @@ namespace Puerts.Editor
                         else
                         {
                             var m = type.GetMethod("Invoke");
-                            var tsFuncDef = "(" + string.Join(", ", m.GetParameters().Select(p => p.Name + ": " + Utils.GetTsTypeName(p.ParameterType, false, p)).ToArray()) + ") => " + Utils.GetTsTypeName(m.ReturnType);
+                            var tsFuncDef = "(" + string.Join(", ", m.GetParameters().Select(p => p.Name + ": " + Utils.GetTsTypeName(p.ParameterType)).ToArray()) + ") => " + Utils.GetTsTypeName(m.ReturnType);
                             result.DelegateDef = tsFuncDef;
                         }
                     }
@@ -1442,8 +1441,8 @@ namespace Puerts.Editor
             }
         }
 
-        class Menu {
-
+        public class Menu {
+#if !PUERTS_GENERAL
             [MenuItem("Puerts/Generate Code", false, 1)]
             public static void GenerateCode()
             {
@@ -1451,9 +1450,12 @@ namespace Puerts.Editor
                 var saveTo = Configure.GetCodeOutputDirectory();
                 Directory.CreateDirectory(saveTo);
                 Directory.CreateDirectory(Path.Combine(saveTo, "Typing/csharp"));
-                GenerateCode(saveTo);
+                GenerateWrapper(saveTo);
+                GenerateDTS(saveTo);
                 Debug.Log("finished! use " + (DateTime.Now - start).TotalMilliseconds + " ms");
                 AssetDatabase.Refresh();
+
+                filters = null;
             }
 
             [MenuItem("Puerts/Generate index.d.ts", false, 1)]
@@ -1463,9 +1465,11 @@ namespace Puerts.Editor
                 var saveTo = Configure.GetCodeOutputDirectory();
                 Directory.CreateDirectory(saveTo);
                 Directory.CreateDirectory(Path.Combine(saveTo, "Typing/csharp"));
-                GenerateCode(saveTo, true);
+                GenerateDTS(saveTo);
                 Debug.Log("finished! use " + (DateTime.Now - start).TotalMilliseconds + " ms");
                 AssetDatabase.Refresh();
+                
+                filters = null;
             }
 
             [MenuItem("Puerts/Generate index.d.ts ESM compatible (unstable)", false, 1)]
@@ -1475,9 +1479,11 @@ namespace Puerts.Editor
                 var saveTo = Configure.GetCodeOutputDirectory();
                 Directory.CreateDirectory(saveTo);
                 Directory.CreateDirectory(Path.Combine(saveTo, "Typing/csharp"));
-                GenerateCode(saveTo, true, true);
+                GenerateDTS(saveTo, true);
                 Debug.Log("finished! use " + (DateTime.Now - start).TotalMilliseconds + " ms");
                 AssetDatabase.Refresh();
+                
+                filters = null;
             }
 
             [MenuItem("Puerts/Clear Generated Code", false, 2)]
@@ -1492,27 +1498,29 @@ namespace Puerts.Editor
                 }
             }
 
-            public static void GenerateCode(string saveTo, bool tsOnly = false, bool esmMode = false)
+#endif
+            public static List<MethodInfo> filters;
+            public static Dictionary<string, List<KeyValuePair<object, int>>> configure;
+            public static List<Type> genTypes;
+
+            public static void GenerateDTS(string saveTo, bool esmMode = false, ILoader loader = null)
             {
-                Utils.filters = Configure.GetFilters();
-                var configure = Configure.GetConfigureByTags(new List<string>() {
-                    "Puerts.BindingAttribute",
-                    "Puerts.BlittableCopyAttribute",
-                    "Puerts.TypingAttribute",
-                });
+                if (filters == null)
+                {
+                    filters = Configure.GetFilters();
+                    configure = Configure.GetConfigureByTags(new List<string>() {
+                        "Puerts.BindingAttribute",
+                        "Puerts.BlittableCopyAttribute",
+                        "Puerts.TypingAttribute",
+                    });
 
-                var genTypes = configure["Puerts.BindingAttribute"].Select(kv => kv.Key)
-                    .Where(o => o is Type)
-                    .Cast<Type>()
-                    .Where(t => !t.IsGenericTypeDefinition && !t.Name.StartsWith("<"))
-                    .Distinct()
-                    .ToList();
-
-                var blittableCopyTypes = new HashSet<Type>(configure["Puerts.BlittableCopyAttribute"].Select(kv => kv.Key)
-                    .Where(o => o is Type)
-                    .Cast<Type>()
-                    .Where(t => !t.IsPrimitive && Utils.isBlittableType(t))
-                    .Distinct());
+                    genTypes = configure["Puerts.BindingAttribute"].Select(kv => kv.Key)
+                        .Where(o => o is Type)
+                        .Cast<Type>()
+                        .Where(t => !t.IsGenericTypeDefinition && !t.Name.StartsWith("<"))
+                        .Distinct()
+                        .ToList();
+                }
 
                 var tsTypes = configure["Puerts.TypingAttribute"].Select(kv => kv.Key)
                     .Where(o => o is Type)
@@ -1521,53 +1529,88 @@ namespace Puerts.Editor
                     .Concat(genTypes)
                     .Distinct();
 
-                using (var jsEnv = new JsEnv())
+                if (loader == null)
                 {
-                    var wrapRender = jsEnv.Eval<Func<GenClass.TypeGenInfo, string>>("require('puerts/templates/wrapper.tpl.cjs')");
-
-                    if (!tsOnly)
-                    {
-                        var typeGenInfos = new List<GenClass.TypeGenInfo>();
-
-                        Dictionary<string, bool> makeFileUniqueMap = new Dictionary<string, bool>();
-                        foreach (var type in genTypes)
-                        {
-                            if (type.IsEnum || type.IsArray || (Generator.Utils.IsDelegate(type) && type != typeof(Delegate))) continue;
-                            GenClass.TypeGenInfo typeGenInfo = GenClass.TypeGenInfo.FromType(type, genTypes);
-                            typeGenInfo.BlittableCopy = blittableCopyTypes.Contains(type);
-                            typeGenInfos.Add(typeGenInfo);
-                            string filePath = saveTo + typeGenInfo.WrapClassName + ".cs";
-
-                            int uniqueId = 1;
-                            while (makeFileUniqueMap.ContainsKey(filePath.ToLower()))
-                            {
-                                filePath = saveTo + typeGenInfo.WrapClassName + "_" + uniqueId + ".cs";
-                                uniqueId++;
-                            }
-                            makeFileUniqueMap.Add(filePath.ToLower(), true);
-
-                            string fileContext = wrapRender(typeGenInfo);
-                            using (StreamWriter textWriter = new StreamWriter(filePath, false, Encoding.UTF8))
-                            {
-                                textWriter.Write(fileContext);
-                                textWriter.Flush();
-                            }
-                        }
-
-                        var autoRegisterRender = jsEnv.Eval<Func<GenClass.TypeGenInfo[], string>>("require('puerts/templates/wrapper-reg.tpl.cjs')");
-                        using (StreamWriter textWriter = new StreamWriter(saveTo + "AutoStaticCodeRegister.cs", false, Encoding.UTF8))
-                        {
-                            string fileContext = autoRegisterRender(typeGenInfos.ToArray());
-                            textWriter.Write(fileContext);
-                            textWriter.Flush();
-                        }
-                    }
-                    
+                    loader = new DefaultLoader();
+                }
+                using (var jsEnv = new JsEnv(loader))
+                {
                     jsEnv.UsingFunc<DTS.TypingGenInfo, bool, string>();
                     var typingRender = jsEnv.Eval<Func<DTS.TypingGenInfo, bool, string>>("require('puerts/templates/dts.tpl.cjs')");
                     using (StreamWriter textWriter = new StreamWriter(saveTo + "Typing/csharp/index.d.ts", false, Encoding.UTF8))
                     {
                         string fileContext = typingRender(DTS.TypingGenInfo.FromTypes(tsTypes), esmMode);
+                        textWriter.Write(fileContext);
+                        textWriter.Flush();
+                    }
+                }
+            }
+
+
+            public static void GenerateWrapper(string saveTo, ILoader loader = null)
+            {
+                if (filters == null)
+                {
+                    filters = Configure.GetFilters();
+                    configure = Configure.GetConfigureByTags(new List<string>() {
+                        "Puerts.BindingAttribute",
+                        "Puerts.BlittableCopyAttribute",
+                        "Puerts.TypingAttribute",
+                    });
+
+                    genTypes = configure["Puerts.BindingAttribute"].Select(kv => kv.Key)
+                        .Where(o => o is Type)
+                        .Cast<Type>()
+                        .Where(t => !t.IsGenericTypeDefinition && !t.Name.StartsWith("<"))
+                        .Distinct()
+                        .ToList();
+                }
+
+                var blittableCopyTypes = new HashSet<Type>(configure["Puerts.BlittableCopyAttribute"].Select(kv => kv.Key)
+                    .Where(o => o is Type)
+                    .Cast<Type>()
+                    .Where(t => !t.IsPrimitive && Utils.isBlittableType(t))
+                    .Distinct());
+
+                if (loader == null)
+                {
+                    loader = new DefaultLoader();
+                }
+                using (var jsEnv = new JsEnv(loader))
+                {
+                    var wrapRender = jsEnv.Eval<Func<GenClass.TypeGenInfo, string>>("require('puerts/templates/wrapper.tpl.cjs')");
+
+                    var typeGenInfos = new List<GenClass.TypeGenInfo>();
+
+                    Dictionary<string, bool> makeFileUniqueMap = new Dictionary<string, bool>();
+                    foreach (var type in genTypes)
+                    {
+                        if (type.IsEnum || type.IsArray || (Generator.Utils.IsDelegate(type) && type != typeof(Delegate))) continue;
+                        GenClass.TypeGenInfo typeGenInfo = GenClass.TypeGenInfo.FromType(type, genTypes);
+                        typeGenInfo.BlittableCopy = blittableCopyTypes.Contains(type);
+                        typeGenInfos.Add(typeGenInfo);
+                        string filePath = saveTo + typeGenInfo.WrapClassName + ".cs";
+
+                        int uniqueId = 1;
+                        while (makeFileUniqueMap.ContainsKey(filePath.ToLower()))
+                        {
+                            filePath = saveTo + typeGenInfo.WrapClassName + "_" + uniqueId + ".cs";
+                            uniqueId++;
+                        }
+                        makeFileUniqueMap.Add(filePath.ToLower(), true);
+
+                        string fileContext = wrapRender(typeGenInfo);
+                        using (StreamWriter textWriter = new StreamWriter(filePath, false, Encoding.UTF8))
+                        {
+                            textWriter.Write(fileContext);
+                            textWriter.Flush();
+                        }
+                    }
+
+                    var autoRegisterRender = jsEnv.Eval<Func<GenClass.TypeGenInfo[], string>>("require('puerts/templates/wrapper-reg.tpl.cjs')");
+                    using (StreamWriter textWriter = new StreamWriter(saveTo + "AutoStaticCodeRegister.cs", false, Encoding.UTF8))
+                    {
+                        string fileContext = autoRegisterRender(typeGenInfos.ToArray());
                         textWriter.Write(fileContext);
                         textWriter.Flush();
                     }
