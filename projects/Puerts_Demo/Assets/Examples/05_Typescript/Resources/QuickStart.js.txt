@@ -1,8 +1,8 @@
 "use strict";
 //部署:npm run build
 Object.defineProperty(exports, "__esModule", { value: true });
-var csharp_1 = require("csharp");
-var puerts_1 = require("puerts");
+const csharp_1 = require("csharp");
+const puerts_1 = require("puerts");
 require("./ExtensionDecl");
 //静态函数
 csharp_1.UnityEngine.Debug.Log('hello world');
@@ -41,14 +41,14 @@ obj.Trigger();
 //可变参数
 obj.ParamsFunc(1024, 'haha', 'hehe', 'heihei');
 //in out 参数
-let p1 = (0, puerts_1.$ref)(1);
-let p2 = (0, puerts_1.$ref)(10);
+let p1 = puerts_1.$ref();
+let p2 = puerts_1.$ref(10);
 let ret = obj.InOutArgFunc(100, p1, p2);
-console.log('ret=' + ret + ', out=' + (0, puerts_1.$unref)(p1) + ', ref=' + (0, puerts_1.$unref)(p2));
+console.log('ret=' + ret + ', out=' + puerts_1.$unref(p1) + ', ref=' + puerts_1.$unref(p2));
 //泛型
 //先通过$generic实例化泛型参数
-let List = (0, puerts_1.$generic)(csharp_1.System.Collections.Generic.List$1, csharp_1.System.Int32); //$generic调用性能不会太好，同样泛型参数建议整个工程，至少一个文件内只做一次
-let Dictionary = (0, puerts_1.$generic)(csharp_1.System.Collections.Generic.Dictionary$2, csharp_1.System.String, List);
+let List = puerts_1.$generic(csharp_1.System.Collections.Generic.List$1, csharp_1.System.Int32); //$generic调用性能不会太好，同样泛型参数建议整个工程，至少一个文件内只做一次
+let Dictionary = puerts_1.$generic(csharp_1.System.Collections.Generic.Dictionary$2, csharp_1.System.String, List);
 let lst = new List();
 lst.Add(1);
 lst.Add(0);
@@ -68,7 +68,7 @@ u8a1[1] = 101;
 console.log(obj.SumOfAb(u8a1));
 //引擎api
 let go = new csharp_1.UnityEngine.GameObject("testObject");
-go.AddComponent((0, puerts_1.$typeof)(csharp_1.UnityEngine.ParticleSystem));
+go.AddComponent(puerts_1.$typeof(csharp_1.UnityEngine.ParticleSystem));
 go.transform.position = new csharp_1.UnityEngine.Vector3(7, 8, 9);
 //extension methods
 obj.PlainExtension();

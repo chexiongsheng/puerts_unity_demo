@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,17 +32,18 @@ public static class InjectTool
 
         try
         {
+            DateTime timeStamp = DateTime.Now;
+
             _Inject();
 
-            Debug.Log("Inject Completed.");
+            Debug.Log("Inject Completed. " + (DateTime.Now - timeStamp).TotalMilliseconds + "ms");
 
-            bool openFolder = EditorUtility.DisplayDialog("提示",
-@"如何替换UnityEditor.dll文件?
-
-1. 关闭Unity进程
-2. 删除UnityEditor.dll文件
-3. 将UnityEditor.dll.inject文件重命名为UnityEditor.dll
-4. 重新运行Unity", "Folder", "Cancel");
+            bool openFolder = EditorUtility.DisplayDialog(
+                i18n.data.Tips,
+                i18n.data.Replace,
+                i18n.data.Folder,
+                i18n.data.Cancel
+            );
 
             if (openFolder) OpenDLLFolder();
         }
@@ -66,13 +67,12 @@ public static class InjectTool
             return;
         }
 
-        bool openFolder = EditorUtility.DisplayDialog("提示",
-@"如何还原UnityEditor.dll文件?
-
-1. 关闭Unity进程
-2. 删除UnityEditor.dll文件
-3. 将UnityEditor.dll.backup文件重命名为UnityEditor.dll
-4. 重新运行Unity", "Folder");
+        bool openFolder = EditorUtility.DisplayDialog(
+            i18n.data.Tips,
+            i18n.data.Restore,
+            i18n.data.Folder,
+            i18n.data.Cancel
+        );
 
         if (openFolder) OpenDLLFolder();
     }
@@ -278,5 +278,74 @@ public static class InjectTool
         }
 
         ilProcessor.InsertBefore(instruction, ilProcessor.Create(OpCodes.Call, insert));
+    }
+
+    struct i18nData
+    {
+        public string Tips;
+        public string Replace;
+        public string Restore;
+        public string Folder;
+        public string Cancel;
+    }
+    static class i18n
+    {
+        public static i18nData data
+        {
+            get
+            {
+                i18nData result = en_us;
+                switch (UnityEngine.Application.systemLanguage)
+                {
+                    case UnityEngine.SystemLanguage.Chinese:
+                    case UnityEngine.SystemLanguage.ChineseSimplified:
+                        result = zh_cn;
+                        break;
+                }
+
+                return result;
+            }
+        }
+
+        private static i18nData en_us = new i18nData
+        {
+            Tips = "Tips",
+            Folder = "Folder",
+            Cancel = "Cancel",
+            Replace =
+@"How to replace UnityEditor.dll file?
+
+1. Close Unity
+2. Delete UnityEditor.dll file
+3. Rename the UnityEditor.dll.inject to UnityEditor.dll
+4. Restart Unity",
+            Restore =
+@"How to restore UnityEditor.dll file?
+
+1. Close Unity
+2. Delete UnityEditor.dll file
+3. Rename the UnityEditor.dll.backup to UnityEditor.dll
+4. Restart Unity",
+        };
+        private static i18nData zh_cn = new i18nData
+        {
+            Tips = "提示",
+            Folder = "文件夹",
+            Cancel = "取消",
+            Replace =
+       @"如何替换UnityEditor.dll文件?
+
+1. 关闭Unity进程
+2. 删除UnityEditor.dll文件
+3. 将UnityEditor.dll.inject文件重命名为UnityEditor.dll
+4. 重新运行Unity",
+            Restore =
+       @"如何还原UnityEditor.dll文件?
+
+1. 关闭Unity进程
+2. 删除UnityEditor.dll文件
+3. 将UnityEditor.dll.backup文件重命名为UnityEditor.dll
+4. 重新运行Unity",
+        };
     }
 }
