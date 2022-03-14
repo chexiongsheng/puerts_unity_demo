@@ -46,7 +46,7 @@ jobs:
           workflow: build_unity_plugins.yml
           name: Unity_Plugins_Nodejs
           repo: zombieyang/puerts
-          path: package/Runtime/Plugins/
+          path: package/Editor/Plugins/
 
       - name: Push
         run: |
