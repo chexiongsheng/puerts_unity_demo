@@ -6,8 +6,8 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "typeRoots": [
-      "../../../package/Runtime/Puerts/Typing",
-      "../../../package/Runtime/Gen/Typing",
+      "../../../package/Typing",
+      "../../../projects/Puerts_demo/Assets/Gen/Typing",
       "./node_modules/@types"
     ],
     "outDir": "output"
