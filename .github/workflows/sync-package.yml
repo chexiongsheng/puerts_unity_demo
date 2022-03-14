@@ -1,0 +1,57 @@
+name: sync-package
+
+on: 
+  repository_dispatch:
+  workflow_dispatch:
+
+env:
+  RUNID: 613573412
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Clone Main Repo
+        run: |
+          git clone --depth 1 https://github.com/Tencent/puerts.git
+          
+          mkdir -p package/Runtime/Src
+          mkdir -p package/Runtime/Resources
+          mkdir -p package/Runtime/Plugins
+          mkdir -p package/Editor/Src
+          mkdir -p package/Editor/Resources
+          mkdir -p package/Editor/Plugins
+          cp -r puerts/unity/Assets/Puerts/Typing package/
+          cp puerts/unity/Assets/Puerts/Src/*.cs package/Runtime/Src/
+          cp -r puerts/unity/Assets/Puerts/Src/Resources/. package/Runtime/Resources/
+          cp puerts/unity/Assets/Puerts/Src/Editor/*.cs package/Editor/Src/
+          cp -r puerts/unity/Assets/Puerts/Src/Editor/Resources/. package/Editor/Resources/
+          cp LICENSE README.md package
+
+      - name: Download Runtime Plugins
+        uses: dawidd6/action-download-artifact@v2
+        with: 
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: build_unity_plugins.yml
+          name: Unity_Plugins_V8
+          repo: zombieyang/puerts
+          path: package/Runtime/Plugins/
+
+      - name: Download Editor Plugins
+        uses: dawidd6/action-download-artifact@v2
+        with: 
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: build_unity_plugins.yml
+          name: Unity_Plugins_Nodejs
+          repo: zombieyang/puerts
+          path: package/Runtime/Plugins/
+
+      - name: Push
+        run: |
+          git config --global user.email "zombieyang@tencent.com"
+          git config --global user.name "puerts-bot"
+          git add package
+          git commit -am "sync puerts main repo"
+          git push origin master
