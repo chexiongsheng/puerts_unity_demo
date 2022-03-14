@@ -28,7 +28,7 @@ jobs:
           cp -r puerts/unity/Assets/Puerts/Src/Resources/. package/Runtime/Resources/
           cp puerts/unity/Assets/Puerts/Src/Editor/*.cs package/Editor/Src/
           cp -r puerts/unity/Assets/Puerts/Src/Editor/Resources/. package/Editor/Resources/
-          cp LICENSE README.md package
+          cp puerts/LICENSE puerts/README.md package
 
       - name: Download Runtime Plugins
         uses: dawidd6/action-download-artifact@v2
