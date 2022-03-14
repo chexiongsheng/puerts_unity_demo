@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.tencent.puerts.core": "file:../../../../puerts_unity_demo/puerts.core",
+    "com.tencent.puerts.core": "file:../../../package",
     "com.unity.modules.imgui": "1.0.0"
   }
 }
