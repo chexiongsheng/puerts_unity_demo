@@ -48,16 +48,19 @@ jobs:
           repo: Tencent/puerts
           path: package/Editor/Plugins/
 
-      - name: Push
+      - name: Commit
         run: |
           git config --global user.email "puerts@tencent.com"
           git config --global user.name "puerts-bot"
           git add package
           git commit -am "sync puerts main repo"
-          git push origin master
 
       - name: Tag
         if: ${{ github.event.inputs.push_tag_version != '0' }}
         run: |
           git tag upm/${{ github.event.inputs.push_tag_version }}
           git push --tag
+
+      - name: Push
+        run: |
+          git push origin master
