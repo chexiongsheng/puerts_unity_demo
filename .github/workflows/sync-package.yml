@@ -53,7 +53,7 @@ jobs:
           git config --global user.email "puerts@tencent.com"
           git config --global user.name "puerts-bot"
           git add package
-          git commit -am "sync puerts main repo"
+          git commit -am "sync puerts main repo" &> /dev/null
           git push origin master
 
       - name: Tag
