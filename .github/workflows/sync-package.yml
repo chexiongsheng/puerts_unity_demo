@@ -1,8 +1,14 @@
 name: sync-package
 
 on: 
-  repository_dispatch:
   workflow_dispatch:
+    inputs:
+      push_tag_version:
+        default: '0'
+  repository_dispatch:
+    inputs:
+      push_tag_version:
+        default: '0'
 
 jobs:
   sync:
@@ -50,5 +56,12 @@ jobs:
           git config --global user.email "puerts@tencent.com"
           git config --global user.name "puerts-bot"
           git add package
-          git commit -am "sync puerts main repo"
+          git commit -am "sync puerts main repo" &> /dev/null || echo nothing to commit
           git push origin master
+
+      - name: Tag
+        if: ${{ github.event.inputs.push_tag_version != '0' }}
+        run: |
+          git tag upm/${{ github.event.inputs.push_tag_version }}
+          git push --tag
+            
