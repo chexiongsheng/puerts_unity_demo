@@ -2,6 +2,9 @@ name: sync-package
 
 on: 
   workflow_dispatch:
+    inputs:
+      push_tag_version:
+        default: '0'
   repository_dispatch:
     inputs:
       push_tag_version:
