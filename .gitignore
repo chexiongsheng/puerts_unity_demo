@@ -13,4 +13,3 @@ node_modules
 obj
 projects/**/Gen/Typing/csharp/*.ts
 projects/*/builds
-projects/Puerts_Demo/Assets/**/*.meta

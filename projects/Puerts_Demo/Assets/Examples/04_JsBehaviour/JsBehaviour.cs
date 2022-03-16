@@ -19,13 +19,20 @@ namespace PuertsTest
 
         static JsEnv jsEnv;
 
-        void Awake()
+        private void OnEnable()
         {
             if (jsEnv == null) jsEnv = new JsEnv(new DefaultLoader(), 9229);
-
-            var init = jsEnv.Eval<ModuleInit>("const m = require('" + ModuleName + "'); m.init;");
+            var varname = "m_" + Time.frameCount;
+            var init = jsEnv.Eval<ModuleInit>("const "+varname+" = require('" + ModuleName + "'); "+varname+".init;");
 
             if (init != null) init(this);
+
+            Application.runInBackground = true;
+        }
+
+        private void OnDisable()
+        {
+            if (JsOnDestroy != null) JsOnDestroy();
         }
 
         void Start()
@@ -41,7 +48,6 @@ namespace PuertsTest
 
         void OnDestroy()
         {
-            if (JsOnDestroy != null) JsOnDestroy();
             JsStart = null;
             JsUpdate = null;
             JsOnDestroy = null;
