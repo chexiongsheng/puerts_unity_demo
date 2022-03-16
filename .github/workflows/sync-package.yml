@@ -1,0 +1,67 @@
+name: sync-package
+
+on: 
+  workflow_dispatch:
+    inputs:
+      push_tag_version:
+        default: '0'
+  repository_dispatch:
+    inputs:
+      push_tag_version:
+        default: '0'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Clone Main Repo
+        run: |
+          git clone --depth 1 https://github.com/Tencent/puerts.git
+          
+          mkdir -p package/Runtime/Src
+          mkdir -p package/Runtime/Resources
+          mkdir -p package/Runtime/Plugins
+          mkdir -p package/Editor/Src
+          mkdir -p package/Editor/Resources
+          mkdir -p package/Editor/Plugins
+          cp -r puerts/unity/Assets/Puerts/Typing package/
+          cp puerts/unity/Assets/Puerts/Src/*.cs package/Runtime/Src/
+          cp -r puerts/unity/Assets/Puerts/Src/Resources/. package/Runtime/Resources/
+          cp puerts/unity/Assets/Puerts/Src/Editor/*.cs package/Editor/Src/
+          cp -r puerts/unity/Assets/Puerts/Src/Editor/Resources/. package/Editor/Resources/
+          cp puerts/LICENSE puerts/README.md package
+
+      - name: Download Runtime Plugins
+        uses: dawidd6/action-download-artifact@v2
+        with: 
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: build_unity_plugins.yml
+          name: Unity_Plugins_V8
+          repo: Tencent/puerts
+          path: package/Runtime/Plugins/
+
+      - name: Download Editor Plugins
+        uses: dawidd6/action-download-artifact@v2
+        with: 
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: build_unity_plugins.yml
+          name: Unity_Plugins_Nodejs
+          repo: Tencent/puerts
+          path: package/Editor/Plugins/
+
+      - name: Push
+        run: |
+          git config --global user.email "puerts@tencent.com"
+          git config --global user.name "puerts-bot"
+          git add package
+          git commit -am "sync puerts main repo" &> /dev/null || echo nothing to commit
+          git push origin master
+
+      - name: Tag
+        if: ${{ github.event.inputs.push_tag_version != '0' }}
+        run: |
+          git tag upm/${{ github.event.inputs.push_tag_version }}
+          git push --tag
+            
