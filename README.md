@@ -1,6 +1,6 @@
 # unity demo for puerts
 
-本仓库master分支用到了unity package的能力，因此仅支持Unity2018+。如您在使用5.5和2017，请查看1.2.x或1.0.x分支
+本仓库master分支用到了unity package的能力，因此仅支持Unity2018+。如您在使用5.5和2017，请查看1.2.x或1.0.x分支（或[点此下载zip](https://github.com/chexiongsheng/puerts_unity_demo/archive/refs/heads/1.2.x.zip)）
 
 ## 怎么跑这demo？
 
