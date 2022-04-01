@@ -39,7 +39,7 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: build_unity_plugins.yml
           name: Unity_Plugins_V8
-          repo: Tencent/puerts
+          repo: puert/puerts
           path: package/Runtime/Plugins/
 
       - name: Download Editor Plugins
@@ -47,8 +47,8 @@ jobs:
         with: 
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: build_unity_plugins.yml
-          name: Unity_Plugins_Nodejs
-          repo: Tencent/puerts
+          name: Unity_Plugins_NodeJS
+          repo: puert/puerts
           path: package/Editor/Plugins/
 
       - name: Push
