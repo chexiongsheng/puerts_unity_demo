@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Clone Main Repo
         run: |
-          git clone --depth 1 https://github.com/puerts/puerts.git
+          git clone --depth 1 https://github.com/Tencent/puerts.git
           
           rm -rf package/Runtime/Src
           mkdir -p package/Runtime/Src
@@ -39,7 +39,7 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: unity_build_plugins.yml
           name: Unity_Plugins_V8
-          repo: puerts/puerts
+          repo: Tencent/puerts
           path: package/Runtime/Plugins/
 
       - name: Download Editor Plugins
@@ -48,7 +48,7 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: unity_build_plugins.yml
           name: Unity_Plugins_NodeJS
-          repo: puerts/puerts
+          repo: Tencent/puerts
           path: package/Editor/Plugins/
 
       - name: Push
