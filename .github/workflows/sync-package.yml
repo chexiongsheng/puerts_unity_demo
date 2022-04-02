@@ -20,24 +20,24 @@ jobs:
         run: |
           git clone --depth 1 https://github.com/Tencent/puerts.git
           
+          rm -rf package/Runtime/Src
           mkdir -p package/Runtime/Src
+          rm -rf package/Runtime/Resources
           mkdir -p package/Runtime/Resources
           mkdir -p package/Runtime/Plugins
+          rm -rf package/Editor/Src
           mkdir -p package/Editor/Src
+          rm -rf package/Editor/Resources
           mkdir -p package/Editor/Resources
           mkdir -p package/Editor/Plugins
-          cp -r puerts/unity/Assets/Puerts/Typing package/
-          cp puerts/unity/Assets/Puerts/Src/*.cs package/Runtime/Src/
-          cp -r puerts/unity/Assets/Puerts/Src/Resources/. package/Runtime/Resources/
-          cp puerts/unity/Assets/Puerts/Src/Editor/*.cs package/Editor/Src/
-          cp -r puerts/unity/Assets/Puerts/Src/Editor/Resources/. package/Editor/Resources/
-          cp puerts/LICENSE puerts/README.md package
+
+          cp -r puerts/unity/Assets/Puerts/. package/
 
       - name: Download Runtime Plugins
         uses: dawidd6/action-download-artifact@v2
         with: 
           github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: build_unity_plugins.yml
+          workflow: unity_build_plugins.yml
           name: Unity_Plugins_V8
           repo: Tencent/puerts
           path: package/Runtime/Plugins/
@@ -46,8 +46,8 @@ jobs:
         uses: dawidd6/action-download-artifact@v2
         with: 
           github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: build_unity_plugins.yml
-          name: Unity_Plugins_Nodejs
+          workflow: unity_build_plugins.yml
+          name: Unity_Plugins_NodeJS
           repo: Tencent/puerts
           path: package/Editor/Plugins/
 

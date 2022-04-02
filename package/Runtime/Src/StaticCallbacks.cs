@@ -12,7 +12,7 @@ namespace Puerts
     internal class StaticCallbacks
     {
         [MonoPInvokeCallback(typeof(ModuleResolveCallback))]
-        internal static string ModuleResolverWrap(string identifer, int jsEnvIdx)
+        internal static string ModuleResolverCallback(string identifer, int jsEnvIdx)
         {
             JsEnv env = JsEnv.jsEnvs[jsEnvIdx];
             try
@@ -24,6 +24,23 @@ namespace Puerts
                 // 因为只是C++到C#的通信，此处C++侧没有加v8::TryCatch。不能用PuertsDLL.ThrowException
                 // PuertsDLL.ThrowException(env.isolate, "ModuleResolverWrap c# exception:" + e.Message + ",stack:" + e.StackTrace);
                 return "throw new Error('resolve module " + identifer + " error: " + e.Message + "')";
+            }
+        }
+
+        [MonoPInvokeCallback(typeof(PushJSFunctionArgumentsCallback))]
+        internal static void PushJSFunctionArgumentsCallback(IntPtr isolate, int jsEnvIdx, IntPtr nativeJsFuncPtr)
+        {
+            try 
+            {
+                if (JsEnv.jsEnvs[jsEnvIdx].ArgumentsPusher == null)
+                {
+                    throw new Exception("JsEnv.JSFunctionArgumentsPusher is not setted");
+                }
+                JsEnv.jsEnvs[jsEnvIdx].ArgumentsPusher(isolate, jsEnvIdx, nativeJsFuncPtr);
+            } 
+            catch(Exception e)
+            {
+                PuertsDLL.ThrowException(isolate, "JsEnvCallbackWrap c# exception:" + e.Message + ",stack:" + e.StackTrace);
             }
         }
 

@@ -40,6 +40,11 @@ namespace Puerts
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || PUERTS_GENERAL || (UNITY_WSA && !UNITY_EDITOR)
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 #endif
+    public delegate void PushJSFunctionArgumentsCallback(IntPtr isolate, int jsEnvIdx, IntPtr nativeJsFuncPtr);
+
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || PUERTS_GENERAL || (UNITY_WSA && !UNITY_EDITOR)
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+#endif
     public delegate void V8DestructorCallback(IntPtr self, long data);
 
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || PUERTS_GENERAL || (UNITY_WSA && !UNITY_EDITOR)
@@ -74,8 +79,22 @@ namespace Puerts
         const string DLLNAME = "puerts";
 #endif
 
+        [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "GetApiLevel")]
+        protected static extern int _GetApiLevel();
+
         [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern int GetLibVersion();
+
+        public static int GetApiLevel() {
+            try 
+            {
+                return _GetApiLevel();
+            } 
+            catch(Exception e) 
+            {
+                return GetLibVersion();
+            }
+        }
 
         [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern int GetLibBackend();
@@ -174,6 +193,16 @@ namespace Puerts
             SetModuleResolver(isolate, fn, jsEnvIdx);
         }
 
+        [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void SetPushJSFunctionArgumentsCallback(IntPtr isolate, IntPtr callback, int jsEnvIdx);
+        public static void SetPushJSFunctionArgumentsCallback(IntPtr isolate, PushJSFunctionArgumentsCallback callback, int jsEnvIdx)
+        {
+#if PUERTS_GENERAL || (UNITY_WSA && !UNITY_EDITOR)
+            GCHandle.Alloc(callback);
+#endif
+            IntPtr fn = callback == null ? IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(callback);
+            SetPushJSFunctionArgumentsCallback(isolate, fn, jsEnvIdx);
+        }
 
         [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr ExecuteModule(IntPtr isolate, string path, string exportee);
@@ -468,7 +497,7 @@ namespace Puerts
         public static extern void PushJSObjectForJSFunction(IntPtr function, IntPtr JSObject);
 
         [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr InvokeJSFunction(IntPtr function, bool hasResult);
+        public static extern IntPtr InvokeJSFunction(IntPtr function, int argumentsLen, bool hasResult);
 
         [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr GetFunctionLastExceptionInfo(IntPtr function, out int len);

@@ -1,8 +1,8 @@
 "use strict";
 //部署:npm run build
 Object.defineProperty(exports, "__esModule", { value: true });
-var csharp_1 = require("csharp");
-var puerts_1 = require("puerts");
+const csharp_1 = require("csharp");
+const puerts_1 = require("puerts");
 require("./ExtensionDecl");
 //静态函数
 csharp_1.UnityEngine.Debug.Log('hello world');
