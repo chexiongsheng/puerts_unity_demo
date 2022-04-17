@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 you can get the english version change log at [Github Release](https://github.com/Tencent/puerts/releases)
 
-## [1.3.2f] - 2022-04-15
+## [1.3.3] - 2022-04-17
 1. fix: some event members did not generated as LazyMember Tencent#739
 2. fix: some parameters with in modifier would use ref modifier to invoke in the generated code. Tencent#758
 3. fix: the op_Implicit method could not be called Tencent#767
