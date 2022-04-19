@@ -1,0 +1,28 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MyAnotherScript = void 0;
+const csharp_1 = require("csharp");
+const BaseJsScript_1 = require("./BaseJsScript");
+class MyAnotherScript extends BaseJsScript_1.BaseJsScript {
+    static scriptName = "MyAnotherScript";
+    constructor(name) {
+        const scriptArg = {
+            name: MyAnotherScript.scriptName + (name ? name : ""),
+            Start: () => this.Start(),
+            Update: () => this.Update(),
+            OnDestroy: () => this.OnDestroy()
+        };
+        super(scriptArg);
+    }
+    Start() {
+        csharp_1.UnityEngine.Debug.LogWarning(this.scriptObject.name + ".Start()");
+    }
+    Update() {
+        csharp_1.UnityEngine.Debug.Log(this.scriptObject.name + ".Update()");
+    }
+    OnDestroy() {
+        csharp_1.UnityEngine.Debug.LogError(this.scriptObject.name + ".OnDestroy()");
+    }
+}
+exports.MyAnotherScript = MyAnotherScript;
+//# sourceMappingURL=MyAnotherScript.js.map

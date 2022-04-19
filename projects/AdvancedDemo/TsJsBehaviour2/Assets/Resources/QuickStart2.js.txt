@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const MyAnotherScript_1 = require("./MyAnotherScript");
+const MyScript_1 = require("./MyScript");
+const ms = new MyScript_1.MyScript();
+var mArr = [];
+for (let i = 0; i < 10; i++) {
+    mArr[i] = new MyAnotherScript_1.MyAnotherScript((i + 1).toString());
+}
+//# sourceMappingURL=QuickStart2.js.map

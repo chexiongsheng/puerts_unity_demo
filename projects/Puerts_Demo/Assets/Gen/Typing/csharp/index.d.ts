@@ -19803,6 +19803,15 @@ declare module 'csharp' {
         }
     }
     namespace PuertsTest {
+        class JsBehaviour2 extends UnityEngine.MonoBehaviour
+        {
+            public JsStart : Function
+            public JsFixedUpdate : Function
+            public JsUpdate : Function
+            public JsLateUpdate : Function
+            public JsOnDestroy : Function
+            public constructor ()
+        }
         class TestClass extends System.Object
         {
             public AddEventCallback1 ($callback1: PuertsTest.Callback1) : void
