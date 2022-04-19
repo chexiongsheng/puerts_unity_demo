@@ -11,6 +11,8 @@ class BaseJsScript {
         this.scriptObject = new csharp_1.UnityEngine.GameObject().AddComponent((0, puerts_1.$typeof)(csharp_1.PuertsTest.JsBehaviour2));
         if (this.scriptArg.name)
             this.scriptObject.name = this.scriptArg.name;
+		if (this.scriptArg.dontDestroyOnLoad)
+			csharp_1.UnityEngine.GameObject.DontDestroyOnLoad( this.scriptObject );
         if (typeof (this.scriptArg.Start) === 'function')
             this.scriptObject.JsStart = () => this.scriptArg.Start();
         if (typeof (this.scriptArg.FixedUpdate) === 'function')
