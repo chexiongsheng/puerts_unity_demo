@@ -1,0 +1,27 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.BaseJsScript = void 0;
+const csharp_1 = require("csharp");
+const puerts_1 = require("puerts");
+class BaseJsScript {
+    scriptObject;
+    scriptArg;
+    constructor(scriptArg) {
+        this.scriptArg = scriptArg;
+        this.scriptObject = new csharp_1.UnityEngine.GameObject().AddComponent((0, puerts_1.$typeof)(csharp_1.PuertsTest.JsBehaviour2));
+        if (this.scriptArg.name)
+            this.scriptObject.name = this.scriptArg.name;
+        if (typeof (this.scriptArg.Start) === 'function')
+            this.scriptObject.JsStart = () => this.scriptArg.Start();
+        if (typeof (this.scriptArg.FixedUpdate) === 'function')
+            this.scriptObject.JsFixedUpdate = () => this.scriptArg.FixedUpdate();
+        if (typeof (this.scriptArg.Update) === 'function')
+            this.scriptObject.JsUpdate = () => this.scriptArg.Update();
+        if (typeof (this.scriptArg.LateUpdate) === 'function')
+            this.scriptObject.JsLateUpdate = () => this.scriptArg.LateUpdate();
+        if (typeof (this.scriptArg.OnDestroy) === 'function')
+            this.scriptObject.JsOnDestroy = () => this.scriptArg.OnDestroy();
+    }
+}
+exports.BaseJsScript = BaseJsScript;
+//# sourceMappingURL=BaseJsScript.js.map

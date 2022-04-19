@@ -23,6 +23,7 @@ public class ExamplesCfg
             return new List<Type>()
             {
                 typeof(Debug),
+                typeof(PuertsTest.JsBehaviour2),
                 typeof(PuertsTest.TestClass),
                 typeof(Vector3),
                 typeof(List<int>),
