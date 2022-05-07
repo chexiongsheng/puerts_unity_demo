@@ -1,6 +1,10 @@
 const csharp = require("csharp");
 const puerts = require("puerts");
 try {
+    /**
+     * 加载source-map-support模块 
+     * source-map-support是nodejs模块, 以下语句替代所需的IO模块
+     */
     puerts.registerBuildinModule("path", {
         dirname(path) {
             return csharp.System.IO.Path.GetDirectoryName(path);
@@ -19,7 +23,9 @@ try {
     });
     (function () {
         let global = this ?? globalThis;
-        global["Buffer"] = global["Buffer"] ?? require("buffer").Buffer;    //Buffer需要额外安装buffer库
+        //global["Buffer"] = global["Buffer"] ?? {};
+        //inlineSourceMap需要额外安装buffer库
+        global["Buffer"] = global["Buffer"] ?? require("buffer").Buffer;
     })();
     require('source-map-support').install();
 
