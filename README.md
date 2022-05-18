@@ -15,8 +15,8 @@
 
 ## More example? | 更多的示例或者教程？
 
-> The followed content are all come from community. PuerTS will collect superior content to fill these list. But we recommend you to share your content by submitting a [![PR's Welcome][pr-welcoming-image]][pr-welcoming-url].
-> 下列内容都来自于社区，PuerTS会不定时搜集优秀内容填进下面的列表，但更希望您通过[![PR's Welcome][pr-welcoming-image]][pr-welcoming-url]的方式将您东西分享出来。
+> The followed content are all come from community. PuerTS will collect superior content to fill these list. But we recommend you to share your content by submitting a  PR .
+> 下列内容都来自于社区，PuerTS会不定时搜集优秀内容填进下面的列表，但更希望您通过 PR 的方式将您东西分享出来。
 
 * Samples or Frameworks | 例子或者二次封装框架
 
