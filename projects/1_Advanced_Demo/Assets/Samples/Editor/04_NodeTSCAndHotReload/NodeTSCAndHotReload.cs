@@ -79,25 +79,9 @@ and run `npm i` in Puer-Project
     [MenuItem("PuertsEditorDemo/tsc & HotReload/Compile TsProj")] 
     static void Compile() 
     {
-        EditorUtility.DisplayProgressBar("compile ts", "create jsEnv", 0);
-        JsEnv env = new JsEnv();
-        bool result = env.Eval<bool>(@"
-            try {
-                const Application_dataPath = '" + Application.dataPath + @"';
-                const moduleRequire = require('module')
-                    .createRequire(Application_dataPath + '/../Puer-Project/build-script/');
-
-                moduleRequire('./@puerts/tsc-and-hotreload').compileTS(Application_dataPath);
-
-                true;
-            } catch(e) {
-                console.error(e);
-                false;
-            }
+        JsEnv env = Puerts.Editor.Node.RunInPuerProject(@"
+            require('./build-script/@puer/tsc-and-hotreload').compileTS(__puerProjectRoot + 'tsconfig.json')
         ");
-        if (!result) {
-            EditorUtility.ClearProgressBar();
-        }
         env.Dispose();
         env = null;
     }
@@ -112,27 +96,18 @@ and run `npm i` in Puer-Project
     {
         env = new JsEnv();
         env.UsingAction<int>();
-        bool result = env.Eval<bool>(@"
-            try {
-                const Application_dataPath = '" + Application.dataPath + @"';
-                const moduleRequire = require('module')
-                    .createRequire(Application_dataPath + '/../Puer-Project/build-script/');
-
-                moduleRequire('./@puerts/tsc-and-hotreload').watch(Application_dataPath);
-
-                true;
-            } catch(e) {
-                console.error(e);
-                false;
-            }
-        ");
-        
-        if (!result) {
-            UnWatch();
-        } 
-        else 
+        try 
         {
+            Puerts.Editor.Node.RunInPuerProject(@"
+                require('./build-script/@puer/tsc-and-hotreload').watch(__puerProjectRoot + 'tsconfig.json');
+            ", env);
+
             UnityEngine.Debug.Log("watching tsproj");
+        } 
+        catch(Exception e)
+        {
+            UnWatch();
+            throw e;
         }
     }
     [MenuItem("PuertsEditorDemo/tsc & HotReload/Watch tsProj And HotReload/on", true)]

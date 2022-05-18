@@ -1,15 +1,14 @@
-const { join } = require('path');
 const CS = puertsRequire('csharp');
 
 require('ts-node').register({ project: `${__dirname}/tsconfig.json` });
 
-exports.compileTS = function (Application_dataPath) {
-    require('./compile.ts').default(join(Application_dataPath, '../Puer-Project/tsconfig.json'));
+exports.compileTS = function (tsConfigPath) {
+    require('./run-ts.ts').default(tsConfigPath);
 }
 
-exports.watch = function (Application_dataPath) {
+exports.watch = function (tsConfigPath) {
     const Watcher = require('./watch.ts').default;
-    const HotReloadWatcher = new Watcher(join(Application_dataPath, '../Puer-Project/tsconfig.json'));
+    const HotReloadWatcher = new Watcher(tsConfigPath);
 
     const jsEnvs = CS.Puerts.JsEnv.jsEnvs
     console.log('jsEnvs.Count:' + jsEnvs.Count);

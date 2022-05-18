@@ -11,7 +11,7 @@ class Rotate {
         this.bindTo.JsUpdate = () => this.onUpdate();
         this.bindTo.JsOnDestroy = () => this.onDestroy();
 
-        const propsComponent : CSharp.TSProperties = this.bindTo.GetComponent(puerts.$typeof(CSharp.TSProperties)) as CSharp.TSProperties;
+        const propsComponent: CSharp.TSProperties = this.bindTo.GetComponent(puerts.$typeof(CSharp.TSProperties)) as CSharp.TSProperties;
         for (let i = 0; i < propsComponent.Pairs.Length; i++) {
             const p = propsComponent.Pairs.get_Item(i);
             //@ts-ignore

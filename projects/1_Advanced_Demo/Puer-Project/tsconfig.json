@@ -1,7 +1,7 @@
 {
   "files": ["./src/rotate.ts"],
   "compilerOptions": {
-    "outDir": "./output",
+    "outDir": "../output",
     "typeRoots": [
       "../../../package/Typing",
       "../Assets/Gen/Typing",
