@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 you can get the english version change log at [Github Release](https://github.com/Tencent/puerts/releases)
 
+## [1.3.4] - 2022-05-18
+1. the module csharp in d.ts will use export = just like what Node.js did #750
+2. fix: ignored assemblies which path is with Editor when generating extension method #735
+3. add try catch for builtin script running. and will destroy the jsengine when error is thrown.
+4. the Debug build of Plugin will now have the global.gc function.
+
 ## [1.3.3] - 2022-04-17
 1. fix: some event members did not generated as LazyMember Tencent#739
 2. fix: some parameters with in modifier would use ref modifier to invoke in the generated code. Tencent#758
