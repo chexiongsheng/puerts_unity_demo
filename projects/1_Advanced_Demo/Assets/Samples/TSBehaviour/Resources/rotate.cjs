@@ -101,6 +101,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var csharp__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(csharp__WEBPACK_IMPORTED_MODULE_0__);
 
 var puerts = __webpack_require__(/*! puerts */ "puerts");
+require('puerts/console-track')
 var Rotate = /** @class */ (function () {
     function Rotate(bindTo) {
         var _this = this;
