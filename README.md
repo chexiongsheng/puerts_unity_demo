@@ -19,6 +19,7 @@
 > 下列内容都来自于社区，PuerTS会不定时搜集优秀内容填进下面的列表，但更希望您通过[![PR's Welcome][pr-welcoming-image]][pr-welcoming-url]的方式将您东西分享出来。
 
 * Samples or Frameworks | 例子或者二次封装框架
+
 | Author | repo | type | star |
 | --- | --- | --- | --- |
 | @Justin-sky | https://github.com/Justin-sky/Nice-TS | Framework | 250+ |
@@ -29,7 +30,8 @@
 
 
 * Tutorial in video or article | 优秀文字/视频教程：
+
 | Author | title | url |
 | --- | --- | --- |
 | @NowPaper | Unity TypeScript 脚本解决方案 Puerts 实例解析快速上手 | https://www.bilibili.com/video/BV13v411g7sV |
-| @ustin-sky | Puerts中使用protobuf | https://zhuanlan.zhihu.com/p/205342984 |
+| @Justin-sky | Puerts中使用protobuf | https://zhuanlan.zhihu.com/p/205342984 |
