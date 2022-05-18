@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
@@ -180,9 +180,6 @@ namespace UnityEditor.GUI
             drawList = new ReorderableList(elements, typeof(Element), true, true, true, true);
             drawList.elementHeightCallback = (index) =>
             {//元素盖度
-                if (elements.Count == 0) {
-                    return 0;
-                }
                 return display.GetHeight(elements[index]);
             };
             drawList.drawElementCallback = (rect, index, selected, focused) =>
@@ -337,7 +334,7 @@ namespace UnityEditor.GUI
                 GUILayout.Space(5f);
                 if (GUILayout.Button("copy declare code [public]"))
                 {
-                    var code = DisplayUtility.GenCode(_instance.GenPairs(), "public", false);
+                    var code = DisplayUtility.GenCode(_instance.GenPairs(), "declare public", false);
                     var editor = new TextEditor();
                     editor.text = code;
                     editor.OnFocus();
@@ -346,7 +343,7 @@ namespace UnityEditor.GUI
                 }
                 if (GUILayout.Button("copy declare code [private]"))
                 {
-                    var code = DisplayUtility.GenCode(_instance.GenPairs(), "private", false);
+                    var code = DisplayUtility.GenCode(_instance.GenPairs(), "declare private", false);
                     var editor = new TextEditor();
                     editor.text = code;
                     editor.OnFocus();
@@ -374,21 +371,35 @@ namespace UnityEditor.GUI
                 checkKeyValidity = EditorGUILayout.Toggle("", checkKeyValidity, GUILayout.Width(20f));
                 EditorGUILayout.LabelField("check key validity");
                 EditorGUILayout.EndHorizontal();
-                //Check key redefinition
-                TSProperties.ResultPair[] pairs;
-                if (checkKeyRedefinition && (pairs = _instance.GenPairs()) != null)
+                //show check
+                if (checkKeyValidity || checkKeyRedefinition)
                 {
-                    var keys = new List<string>();
-                    for (int i = 0; i < pairs.Length; i++)
+                    TSProperties.ResultPair[] pairs = _instance.GenPairs();
+                    if (pairs != null)
                     {
-                        var key = pairs[i].key;
-                        if (keys.Contains(key))
+                        var keys = new List<string>();
+                        for (int i = 0; i < pairs.Length; i++)
                         {
-                            EditorGUILayout.BeginHorizontal();
-                            EditorGUILayout.EndHorizontal();
+                            var key = pairs[i].key;
+                            if (checkKeyRedefinition)
+                            {
+                                if (keys.Contains(key))
+                                {
+                                    EditorGUILayout.BeginHorizontal();
+                                    EditorGUILayout.LabelField("", "", "CN EntryWarnIconSmall", GUILayout.Width(20));
+                                    EditorGUILayout.LabelField($"redefinition key at {i} (other at {keys.IndexOf(key)})");
+                                    EditorGUILayout.EndHorizontal();
+                                }
+                                else keys.Add(key);
+                            }
+                            if (checkKeyValidity && !DisplayUtility.CheckKeyValidity(key))
+                            {
+                                EditorGUILayout.BeginHorizontal();
+                                EditorGUILayout.LabelField("", "", "CN EntryWarnIconSmall", GUILayout.Width(20));
+                                EditorGUILayout.LabelField($"invail key definition at {i} ({key})");
+                                EditorGUILayout.EndHorizontal();
+                            }
                         }
-                        else
-                            keys.Add(key);
                     }
                 }
                 GUILayout.Space(5f);
@@ -793,8 +804,24 @@ namespace UnityEditor.GUI
                     c >= 97 && c <= 122))
                     return false;
             }
-            return true;
+            return !reservedKeywords.Contains(name);
         }
+        private static List<string> reservedKeywords = new List<string>()
+        {
+            "abstract", "arguments", "boolean", "break", "byte",
+            "case", "catch", "char", "class", "const",
+            "continue", "debugger", "default", "delete", "do",
+            "double", "else", "enum", "eval", "export",
+            "extends", "false", "final", "finally", "float",
+            "for", "function", "goto", "if", "implements",
+            "import", "in", "instanceof", "int", "interface",
+            "let", "long", "native", "new", "null",
+            "package", "private", "protected", "public", "return",
+            "short", "static", "super", "switch", "synchronized",
+            "this", "throw", "throws", "transient", "true",
+            "try", "typeof", "var", "void", "volatile",
+            "while", "with", "yield"
+        };
         /// <summary> 检测字段是否符合类型需求 </summary>
         public static bool CheckFields(Type type)
         {
@@ -1045,7 +1072,7 @@ namespace UnityEditor.GUI
                 var keyStr = pair.key;
                 if (!CheckKeyValidity(keyStr))
                     keyStr = "[\"" + keyStr + "\"]";
-                resultCode += declareType + " " + keyStr + ": " + typeStr + ";";
+                resultCode += $"{declareType} {keyStr}: {typeStr};";
             }
             return resultCode;
         }
@@ -1056,10 +1083,11 @@ namespace UnityEditor.GUI
             var keys = editor.GetElements().Select(o => o.key).ToList();
             foreach (var line in code.Split(';'))
             {
-                var columns = line.Trim().Split(' ');
-                if (columns.Length < 2 || !columns[1].Contains(":"))
-                    return;
-                var key = columns[1].Substring(0, columns[1].IndexOf(":"));
+                var columns = line.Trim().Split(':').Where(o => !string.IsNullOrEmpty(o)).ToArray();
+                if (columns.Length <= 0)
+                    continue;
+                var declareKey = columns[0].Split(' ').Select(o => o.Trim()).Where(o => !string.IsNullOrEmpty(o)).ToArray();
+                var key = declareKey[declareKey.Length - 1];
                 if (keys.Contains(key))
                     continue;
                 keys.Add(key);
