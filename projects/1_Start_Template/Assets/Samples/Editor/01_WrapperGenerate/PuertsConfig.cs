@@ -96,6 +96,7 @@ public class PuertsConfig
     static List<string> excludeAssemblys = new List<string>{
         "UnityEditor.dll",
         "Assembly-CSharp-Editor.dll",
+        "com.tencent.puerts.core.Editor.dll",
     };
     //需要排除的类型
     static List<string> excludeTypes = new List<string>

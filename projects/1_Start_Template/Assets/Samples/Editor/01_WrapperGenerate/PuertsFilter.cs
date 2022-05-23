@@ -170,7 +170,7 @@ public class PuertsFilter : Editor
 
                 if (IsMatch(paramtersList, mParamterNames))
                     return true;
-                for (var i = mParamterNames.Length - 1; i >= 0; i++)
+                for (var i = mParamterNames.Length - 1; i >= 0; i--)
                 {
                     if (!mParamters[i].IsOptional)
                         break;
