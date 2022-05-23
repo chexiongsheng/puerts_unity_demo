@@ -1,5 +1,5 @@
 {
-  "name": "@puerts/tsc-and-hotreload",
+  "name": "@puer/tsc",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

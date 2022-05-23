@@ -80,7 +80,7 @@ and run `npm i` in Puer-Project
     static void Compile() 
     {
         JsEnv env = Puerts.Editor.Node.RunInPuerProject(@"
-            require('./build-script/@puer/tsc-and-hotreload').compileTS(__puerProjectRoot + 'tsconfig.json')
+            require('./build-script/compile-and-move.js');
         ");
         env.Dispose();
         env = null;
@@ -99,7 +99,7 @@ and run `npm i` in Puer-Project
         try 
         {
             Puerts.Editor.Node.RunInPuerProject(@"
-                require('./build-script/@puer/tsc-and-hotreload').watch(__puerProjectRoot + 'tsconfig.json');
+                require('./build-script/watch-and-hotreload.js');
             ", env);
 
             UnityEngine.Debug.Log("watching tsproj");

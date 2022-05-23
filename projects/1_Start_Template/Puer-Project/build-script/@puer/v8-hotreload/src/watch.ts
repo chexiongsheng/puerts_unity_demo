@@ -1,13 +1,6 @@
-import * as ts from "typescript";
-import * as glob from "glob";
 import { Debugger } from './lib/debugger';
-import { watch } from "./run-ts";
 
 export default class Watcher {
-  constructor(tsConfigPath: string) {
-    watch(tsConfigPath, this.emitFileChanged.bind(this))
-  }
-
   private debuggers: { [key: number]: Debugger } = {};
 
   addDebugger(debuggerPort: number) {

@@ -37,7 +37,7 @@ export default function (tsConfigPath: string) {
     CS.UnityEditor.EditorUtility.ClearProgressBar();
 }
 
-export function watch(tsConfigPath, onFileChanged = (name: string) => { }) {
+export function watch(tsConfigPath, onFileChanged = (name: string, text: string) => { }) {
     const cl: ts.ParsedCommandLine | undefined = ts.getParsedCommandLineOfConfigFile(
         tsConfigPath,
         {},
@@ -116,8 +116,7 @@ export function watch(tsConfigPath, onFileChanged = (name: string) => { }) {
 
         output.outputFiles.forEach(o => {
             mkdirp.sync(path.dirname(o.name));
-            fs.writeFileSync(o.name, o.text, "utf8");
-            onFileChanged(o.name);
+            onFileChanged(o.name, o.text);
         });
     }
 

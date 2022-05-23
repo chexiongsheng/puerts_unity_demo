@@ -9,9 +9,9 @@
         "moduleResolution": "node",
         "esModuleInterop": true,
         "typeRoots": [
-            "../../../node_modules/@types"
+            "../../../../node_modules/@types"
         ],
-        "outDir": "output"
+        "outDir": "../dist"
     },
-    "files": ["./watch.ts", "./run-ts.ts"]
+    "files": ["./watch.ts"]
 }

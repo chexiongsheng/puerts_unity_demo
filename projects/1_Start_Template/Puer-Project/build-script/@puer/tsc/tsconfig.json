@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "strict": false,
+        "strictNullChecks": false,
+        "strictPropertyInitialization": false,
+        "target": "ES6",
+        "module": "commonjs",
+        "sourceMap": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "typeRoots": [
+            "../../../node_modules/@types"
+        ],
+        "outDir": "output"
+    },
+    "files": ["./run-tsc.ts"]
+}

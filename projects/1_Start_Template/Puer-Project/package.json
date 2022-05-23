@@ -8,13 +8,14 @@
   "license": "ISC",
   "dependencies": {
     "@types/chrome-remote-interface": "^0.31.3",
+    "@types/glob": "^7.2.0",
     "@types/mkdirp": "^1.0.2",
     "@types/node": "^16.7.13",
-    "@types/glob": "^7.2.0",
     "chokidar": "^3.5.2",
     "chrome-remote-interface": "^0.31.0",
     "glob": "^7.2.0",
     "mkdirp": "^1.0.4",
+    "mv": "^2.1.1",
     "ts-node": "^10.2.1",
     "typescript": "^4.6.4"
   }

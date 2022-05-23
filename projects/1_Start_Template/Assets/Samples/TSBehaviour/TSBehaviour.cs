@@ -21,7 +21,7 @@ namespace PuertsTest
 
         private void OnEnable()
         {
-            string root = "Assets/Samples/TSBehaviour/Resources";
+            string root = Application.dataPath + "/Samples/TSBehaviour/Resources";
             if (jsEnv == null) jsEnv = new JsEnv(new DefaultLoader(root), 9229);
             var varname = "m_" + Time.frameCount;
             var init = jsEnv.Eval<ModuleInit>("const "+varname+" = require('" + ModuleName + "'); "+varname+".init;");

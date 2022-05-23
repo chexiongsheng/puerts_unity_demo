@@ -1,6 +1,7 @@
 import CSharp from "csharp";
 const puerts = require('puerts');
 
+
 class Rotate { 
     public speed: number = 0;
 
@@ -17,6 +18,11 @@ class Rotate {
             //@ts-ignore
             this[p.key] = p.value;
         }
+        setInterval(()=> {
+            // 开启hot-reload时，你可以尝试修改该函数感受效果
+            // this.speed = 3000
+            console.log('current speed is ' + this.speed);
+        }, 1000);
     }
     
     onUpdate() {
