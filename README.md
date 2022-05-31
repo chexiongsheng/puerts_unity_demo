@@ -17,7 +17,7 @@
 
 > In English
 
-The followed content are all come from community. PuerTS will collect superior content to fill these list. But we recommend you to share your content by submitting a  PR .
+The followed content all comes from the community. PuerTS will collect superior content to fill this list. But we recommend you share your content by submitting a  PR .
 
 > 说中文
 
