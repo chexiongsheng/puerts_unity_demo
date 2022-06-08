@@ -4,8 +4,8 @@
 ## Demo Layout | 目录结构解释
 
 * `package` code of PuerTS
-* `projects/0_Basic_Demo` most basic sample | 最基础的Demo示例
-* `projects/1_Start_Template` demo with some useful editor feature. could be use as a starter template | 一些很有用的编辑器功能演示,甚至可用于作为你的项目启动模板
+* `projects/0_Basic_Demo` most basic example | 最基础的Demo示例
+* `projects/1_Start_Template` a demo with some useful editor features. could be used as a starter template | 一些很有用的编辑器功能演示,甚至可用于作为你的项目启动模板
 
 ## How to run it? | 怎么跑这demo？
 
@@ -15,9 +15,13 @@
 
 ## More example? | 更多的示例或者教程？
 
-> The followed content are all come from community. PuerTS will collect superior content to fill these list. But we recommend you to share your content by submitting a  PR .
-> 
-> 下列内容都来自于社区，PuerTS会不定时搜集优秀内容填进下面的列表，但更希望您通过 PR 的方式将您东西分享出来。
+> In English
+
+The followed content all comes from the community. PuerTS will collect superior content to fill this list. But we recommend you share your content by submitting a  PR .
+
+> 说中文
+
+下列内容都来自于社区，PuerTS会不定时搜集优秀内容填进下面的列表，但更希望您通过 PR 的方式将您东西分享出来。
 
 * Samples or Frameworks | 例子或者二次封装框架
 
@@ -25,6 +29,7 @@
 | --- | --- | --- | --- |
 | @Justin-sky | https://github.com/Justin-sky/Nice-TS | Framework | 250+ |
 | @Geequlim | https://github.com/Geequlim/puerts-starter-kit | Framework | 80+ |
+| @jungog | https://github.com/jungog/UnityTs | Framework | |
 | @zombieyang | https://github.com/zombieyang/puerts_unity_webgl_demo | Samples | 30+ |
 | @throw-out | https://github.com/throw-out/PerformanceTesting | Samples | |
 | @DOSexample | https://github.com/DOSexample/puerts_unity_demo | Samples | |
