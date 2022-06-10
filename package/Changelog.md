@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 you can get the english version change log at [Github Release](https://github.com/Tencent/puerts/releases)
 
+## [1.4.0-preview.1] - 2022-06-10
+1. support apple silicon #591
+2. upgrade the default v8 to 9.4，nodejs to 16
+3. make all members become configurable #667
+4. add `require('puerts').getLastException` to get the Error instance #629
+5. change LC_RPATH setter to support silicon
+
 ## [1.3.4] - 2022-05-18
 1. the module csharp in d.ts will use export = just like what Node.js did #750
 2. fix: ignored assemblies which path is with Editor when generating extension method #735
