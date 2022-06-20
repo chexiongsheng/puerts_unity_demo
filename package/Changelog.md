@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 you can get the english version change log at [Github Release](https://github.com/Tencent/puerts/releases)
 
+## [1.4.0-preview.2] - 2022-06-20
+1. fix android arm64 plugin meta
+
 ## [1.4.0-preview.1] - 2022-06-10
 1. support apple silicon #591
 2. upgrade the default v8 to 9.4，nodejs to 16
