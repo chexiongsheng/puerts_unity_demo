@@ -27,14 +27,29 @@ function csTypeToClass(csType) {
         for(var key in cls) {
             let desc = Object.getOwnPropertyDescriptor(cls, key);
             if (desc && desc.configurable && (typeof desc.get) == 'function' && (typeof desc.value) == 'undefined') {
-                let val = cls[key];
-                Object.defineProperty(cls, key, {
-                    value: val,
-                    writable: false,
-                    configurable: false
-                });
-                if (cls.__p_isEnum && (typeof val) == 'number') {
-                    cls[val] = key;
+                let getter = desc.get;
+                let value;
+                let valueGetted = false;
+
+                Object.defineProperty(
+                    cls, key, 
+                    Object.assign(desc, {
+                        get() {
+                            if (!valueGetted) {
+                                value = getter();
+                                valueGetted = true;
+                            }
+                            
+                            return value;
+                        },
+                        configurable: false
+                    })
+                );
+                if (cls.__p_isEnum) {
+                    const val = cls[key];
+                    if ((typeof val) == 'number') {
+                        cls[val] = key;
+                    }
                 }
             }
         }
@@ -51,15 +66,17 @@ function csTypeToClass(csType) {
 }
 
 function Namespace() {}
+puerts.__$NamespaceType = Namespace;
+
 function createTypeProxy(namespace) {
     return new Proxy(new Namespace, {
         get: function(cache, name) {
             if (!(name in cache)) {
                 let fullName = namespace ? (namespace + '.' + name) : name;
                 if (/\$\d+$/.test(name)) {
-                    let genericTypeInfo = new Map();
+                    let genericTypeInfo = cache[name] = new Map();
                     genericTypeInfo.set('$name', fullName.replace('$', '`'));
-                    cache[name] = genericTypeInfo;
+
                 } else {
                     let cls = csTypeToClass(fullName);
                     if (cls) {
@@ -119,15 +136,24 @@ function makeGeneric(genericTypeInfo, ...genericArgs) {
     let p = genericTypeInfo;
     for (var i = 0; i < genericArgs.length; i++) {
         let genericArg = genericArgs[i];
-        if (!p.get(genericArg)) {
+        if (!p.has(genericArg)) {
             p.set(genericArg, new Map());
         }
         p = p.get(genericArg);
     }
-    if (!p.get('$type')) {
+    if (!p.has('$type')) {
         p.set('$type', puerts.loadType(genericTypeInfo.get('$name'), ...genericArgs));
     }
     return p.get('$type');
+}
+
+function makeGenericMethod(cls, methodName, ...genericArgs) {
+    if (cls && typeof methodName == 'string' && genericArgs && genericArgs.length > 0) {
+        return puerts.getGenericMethod(puerts.$typeof(cls), methodName, ...genericArgs);
+        
+    } else {
+        throw new Error("invalid arguments for makeGenericMethod");
+    }
 }
 
 function getType(cls) {
@@ -172,6 +198,7 @@ puerts.$unref = unref;
 puerts.$set = setref;
 puerts.$promise = taskToPromise;
 puerts.$generic = makeGeneric;
+puerts.$genericMethod = makeGenericMethod;
 puerts.$typeof = getType;
 puerts.$extension = (cls, extension) => { 
     typeof console != 'undefined' && console.warn(`deprecated! if you already generate static wrap for ${cls} and ${extension}, you are no need to invoke $extension`); 

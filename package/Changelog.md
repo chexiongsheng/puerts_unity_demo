@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 you can get the english version change log at [Github Release](https://github.com/Tencent/puerts/releases)
 
+## [1.3.5] - 2022-07-06
+1. fix: duplicated key error during generating: #657
+2. fix: cannot $generic a Type with Enum #856
+3. fix: did not filter the pointer type in delegate during generating: #857
+4. fix: in the d.ts, the return type of an interface's extension method would be wrong: #857
+5. fix: do not generate extension method for enum #857
+6. fix: some order of parameters with ArrayBuffer will throw an Error. #853
+7. feature: support invoking generic method without constraint: #819
+8. feature: the wrapper file of a generic type can now combine into one single file. #816
+9. feature: TypedValue can now pass to the argument of the corresponding type. #833
+10. optimize: add a reusable Github action for downloading JS backend artifact.
+11. optimize: can download the backend file by a URL in action.
+
 ## [1.3.4] - 2022-05-18
 1. the module csharp in d.ts will use export = just like what Node.js did #750
 2. fix: ignored assemblies which path is with Editor when generating extension method #735
