@@ -35,7 +35,7 @@ namespace Puerts
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || PUERTS_GENERAL || (UNITY_WSA && !UNITY_EDITOR)
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 #endif
-    public delegate string ModuleResolveCallback(string identifer, int jsEnvIdx);
+    public delegate string ModuleResolveCallback(string identifer, int jsEnvIdx, out string pathForDebug);
 
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || PUERTS_GENERAL || (UNITY_WSA && !UNITY_EDITOR)
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -339,6 +339,18 @@ namespace Puerts
 
         [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern void ReturnFunction(IntPtr isolate, IntPtr info, IntPtr JSFunction);
+
+        [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ReturnCSharpFunctionCallback(IntPtr isolate, IntPtr info, IntPtr v8FunctionCallback, long data);
+
+        public static void ReturnCSharpFunctionCallback(IntPtr isolate, IntPtr info, V8FunctionCallback v8FunctionCallback, long data)
+        {
+#if PUERTS_GENERAL || (UNITY_WSA && !UNITY_EDITOR)
+            GCHandle.Alloc(v8FunctionCallback);
+#endif
+            IntPtr fn = v8FunctionCallback == null ? IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(v8FunctionCallback);
+            ReturnCSharpFunctionCallback(isolate, info, fn, data);
+        }
 
         [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern void ReturnJSObject(IntPtr isolate, IntPtr info, IntPtr JSObject);

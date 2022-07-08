@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 you can get the english version change log at [Github Release](https://github.com/Tencent/puerts/releases)
 
+## [1.4.0-preview.3] - 2022-07-08
+1. merge 1.3.5 
+2. fix #899
+
 ## [1.4.0-preview.2] - 2022-06-20
 1. fix android arm64 plugin meta
 
