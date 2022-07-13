@@ -1,0 +1,26 @@
+{
+  "name": "puerts_unity_demo",
+  "version": "1.0.0",
+  "description": "> 本仓库master分支用到了unity package的能力，因此仅支持Unity2018+。如您在使用5.5和2017，请查看1.2.x或1.0.x分支（或[点此下载zip](https://github.com/chexiongsheng/puerts_unity_demo/archive/refs/heads/1.2.x.zip)）",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chexiongsheng/puerts_unity_demo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chexiongsheng/puerts_unity_demo/issues"
+  },
+  "homepage": "https://github.com/chexiongsheng/puerts_unity_demo#readme",
+  "dependencies": {
+    "commander": "^9.3.0",
+    "download": "^8.0.0",
+    "glob": "^8.0.3",
+    "iconv-lite": "^0.6.3",
+    "shelljs": "^0.8.5"
+  }
+}
