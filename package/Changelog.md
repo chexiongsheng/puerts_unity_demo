@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 you can get the english version change log at [Github Release](https://github.com/Tencent/puerts/releases)
 
+## [1.3.6] - 2022-07-13
+1. fix: UnityMenu.cs code bug fix.
+2. fix: thrown error when generating generic type with constrained generic argument.
+
 ## [1.3.5] - 2022-07-06
 1. fix: duplicated key error during generating: #657
 2. fix: cannot $generic a Type with Enum #856
