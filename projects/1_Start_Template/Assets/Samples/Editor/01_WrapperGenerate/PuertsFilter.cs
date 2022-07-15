@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using System;
 using System.Runtime.CompilerServices;
+using Puerts.Editor.Generator;
 
 /// <summary>
 /// 这是参照xLua黑名单配置设计的
@@ -119,16 +120,22 @@ public class PuertsFilter : Editor
         }
     }
 
-    //过滤Obsolete-Error属性时, 放开此行注释
     [Filter]
+    //适用于puerts_1.3.0版本及以上
+    static BindingMode Filter(MemberInfo memberInfo) => (FilterObsolete(memberInfo) || FilterByBlackList(memberInfo)) ? BindingMode.DontBinding : BindingMode.FastBinding;
+    //适用于puerts_1.3.0版本以下
+    //static bool Filter(MemberInfo memberInfo) => FilterObsolete(memberInfo) || FilterByBlackList(memberInfo);
+
     static bool FilterObsolete(MemberInfo memberInfo)
     {
         var obsolete = memberInfo.GetCustomAttributes(typeof(ObsoleteAttribute), true).FirstOrDefault() as ObsoleteAttribute;
-        return obsolete != null && obsolete.IsError;
-    }//*/
-
-    [Filter]
-    static bool Filter(MemberInfo memberInfo)
+        if (obsolete != null)
+        {
+            return obsolete.IsError;   //过滤Obsolete-Error属性时
+        }
+        return false;
+    }
+    static bool FilterByBlackList(MemberInfo memberInfo)
     {
         string declaringTypeName = memberInfo.DeclaringType.FullName.Replace("+", ".");
         Dictionary<string, List<string[]>> methodOrProp;
@@ -210,7 +217,7 @@ public class PuertsFilter : Editor
         {
             var genericArgumentNames = type.GetGenericArguments()
                 .Select(x => GetFriendlyName(x)).ToArray();
-            return type.Name.Split('`')[0] + "<" + string.Join(", ", genericArgumentNames) + ">";
+            return type.Name.Split('`')[0] + "<" + string.Join(",", genericArgumentNames) + ">";
         }
         else
         {
@@ -239,7 +246,7 @@ public class PuertsFilter : Editor
             {
                 var genericArgumentNames = type.GetGenericArguments()
                     .Select(x => GetFriendlyName(x)).ToArray();
-                return type.DeclaringType.FullName.Split('`')[0] + "<" + string.Join(", ", genericArgumentNames) + ">" + '.' + type.Name;
+                return type.DeclaringType.FullName.Split('`')[0] + "<" + string.Join(",", genericArgumentNames) + ">" + '.' + type.Name;
             }
             else
             {
@@ -250,7 +257,7 @@ public class PuertsFilter : Editor
         {
             var genericArgumentNames = type.GetGenericArguments()
                 .Select(x => GetFriendlyName(x)).ToArray();
-            return type.FullName.Split('`')[0] + "<" + string.Join(", ", genericArgumentNames) + ">";
+            return type.FullName.Split('`')[0] + "<" + string.Join(",", genericArgumentNames) + ">";
         }
         return type.FullName.Replace("+", ".");
     }
@@ -264,13 +271,14 @@ public class PuertsFilter : Editor
             {
                 _blacklist = new Dictionary<string, Dictionary<string, List<string[]>>>();
 
-                foreach (var blackInfo in BlackList)
+                foreach (var memberInfo in BlackList)
                 {
-                    if (blackInfo.Count < 2)
+                    if (memberInfo.Count < 2)
                         continue;
+                    var _memberInfo = memberInfo.Select(o => o.Replace(" ", "")).ToList();
 
-                    string fullname = blackInfo[0];
-                    string methodName = blackInfo[1];
+                    string fullname = _memberInfo[0];
+                    string methodName = _memberInfo[1];
                     Dictionary<string, List<string[]>> methodOrProp;
                     if (!_blacklist.TryGetValue(fullname, out methodOrProp))
                     {
@@ -283,7 +291,7 @@ public class PuertsFilter : Editor
                         paramtersList = new List<string[]>();
                         methodOrProp.Add(methodName, paramtersList);
                     }
-                    paramtersList.Add(blackInfo.GetRange(2, blackInfo.Count - 2).ToArray());
+                    paramtersList.Add(_memberInfo.GetRange(2, _memberInfo.Count - 2).ToArray());
                 }
             }
             return _blacklist;
