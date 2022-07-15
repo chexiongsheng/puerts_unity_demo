@@ -100,6 +100,9 @@ public class PuertsFilter : Editor
                 new List<string>(){"System.IO.Stream", "ReadAsync", "System.Memory<System.Byte>", "System.Threading.CancellationToken"},
                 new List<string>(){"System.IO.Stream", "WriteAsync", "System.ReadOnlyMemory<System.Byte>"},
                 new List<string>(){"System.IO.Stream", "WriteAsync", "System.ReadOnlyMemory<System.Byte>", "System.Threading.CancellationToken"},
+                //System.Type
+                new List<string>(){"System.Type", "MakeGenericSignatureType", "System.Type", "System.Type[]" },
+                new List<string>(){"System.Type", "IsCollectible" },
                 //System
                 new List<string>(){"System.Net.WebProxy", "CreateDefaultProxy" },
                 new List<string>(){"System.Threading.Thread", "CurrentContext"},
