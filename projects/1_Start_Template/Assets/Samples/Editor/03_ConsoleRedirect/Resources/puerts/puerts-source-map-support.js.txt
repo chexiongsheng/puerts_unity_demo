@@ -1,15 +1,35 @@
 const csharp = require("csharp");
 const puerts = require("puerts");
 try {
+    //过滤路径中的非法字符
+    const illegalCharacters = (function () {
+        //microsoft windows platform
+        if (csharp.UnityEngine.Application.platform === csharp.UnityEngine.RuntimePlatform.WindowsEditor ||
+            csharp.UnityEngine.Application.platform === csharp.UnityEngine.RuntimePlatform.WindowsPlayer) {
+            return ['"'];
+        }
+        return ['*', '?', '"', '<', ">", "|"];
+    })();
+
     /**
      * 加载source-map-support模块 
-     * source-map-support是nodejs模块, 以下语句替代所需的IO模块
+     * source-map-support需要调用nodejs模块, 以下语句实现所需的接口
      */
     puerts.registerBuildinModule("path", {
         dirname(path) {
+            for (const keyword of illegalCharacters) {
+                if (path.includes(keyword)) {
+                    return '';
+                }
+            }
             return csharp.System.IO.Path.GetDirectoryName(path);
         },
         resolve(dir, url) {
+            for (const keyword of illegalCharacters) {
+                if (dir.includes(keyword) || url.includes(keyword)) {
+                    return '';
+                }
+            }
             return csharp.System.IO.Path.GetFullPath(csharp.System.IO.Path.Combine(dir, url));
         },
     });
