@@ -9,8 +9,8 @@ function getTrack() {
     if (trackInfos && trackInfos.length > 0) {
         if (ENABLE_HYPERLINK) {
             //1.匹配函数名(可选)    /**([a-zA-z0-9#$._ ]+ \()? */
-            //2.匹配文件路径        /**([a-zA-Z0-9:/\\._ ]+(.js|.ts))\:([0-9]+)\:([0-9]+) */
-            let regex = /at ([a-zA-z0-9#$._ ]+ \()?([a-zA-Z0-9:/\\._ ]+(.js|.ts))\:([0-9]+)\:([0-9]+)\)?/g;
+            //2.匹配文件路径        /**([^\n\r\*\"\|\<\>]+(.js|.ts))\:([0-9]+)\:([0-9]+) */
+            let regex = /at ([a-zA-z0-9#$._ ]+ \()?([^\n\r\*\"\|\<\>]+(.js|.ts))\:([0-9]+)\:([0-9]+)\)?/g;
 
             for (let i = 0; i < trackInfos.length; i++) {
                 regex.lastIndex = 0;
