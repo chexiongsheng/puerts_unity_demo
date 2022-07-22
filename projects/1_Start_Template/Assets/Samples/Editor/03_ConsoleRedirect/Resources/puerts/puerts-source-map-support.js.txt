@@ -8,7 +8,7 @@ try {
             csharp.UnityEngine.Application.platform === csharp.UnityEngine.RuntimePlatform.WindowsPlayer) {
             return ['"'];
         }
-        return ['\\', '/', ':', '*', '?', '"', '<', ">", "|"];
+        return ['*', '?', '"', '<', ">", "|"];
     })();
 
     /**
