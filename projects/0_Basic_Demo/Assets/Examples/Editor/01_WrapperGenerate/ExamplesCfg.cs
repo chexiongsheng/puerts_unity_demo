@@ -84,6 +84,9 @@ public class ExamplesCfg
         if (mb.DeclaringType == typeof(MonoBehaviour) && mb.Name == "runInEditMode") {
             return true;
         }
+        if (mb.DeclaringType == typeof(Type) && (mb.Name == "MakeGenericSignatureType" || mb.Name == "IsCollectible")) {
+            return true;
+        }
         return false;
     }
 }
