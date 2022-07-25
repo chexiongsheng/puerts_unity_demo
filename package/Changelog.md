@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 you can get the english version change log at [Github Release](https://github.com/Tencent/puerts/releases)
 
+## [1.4.0-preview.6] - 2022-07-08
+1. support multi inspector client 
+2. fix the inspector crash problem in unity2021.3.4+
+3. fix #708
+4. disable generic wrapper in unity2018-
+
 ## [1.4.0-preview.5] - 2022-07-08
 1. downgrade the v8 to 8.4 in android、ios building. to avoid #908
 2. fix #907
