@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 you can get the english version change log at [Github Release](https://github.com/Tencent/puerts/releases)
 
+## [1.3.7] - 2022-07-28
+1. disable generic wrapper by default in 1.3 #937 #918
+2. fix: arguments number mismatch when generating BlittableCopy #938
+3. fix: MJSImporter will cause warning in 2018
+4. fix: #912
+
 ## [1.3.6] - 2022-07-13
 1. fix: UnityMenu.cs code bug fix.
 2. fix: thrown error when generating generic type with constrained generic argument.
