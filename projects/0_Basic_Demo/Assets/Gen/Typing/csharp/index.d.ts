@@ -1,5 +1,7 @@
 ﻿
 declare module 'csharp' {
+    //keep type incompatibility / 此属性保持类型不兼容
+    const __keep_incompatibility: unique symbol;
     namespace CSharp {
         interface $Ref<T> {
             value: T
@@ -15,7 +17,8 @@ declare module 'csharp' {
             /** Class containing methods to ease debugging while developing a game. */
             class Debug extends System.Object
             {
-            /** Get default debug logger. */
+                protected [__keep_incompatibility]: never;
+                /** Get default debug logger. */
                 public static get unityLogger(): UnityEngine.ILogger;
                 /** Reports whether the development console is visible. The development console cannot be made to appear using: */
                 public static get developerConsoleVisible(): boolean;
@@ -215,8 +218,9 @@ declare module 'csharp' {
             {
             }
             /** Representation of 3D vectors and points. */
-            class Vector3 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector3>
+            class Vector3 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector3>, System.IFormattable
             {
+                protected [__keep_incompatibility]: never;
                 public static kEpsilon : number
                 public static kEpsilonNormalSqrt : number/** X component of the vector. */
                 public x : number/** Y component of the vector. */
@@ -361,8 +365,14 @@ declare module 'csharp' {
                 public static op_Equality ($lhs: UnityEngine.Vector3, $rhs: UnityEngine.Vector3) : boolean
                 public static op_Inequality ($lhs: UnityEngine.Vector3, $rhs: UnityEngine.Vector3) : boolean
                 public ToString () : string
-                /** Returns a nicely formatted string for this vector. */
+                /** Returns a formatted string for this vector. * @param format A numeric format string.
+                * @param formatProvider An object that specifies culture-specific formatting.
+                */
                 public ToString ($format: string) : string
+                /** Returns a formatted string for this vector. * @param format A numeric format string.
+                * @param formatProvider An object that specifies culture-specific formatting.
+                */
+                public ToString ($format: string, $formatProvider: System.IFormatProvider) : string
                 public constructor ($x: number, $y: number, $z: number)
                 public constructor ($x: number, $y: number)
                 public Equals ($obj: any) : boolean
@@ -370,13 +380,15 @@ declare module 'csharp' {
                 public constructor ()
             }
             /** Representation of RGBA colors. */
-            class Color extends System.ValueType implements System.IEquatable$1<UnityEngine.Color>
+            class Color extends System.ValueType implements System.IEquatable$1<UnityEngine.Color>, System.IFormattable
             {
+                protected [__keep_incompatibility]: never;
             }
             /** Base class for all objects Unity can reference. */
             class Object extends System.Object
             {
-            /** The name of the object. */
+                protected [__keep_incompatibility]: never;
+                /** The name of the object. */
                 public get name(): string;
                 public set name(value: string);
                 /** Should the object be hidden, saved with the Scene or modifiable by the user? */
@@ -446,19 +458,31 @@ declare module 'csharp' {
                 * @param allowDestroyingAssets Set to true to allow assets to be destroyed.
                 */
                 public static DestroyImmediate ($obj: UnityEngine.Object) : void
-                /** The older, non-generic version of this method. In most cases you should use the generic version of this method.
+                /** Gets a list of all loaded objects of Type type.
                 * @param type The type of object to find.
-                * @returns Returns an array of all active loaded objects of Type type. 
+                * @param includeInactive If true, components attached to inactive GameObjects are also included.
+                * @returns The array of objects found matching the type specified. 
                 */
                 public static FindObjectsOfType ($type: System.Type) : System.Array$1<UnityEngine.Object>
+                /** Gets a list of all loaded objects of Type type.
+                * @param type The type of object to find.
+                * @param includeInactive If true, components attached to inactive GameObjects are also included.
+                * @returns The array of objects found matching the type specified. 
+                */
+                public static FindObjectsOfType ($type: System.Type, $includeInactive: boolean) : System.Array$1<UnityEngine.Object>
                 /** Do not destroy the target Object when loading a new Scene. * @param target An Object not destroyed on Scene change.
                 */
                 public static DontDestroyOnLoad ($target: UnityEngine.Object) : void
-                /** The older, non-generic version of this method. In most cases you should use the generic version of this method.
+                /** Returns the first active loaded object of Type type.
                 * @param type The type of object to find.
-                * @returns Returns an array of all active loaded objects of Type type. 
+                * @returns Object The first active loaded object that matches the specified type. It returns null if no Object matches the type. 
                 */
                 public static FindObjectOfType ($type: System.Type) : UnityEngine.Object
+                /** Returns the first active loaded object of Type type.
+                * @param type The type of object to find.
+                * @returns Object The first active loaded object that matches the specified type. It returns null if no Object matches the type. 
+                */
+                public static FindObjectOfType ($type: System.Type, $includeInactive: boolean) : UnityEngine.Object
                 public static op_Equality ($x: UnityEngine.Object, $y: UnityEngine.Object) : boolean
                 public static op_Inequality ($x: UnityEngine.Object, $y: UnityEngine.Object) : boolean
                 public constructor ()
@@ -472,7 +496,8 @@ declare module 'csharp' {
             /** Base class for all entities in Unity Scenes. */
             class GameObject extends UnityEngine.Object
             {
-            /** The Transform attached to this GameObject. */
+                protected [__keep_incompatibility]: never;
+                /** The Transform attached to this GameObject. */
                 public get transform(): UnityEngine.Transform;
                 /** The layer the game object is in. */
                 public get layer(): number;
@@ -515,16 +540,21 @@ declare module 'csharp' {
                 * @param type Type of component to find.
                 * @returns Returns a component if a component matching the type is found. Returns null otherwise. 
                 */
+                public GetComponentInParent ($type: System.Type, $includeInactive: boolean) : UnityEngine.Component
+                /** Retrieves the component of Type type in the GameObject or any of its parents.
+                * @param type Type of component to find.
+                * @returns Returns a component if a component matching the type is found. Returns null otherwise. 
+                */
                 public GetComponentInParent ($type: System.Type) : UnityEngine.Component
                 /** Returns all components of Type type in the GameObject. * @param type The type of component to retrieve.
                 */
                 public GetComponents ($type: System.Type) : System.Array$1<UnityEngine.Component>
                 public GetComponents ($type: System.Type, $results: System.Collections.Generic.List$1<UnityEngine.Component>) : void
-                /** Returns all components of Type type in the GameObject or any of its children. * @param type The type of Component to retrieve.
+                /** Returns all components of Type type in the GameObject or any of its children children using depth first search. Works recursively. * @param type The type of Component to retrieve.
                 * @param includeInactive Should Components on inactive GameObjects be included in the found set?
                 */
                 public GetComponentsInChildren ($type: System.Type) : System.Array$1<UnityEngine.Component>
-                /** Returns all components of Type type in the GameObject or any of its children. * @param type The type of Component to retrieve.
+                /** Returns all components of Type type in the GameObject or any of its children children using depth first search. Works recursively. * @param type The type of Component to retrieve.
                 * @param includeInactive Should Components on inactive GameObjects be included in the found set?
                 */
                 public GetComponentsInChildren ($type: System.Type, $includeInactive: boolean) : System.Array$1<UnityEngine.Component>
@@ -602,14 +632,15 @@ declare module 'csharp' {
             /** Base class for everything attached to GameObjects. */
             class Component extends UnityEngine.Object
             {
-            /** The Transform attached to this GameObject. */
+                protected [__keep_incompatibility]: never;
+                /** The Transform attached to this GameObject. */
                 public get transform(): UnityEngine.Transform;
                 /** The game object this component is attached to. A component is always attached to a game object. */
                 public get gameObject(): UnityEngine.GameObject;
                 /** The tag of this game object. */
                 public get tag(): string;
                 public set tag(value: string);
-                /** Returns the component of Type type if the game object has one attached, null if it doesn't. * @param type The type of Component to retrieve.
+                /** Returns the component of Type type if the GameObject has one attached, null if it doesn't. Will also return disabled components. * @param type The type of Component to retrieve.
                 */
                 public GetComponent ($type: System.Type) : UnityEngine.Component
                 /** Gets the component of the specified type, if it exists.
@@ -618,7 +649,7 @@ declare module 'csharp' {
                 * @returns Returns true if the component is found, false otherwise. 
                 */
                 public TryGetComponent ($type: System.Type, $component: $Ref<UnityEngine.Component>) : boolean
-                /** Returns the component with name type if the game object has one attached, null if it doesn't. */
+                /** Returns the component with name type if the GameObject has one attached, null if it doesn't. */
                 public GetComponent ($type: string) : UnityEngine.Component
                 public GetComponentInChildren ($t: System.Type, $includeInactive: boolean) : UnityEngine.Component
                 /** Returns the component of Type type in the GameObject or any of its children using depth first search.
@@ -626,7 +657,7 @@ declare module 'csharp' {
                 * @returns A component of the matching type, if found. 
                 */
                 public GetComponentInChildren ($t: System.Type) : UnityEngine.Component
-                /** Returns all components of Type type in the GameObject or any of its children. Works recursively. * @param t The type of Component to retrieve.
+                /** Returns all components of Type type in the GameObject or any of its children using depth first search. Works recursively. * @param t The type of Component to retrieve.
                 * @param includeInactive Should Components on inactive GameObjects be included in the found set? includeInactive decides which children of the GameObject will be searched.  The GameObject that you call GetComponentsInChildren on is always searched regardless. Default is false.
                 */
                 public GetComponentsInChildren ($t: System.Type, $includeInactive: boolean) : System.Array$1<UnityEngine.Component>
@@ -713,18 +744,29 @@ declare module 'csharp' {
             /** Provides an interface to get time information from Unity. */
             class Time extends System.Object
             {
-            /** The time at the beginning of this frame (Read Only). */
+                protected [__keep_incompatibility]: never;
+                /** The time at the beginning of this frame (Read Only). */
                 public static get time(): number;
+                /** The double precision time at the beginning of this frame (Read Only). This is the time in seconds since the start of the game. */
+                public static get timeAsDouble(): number;
                 /** The time since this frame started (Read Only). This is the time in seconds since the last non-additive scene has finished loading. */
                 public static get timeSinceLevelLoad(): number;
+                /** The double precision time since this frame started (Read Only). This is the time in seconds since the last non-additive scene has finished loading. */
+                public static get timeSinceLevelLoadAsDouble(): number;
                 /** The interval in seconds from the last frame to the current one (Read Only). */
                 public static get deltaTime(): number;
                 /** The time since the last MonoBehaviour.FixedUpdate started (Read Only). This is the time in seconds since the start of the game. */
                 public static get fixedTime(): number;
+                /** The double precision time since the last MonoBehaviour.FixedUpdate started (Read Only). This is the time in seconds since the start of the game. */
+                public static get fixedTimeAsDouble(): number;
                 /** The timeScale-independent time for this frame (Read Only). This is the time in seconds since the start of the game. */
                 public static get unscaledTime(): number;
+                /** The double precision timeScale-independent time for this frame (Read Only). This is the time in seconds since the start of the game. */
+                public static get unscaledTimeAsDouble(): number;
                 /** The timeScale-independent time at the beginning of the last MonoBehaviour.FixedUpdate phase (Read Only). This is the time in seconds since the start of the game. */
                 public static get fixedUnscaledTime(): number;
+                /** The double precision timeScale-independent time at the beginning of the last MonoBehaviour.FixedUpdate (Read Only). This is the time in seconds since the start of the game. */
+                public static get fixedUnscaledTimeAsDouble(): number;
                 /** The timeScale-independent interval in seconds from the last frame to the current one (Read Only). */
                 public static get unscaledDeltaTime(): number;
                 /** The timeScale-independent interval in seconds from the last MonoBehaviour.FixedUpdate phase to the current one (Read Only). */
@@ -748,6 +790,8 @@ declare module 'csharp' {
                 public static get renderedFrameCount(): number;
                 /** The real time in seconds since the game started (Read Only). */
                 public static get realtimeSinceStartup(): number;
+                /** The real time in seconds since the game started (Read Only). Double precision version of Time.realtimeSinceStartup.  */
+                public static get realtimeSinceStartupAsDouble(): number;
                 /** Slows your application’s playback time to allow Unity to save screenshots in between frames. */
                 public static get captureDeltaTime(): number;
                 public static set captureDeltaTime(value: number);
@@ -761,7 +805,8 @@ declare module 'csharp' {
             /** Position, rotation and scale of an object. */
             class Transform extends UnityEngine.Component implements System.Collections.IEnumerable
             {
-            /** The world space position of the Transform. */
+                protected [__keep_incompatibility]: never;
+                /** The world space position of the Transform. */
                 public get position(): UnityEngine.Vector3;
                 public set position(value: UnityEngine.Vector3);
                 /** Position of the transform relative to the parent transform. */
@@ -925,12 +970,14 @@ declare module 'csharp' {
                 public GetChild ($index: number) : UnityEngine.Transform
             }
             /** Quaternions are used to represent rotations. */
-            class Quaternion extends System.ValueType implements System.IEquatable$1<UnityEngine.Quaternion>
+            class Quaternion extends System.ValueType implements System.IEquatable$1<UnityEngine.Quaternion>, System.IFormattable
             {
+                protected [__keep_incompatibility]: never;
             }
             /** A standard 4x4 transformation matrix. */
-            class Matrix4x4 extends System.ValueType implements System.IEquatable$1<UnityEngine.Matrix4x4>
+            class Matrix4x4 extends System.ValueType implements System.IEquatable$1<UnityEngine.Matrix4x4>, System.IFormattable
             {
+                protected [__keep_incompatibility]: never;
             }
             /** The coordinate space in which to operate. */
             enum Space
@@ -947,7 +994,8 @@ declare module 'csharp' {
             /** Script interface for ParticleSystem. Unity's powerful and versatile particle system implementation. */
             class ParticleSystem extends UnityEngine.Component
             {
-            /** Determines whether the Particle System is playing. */
+                protected [__keep_incompatibility]: never;
+                /** Determines whether the Particle System is playing. */
                 public get isPlaying(): boolean;
                 /** Determines whether the Particle System is emitting particles. A Particle System may stop emitting when its emission module has finished, it has been paused or if the system has been stopped using ParticleSystem.Stop|Stop with the ParticleSystemStopBehavior.StopEmitting|StopEmitting flag. Resume emitting by calling ParticleSystem.Play|Play. */
                 public get isEmitting(): boolean;
@@ -980,6 +1028,8 @@ declare module 'csharp' {
                 public get limitVelocityOverLifetime(): UnityEngine.ParticleSystem.LimitVelocityOverLifetimeModule;
                 /** Script interface for the InheritVelocityModule of a Particle System. */
                 public get inheritVelocity(): UnityEngine.ParticleSystem.InheritVelocityModule;
+                /** Script interface for the Particle System Lifetime By Emitter Speed module. */
+                public get lifetimeByEmitterSpeed(): UnityEngine.ParticleSystem.LifetimeByEmitterSpeedModule;
                 /** Script interface for the ForceOverLifetimeModule of a Particle System. */
                 public get forceOverLifetime(): UnityEngine.ParticleSystem.ForceOverLifetimeModule;
                 /** Script interface for the ColorOverLifetimeModule of a Particle System. */
@@ -1029,6 +1079,7 @@ declare module 'csharp' {
                 public GetPlaybackState () : UnityEngine.ParticleSystem.PlaybackState
                 public SetPlaybackState ($playbackState: UnityEngine.ParticleSystem.PlaybackState) : void
                 public GetTrails () : UnityEngine.ParticleSystem.Trails
+                public GetTrails ($trailData: $Ref<UnityEngine.ParticleSystem.Trails>) : number
                 public SetTrails ($trailData: UnityEngine.ParticleSystem.Trails) : void
                 /** Fast-forwards the Particle System by simulating particles over the given period of time, then pauses it. * @param t Time period in seconds to advance the ParticleSystem simulation by. If restart is true, the ParticleSystem will be reset to 0 time, and then advanced by this value. If restart is false, the ParticleSystem simulation will be advanced in time from its current state by this value.
                 * @param withChildren Fast-forward all child Particle Systems as well.
@@ -1095,11 +1146,17 @@ declare module 'csharp' {
                 * @param indexBuffersCount The maximum number of cached index buffers.
                 */
                 public static SetMaximumPreMappedBufferCounts ($vertexBuffersCount: number, $indexBuffersCount: number) : void
+                public AllocateAxisOfRotationAttribute () : void
+                public AllocateMeshIndexAttribute () : void
+                /** Ensures that the ParticleSystemJobs.ParticleSystemJobData.customData1|customData1 and ParticleSystemJobs.ParticleSystemJobData.customData1|customData2 particle attribute arrays are allocated. * @param stream The custom data stream to allocate.
+                */
+                public AllocateCustomDataAttribute ($stream: UnityEngine.ParticleSystemCustomData) : void
                 public constructor ()
             }
             /** Representation of RGBA colors in 32 bit format. */
-            class Color32 extends System.ValueType
+            class Color32 extends System.ValueType implements System.IFormattable
             {
+                protected [__keep_incompatibility]: never;
             }
             /** The space to simulate particles in. */
             enum ParticleSystemSimulationSpace
@@ -1108,8 +1165,9 @@ declare module 'csharp' {
             enum ParticleSystemScalingMode
             { Hierarchy = 0, Local = 1, Shape = 2 }
             /** Representation of four-dimensional vectors. */
-            class Vector4 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector4>
+            class Vector4 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector4>, System.IFormattable
             {
+                protected [__keep_incompatibility]: never;
             }
             /** Which stream of custom particle data to set. */
             enum ParticleSystemCustomData
@@ -1120,7 +1178,8 @@ declare module 'csharp' {
             /** Element that can be used for screen rendering. */
             class Canvas extends UnityEngine.Behaviour
             {
-            /** Is the Canvas in World or Overlay mode? */
+                protected [__keep_incompatibility]: never;
+                /** Is the Canvas in World or Overlay mode? */
                 public get renderMode(): UnityEngine.RenderMode;
                 public set renderMode(value: UnityEngine.RenderMode);
                 /** Is this the root Canvas? */
@@ -1186,7 +1245,8 @@ declare module 'csharp' {
             /** Behaviours are Components that can be enabled or disabled. */
             class Behaviour extends UnityEngine.Component
             {
-            /** Enabled Behaviours are Updated, disabled Behaviours are not. */
+                protected [__keep_incompatibility]: never;
+                /** Enabled Behaviours are Updated, disabled Behaviours are not. */
                 public get enabled(): boolean;
                 public set enabled(value: boolean);
                 /** Has the Behaviour had active and enabled called? */
@@ -1197,28 +1257,33 @@ declare module 'csharp' {
             enum RenderMode
             { ScreenSpaceOverlay = 0, ScreenSpaceCamera = 1, WorldSpace = 2 }
             /** A 2D Rectangle defined by X and Y position, width and height. */
-            class Rect extends System.ValueType implements System.IEquatable$1<UnityEngine.Rect>
+            class Rect extends System.ValueType implements System.IEquatable$1<UnityEngine.Rect>, System.IFormattable
             {
+                protected [__keep_incompatibility]: never;
             }
             /** Enum mask of possible shader channel properties that can also be included when the Canvas mesh is created. */
             enum AdditionalCanvasShaderChannels
             { None = 0, TexCoord1 = 1, TexCoord2 = 2, TexCoord3 = 4, Normal = 8, Tangent = 16 }
             /** Representation of 2D vectors and points. */
-            class Vector2 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector2>
+            class Vector2 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector2>, System.IFormattable
             {
+                protected [__keep_incompatibility]: never;
             }
             /** A Camera is a device through which the player views the world. */
             class Camera extends UnityEngine.Behaviour
             {
+                protected [__keep_incompatibility]: never;
             }
             /** The material class. */
             class Material extends UnityEngine.Object
             {
+                protected [__keep_incompatibility]: never;
             }
             /** MonoBehaviour is the base class from which every Unity script derives. */
             class MonoBehaviour extends UnityEngine.Behaviour
             {
-            /** Disabling this lets you skip the GUI layout phase. */
+                protected [__keep_incompatibility]: never;
+                /** Disabling this lets you skip the GUI layout phase. */
                 public get useGUILayout(): boolean;
                 public set useGUILayout(value: boolean);
                 /** Allow a specific instance of a MonoBehaviour to run in edit mode (only available in the editor). */
@@ -1260,10 +1325,12 @@ declare module 'csharp' {
             /** MonoBehaviour.StartCoroutine returns a Coroutine. Instances of this class are only used to reference these coroutines, and do not hold any exposed properties or functions. */
             class Coroutine extends UnityEngine.YieldInstruction
             {
+                protected [__keep_incompatibility]: never;
             }
             /** Base class for all yield instructions. */
             class YieldInstruction extends System.Object
             {
+                protected [__keep_incompatibility]: never;
             }
             interface ICanvasRaycastFilter
             {
@@ -1274,22 +1341,26 @@ declare module 'csharp' {
             /** Interface to control the Mecanim animation system. */
             class Animator extends UnityEngine.Behaviour
             {
+                protected [__keep_incompatibility]: never;
             }
             /** Interface for on-screen keyboards. Only native iPhone, Android, and Windows Store Apps are supported. */
             class TouchScreenKeyboard extends System.Object
             {
+                protected [__keep_incompatibility]: never;
             }
             /** Enumeration of the different types of supported touchscreen keyboards. */
             enum TouchScreenKeyboardType
-            { Default = 0, ASCIICapable = 1, NumbersAndPunctuation = 2, URL = 3, NumberPad = 4, PhonePad = 5, NamePhonePad = 6, EmailAddress = 7, NintendoNetworkAccount = 8, Social = 9, Search = 10, DecimalPad = 11 }
+            { Default = 0, ASCIICapable = 1, NumbersAndPunctuation = 2, URL = 3, NumberPad = 4, PhonePad = 5, NamePhonePad = 6, EmailAddress = 7, NintendoNetworkAccount = 8, Social = 9, Search = 10, DecimalPad = 11, OneTimeCode = 12 }
             /** A UnityGUI event. */
             class Event extends System.Object
             {
+                protected [__keep_incompatibility]: never;
             }
         }
         namespace System {
             class Object
             {
+                protected [__keep_incompatibility]: never;
                 public Equals ($obj: any) : boolean
                 public static Equals ($objA: any, $objB: any) : boolean
                 public GetHashCode () : number
@@ -1300,15 +1371,21 @@ declare module 'csharp' {
             }
             class Void extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class ValueType extends System.Object
             {
+                protected [__keep_incompatibility]: never;
             }
             interface IEquatable$1<T>
             {
             }
+            interface IFormattable
+            {
+            }
             class Single extends System.ValueType implements System.IComparable, System.IComparable$1<number>, System.IConvertible, System.IEquatable$1<number>, System.IFormattable
             {
+                protected [__keep_incompatibility]: never;
             }
             interface IComparable
             {
@@ -1319,38 +1396,42 @@ declare module 'csharp' {
             interface IConvertible
             {
             }
-            interface IFormattable
-            {
-            }
             class Boolean extends System.ValueType implements System.IComparable, System.IComparable$1<boolean>, System.IConvertible, System.IEquatable$1<boolean>
             {
+                protected [__keep_incompatibility]: never;
             }
             class Int32 extends System.ValueType implements System.IComparable, System.IComparable$1<number>, System.IConvertible, System.IEquatable$1<number>, System.IFormattable
             {
+                protected [__keep_incompatibility]: never;
             }
             class String extends System.Object implements System.ICloneable, System.Collections.IEnumerable, System.IComparable, System.IComparable$1<string>, System.IConvertible, System.IEquatable$1<string>, System.Collections.Generic.IEnumerable$1<number>
             {
+                protected [__keep_incompatibility]: never;
             }
             interface ICloneable
             {
             }
             class Char extends System.ValueType implements System.IComparable, System.IComparable$1<number>, System.IConvertible, System.IEquatable$1<number>
             {
+                protected [__keep_incompatibility]: never;
             }
             class Enum extends System.ValueType implements System.IComparable, System.IConvertible, System.IFormattable
             {
+                protected [__keep_incompatibility]: never;
             }
             class Exception extends System.Object implements System.Runtime.InteropServices._Exception, System.Runtime.Serialization.ISerializable
             {
+                protected [__keep_incompatibility]: never;
             }
             interface MulticastDelegate
             { 
             (...args:any[]) : any; 
-            Invoke?: (...args:any[]) => any; 
+            Invoke?: (...args:any[]) => any;
             }
             var MulticastDelegate: { new (func: (...args:any[]) => any): MulticastDelegate; }
             class Delegate extends System.Object implements System.ICloneable, System.Runtime.Serialization.ISerializable
             {
+                protected [__keep_incompatibility]: never;
                 public get Method(): System.Reflection.MethodInfo;
                 public get Target(): any;
                 public static CreateDelegate ($type: System.Type, $firstArgument: any, $method: System.Reflection.MethodInfo, $throwOnBindFailure: boolean) : Function
@@ -1374,20 +1455,23 @@ declare module 'csharp' {
                 public static op_Equality ($d1: Function, $d2: Function) : boolean
                 public static op_Inequality ($d1: Function, $d2: Function) : boolean
             }
+            interface IFormatProvider
+            {
+            }
             interface Converter$2<TInput, TOutput>
             { 
             (input: TInput) : TOutput; 
-            Invoke?: (input: TInput) => TOutput; 
+            Invoke?: (input: TInput) => TOutput;
             }
             interface Predicate$1<T>
             { 
             (obj: T) : boolean; 
-            Invoke?: (obj: T) => boolean; 
+            Invoke?: (obj: T) => boolean;
             }
             interface Action$1<T>
             { 
             (obj: T) : void; 
-            Invoke?: (obj: T) => void; 
+            Invoke?: (obj: T) => void;
             }
             interface IDisposable
             {
@@ -1395,16 +1479,18 @@ declare module 'csharp' {
             interface Comparison$1<T>
             { 
             (x: T, y: T) : number; 
-            Invoke?: (x: T, y: T) => number; 
+            Invoke?: (x: T, y: T) => number;
             }
             class Double extends System.ValueType implements System.IComparable, System.IComparable$1<number>, System.IConvertible, System.IEquatable$1<number>, System.IFormattable
             {
+                protected [__keep_incompatibility]: never;
             }
             interface IAsyncResult
             {
             }
             class Type extends System.Reflection.MemberInfo implements System.Reflection.IReflect, System.Runtime.InteropServices._Type, System.Reflection.ICustomAttributeProvider, System.Runtime.InteropServices._MemberInfo
             {
+                protected [__keep_incompatibility]: never;
                 public static FilterAttribute : System.Reflection.MemberFilter
                 public static FilterName : System.Reflection.MemberFilter
                 public static FilterNameIgnoreCase : System.Reflection.MemberFilter
@@ -1569,36 +1655,39 @@ declare module 'csharp' {
             }
             class Array extends System.Object implements System.ICloneable, System.Collections.IEnumerable, System.Collections.IList, System.Collections.IStructuralComparable, System.Collections.IStructuralEquatable, System.Collections.ICollection
             {
+                protected [__keep_incompatibility]: never;
             }
             class UInt64 extends System.ValueType implements System.IComparable, System.IComparable$1<bigint>, System.IConvertible, System.IEquatable$1<bigint>, System.IFormattable
             {
+                protected [__keep_incompatibility]: never;
             }
             interface Func$2<T, TResult>
             { 
             (arg: T) : TResult; 
-            Invoke?: (arg: T) => TResult; 
+            Invoke?: (arg: T) => TResult;
             }
             interface Func$4<T1, T2, T3, TResult>
             { 
             (arg1: T1, arg2: T2, arg3: T3) : TResult; 
-            Invoke?: (arg1: T1, arg2: T2, arg3: T3) => TResult; 
+            Invoke?: (arg1: T1, arg2: T2, arg3: T3) => TResult;
             }
             class Attribute extends System.Object implements System.Runtime.InteropServices._Attribute
             {
+                protected [__keep_incompatibility]: never;
             }
             class Guid extends System.ValueType implements System.IComparable, System.IComparable$1<System.Guid>, System.IEquatable$1<System.Guid>, System.IFormattable
             {
+                protected [__keep_incompatibility]: never;
             }
             enum TypeCode
             { Empty = 0, Object = 1, DBNull = 2, Boolean = 3, Char = 4, SByte = 5, Byte = 6, Int16 = 7, UInt16 = 8, Int32 = 9, UInt32 = 10, Int64 = 11, UInt64 = 12, Single = 13, Double = 14, Decimal = 15, DateTime = 16, String = 18 }
-            interface IFormatProvider
-            {
-            }
             class RuntimeTypeHandle extends System.ValueType implements System.Runtime.Serialization.ISerializable
             {
+                protected [__keep_incompatibility]: never;
             }
             class UInt32 extends System.ValueType implements System.IComparable, System.IComparable$1<number>, System.IConvertible, System.IEquatable$1<number>, System.IFormattable
             {
+                protected [__keep_incompatibility]: never;
             }
         }
         namespace System.Collections {
@@ -1633,6 +1722,7 @@ declare module 'csharp' {
             }
             class List$1<T> extends System.Object implements System.Collections.IEnumerable, System.Collections.Generic.IList$1<T>, System.Collections.Generic.IReadOnlyCollection$1<T>, System.Collections.Generic.IReadOnlyList$1<T>, System.Collections.IList, System.Collections.Generic.ICollection$1<T>, System.Collections.ICollection, System.Collections.Generic.IEnumerable$1<T>
             {
+                protected [__keep_incompatibility]: never;
                 public get Capacity(): number;
                 public set Capacity(value: number);
                 public get Count(): number;
@@ -1707,6 +1797,7 @@ declare module 'csharp' {
             }
             class Dictionary$2<TKey, TValue> extends System.Object implements System.Collections.IDictionary, System.Collections.IEnumerable, System.Collections.Generic.IReadOnlyCollection$1<System.Collections.Generic.KeyValuePair$2<TKey, TValue>>, System.Collections.Generic.IReadOnlyDictionary$2<TKey, TValue>, System.Runtime.Serialization.IDeserializationCallback, System.Collections.Generic.ICollection$1<System.Collections.Generic.KeyValuePair$2<TKey, TValue>>, System.Runtime.Serialization.ISerializable, System.Collections.ICollection, System.Collections.Generic.IDictionary$2<TKey, TValue>, System.Collections.Generic.IEnumerable$1<System.Collections.Generic.KeyValuePair$2<TKey, TValue>>
             {
+                protected [__keep_incompatibility]: never;
                 public get Comparer(): System.Collections.Generic.IEqualityComparer$1<TKey>;
                 public get Count(): number;
                 public get Keys(): System.Collections.Generic.Dictionary$2.KeyCollection<TKey, TValue>;
@@ -1733,6 +1824,7 @@ declare module 'csharp' {
             }
             class KeyValuePair$2<TKey, TValue> extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             interface IReadOnlyDictionary$2<TKey, TValue> extends System.Collections.IEnumerable, System.Collections.Generic.IReadOnlyCollection$1<System.Collections.Generic.KeyValuePair$2<TKey, TValue>>, System.Collections.Generic.IEnumerable$1<System.Collections.Generic.KeyValuePair$2<TKey, TValue>>
             {
@@ -1768,6 +1860,7 @@ declare module 'csharp' {
             }
             class StructLayoutAttribute extends System.Attribute implements System.Runtime.InteropServices._Attribute
             {
+                protected [__keep_incompatibility]: never;
             }
             interface _Attribute
             {
@@ -1797,14 +1890,17 @@ declare module 'csharp' {
             }
             class SerializationInfo extends System.Object
             {
+                protected [__keep_incompatibility]: never;
             }
             class StreamingContext extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
         }
         namespace PuertsTest {
             class TestClass extends System.Object
             {
+                protected [__keep_incompatibility]: never;
                 public AddEventCallback1 ($callback1: PuertsTest.Callback1) : void
                 public RemoveEventCallback1 ($callback1: PuertsTest.Callback1) : void
                 public AddEventCallback2 ($callback2: PuertsTest.Callback2) : void
@@ -1815,17 +1911,18 @@ declare module 'csharp' {
             interface Callback1
             { 
             (obj: PuertsTest.TestClass) : void; 
-            Invoke?: (obj: PuertsTest.TestClass) => void; 
+            Invoke?: (obj: PuertsTest.TestClass) => void;
             }
             var Callback1: { new (func: (obj: PuertsTest.TestClass) => void): Callback1; }
             interface Callback2
             { 
             (str: number) : void; 
-            Invoke?: (str: number) => void; 
+            Invoke?: (str: number) => void;
             }
             var Callback2: { new (func: (str: number) => void): Callback2; }
             class BaseClass extends System.Object
             {
+                protected [__keep_incompatibility]: never;
                 public static BSF : number
                 public get BMF(): number;
                 public set BMF(value: number);
@@ -1841,6 +1938,7 @@ declare module 'csharp' {
             }
             class DerivedClass extends PuertsTest.BaseClass
             {
+                protected [__keep_incompatibility]: never;
                 public static DSF : number
                 public MyCallback : PuertsTest.MyCallback
                 public get DMF(): number;
@@ -1864,13 +1962,14 @@ declare module 'csharp' {
             interface MyCallback
             { 
             (msg: string) : void; 
-            Invoke?: (msg: string) => void; 
+            Invoke?: (msg: string) => void;
             }
             var MyCallback: { new (func: (msg: string) => void): MyCallback; }
             enum MyEnum
             { E1 = 0, E2 = 1 }
             class BaseClassExtension extends System.Object
             {
+                protected [__keep_incompatibility]: never;
                 public static PlainExtension ($a: PuertsTest.BaseClass) : void
                 public static Extension1 ($a: PuertsTest.BaseClass) : PuertsTest.BaseClass
                 public static Extension2 ($a: PuertsTest.BaseClass, $b: UnityEngine.GameObject) : PuertsTest.BaseClass
@@ -1878,40 +1977,49 @@ declare module 'csharp' {
             }
             class BaseClass1 extends System.Object
             {
+                protected [__keep_incompatibility]: never;
             }
         }
         namespace System.Collections.ObjectModel {
             class ReadOnlyCollection$1<T> extends System.Object implements System.Collections.IEnumerable, System.Collections.Generic.IList$1<T>, System.Collections.Generic.IReadOnlyCollection$1<T>, System.Collections.Generic.IReadOnlyList$1<T>, System.Collections.IList, System.Collections.Generic.ICollection$1<T>, System.Collections.ICollection, System.Collections.Generic.IEnumerable$1<T>
             {
+                protected [__keep_incompatibility]: never;
             }
         }
         namespace System.Collections.Generic.List$1 {
             class Enumerator<T> extends System.ValueType implements System.Collections.Generic.IEnumerator$1<T>, System.Collections.IEnumerator, System.IDisposable
             {
+                protected [__keep_incompatibility]: never;
             }
         }
         namespace System.Collections.Generic.Dictionary$2 {
             class KeyCollection<TKey, TValue> extends System.Object implements System.Collections.IEnumerable, System.Collections.Generic.IReadOnlyCollection$1<TKey>, System.Collections.Generic.ICollection$1<TKey>, System.Collections.ICollection, System.Collections.Generic.IEnumerable$1<TKey>
             {
+                protected [__keep_incompatibility]: never;
             }
             class ValueCollection<TKey, TValue> extends System.Object implements System.Collections.IEnumerable, System.Collections.Generic.IReadOnlyCollection$1<TValue>, System.Collections.Generic.ICollection$1<TValue>, System.Collections.ICollection, System.Collections.Generic.IEnumerable$1<TValue>
             {
+                protected [__keep_incompatibility]: never;
             }
             class Enumerator<TKey, TValue> extends System.ValueType implements System.Collections.Generic.IEnumerator$1<System.Collections.Generic.KeyValuePair$2<TKey, TValue>>, System.Collections.IDictionaryEnumerator, System.Collections.IEnumerator, System.IDisposable
             {
+                protected [__keep_incompatibility]: never;
             }
         }
         namespace Puerts {
             class ArrayBuffer extends System.Object
             {
+                protected [__keep_incompatibility]: never;
             }
         }
         namespace System.Threading.Tasks {
             class Task$1<TResult> extends System.Threading.Tasks.Task implements System.IAsyncResult, System.Threading.IThreadPoolWorkItem, System.IDisposable
             {
+                protected [__keep_incompatibility]: never;
             }
             class Task extends System.Object implements System.IAsyncResult, System.Threading.IThreadPoolWorkItem, System.IDisposable
             {
+                protected [__keep_incompatibility]: never;
             }
         }
         namespace System.Threading {
@@ -1922,6 +2030,7 @@ declare module 'csharp' {
         namespace System.Reflection {
             class MemberInfo extends System.Object implements System.Reflection.ICustomAttributeProvider, System.Runtime.InteropServices._MemberInfo
             {
+                protected [__keep_incompatibility]: never;
             }
             interface ICustomAttributeProvider
             {
@@ -1931,54 +2040,65 @@ declare module 'csharp' {
             }
             class MethodInfo extends System.Reflection.MethodBase implements System.Runtime.InteropServices._MethodBase, System.Runtime.InteropServices._MethodInfo, System.Reflection.ICustomAttributeProvider, System.Runtime.InteropServices._MemberInfo
             {
+                protected [__keep_incompatibility]: never;
             }
             class MethodBase extends System.Reflection.MemberInfo implements System.Runtime.InteropServices._MethodBase, System.Reflection.ICustomAttributeProvider, System.Runtime.InteropServices._MemberInfo
             {
+                protected [__keep_incompatibility]: never;
             }
             interface MemberFilter
             { 
             (m: System.Reflection.MemberInfo, filterCriteria: any) : boolean; 
-            Invoke?: (m: System.Reflection.MemberInfo, filterCriteria: any) => boolean; 
+            Invoke?: (m: System.Reflection.MemberInfo, filterCriteria: any) => boolean;
             }
             var MemberFilter: { new (func: (m: System.Reflection.MemberInfo, filterCriteria: any) => boolean): MemberFilter; }
             enum MemberTypes
             { Constructor = 1, Event = 2, Field = 4, Method = 8, Property = 16, TypeInfo = 32, Custom = 64, NestedType = 128, All = 191 }
             class AssemblyName extends System.Object implements System.ICloneable, System.Runtime.Serialization.IDeserializationCallback, System.Runtime.InteropServices._AssemblyName, System.Runtime.Serialization.ISerializable
             {
+                protected [__keep_incompatibility]: never;
             }
             class Assembly extends System.Object implements System.Security.IEvidenceFactory, System.Runtime.InteropServices._Assembly, System.Reflection.ICustomAttributeProvider, System.Runtime.Serialization.ISerializable
             {
+                protected [__keep_incompatibility]: never;
             }
             class Binder extends System.Object
             {
+                protected [__keep_incompatibility]: never;
             }
             enum BindingFlags
             { Default = 0, IgnoreCase = 1, DeclaredOnly = 2, Instance = 4, Static = 8, Public = 16, NonPublic = 32, FlattenHierarchy = 64, InvokeMethod = 256, CreateInstance = 512, GetField = 1024, SetField = 2048, GetProperty = 4096, SetProperty = 8192, PutDispProperty = 16384, PutRefDispProperty = 32768, ExactBinding = 65536, SuppressChangeType = 131072, OptionalParamBinding = 262144, IgnoreReturn = 16777216 }
             class ParameterModifier extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class Module extends System.Object implements System.Runtime.InteropServices._Module, System.Reflection.ICustomAttributeProvider, System.Runtime.Serialization.ISerializable
             {
+                protected [__keep_incompatibility]: never;
             }
             class ConstructorInfo extends System.Reflection.MethodBase implements System.Runtime.InteropServices._MethodBase, System.Runtime.InteropServices._ConstructorInfo, System.Reflection.ICustomAttributeProvider, System.Runtime.InteropServices._MemberInfo
             {
+                protected [__keep_incompatibility]: never;
             }
             enum CallingConventions
             { Standard = 1, VarArgs = 2, Any = 3, HasThis = 32, ExplicitThis = 64 }
             class FieldInfo extends System.Reflection.MemberInfo implements System.Runtime.InteropServices._FieldInfo, System.Reflection.ICustomAttributeProvider, System.Runtime.InteropServices._MemberInfo
             {
+                protected [__keep_incompatibility]: never;
             }
             interface TypeFilter
             { 
             (m: System.Type, filterCriteria: any) : boolean; 
-            Invoke?: (m: System.Type, filterCriteria: any) => boolean; 
+            Invoke?: (m: System.Type, filterCriteria: any) => boolean;
             }
             var TypeFilter: { new (func: (m: System.Type, filterCriteria: any) => boolean): TypeFilter; }
             class EventInfo extends System.Reflection.MemberInfo implements System.Runtime.InteropServices._EventInfo, System.Reflection.ICustomAttributeProvider, System.Runtime.InteropServices._MemberInfo
             {
+                protected [__keep_incompatibility]: never;
             }
             class PropertyInfo extends System.Reflection.MemberInfo implements System.Reflection.ICustomAttributeProvider, System.Runtime.InteropServices._PropertyInfo, System.Runtime.InteropServices._MemberInfo
             {
+                protected [__keep_incompatibility]: never;
             }
             enum TypeAttributes
             { VisibilityMask = 7, NotPublic = 0, Public = 1, NestedPublic = 2, NestedPrivate = 3, NestedFamily = 4, NestedAssembly = 5, NestedFamANDAssem = 6, NestedFamORAssem = 7, LayoutMask = 24, AutoLayout = 0, SequentialLayout = 8, ExplicitLayout = 16, ClassSemanticsMask = 32, Class = 0, Interface = 32, Abstract = 128, Sealed = 256, SpecialName = 1024, Import = 4096, Serializable = 8192, WindowsRuntime = 16384, StringFormatMask = 196608, AnsiClass = 0, UnicodeClass = 65536, AutoClass = 131072, CustomFormatClass = 196608, CustomFormatMask = 12582912, BeforeFieldInit = 1048576, ReservedMask = 264192, RTSpecialName = 2048, HasSecurity = 262144 }
@@ -1986,12 +2106,14 @@ declare module 'csharp' {
             { None = 0, VarianceMask = 3, Covariant = 1, Contravariant = 2, SpecialConstraintMask = 28, ReferenceTypeConstraint = 4, NotNullableValueTypeConstraint = 8, DefaultConstructorConstraint = 16 }
             class InterfaceMapping extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
         }
         namespace UnityEngine.SceneManagement {
             /** Run-time data structure for *.unity file. */
             class Scene extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
         }
         namespace System.Security {
@@ -2002,104 +2124,137 @@ declare module 'csharp' {
         namespace System.Globalization {
             class CultureInfo extends System.Object implements System.ICloneable, System.IFormatProvider
             {
+                protected [__keep_incompatibility]: never;
             }
         }
         namespace UnityEngine.ParticleSystem {
             class Particle extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class PlaybackState extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class Trails extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class EmitParams extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class MainModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class EmissionModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class ShapeModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class VelocityOverLifetimeModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class LimitVelocityOverLifetimeModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class InheritVelocityModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
+            }
+            class LifetimeByEmitterSpeedModule extends System.ValueType
+            {
+                protected [__keep_incompatibility]: never;
             }
             class ForceOverLifetimeModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class ColorOverLifetimeModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class ColorBySpeedModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class SizeOverLifetimeModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class SizeBySpeedModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class RotationOverLifetimeModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class RotationBySpeedModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class ExternalForcesModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class NoiseModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class CollisionModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class TriggerModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class SubEmittersModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class TextureSheetAnimationModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class LightsModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class TrailModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
             class CustomDataModule extends System.ValueType
             {
+                protected [__keep_incompatibility]: never;
             }
         }
         namespace Unity.Collections {
             class NativeArray$1<T> extends System.ValueType implements System.Collections.IEnumerable, System.IDisposable, System.IEquatable$1<Unity.Collections.NativeArray$1<T>>, System.Collections.Generic.IEnumerable$1<T>
             {
+                protected [__keep_incompatibility]: never;
             }
         }
         namespace UnityEngine.Canvas {
             interface WillRenderCanvases
             { 
             () : void; 
-            Invoke?: () => void; 
+            Invoke?: () => void;
             }
             var WillRenderCanvases: { new (func: () => void): WillRenderCanvases; }
         }
         namespace UnityEngine.EventSystems {
             class UIBehaviour extends UnityEngine.MonoBehaviour
             {
+                protected [__keep_incompatibility]: never;
                 public IsActive () : boolean
                 public IsDestroyed () : boolean
             }
@@ -2129,15 +2284,19 @@ declare module 'csharp' {
             }
             class AxisEventData extends UnityEngine.EventSystems.BaseEventData
             {
+                protected [__keep_incompatibility]: never;
             }
             class BaseEventData extends UnityEngine.EventSystems.AbstractEventData
             {
+                protected [__keep_incompatibility]: never;
             }
             class AbstractEventData extends System.Object
             {
+                protected [__keep_incompatibility]: never;
             }
             class PointerEventData extends UnityEngine.EventSystems.BaseEventData
             {
+                protected [__keep_incompatibility]: never;
             }
             interface ISubmitHandler extends UnityEngine.EventSystems.IEventSystemHandler
             {
@@ -2161,6 +2320,7 @@ declare module 'csharp' {
         namespace UnityEngine.UI {
             class Selectable extends UnityEngine.EventSystems.UIBehaviour implements UnityEngine.EventSystems.IEventSystemHandler, UnityEngine.EventSystems.IPointerEnterHandler, UnityEngine.EventSystems.ISelectHandler, UnityEngine.EventSystems.IPointerExitHandler, UnityEngine.EventSystems.IDeselectHandler, UnityEngine.EventSystems.IPointerDownHandler, UnityEngine.EventSystems.IPointerUpHandler, UnityEngine.EventSystems.IMoveHandler
             {
+                protected [__keep_incompatibility]: never;
                 public static get allSelectablesArray(): System.Array$1<UnityEngine.UI.Selectable>;
                 public static get allSelectableCount(): number;
                 public get navigation(): UnityEngine.UI.Navigation;
@@ -2198,27 +2358,34 @@ declare module 'csharp' {
             }
             class Navigation extends System.ValueType implements System.IEquatable$1<UnityEngine.UI.Navigation>
             {
+                protected [__keep_incompatibility]: never;
             }
             class ColorBlock extends System.ValueType implements System.IEquatable$1<UnityEngine.UI.ColorBlock>
             {
+                protected [__keep_incompatibility]: never;
             }
             class SpriteState extends System.ValueType implements System.IEquatable$1<UnityEngine.UI.SpriteState>
             {
+                protected [__keep_incompatibility]: never;
             }
             class AnimationTriggers extends System.Object
             {
+                protected [__keep_incompatibility]: never;
             }
             class Graphic extends UnityEngine.EventSystems.UIBehaviour implements UnityEngine.UI.ICanvasElement
             {
+                protected [__keep_incompatibility]: never;
             }
             interface ICanvasElement
             {
             }
             class Image extends UnityEngine.UI.MaskableGraphic implements UnityEngine.UI.IMaterialModifier, UnityEngine.UI.IMaskable, UnityEngine.ICanvasRaycastFilter, UnityEngine.ISerializationCallbackReceiver, UnityEngine.UI.ICanvasElement, UnityEngine.UI.ILayoutElement, UnityEngine.UI.IClippable
             {
+                protected [__keep_incompatibility]: never;
             }
             class MaskableGraphic extends UnityEngine.UI.Graphic implements UnityEngine.UI.IMaterialModifier, UnityEngine.UI.IMaskable, UnityEngine.UI.ICanvasElement, UnityEngine.UI.IClippable
             {
+                protected [__keep_incompatibility]: never;
             }
             interface IMaterialModifier
             {
@@ -2234,6 +2401,7 @@ declare module 'csharp' {
             }
             class Button extends UnityEngine.UI.Selectable implements UnityEngine.EventSystems.IEventSystemHandler, UnityEngine.EventSystems.IPointerEnterHandler, UnityEngine.EventSystems.ISelectHandler, UnityEngine.EventSystems.IPointerExitHandler, UnityEngine.EventSystems.IDeselectHandler, UnityEngine.EventSystems.IPointerDownHandler, UnityEngine.EventSystems.IPointerUpHandler, UnityEngine.EventSystems.IMoveHandler, UnityEngine.EventSystems.ISubmitHandler, UnityEngine.EventSystems.IPointerClickHandler
             {
+                protected [__keep_incompatibility]: never;
                 public get onClick(): UnityEngine.UI.Button.ButtonClickedEvent;
                 public set onClick(value: UnityEngine.UI.Button.ButtonClickedEvent);
                 public OnPointerClick ($eventData: UnityEngine.EventSystems.PointerEventData) : void
@@ -2241,6 +2409,7 @@ declare module 'csharp' {
             }
             class InputField extends UnityEngine.UI.Selectable implements UnityEngine.EventSystems.IDragHandler, UnityEngine.EventSystems.IEndDragHandler, UnityEngine.UI.ICanvasElement, UnityEngine.EventSystems.IEventSystemHandler, UnityEngine.EventSystems.IPointerEnterHandler, UnityEngine.EventSystems.IUpdateSelectedHandler, UnityEngine.EventSystems.ISelectHandler, UnityEngine.EventSystems.IPointerExitHandler, UnityEngine.EventSystems.IDeselectHandler, UnityEngine.EventSystems.IPointerDownHandler, UnityEngine.EventSystems.IPointerUpHandler, UnityEngine.EventSystems.IMoveHandler, UnityEngine.UI.ILayoutElement, UnityEngine.EventSystems.ISubmitHandler, UnityEngine.EventSystems.IPointerClickHandler, UnityEngine.EventSystems.IBeginDragHandler
             {
+                protected [__keep_incompatibility]: never;
                 public get shouldHideMobileInput(): boolean;
                 public set shouldHideMobileInput(value: boolean);
                 public get shouldActivateOnSelect(): boolean;
@@ -2321,11 +2490,13 @@ declare module 'csharp' {
             }
             class Text extends UnityEngine.UI.MaskableGraphic implements UnityEngine.UI.IMaterialModifier, UnityEngine.UI.IMaskable, UnityEngine.UI.ICanvasElement, UnityEngine.UI.ILayoutElement, UnityEngine.UI.IClippable
             {
+                protected [__keep_incompatibility]: never;
             }
             enum CanvasUpdate
             { Prelayout = 0, Layout = 1, PostLayout = 2, PreRender = 3, LatePreRender = 4, MaxUpdateValue = 5 }
             class Toggle extends UnityEngine.UI.Selectable implements UnityEngine.UI.ICanvasElement, UnityEngine.EventSystems.IEventSystemHandler, UnityEngine.EventSystems.IPointerEnterHandler, UnityEngine.EventSystems.ISelectHandler, UnityEngine.EventSystems.IPointerExitHandler, UnityEngine.EventSystems.IDeselectHandler, UnityEngine.EventSystems.IPointerDownHandler, UnityEngine.EventSystems.IPointerUpHandler, UnityEngine.EventSystems.IMoveHandler, UnityEngine.EventSystems.ISubmitHandler, UnityEngine.EventSystems.IPointerClickHandler
             {
+                protected [__keep_incompatibility]: never;
                 public toggleTransition : UnityEngine.UI.Toggle.ToggleTransition
                 public graphic : UnityEngine.UI.Graphic
                 public onValueChanged : UnityEngine.UI.Toggle.ToggleEvent
@@ -2342,6 +2513,7 @@ declare module 'csharp' {
             }
             class ToggleGroup extends UnityEngine.EventSystems.UIBehaviour
             {
+                protected [__keep_incompatibility]: never;
             }
         }
         namespace UnityEngine.UI.Selectable {
@@ -2351,6 +2523,7 @@ declare module 'csharp' {
         namespace UnityEngine.UI.Button {
             class ButtonClickedEvent extends UnityEngine.Events.UnityEvent implements UnityEngine.ISerializationCallbackReceiver
             {
+                protected [__keep_incompatibility]: never;
                 public constructor ()
             }
         }
@@ -2358,7 +2531,8 @@ declare module 'csharp' {
             /** A zero argument persistent callback that can be saved with the Scene. */
             class UnityEvent extends UnityEngine.Events.UnityEventBase implements UnityEngine.ISerializationCallbackReceiver
             {
-            /** Add a non persistent listener to the UnityEvent. * @param call Callback function.
+                protected [__keep_incompatibility]: never;
+                /** Add a non persistent listener to the UnityEvent. * @param call Callback function.
                 */
                 public AddListener ($call: UnityEngine.Events.UnityAction) : void
                 /** Remove a non persistent listener from the UnityEvent. If you have added the same listener multiple times, this method will remove all occurrences of it. * @param call Callback function.
@@ -2370,37 +2544,42 @@ declare module 'csharp' {
             /** Abstract base class for UnityEvents. */
             class UnityEventBase extends System.Object implements UnityEngine.ISerializationCallbackReceiver
             {
+                protected [__keep_incompatibility]: never;
             }
             /** Zero argument delegate used by UnityEvents. */
             interface UnityAction
             { 
             () : void; 
-            Invoke?: () => void; 
+            Invoke?: () => void;
             }
             var UnityAction: { new (func: () => void): UnityAction; }
             class UnityEvent$1<T0> extends UnityEngine.Events.UnityEventBase implements UnityEngine.ISerializationCallbackReceiver
             {
+                protected [__keep_incompatibility]: never;
                 public AddListener ($call: UnityEngine.Events.UnityAction$1<T0>) : void
                 public RemoveListener ($call: UnityEngine.Events.UnityAction$1<T0>) : void
                 public Invoke ($arg0: T0) : void
+                public constructor ()
             }
             interface UnityAction$1<T0>
             { 
             (arg0: T0) : void; 
-            Invoke?: (arg0: T0) => void; 
+            Invoke?: (arg0: T0) => void;
             }
         }
         namespace UnityEngine.UI.InputField {
             class SubmitEvent extends UnityEngine.Events.UnityEvent$1<string> implements UnityEngine.ISerializationCallbackReceiver
             {
+                protected [__keep_incompatibility]: never;
             }
             class OnChangeEvent extends UnityEngine.Events.UnityEvent$1<string> implements UnityEngine.ISerializationCallbackReceiver
             {
+                protected [__keep_incompatibility]: never;
             }
             interface OnValidateInput
             { 
             (text: string, charIndex: number, addedChar: number) : number; 
-            Invoke?: (text: string, charIndex: number, addedChar: number) => number; 
+            Invoke?: (text: string, charIndex: number, addedChar: number) => number;
             }
             var OnValidateInput: { new (func: (text: string, charIndex: number, addedChar: number) => number): OnValidateInput; }
             enum ContentType
@@ -2417,12 +2596,14 @@ declare module 'csharp' {
             { None = 0, Fade = 1 }
             class ToggleEvent extends UnityEngine.Events.UnityEvent$1<boolean> implements UnityEngine.ISerializationCallbackReceiver
             {
+                protected [__keep_incompatibility]: never;
                 public constructor ()
             }
         }
         namespace PuertsDeclareTest.Plants {
             class pumkinPeaShooter extends System.Object implements PuertsDeclareTest.Plants.Shootable, PuertsDeclareTest.Plants.Pumpkin$1.Protectable<PuertsDeclareTest.Plants.pumkinPeaShooter>
             {
+                protected [__keep_incompatibility]: never;
                 public shoot () : void
                 public protect () : void
                 public constructor ()
@@ -2448,6 +2629,7 @@ declare module 'csharp' {
             }
             class BalloonZombie extends System.Object implements PuertsDeclareTest.Zombies.Flyable, PuertsDeclareTest.Zombies.Walkable
             {
+                protected [__keep_incompatibility]: never;
                 public constructor ()
                 public action () : void
             }
