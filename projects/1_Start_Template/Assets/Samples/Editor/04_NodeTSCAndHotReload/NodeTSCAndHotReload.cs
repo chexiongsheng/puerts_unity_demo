@@ -79,7 +79,7 @@ and run `npm i` in Puer-Project
     [MenuItem("PuertsEditorDemo/tsc & HotReload/Compile TsProj")] 
     static void Compile() 
     {
-        JsEnv env = Puerts.Editor.Node.RunInPuerProject(@"
+        JsEnv env = Puerts.Editor.NodeJS.RunInPuerProject(@"
             require('./build-script/compile-and-move.js');
         ");
         env.Dispose();
@@ -98,7 +98,7 @@ and run `npm i` in Puer-Project
         env.UsingAction<int>();
         try 
         {
-            Puerts.Editor.Node.RunInPuerProject(@"
+            Puerts.Editor.NodeJS.RunInPuerProject(@"
                 require('./build-script/watch-and-hotreload.js');
             ", env);
 
