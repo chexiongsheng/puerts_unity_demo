@@ -29,6 +29,7 @@ The followed content all comes from the community. PuerTS will collect superior 
 | --- | --- | --- | --- |
 | @Justin-sky | https://github.com/Justin-sky/Nice-TS | Framework | 250+ |
 | @Geequlim | https://github.com/Geequlim/puerts-starter-kit | Framework | 80+ |
+| @zgz682000 | https://github.com/zgz682000/puerts-component | Framework | 10+ |
 | @jungog | https://github.com/jungog/UnityTs | Framework | |
 | @zombieyang | https://github.com/zombieyang/puerts_unity_webgl_demo | Samples | 30+ |
 | @throw-out | https://github.com/throw-out/PerformanceTesting | Samples | |
