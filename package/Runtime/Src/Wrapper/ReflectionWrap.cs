@@ -70,6 +70,10 @@ namespace Puerts
 
         private GeneralSetter[] byRefValueSetFuncs = null;
 
+#if NET_2_0 || NET_2_0_SUBSET
+        public object[] defaultValueArray;
+#endif 
+
         public Parameters(ParameterInfo[] parameterInfos, GeneralGetterManager generalGetterManager, GeneralSetterManager generalSetterManager)
         {
             this.generalGetterManager = generalGetterManager;
@@ -82,6 +86,8 @@ namespace Puerts
             paramIsByRef = new bool[parameterInfos.Length];
             isOut = new bool[parameterInfos.Length];
             optionalParamPos = this.paramLength; 
+            List<object> defaultValueList = new List<object>();
+            
             for (int i = 0; i < parameterInfos.Length; i++)
             {
                 var parameterInfo = parameterInfos[i];
@@ -104,7 +110,23 @@ namespace Puerts
                 {
                     optionalParamPos = i;
                 }
+#if NET_2_0 || NET_2_0_SUBSET
+                var defaultValue = parameterInfo.DefaultValue;
+                if (parameterInfo.IsOptional)
+                {
+                    if (defaultValue != null && defaultValue.GetType() != parameterInfo.ParameterType)
+                    {
+                        defaultValue = defaultValue.GetType() == typeof(Missing) ? 
+                            (parameterInfo.ParameterType.IsValueType() ? Activator.CreateInstance(parameterInfo.ParameterType) : Missing.Value) 
+                            : Convert.ChangeType(defaultValue, parameterInfo.ParameterType);
+                    }
+                }
+                defaultValueList.Add(parameterInfo.IsOptional ? defaultValue : null);
+#endif 
             }
+#if NET_2_0 || NET_2_0_SUBSET
+            defaultValueArray = defaultValueList.ToArray();
+#endif 
         }
 
         public bool IsMatch(JSCallInfo jsCallInfo)
@@ -146,39 +168,18 @@ namespace Puerts
                             argJsType = PuertsDLL.GetJsValueType(jsCallInfo.Isolate, jsCallInfo.NativePtrs[i], true);
                         }
                     }
-                    if (argJsType == JsValueType.NativeObject) 
-                    {
-                        if (paramTypes[i] == typeof(JSObject)) // 非要把一个NativeObject赋值给JSObject是允许的。
+                    if (
+                        !Utils.IsJsValueTypeMatchType(argJsType, paramTypes[i], paramJSTypeMasks[i], () =>
                         {
-                            continue;
-                        }
-                        else if (paramTypes[i].IsPrimitive) // TypedValue赋值给基础类型
-                        {
-                            // 可能的优化： 为TypedValue设计一个新的JSValueType，这样这里就不需要先取值
-                            if (jsCallInfo.Values[i] == null)
-                            {
-                                jsCallInfo.Values[i] = generalGetterManager.AnyTranslator(generalGetterManager.jsEnv.Idx, jsCallInfo.Isolate, NativeValueApi.GetValueFromArgument, jsCallInfo.NativePtrs[i], paramIsByRef[i]);
-                            }
-                            if (jsCallInfo.Values[i].GetType() == paramTypes[i])
-                            {
-                                continue;
-                            }
-                        }
-                    }
-                    if ((paramJSTypeMasks[i] & argJsType) != argJsType)
+                            jsCallInfo.Values[i] = generalGetterManager.jsEnv.GeneralGetterManager.AnyTranslator(generalGetterManager.jsEnv.Idx,
+                                jsCallInfo.Isolate,
+                                NativeValueApi.GetValueFromArgument, jsCallInfo.NativePtrs[i], paramIsByRef[i]);
+
+                            return jsCallInfo.Values[i];
+                        }, jsCallInfo.Values[i])
+                    )
                     {
                         return false;
-                    }
-                    if (argJsType == JsValueType.NativeObject)
-                    {
-                        if (jsCallInfo.Values[i] == null)
-                        {
-                            jsCallInfo.Values[i] = generalGetterManager.AnyTranslator(generalGetterManager.jsEnv.Idx, jsCallInfo.Isolate, NativeValueApi.GetValueFromArgument, jsCallInfo.NativePtrs[i], paramIsByRef[i]);
-                        }
-                        if (!paramTypes[i].IsAssignableFrom(jsCallInfo.Values[i].GetType()))
-                        {
-                            return false;
-                        }
                     }
                 }
             }
@@ -208,7 +209,11 @@ namespace Puerts
                 }
 				else if (i >= callInfo.Length && i >= optionalParamPos)
                 {
+#if NET_2_0 || NET_2_0_SUBSET
+                    args[i] = defaultValueArray[i];
+#else
                     args[i] = Type.Missing;
+#endif
                 }
                 else
                 {
@@ -257,7 +262,6 @@ namespace Puerts
         ConstructorInfo constructorInfo = null;
 
         Type type = null;
-
 
         GeneralGetterManager generalGetterManager = null;
 

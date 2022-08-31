@@ -447,14 +447,28 @@ namespace Puerts
                 return (IntPtr isolate, IntPtr info, IntPtr self, int argumentsLen) =>
                 {
                     var valuePtr = PuertsDLL.GetArgumentValue(info, 0);
-                    var valueType = PuertsDLL.GetJsValueType(isolate, valuePtr, false);
-                    if ((typeMask & valueType) != valueType)
+                    var valueType = PuertsDLL.GetJsValueType(isolate, valuePtr, false);                    
+                    object value = null;
+                    if (
+                        !Utils.IsJsValueTypeMatchType(valueType, field.FieldType, typeMask, () =>
+                        {
+                            value = translateFunc(jsEnv.Idx, isolate, NativeValueApi.GetValueFromArgument, valuePtr,
+                                false);
+                            return value;
+                        }, value)
+                    )
                     {
                         PuertsDLL.ThrowException(isolate, "expect " + typeMask + " but got " + valueType);
                     }
                     else
                     {
-                        field.SetValue(null, translateFunc(jsEnv.Idx, isolate, NativeValueApi.GetValueFromArgument, valuePtr, false));
+                        if (value == null)
+                        {
+                            value = translateFunc(jsEnv.Idx, isolate, NativeValueApi.GetValueFromArgument, valuePtr,
+                                false);
+                        }
+
+                        field.SetValue(null, value);
                     }
                 };
             }
@@ -464,7 +478,15 @@ namespace Puerts
                 {
                     var valuePtr = PuertsDLL.GetArgumentValue(info, 0);
                     var valueType = PuertsDLL.GetJsValueType(isolate, valuePtr, false);
-                    if ((typeMask & valueType) != valueType)
+                    object value = null;
+                    if (
+                        !Utils.IsJsValueTypeMatchType(valueType, field.FieldType, typeMask, () =>
+                        {
+                            value = translateFunc(jsEnv.Idx, isolate, NativeValueApi.GetValueFromArgument, valuePtr,
+                                false);
+                            return value;
+                        }, value)
+                    )
                     {
                         PuertsDLL.ThrowException(isolate, "expect " + typeMask + " but got " + valueType);
                     }
@@ -647,6 +669,9 @@ namespace Puerts
                 // extensionMethods
                 // 因为内存问题与crash问题移入宏中
 #if PUERTS_REFLECT_ALL_EXTENSION || UNITY_EDITOR
+    #if !PUERTS_REFLECT_ALL_EXTENSION && UNITY_EDITOR
+                if (!UnityEditor.EditorApplication.isPlaying) { 
+    #endif
                 IEnumerable<MethodInfo> extensionMethods = Utils.GetExtensionMethodsOf(type);
                 if (extensionMethods != null)
                 {
@@ -659,6 +684,9 @@ namespace Puerts
                         AddMethodToSlowBindingGroup(methodKey, method);
                     }
                 }
+    #if !PUERTS_REFLECT_ALL_EXTENSION && UNITY_EDITOR
+                }
+    #endif
 #endif
 
                 // fields
