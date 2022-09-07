@@ -32,7 +32,7 @@ function csTypeToClass(csType) {
                     let getter = desc.get;
                     let value;
                     let valueGetted = false;
-
+    
                     Object.defineProperty(
                         cls, key, 
                         Object.assign(desc, {
@@ -47,7 +47,6 @@ function csTypeToClass(csType) {
                             configurable: false
                         })
                     );
-                    
                     if (cls.__p_isEnum) {
                         const val = cls[key];
                         if ((typeof val) == 'number') {
@@ -123,7 +122,7 @@ function setref(x, val) {
 
 function taskToPromise(task) {
     return new Promise((resolve, reject) => {
-        task.GetAwaiter().OnCompleted(() => {
+        task.GetAwaiter().UnsafeOnCompleted(() => {
             let t = task;
             task = undefined;
             if (t.IsFaulted) {

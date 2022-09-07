@@ -17,6 +17,8 @@ namespace Puerts
     public delegate object JSConstructorCallback(IntPtr isolate, IntPtr info, int argumentsLen);
     public class JsEnv : IDisposable
     {
+        public static List<JsEnv> jsEnvs = new List<JsEnv>();
+
         protected PushJSFunctionArgumentsCallback _ArgumentsPusher;
 
         public PushJSFunctionArgumentsCallback ArgumentsPusher {
@@ -48,7 +50,7 @@ namespace Puerts
 
         private readonly ILoader loader;
 
-        public static List<JsEnv> jsEnvs = new List<JsEnv>();
+        public Backend Backend;
 
 #if UNITY_EDITOR
         public delegate void JsEnvCreateCallback(JsEnv env, ILoader loader, int debugPort);
@@ -78,7 +80,7 @@ namespace Puerts
 
         public JsEnv(ILoader loader, int debugPort, IntPtr externalRuntime, IntPtr externalContext)
         {
-            const int libVersionExpect = 17;
+            const int libVersionExpect = 18;
             int libVersion = PuertsDLL.GetApiLevel();
             if (libVersion != libVersionExpect)
             {
@@ -124,13 +126,18 @@ namespace Puerts
             genericDelegateFactory = new GenericDelegateFactory(this);
             jsObjectFactory = new JSObjectFactory();
 
-            GeneralGetterManager = new GeneralGetterManager(this);
-            GeneralSetterManager = new GeneralSetterManager(this);
+            GeneralGetterManager = new GeneralGetterManager();
+            GeneralSetterManager = new GeneralSetterManager();
+
+            if (PuertsDLL.GetLibBackend() == 0) 
+                Backend = new BackendV8(this);
+            else if (PuertsDLL.GetLibBackend() == 1)
+                Backend = new BackendNodeJS(this);
+            else if (PuertsDLL.GetLibBackend() == 2)
+                Backend = new BackendQuickJS(this);
 
             // 注册JS对象通用GC回调
             PuertsDLL.SetGeneralDestructor(isolate, StaticCallbacks.GeneralDestructor);
-
-            TypeRegister.InitArrayTypeId(isolate);
 
             // 把JSEnv的id和Callback的id拼成一个long存起来，并将StaticCallbacks.JsEnvCallbackWrap注册给V8。而后通过StaticCallbacks.JsEnvCallbackWrap从long中取出函数和envid并调用。
             PuertsDLL.SetGlobalFunction(isolate, "__tgjsRegisterTickHandler", StaticCallbacks.JsEnvCallbackWrap, AddCallback(RegisterTickHandler));
@@ -159,6 +166,7 @@ namespace Puerts
                 methodInfoOfRegister.Invoke(null, new object[] { this });
             }
 #endif
+            TypeRegister.InitArrayTypeId(isolate);
 
             if (debugPort != -1)
             {
@@ -166,7 +174,6 @@ namespace Puerts
             }
             try 
             {
-                bool isNode = PuertsDLL.GetLibBackend() == 1;
                 ExecuteModule("puerts/init.mjs");
                 ExecuteModule("puerts/log.mjs");
                 ExecuteModule("puerts/cjsload.mjs");
@@ -184,7 +191,7 @@ namespace Puerts
                     OnDispose += ExecuteModule<Action>("puerts/dispose.mjs", "default");
                 }
 #if !PUERTS_GENERAL
-                if (!isNode) 
+                if (!(Backend is BackendNodeJS)) 
                 {
 #endif
                     ExecuteModule("puerts/polyfill.mjs");
@@ -672,17 +679,6 @@ namespace Puerts
 #endif
         }
 
-        public void LowMemoryNotification()
-        {
-#if THREAD_SAFE
-            lock(this) {
-#endif
-            PuertsDLL.LowMemoryNotification(isolate);
-#if THREAD_SAFE
-            }
-#endif
-        }
-
         public void Tick()
         {
 #if THREAD_SAFE
@@ -888,6 +884,7 @@ namespace Puerts
                     funcRefCount.Remove(nativeJsFuncPtr);
                     if (!genericDelegateFactory.IsJsFunctionAlive(nativeJsFuncPtr))
                     {
+                        genericDelegateFactory.RemoveGenericDelegate(nativeJsFuncPtr);
                         PuertsDLL.ReleaseJSFunction(isolate, nativeJsFuncPtr);
                     }
                 }
@@ -912,6 +909,7 @@ namespace Puerts
                     JSObjRefCount.Remove(nativeJsObjPtr);
                     if (!jsObjectFactory.IsJsObjectAlive(nativeJsObjPtr))
                     {
+                        jsObjectFactory.RemoveJSObject(nativeJsObjPtr);
                         PuertsDLL.ReleaseJSObject(isolate, nativeJsObjPtr);
                     }
                 }
