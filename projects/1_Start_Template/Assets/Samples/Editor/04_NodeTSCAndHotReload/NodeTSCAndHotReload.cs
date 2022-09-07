@@ -7,13 +7,12 @@ using System;
 [InitializeOnLoad]
 class NodeTSCAndHotReload
 {
-    static JsEnv env;
+    static Puerts.Editor.NodeRunner runner;
     public static Action<int> addDebugger;
     public static Action<int> removeDebugger;
 
     static NodeTSCAndHotReload()
     {
-        EditorApplication.update += Update;
         JsEnv.OnJsEnvCreate += OnJsEnvCreate;
         JsEnv.OnJsEnvDispose += OnJsEnvDispose;
 
@@ -39,22 +38,14 @@ class NodeTSCAndHotReload
     static void OnJsEnvDispose(JsEnv env)
     {
         int debugPort = 0;
-        if (env != null && removeDebugger != null && envAndPort.TryGetValue(env, out debugPort)) {
+        if (runner != null && removeDebugger != null && envAndPort.TryGetValue(env, out debugPort)) {
             removeDebugger(debugPort);
-        }
-    }
-
-    static void Update()
-    {
-        if (env != null)
-        {
-            env.Tick();
         }
     }
 
     static void BeforeAssemblyReload()
     {
-        if (env != null) 
+        if (runner != null) 
         {
             EditorPrefs.SetBool("NodeTSCAndHotReload.justShutdownByReload", true);
             UnWatch();
@@ -79,11 +70,8 @@ and run `npm i` in Puer-Project
     [MenuItem("PuertsEditorDemo/tsc & HotReload/Compile TsProj")] 
     static void Compile() 
     {
-        JsEnv env = Puerts.Editor.NodeJS.RunInPuerProject(@"
-            require('./build-script/compile-and-move.js');
-        ");
-        env.Dispose();
-        env = null;
+        Puerts.Editor.NodeRunner runner1 = new Puerts.Editor.NodeRunner();
+        runner1.Run("require('./build-script/compile-and-move.js')");
     }
     [MenuItem("PuertsEditorDemo/tsc & HotReload/Compile TsProj", true)] 
     static bool CompileValidate() 
@@ -94,13 +82,11 @@ and run `npm i` in Puer-Project
     [MenuItem("PuertsEditorDemo/tsc & HotReload/Watch tsProj And HotReload/on")]
     static void Watch() 
     {
-        env = new JsEnv();
-        env.UsingAction<int>();
+        runner = new Puerts.Editor.NodeRunner();
+        runner.env.UsingAction<int>();
         try 
         {
-            Puerts.Editor.NodeJS.RunInPuerProject(@"
-                require('./build-script/watch-and-hotreload.js');
-            ", env);
+            runner.Run(@"require('./build-script/watch-and-hotreload.js');");
 
             UnityEngine.Debug.Log("watching tsproj");
         } 
@@ -113,14 +99,13 @@ and run `npm i` in Puer-Project
     [MenuItem("PuertsEditorDemo/tsc & HotReload/Watch tsProj And HotReload/on", true)]
     static bool WatchValidate() 
     {
-        return PuertsDLL.GetLibBackend() == 1 && env == null;
+        return PuertsDLL.GetLibBackend() == 1 && runner == null;
     }
 
     [MenuItem("PuertsEditorDemo/tsc & HotReload/Watch tsProj And HotReload/off")]
     static void UnWatch() 
     {
-        env.Dispose();
-        env = null;
+        runner.env = null;
         addDebugger = null;
         removeDebugger = null;
         UnityEngine.Debug.Log("stop watching tsproj");
@@ -128,6 +113,6 @@ and run `npm i` in Puer-Project
     [MenuItem("PuertsEditorDemo/tsc & HotReload/Watch tsProj And HotReload/off", true)]
     static bool UnWatchValidate() 
     {
-        return PuertsDLL.GetLibBackend() == 1 && env != null;
+        return PuertsDLL.GetLibBackend() == 1 && runner.env != null;
     }
 }
