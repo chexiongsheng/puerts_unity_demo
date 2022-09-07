@@ -19,7 +19,8 @@ namespace PuertsTest
                 env = new JsEnv(new DefaultLoader(), 9222);
                 env.Eval(@"
                     console.log(require('os').cpus().length); 
-                    require('fs').readFile('" + Application.dataPath + @"/Examples/09_Node.js/Node.cs', (err, res)=> { console.log(res.toString('utf-8')) });
+                    require('fs').readFile('" + Application.dataPath + @"/Examples/09_Node.js/NodeJS.cs', (err, res)=> { console.log(res.toString('utf-8')) });
+                    require('fs').readFile('" + Application.dataPath + @"/Examples/09_Node.js/missingfile', (err, res)=> { throw new Error('any Error in node callback'); });
                     const itv = setInterval(onInterval , 500)
                     function onInterval() {
                         throw Error('interval error');
@@ -42,10 +43,10 @@ namespace PuertsTest
                     // 只有在编辑器建议这么做，打包之后dataPath位置并不确定
                     // only recommend to do this in Editor.
                     const nodeRequire = require('node:module').createRequire('" + Application.dataPath + @"/../TsProj/');
-                    const axios = nodeRequire('axios');
 
                     setTimeout(()=> {
                         clearInterval(itv);
+                        const axios = nodeRequire('axios');
                         axios.get('https://puerts.github.io')
                             .then((result) => console.log('axios: ', result.data));
                     }, 1600)
