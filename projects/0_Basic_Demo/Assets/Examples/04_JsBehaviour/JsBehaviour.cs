@@ -23,7 +23,7 @@ namespace PuertsTest
         {
             if (jsEnv == null) jsEnv = new JsEnv(new DefaultLoader(), 9229);
             var varname = "m_" + Time.frameCount;
-            var init = jsEnv.Eval<ModuleInit>("const "+varname+" = require('" + ModuleName + "'); "+varname+".init;");
+            var init = jsEnv.Eval<ModuleInit>("const "+varname+" = puerts.require('" + ModuleName + "'); "+varname+".init;");
 
             if (init != null) init(this);
 

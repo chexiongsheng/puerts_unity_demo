@@ -19,9 +19,15 @@ namespace PuertsTest
                 env = new JsEnv(new DefaultLoader(), 9222);
                 env.Eval(@"
                     console.log(require('os').cpus().length); 
-                    require('fs').readFile('" + Application.dataPath + @"/Examples/09_Node.js/NodeJS.cs', (err, res)=> { console.log(res.toString('utf-8')) });
-                    require('fs').readFile('" + Application.dataPath + @"/Examples/09_Node.js/missingfile', (err, res)=> { throw new Error('any Error in node callback'); });
-                    const itv = setInterval(onInterval , 500)
+                    const result = require('child_process').spawnSync('pwd', {cwd: '" + Application.persistentDataPath + @"'});
+                    console.log(
+                        JSON.stringify(result), result.status, result.stdout && result.stdout.toString('utf-8'), result.stderr && result.stderr.toString('utf-8')
+                    );
+                    require('fs').readFile('" + Application.dataPath + @"/Examples/09_Node.js/NodeJS.cs', (err, res)=> { 
+                        console.log(res.toString('utf-8')) 
+                        throw new Error('any Error in node callback'); 
+                    });
+                    const itv = setInterval(onInterval, 500)
                     function onInterval() {
                         throw Error('interval error');
                     }

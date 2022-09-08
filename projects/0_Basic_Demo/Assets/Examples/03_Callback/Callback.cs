@@ -16,7 +16,6 @@ namespace PuertsTest
             jsEnv.UsingAction<int>();
 
             jsEnv.Eval(@"
-                const CS = require('csharp');
                 let obj = new CS.PuertsTest.TestClass();
                 //如果你后续要remove，需要这样构建一个Delegate，后续可以用该Delegate引用去remove
                 let delegate = new CS.PuertsTest.Callback1(o => o.Foo()); 

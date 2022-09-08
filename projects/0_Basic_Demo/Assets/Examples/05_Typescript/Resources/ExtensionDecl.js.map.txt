@@ -1,1 +1,1 @@
-{"version":3,"file":"ExtensionDecl.js","sourceRoot":"","sources":["../ExtensionDecl.ts"],"names":[],"mappings":";;AAAA,mCAAiC;AACjC,mCAAiC;AAEjC,+BAA+B;AAC/B,IAAA,mBAAU,EAAC,mBAAU,CAAC,SAAS,EAAE,mBAAU,CAAC,kBAAkB,CAAC,CAAC"}
+{"version":3,"file":"ExtensionDecl.js","sourceRoot":"","sources":["../ExtensionDecl.ts"],"names":[],"mappings":"AACA,+BAA+B;AAC/B,MAAM,CAAC,UAAU,CAAC,EAAE,CAAC,UAAU,CAAC,SAAS,EAAE,EAAE,CAAC,UAAU,CAAC,kBAAkB,CAAC,CAAC"}

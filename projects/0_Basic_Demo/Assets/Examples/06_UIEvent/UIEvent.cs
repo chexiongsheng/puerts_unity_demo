@@ -14,7 +14,7 @@ public class UIEvent : MonoBehaviour
             jsEnv.UsingAction<bool>();//toggle.onValueChanged用到
         }
 
-        var init = jsEnv.Eval<Action<MonoBehaviour>>("const m = require('UIEvent'); m.init;");
+        var init = jsEnv.Eval<Action<MonoBehaviour>>("const m = puerts.require('UIEvent'); m.init;");
 
         if (init != null) init(this);
     }

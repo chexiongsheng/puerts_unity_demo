@@ -13,7 +13,6 @@ namespace PuertsTest
             jsEnv = new JsEnv();
 
             jsEnv.Eval(@"
-                const CS = require('csharp');
                 let value = new CS.Puerts.Int64Value(512n);
                 CS.PuertsTest.TypedValue.CallSomeFunction(value);
             ");

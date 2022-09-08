@@ -41,7 +41,6 @@ namespace PuertsTest
             var jsEnv = new JsEnv();
 
             jsEnv.Eval(@"
-                const CS = require('csharp');
                 let obj = new CS.PuertsTest.JsObjectTest();
                 let jsObj = {'c': 100};
                 obj.Setter = (path, value) => {

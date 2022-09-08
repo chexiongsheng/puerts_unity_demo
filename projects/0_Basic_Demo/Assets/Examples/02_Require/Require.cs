@@ -18,7 +18,7 @@ namespace PuertsTest
             jsEnv = new JsEnv();
 
             jsEnv.Eval(@"
-                require('main')
+                puerts.require('main')
             ");
         }
 

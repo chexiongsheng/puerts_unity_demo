@@ -1,10 +1,8 @@
-import {UnityEngine} from 'csharp'
-import {$typeof} from 'puerts'
 
-function init(monoBehaviour: UnityEngine.MonoBehaviour): void {
-    let button  = monoBehaviour.GetComponent($typeof(UnityEngine.UI.Button)) as UnityEngine.UI.Button;
-    let input = monoBehaviour.transform.parent.GetComponentInChildren($typeof(UnityEngine.UI.InputField)) as UnityEngine.UI.InputField;
-    let toggle = monoBehaviour.transform.parent.GetComponentInChildren($typeof(UnityEngine.UI.Toggle)) as UnityEngine.UI.Toggle;
+function init(monoBehaviour: CS.UnityEngine.MonoBehaviour): void {
+    let button  = monoBehaviour.GetComponent(puerts.$typeof(CS.UnityEngine.UI.Button)) as CS.UnityEngine.UI.Button;
+    let input = monoBehaviour.transform.parent.GetComponentInChildren(puerts.$typeof(CS.UnityEngine.UI.InputField)) as CS.UnityEngine.UI.InputField;
+    let toggle = monoBehaviour.transform.parent.GetComponentInChildren(puerts.$typeof(CS.UnityEngine.UI.Toggle)) as CS.UnityEngine.UI.Toggle;
     button.onClick.AddListener(() =>{
         console.log("button pressed..., input is: " + input.text);
     });
