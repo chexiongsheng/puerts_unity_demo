@@ -35,7 +35,7 @@ function executeModule(fullPath, script, debugPath, sid) {
     let wrapped = puerts.evalScript(
         // Wrap the script in the same way NodeJS does it. It is important since IDEs (VSCode) will use this wrapper pattern
         // to enable stepping through original source in-place.
-        "(function (exports, require, module, __filename, __dirname) { " + script + "\n});", 
+        "(function (exports, puerLoad, module, __filename, __dirname) { " + script + "\n});", 
         debugPath
     )
     wrapped(exports, puerts.genRequire(fullDirInJs), module, fullPathInJs, fullDirInJs)

@@ -1,8 +1,8 @@
 ﻿
-declare namespace CS {
+declare module 'csharp' {
     //keep type incompatibility / 此属性保持类型不兼容
     const __keep_incompatibility: unique symbol;
-    // namespace CSharp {
+    namespace CSharp {
         interface $Ref<T> {
             value: T
         }
@@ -33,11 +33,17 @@ declare namespace CS {
             {
                 protected [__keep_incompatibility]: never;
             }
-            class Boolean extends System.ValueType implements System.IEquatable$1<boolean>, System.IComparable, System.IComparable$1<boolean>, System.IConvertible
+            class Int32 extends System.ValueType implements System.IEquatable$1<number>, System.IFormattable, System.ISpanFormattable, System.IComparable, System.IComparable$1<number>, System.IConvertible
             {
                 protected [__keep_incompatibility]: never;
             }
             interface IEquatable$1<T>
+            {
+            }
+            interface IFormattable
+            {
+            }
+            interface ISpanFormattable
             {
             }
             interface IComparable
@@ -48,6 +54,14 @@ declare namespace CS {
             }
             interface IConvertible
             {
+            }
+            class Boolean extends System.ValueType implements System.IEquatable$1<boolean>, System.IComparable, System.IComparable$1<boolean>, System.IConvertible
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class Single extends System.ValueType implements System.IEquatable$1<number>, System.IFormattable, System.ISpanFormattable, System.IComparable, System.IComparable$1<number>, System.IConvertible
+            {
+                protected [__keep_incompatibility]: never;
             }
             class String extends System.Object implements System.IEquatable$1<string>, System.ICloneable, System.Collections.Generic.IEnumerable$1<number>, System.IComparable, System.IComparable$1<string>, System.Collections.IEnumerable, System.IConvertible
             {
@@ -64,25 +78,7 @@ declare namespace CS {
             {
                 protected [__keep_incompatibility]: never;
             }
-            interface IFormattable
-            {
-            }
-            class Single extends System.ValueType implements System.IEquatable$1<number>, System.IFormattable, System.ISpanFormattable, System.IComparable, System.IComparable$1<number>, System.IConvertible
-            {
-                protected [__keep_incompatibility]: never;
-            }
-            interface ISpanFormattable
-            {
-            }
-            class Int32 extends System.ValueType implements System.IEquatable$1<number>, System.IFormattable, System.ISpanFormattable, System.IComparable, System.IComparable$1<number>, System.IConvertible
-            {
-                protected [__keep_incompatibility]: never;
-            }
             class Enum extends System.ValueType implements System.IFormattable, System.IComparable, System.IConvertible
-            {
-                protected [__keep_incompatibility]: never;
-            }
-            class Exception extends System.Object implements System.Runtime.InteropServices._Exception, System.Runtime.Serialization.ISerializable
             {
                 protected [__keep_incompatibility]: never;
             }
@@ -118,6 +114,26 @@ declare namespace CS {
             Invoke?: (...args:any[]) => any;
             }
             var MulticastDelegate: { new (func: (...args:any[]) => any): MulticastDelegate; }
+            interface Action$1<T>
+            { 
+            (obj: T) : void; 
+            Invoke?: (obj: T) => void;
+            }
+            interface Func$1<TResult>
+            { 
+            () : TResult; 
+            Invoke?: () => TResult;
+            }
+            interface Action
+            { 
+            () : void; 
+            Invoke?: () => void;
+            }
+            var Action: { new (func: () => void): Action; }
+            class Exception extends System.Object implements System.Runtime.InteropServices._Exception, System.Runtime.Serialization.ISerializable
+            {
+                protected [__keep_incompatibility]: never;
+            }
             interface IFormatProvider
             {
             }
@@ -130,11 +146,6 @@ declare namespace CS {
             { 
             (obj: T) : boolean; 
             Invoke?: (obj: T) => boolean;
-            }
-            interface Action$1<T>
-            { 
-            (obj: T) : void; 
-            Invoke?: (obj: T) => void;
             }
             interface IDisposable
             {
@@ -363,6 +374,261 @@ declare namespace CS {
             }
         }
         namespace UnityEngine {
+            /** Access to application run-time data. */
+            class Application extends System.Object
+            {
+                protected [__keep_incompatibility]: never;
+                /** Returns true when called in any kind of built Player, or when called in the Editor in Play Mode (Read Only). */
+                public static get isPlaying(): boolean;
+                /** Whether the player currently has focus. Read-only. */
+                public static get isFocused(): boolean;
+                /** Returns a GUID for this build (Read Only). */
+                public static get buildGUID(): string;
+                /** Should the player be running when the application is in the background? */
+                public static get runInBackground(): boolean;
+                public static set runInBackground(value: boolean);
+                /** Returns true when Unity is launched with the -batchmode flag from the command line (Read Only). */
+                public static get isBatchMode(): boolean;
+                /** Contains the path to the game data folder on the target device (Read Only). */
+                public static get dataPath(): string;
+                /** The path to the StreamingAssets folder (Read Only). */
+                public static get streamingAssetsPath(): string;
+                /** (Read Only) Contains the path to a persistent data directory. */
+                public static get persistentDataPath(): string;
+                /** Contains the path to a temporary data / cache directory (Read Only). */
+                public static get temporaryCachePath(): string;
+                /** The URL of the document. For WebGL, this a web URL. For Android, iOS, or Universal Windows Platform (UWP) this is a deep link URL. (Read Only) */
+                public static get absoluteURL(): string;
+                /** The version of the Unity runtime used to play the content. */
+                public static get unityVersion(): string;
+                /** Returns application version number  (Read Only). */
+                public static get version(): string;
+                /** Returns the name of the store or package that installed the application (Read Only). */
+                public static get installerName(): string;
+                /** Returns application identifier at runtime. On Apple platforms this is the 'bundleIdentifier' saved in the info.plist file, on Android it's the 'package' from the AndroidManifest.xml.  */
+                public static get identifier(): string;
+                /** Returns application install mode (Read Only). */
+                public static get installMode(): UnityEngine.ApplicationInstallMode;
+                /** Returns application running in sandbox (Read Only). */
+                public static get sandboxType(): UnityEngine.ApplicationSandboxType;
+                /** Returns application product name (Read Only). */
+                public static get productName(): string;
+                /** Return application company name (Read Only). */
+                public static get companyName(): string;
+                /** A unique cloud project identifier. It is unique for every project (Read Only). */
+                public static get cloudProjectId(): string;
+                /** Specifies the frame rate at which Unity tries to render your game. */
+                public static get targetFrameRate(): number;
+                public static set targetFrameRate(value: number);
+                /** Returns the path to the console log file, or an empty string if the current platform does not support log files. */
+                public static get consoleLogPath(): string;
+                /** Priority of background loading thread. */
+                public static get backgroundLoadingPriority(): UnityEngine.ThreadPriority;
+                public static set backgroundLoadingPriority(value: UnityEngine.ThreadPriority);
+                /** Returns false if application is altered in any way after it was built. */
+                public static get genuine(): boolean;
+                /** Returns true if application integrity can be confirmed. */
+                public static get genuineCheckAvailable(): boolean;
+                /** Returns the platform the game is running on (Read Only). */
+                public static get platform(): UnityEngine.RuntimePlatform;
+                /** Is the current Runtime platform a known mobile platform. */
+                public static get isMobilePlatform(): boolean;
+                /** Is the current Runtime platform a known console platform. */
+                public static get isConsolePlatform(): boolean;
+                /** The language the user's operating system is running in. */
+                public static get systemLanguage(): UnityEngine.SystemLanguage;
+                /** Returns the type of Internet reachability currently possible on the device. */
+                public static get internetReachability(): UnityEngine.NetworkReachability;
+                /** Are we running inside the Unity editor? (Read Only) */
+                public static get isEditor(): boolean;
+                public static Quit ($exitCode: number) : void
+                public static Quit () : void
+                public static Unload () : void
+                /** Can the streamed level be loaded? */
+                public static CanStreamedLevelBeLoaded ($levelIndex: number) : boolean
+                /** Can the streamed level be loaded? */
+                public static CanStreamedLevelBeLoaded ($levelName: string) : boolean
+                /** Returns true if the given object is part of the playing world either in any kind of built Player or in Play Mode.
+                * @param obj The object to test.
+                * @returns True if the object is part of the playing world. 
+                */
+                public static IsPlaying ($obj: UnityEngine.Object) : boolean
+                public static GetBuildTags () : System.Array$1<string>
+                /** Set an array of feature tags for this build. */
+                public static SetBuildTags ($buildTags: System.Array$1<string>) : void
+                public static HasProLicense () : boolean
+                public static RequestAdvertisingIdentifierAsync ($delegateMethod: UnityEngine.Application.AdvertisingIdentifierCallback) : boolean
+                /** Opens the URL specified, subject to the permissions and limitations of your app’s current platform and environment. This is handled in different ways depending on the nature of the URL, and with different security restrictions, depending on the runtime platform. * @param url The URL to open.
+                */
+                public static OpenURL ($url: string) : void
+                /** Get stack trace logging options. The default value is StackTraceLogType.ScriptOnly. */
+                public static GetStackTraceLogType ($logType: UnityEngine.LogType) : UnityEngine.StackTraceLogType
+                /** Set stack trace logging options. The default value is StackTraceLogType.ScriptOnly. */
+                public static SetStackTraceLogType ($logType: UnityEngine.LogType, $stackTraceType: UnityEngine.StackTraceLogType) : void
+                /** Request authorization to use the webcam or microphone on iOS. */
+                public static RequestUserAuthorization ($mode: UnityEngine.UserAuthorization) : UnityEngine.AsyncOperation
+                /** Check if the user has authorized use of the webcam or microphone in the Web Player. */
+                public static HasUserAuthorization ($mode: UnityEngine.UserAuthorization) : boolean
+                public static add_lowMemory ($value: UnityEngine.Application.LowMemoryCallback) : void
+                public static remove_lowMemory ($value: UnityEngine.Application.LowMemoryCallback) : void
+                public static add_logMessageReceived ($value: UnityEngine.Application.LogCallback) : void
+                public static remove_logMessageReceived ($value: UnityEngine.Application.LogCallback) : void
+                public static add_logMessageReceivedThreaded ($value: UnityEngine.Application.LogCallback) : void
+                public static remove_logMessageReceivedThreaded ($value: UnityEngine.Application.LogCallback) : void
+                public static add_onBeforeRender ($value: UnityEngine.Events.UnityAction) : void
+                public static remove_onBeforeRender ($value: UnityEngine.Events.UnityAction) : void
+                public static add_focusChanged ($value: System.Action$1<boolean>) : void
+                public static remove_focusChanged ($value: System.Action$1<boolean>) : void
+                public static add_deepLinkActivated ($value: System.Action$1<string>) : void
+                public static remove_deepLinkActivated ($value: System.Action$1<string>) : void
+                public static add_wantsToQuit ($value: System.Func$1<boolean>) : void
+                public static remove_wantsToQuit ($value: System.Func$1<boolean>) : void
+                public static add_quitting ($value: System.Action) : void
+                public static remove_quitting ($value: System.Action) : void
+                public static add_unloading ($value: System.Action) : void
+                public static remove_unloading ($value: System.Action) : void
+                public constructor ()
+            }
+            /** Base class for all objects Unity can reference. */
+            class Object extends System.Object
+            {
+                protected [__keep_incompatibility]: never;
+                /** The name of the object. */
+                public get name(): string;
+                public set name(value: string);
+                /** Should the object be hidden, saved with the Scene or modifiable by the user? */
+                public get hideFlags(): UnityEngine.HideFlags;
+                public set hideFlags(value: UnityEngine.HideFlags);
+                public GetInstanceID () : number
+                public static op_Implicit ($exists: UnityEngine.Object) : boolean
+                /** Clones the object original and returns the clone.
+                * @param original An existing object that you want to make a copy of.
+                * @param position Position for the new object.
+                * @param rotation Orientation of the new object.
+                * @param parent Parent that will be assigned to the new object.
+                * @param instantiateInWorldSpace When you assign a parent Object, pass true to position the new object directly in world space. Pass false to set the Object’s position relative to its new parent.
+                * @returns The instantiated clone. 
+                */
+                public static Instantiate ($original: UnityEngine.Object, $position: UnityEngine.Vector3, $rotation: UnityEngine.Quaternion) : UnityEngine.Object
+                /** Clones the object original and returns the clone.
+                * @param original An existing object that you want to make a copy of.
+                * @param position Position for the new object.
+                * @param rotation Orientation of the new object.
+                * @param parent Parent that will be assigned to the new object.
+                * @param instantiateInWorldSpace When you assign a parent Object, pass true to position the new object directly in world space. Pass false to set the Object’s position relative to its new parent.
+                * @returns The instantiated clone. 
+                */
+                public static Instantiate ($original: UnityEngine.Object, $position: UnityEngine.Vector3, $rotation: UnityEngine.Quaternion, $parent: UnityEngine.Transform) : UnityEngine.Object
+                /** Clones the object original and returns the clone.
+                * @param original An existing object that you want to make a copy of.
+                * @param position Position for the new object.
+                * @param rotation Orientation of the new object.
+                * @param parent Parent that will be assigned to the new object.
+                * @param instantiateInWorldSpace When you assign a parent Object, pass true to position the new object directly in world space. Pass false to set the Object’s position relative to its new parent.
+                * @returns The instantiated clone. 
+                */
+                public static Instantiate ($original: UnityEngine.Object) : UnityEngine.Object
+                /** Clones the object original and returns the clone.
+                * @param original An existing object that you want to make a copy of.
+                * @param position Position for the new object.
+                * @param rotation Orientation of the new object.
+                * @param parent Parent that will be assigned to the new object.
+                * @param instantiateInWorldSpace When you assign a parent Object, pass true to position the new object directly in world space. Pass false to set the Object’s position relative to its new parent.
+                * @returns The instantiated clone. 
+                */
+                public static Instantiate ($original: UnityEngine.Object, $parent: UnityEngine.Transform) : UnityEngine.Object
+                /** Clones the object original and returns the clone.
+                * @param original An existing object that you want to make a copy of.
+                * @param position Position for the new object.
+                * @param rotation Orientation of the new object.
+                * @param parent Parent that will be assigned to the new object.
+                * @param instantiateInWorldSpace When you assign a parent Object, pass true to position the new object directly in world space. Pass false to set the Object’s position relative to its new parent.
+                * @returns The instantiated clone. 
+                */
+                public static Instantiate ($original: UnityEngine.Object, $parent: UnityEngine.Transform, $instantiateInWorldSpace: boolean) : UnityEngine.Object
+                public static Instantiate ($original: UnityEngine.Object, $parent: UnityEngine.Transform, $worldPositionStays: boolean) : UnityEngine.Object
+                /** Removes a GameObject, component or asset. * @param obj The object to destroy.
+                * @param t The optional amount of time to delay before destroying the object.
+                */
+                public static Destroy ($obj: UnityEngine.Object, $t: number) : void
+                /** Removes a GameObject, component or asset. * @param obj The object to destroy.
+                * @param t The optional amount of time to delay before destroying the object.
+                */
+                public static Destroy ($obj: UnityEngine.Object) : void
+                /** Destroys the object obj immediately. You are strongly recommended to use Destroy instead. * @param obj Object to be destroyed.
+                * @param allowDestroyingAssets Set to true to allow assets to be destroyed.
+                */
+                public static DestroyImmediate ($obj: UnityEngine.Object, $allowDestroyingAssets: boolean) : void
+                /** Destroys the object obj immediately. You are strongly recommended to use Destroy instead. * @param obj Object to be destroyed.
+                * @param allowDestroyingAssets Set to true to allow assets to be destroyed.
+                */
+                public static DestroyImmediate ($obj: UnityEngine.Object) : void
+                /** Gets a list of all loaded objects of Type type.
+                * @param type The type of object to find.
+                * @param includeInactive If true, components attached to inactive GameObjects are also included.
+                * @returns The array of objects found matching the type specified. 
+                */
+                public static FindObjectsOfType ($type: System.Type) : System.Array$1<UnityEngine.Object>
+                /** Gets a list of all loaded objects of Type type.
+                * @param type The type of object to find.
+                * @param includeInactive If true, components attached to inactive GameObjects are also included.
+                * @returns The array of objects found matching the type specified. 
+                */
+                public static FindObjectsOfType ($type: System.Type, $includeInactive: boolean) : System.Array$1<UnityEngine.Object>
+                /** Do not destroy the target Object when loading a new Scene. * @param target An Object not destroyed on Scene change.
+                */
+                public static DontDestroyOnLoad ($target: UnityEngine.Object) : void
+                /** Returns the first active loaded object of Type type.
+                * @param type The type of object to find.
+                * @returns Object The first active loaded object that matches the specified type. It returns null if no Object matches the type. 
+                */
+                public static FindObjectOfType ($type: System.Type) : UnityEngine.Object
+                /** Returns the first active loaded object of Type type.
+                * @param type The type of object to find.
+                * @returns Object The first active loaded object that matches the specified type. It returns null if no Object matches the type. 
+                */
+                public static FindObjectOfType ($type: System.Type, $includeInactive: boolean) : UnityEngine.Object
+                public static op_Equality ($x: UnityEngine.Object, $y: UnityEngine.Object) : boolean
+                public static op_Inequality ($x: UnityEngine.Object, $y: UnityEngine.Object) : boolean
+                public constructor ()
+            }
+            /** Application installation mode (Read Only). */
+            enum ApplicationInstallMode
+            { Unknown = 0, Store = 1, DeveloperBuild = 2, Adhoc = 3, Enterprise = 4, Editor = 5 }
+            /** Application sandbox type. */
+            enum ApplicationSandboxType
+            { Unknown = 0, NotSandboxed = 1, Sandboxed = 2, SandboxBroken = 3 }
+            /** Stack trace logging options. */
+            enum StackTraceLogType
+            { None = 0, ScriptOnly = 1, Full = 2 }
+            /** The type of the log message in Debug.unityLogger.Log or delegate registered with Application.RegisterLogCallback. */
+            enum LogType
+            { Error = 0, Assert = 1, Warning = 2, Log = 3, Exception = 4 }
+            /** Priority of a thread. */
+            enum ThreadPriority
+            { Low = 0, BelowNormal = 1, Normal = 2, High = 4 }
+            /** Base class for all yield instructions. */
+            class YieldInstruction extends System.Object
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            /** Asynchronous operation coroutine. */
+            class AsyncOperation extends UnityEngine.YieldInstruction
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            /** Constants to pass to Application.RequestUserAuthorization. */
+            enum UserAuthorization
+            { WebCam = 1, Microphone = 2 }
+            /** The platform application is running. Returned by Application.platform. */
+            enum RuntimePlatform
+            { OSXEditor = 0, OSXPlayer = 1, WindowsPlayer = 2, OSXWebPlayer = 3, OSXDashboardPlayer = 4, WindowsWebPlayer = 5, WindowsEditor = 7, IPhonePlayer = 8, XBOX360 = 10, PS3 = 9, Android = 11, NaCl = 12, FlashPlayer = 15, LinuxPlayer = 13, LinuxEditor = 16, WebGLPlayer = 17, MetroPlayerX86 = 18, WSAPlayerX86 = 18, MetroPlayerX64 = 19, WSAPlayerX64 = 19, MetroPlayerARM = 20, WSAPlayerARM = 20, WP8Player = 21, BB10Player = 22, BlackBerryPlayer = 22, TizenPlayer = 23, PSP2 = 24, PS4 = 25, PSM = 26, XboxOne = 27, SamsungTVPlayer = 28, WiiU = 30, tvOS = 31, Switch = 32, Lumin = 33, Stadia = 34, CloudRendering = 35, GameCoreScarlett = 36, GameCoreXboxSeries = 36, GameCoreXboxOne = 37, PS5 = 38, EmbeddedLinuxArm64 = 39, EmbeddedLinuxArm32 = 40, EmbeddedLinuxX64 = 41, EmbeddedLinuxX86 = 42, LinuxServer = 43, WindowsServer = 44, OSXServer = 45 }
+            /** The language the user's operating system is running in. Returned by Application.systemLanguage. */
+            enum SystemLanguage
+            { Afrikaans = 0, Arabic = 1, Basque = 2, Belarusian = 3, Bulgarian = 4, Catalan = 5, Chinese = 6, Czech = 7, Danish = 8, Dutch = 9, English = 10, Estonian = 11, Faroese = 12, Finnish = 13, French = 14, German = 15, Greek = 16, Hebrew = 17, Hugarian = 18, Icelandic = 19, Indonesian = 20, Italian = 21, Japanese = 22, Korean = 23, Latvian = 24, Lithuanian = 25, Norwegian = 26, Polish = 27, Portuguese = 28, Romanian = 29, Russian = 30, SerboCroatian = 31, Slovak = 32, Slovenian = 33, Spanish = 34, Swedish = 35, Thai = 36, Turkish = 37, Ukrainian = 38, Vietnamese = 39, ChineseSimplified = 40, ChineseTraditional = 41, Unknown = 42, Hungarian = 18 }
+            /** Describes network reachability options. */
+            enum NetworkReachability
+            { NotReachable = 0, ReachableViaCarrierDataNetwork = 1, ReachableViaLocalAreaNetwork = 2 }
             /** Class containing methods to ease debugging while developing a game. */
             class Debug extends System.Object
             {
@@ -735,112 +1001,6 @@ declare namespace CS {
             {
                 protected [__keep_incompatibility]: never;
             }
-            /** Base class for all objects Unity can reference. */
-            class Object extends System.Object
-            {
-                protected [__keep_incompatibility]: never;
-                /** The name of the object. */
-                public get name(): string;
-                public set name(value: string);
-                /** Should the object be hidden, saved with the Scene or modifiable by the user? */
-                public get hideFlags(): UnityEngine.HideFlags;
-                public set hideFlags(value: UnityEngine.HideFlags);
-                public GetInstanceID () : number
-                public static op_Implicit ($exists: UnityEngine.Object) : boolean
-                /** Clones the object original and returns the clone.
-                * @param original An existing object that you want to make a copy of.
-                * @param position Position for the new object.
-                * @param rotation Orientation of the new object.
-                * @param parent Parent that will be assigned to the new object.
-                * @param instantiateInWorldSpace When you assign a parent Object, pass true to position the new object directly in world space. Pass false to set the Object’s position relative to its new parent.
-                * @returns The instantiated clone. 
-                */
-                public static Instantiate ($original: UnityEngine.Object, $position: UnityEngine.Vector3, $rotation: UnityEngine.Quaternion) : UnityEngine.Object
-                /** Clones the object original and returns the clone.
-                * @param original An existing object that you want to make a copy of.
-                * @param position Position for the new object.
-                * @param rotation Orientation of the new object.
-                * @param parent Parent that will be assigned to the new object.
-                * @param instantiateInWorldSpace When you assign a parent Object, pass true to position the new object directly in world space. Pass false to set the Object’s position relative to its new parent.
-                * @returns The instantiated clone. 
-                */
-                public static Instantiate ($original: UnityEngine.Object, $position: UnityEngine.Vector3, $rotation: UnityEngine.Quaternion, $parent: UnityEngine.Transform) : UnityEngine.Object
-                /** Clones the object original and returns the clone.
-                * @param original An existing object that you want to make a copy of.
-                * @param position Position for the new object.
-                * @param rotation Orientation of the new object.
-                * @param parent Parent that will be assigned to the new object.
-                * @param instantiateInWorldSpace When you assign a parent Object, pass true to position the new object directly in world space. Pass false to set the Object’s position relative to its new parent.
-                * @returns The instantiated clone. 
-                */
-                public static Instantiate ($original: UnityEngine.Object) : UnityEngine.Object
-                /** Clones the object original and returns the clone.
-                * @param original An existing object that you want to make a copy of.
-                * @param position Position for the new object.
-                * @param rotation Orientation of the new object.
-                * @param parent Parent that will be assigned to the new object.
-                * @param instantiateInWorldSpace When you assign a parent Object, pass true to position the new object directly in world space. Pass false to set the Object’s position relative to its new parent.
-                * @returns The instantiated clone. 
-                */
-                public static Instantiate ($original: UnityEngine.Object, $parent: UnityEngine.Transform) : UnityEngine.Object
-                /** Clones the object original and returns the clone.
-                * @param original An existing object that you want to make a copy of.
-                * @param position Position for the new object.
-                * @param rotation Orientation of the new object.
-                * @param parent Parent that will be assigned to the new object.
-                * @param instantiateInWorldSpace When you assign a parent Object, pass true to position the new object directly in world space. Pass false to set the Object’s position relative to its new parent.
-                * @returns The instantiated clone. 
-                */
-                public static Instantiate ($original: UnityEngine.Object, $parent: UnityEngine.Transform, $instantiateInWorldSpace: boolean) : UnityEngine.Object
-                public static Instantiate ($original: UnityEngine.Object, $parent: UnityEngine.Transform, $worldPositionStays: boolean) : UnityEngine.Object
-                /** Removes a GameObject, component or asset. * @param obj The object to destroy.
-                * @param t The optional amount of time to delay before destroying the object.
-                */
-                public static Destroy ($obj: UnityEngine.Object, $t: number) : void
-                /** Removes a GameObject, component or asset. * @param obj The object to destroy.
-                * @param t The optional amount of time to delay before destroying the object.
-                */
-                public static Destroy ($obj: UnityEngine.Object) : void
-                /** Destroys the object obj immediately. You are strongly recommended to use Destroy instead. * @param obj Object to be destroyed.
-                * @param allowDestroyingAssets Set to true to allow assets to be destroyed.
-                */
-                public static DestroyImmediate ($obj: UnityEngine.Object, $allowDestroyingAssets: boolean) : void
-                /** Destroys the object obj immediately. You are strongly recommended to use Destroy instead. * @param obj Object to be destroyed.
-                * @param allowDestroyingAssets Set to true to allow assets to be destroyed.
-                */
-                public static DestroyImmediate ($obj: UnityEngine.Object) : void
-                /** Gets a list of all loaded objects of Type type.
-                * @param type The type of object to find.
-                * @param includeInactive If true, components attached to inactive GameObjects are also included.
-                * @returns The array of objects found matching the type specified. 
-                */
-                public static FindObjectsOfType ($type: System.Type) : System.Array$1<UnityEngine.Object>
-                /** Gets a list of all loaded objects of Type type.
-                * @param type The type of object to find.
-                * @param includeInactive If true, components attached to inactive GameObjects are also included.
-                * @returns The array of objects found matching the type specified. 
-                */
-                public static FindObjectsOfType ($type: System.Type, $includeInactive: boolean) : System.Array$1<UnityEngine.Object>
-                /** Do not destroy the target Object when loading a new Scene. * @param target An Object not destroyed on Scene change.
-                */
-                public static DontDestroyOnLoad ($target: UnityEngine.Object) : void
-                /** Returns the first active loaded object of Type type.
-                * @param type The type of object to find.
-                * @returns Object The first active loaded object that matches the specified type. It returns null if no Object matches the type. 
-                */
-                public static FindObjectOfType ($type: System.Type) : UnityEngine.Object
-                /** Returns the first active loaded object of Type type.
-                * @param type The type of object to find.
-                * @returns Object The first active loaded object that matches the specified type. It returns null if no Object matches the type. 
-                */
-                public static FindObjectOfType ($type: System.Type, $includeInactive: boolean) : UnityEngine.Object
-                public static op_Equality ($x: UnityEngine.Object, $y: UnityEngine.Object) : boolean
-                public static op_Inequality ($x: UnityEngine.Object, $y: UnityEngine.Object) : boolean
-                public constructor ()
-            }
-            /** The type of the log message in Debug.unityLogger.Log or delegate registered with Application.RegisterLogCallback. */
-            enum LogType
-            { Error = 0, Assert = 1, Warning = 2, Log = 3, Exception = 4 }
             /** Option flags for specifying special treatment of a log message. */
             enum LogOption
             { None = 0, NoStacktrace = 1 }
@@ -1693,11 +1853,6 @@ declare namespace CS {
                 public static print ($message: any) : void
                 public constructor ()
             }
-            /** Base class for all yield instructions. */
-            class YieldInstruction extends System.Object
-            {
-                protected [__keep_incompatibility]: never;
-            }
             /** MonoBehaviour.StartCoroutine returns a Coroutine. Instances of this class are only used to reference these coroutines, and do not hold any exposed properties or functions. */
             class Coroutine extends UnityEngine.YieldInstruction
             {
@@ -1877,6 +2032,82 @@ declare namespace CS {
             {
             }
         }
+        namespace System.Runtime.Serialization {
+            interface ISerializable
+            {
+            }
+            interface IDeserializationCallback
+            {
+            }
+            class SerializationInfo extends System.Object
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class StreamingContext extends System.ValueType
+            {
+                protected [__keep_incompatibility]: never;
+            }
+        }
+        namespace UnityEngine.Application {
+            interface AdvertisingIdentifierCallback
+            { 
+            (advertisingId: string, trackingEnabled: boolean, errorMsg: string) : void; 
+            Invoke?: (advertisingId: string, trackingEnabled: boolean, errorMsg: string) => void;
+            }
+            var AdvertisingIdentifierCallback: { new (func: (advertisingId: string, trackingEnabled: boolean, errorMsg: string) => void): AdvertisingIdentifierCallback; }
+            interface LowMemoryCallback
+            { 
+            () : void; 
+            Invoke?: () => void;
+            }
+            var LowMemoryCallback: { new (func: () => void): LowMemoryCallback; }
+            interface LogCallback
+            { 
+            (condition: string, stackTrace: string, type: UnityEngine.LogType) : void; 
+            Invoke?: (condition: string, stackTrace: string, type: UnityEngine.LogType) => void;
+            }
+            var LogCallback: { new (func: (condition: string, stackTrace: string, type: UnityEngine.LogType) => void): LogCallback; }
+        }
+        namespace UnityEngine.Events {
+            /** Zero argument delegate used by UnityEvents. */
+            interface UnityAction
+            { 
+            () : void; 
+            Invoke?: () => void;
+            }
+            var UnityAction: { new (func: () => void): UnityAction; }
+            /** Abstract base class for UnityEvents. */
+            class UnityEventBase extends System.Object implements UnityEngine.ISerializationCallbackReceiver
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            /** A zero argument persistent callback that can be saved with the Scene. */
+            class UnityEvent extends UnityEngine.Events.UnityEventBase implements UnityEngine.ISerializationCallbackReceiver
+            {
+                protected [__keep_incompatibility]: never;
+                /** Add a non persistent listener to the UnityEvent. * @param call Callback function.
+                */
+                public AddListener ($call: UnityEngine.Events.UnityAction) : void
+                /** Remove a non persistent listener from the UnityEvent. If you have added the same listener multiple times, this method will remove all occurrences of it. * @param call Callback function.
+                */
+                public RemoveListener ($call: UnityEngine.Events.UnityAction) : void
+                public Invoke () : void
+                public constructor ()
+            }
+            class UnityEvent$1<T0> extends UnityEngine.Events.UnityEventBase implements UnityEngine.ISerializationCallbackReceiver
+            {
+                protected [__keep_incompatibility]: never;
+                public AddListener ($call: UnityEngine.Events.UnityAction$1<T0>) : void
+                public RemoveListener ($call: UnityEngine.Events.UnityAction$1<T0>) : void
+                public Invoke ($arg0: T0) : void
+                public constructor ()
+            }
+            interface UnityAction$1<T0>
+            { 
+            (arg0: T0) : void; 
+            Invoke?: (arg0: T0) => void;
+            }
+        }
         namespace System.Runtime.InteropServices {
             interface _Exception
             {
@@ -1920,22 +2151,6 @@ declare namespace CS {
             }
             interface _AssemblyName
             {
-            }
-        }
-        namespace System.Runtime.Serialization {
-            interface ISerializable
-            {
-            }
-            interface IDeserializationCallback
-            {
-            }
-            class SerializationInfo extends System.Object
-            {
-                protected [__keep_incompatibility]: never;
-            }
-            class StreamingContext extends System.ValueType
-            {
-                protected [__keep_incompatibility]: never;
             }
         }
         namespace PuertsTest {
@@ -2563,46 +2778,6 @@ declare namespace CS {
             enum Transition
             { None = 0, ColorTint = 1, SpriteSwap = 2, Animation = 3 }
         }
-        namespace UnityEngine.Events {
-            /** Abstract base class for UnityEvents. */
-            class UnityEventBase extends System.Object implements UnityEngine.ISerializationCallbackReceiver
-            {
-                protected [__keep_incompatibility]: never;
-            }
-            /** A zero argument persistent callback that can be saved with the Scene. */
-            class UnityEvent extends UnityEngine.Events.UnityEventBase implements UnityEngine.ISerializationCallbackReceiver
-            {
-                protected [__keep_incompatibility]: never;
-                /** Add a non persistent listener to the UnityEvent. * @param call Callback function.
-                */
-                public AddListener ($call: UnityEngine.Events.UnityAction) : void
-                /** Remove a non persistent listener from the UnityEvent. If you have added the same listener multiple times, this method will remove all occurrences of it. * @param call Callback function.
-                */
-                public RemoveListener ($call: UnityEngine.Events.UnityAction) : void
-                public Invoke () : void
-                public constructor ()
-            }
-            /** Zero argument delegate used by UnityEvents. */
-            interface UnityAction
-            { 
-            () : void; 
-            Invoke?: () => void;
-            }
-            var UnityAction: { new (func: () => void): UnityAction; }
-            class UnityEvent$1<T0> extends UnityEngine.Events.UnityEventBase implements UnityEngine.ISerializationCallbackReceiver
-            {
-                protected [__keep_incompatibility]: never;
-                public AddListener ($call: UnityEngine.Events.UnityAction$1<T0>) : void
-                public RemoveListener ($call: UnityEngine.Events.UnityAction$1<T0>) : void
-                public Invoke ($arg0: T0) : void
-                public constructor ()
-            }
-            interface UnityAction$1<T0>
-            { 
-            (arg0: T0) : void; 
-            Invoke?: (arg0: T0) => void;
-            }
-        }
         namespace UnityEngine.UI.Button {
             class ButtonClickedEvent extends UnityEngine.Events.UnityEvent implements UnityEngine.ISerializationCallbackReceiver
             {
@@ -2681,6 +2856,6 @@ declare namespace CS {
                 public action () : void
             }
         }
-    // }
-    // export = CSharp;
+    }
+    export = CSharp;
 }

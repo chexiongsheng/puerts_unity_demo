@@ -22,6 +22,7 @@ public class ExamplesCfg
         {
             return new List<Type>()
             {
+                typeof(UnityEngine.Application),
                 typeof(Debug),
                 typeof(PuertsTest.TestClass),
                 typeof(Vector3),

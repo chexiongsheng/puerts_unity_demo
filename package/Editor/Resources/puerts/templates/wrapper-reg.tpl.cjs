@@ -49,7 +49,6 @@ function toJsArray(csArr) {
     }
     return arr;
 }
-const CS = require('csharp');
 function getNativeObjectGenericArgumentsList(type) {
     return toJsArray(type.GetGenericArguments()).filter(isNativeObjectType);
 }

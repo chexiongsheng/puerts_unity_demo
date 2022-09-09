@@ -18,19 +18,20 @@ namespace PuertsTest
             {
                 env = new JsEnv(new DefaultLoader(), 9222);
                 env.Eval(@"
-                    console.log(require('os').cpus().length); 
-                    const result = require('child_process').spawnSync('pwd', {cwd: '" + Application.persistentDataPath + @"'});
-                    console.log(
-                        JSON.stringify(result), result.status, result.stdout && result.stdout.toString('utf-8'), result.stderr && result.stderr.toString('utf-8')
-                    );
-                    require('fs').readFile('" + Application.dataPath + @"/Examples/09_Node.js/NodeJS.cs', (err, res)=> { 
-                        console.log(res.toString('utf-8')) 
-                        throw new Error('any Error in node callback'); 
-                    });
+                    console.log(require('node:os').cpus().length); 
+                    const fs = require('node:fs');
+                    const path = require('node:path');
+                    const util = require('node:util');
+
+                    const CS_Application = CS.UnityEngine.Application;
+
                     const itv = setInterval(onInterval, 500)
                     function onInterval() {
                         throw Error('interval error');
                     }
+                    setTimeout(()=> {
+                        clearInterval(itv);
+                    }, 1600)
 
                     try {
                         a();
@@ -45,17 +46,55 @@ namespace PuertsTest
                     function f() { g() }
                     function g() { h() }
                     function h() { throw new Error('error stack trace test') }
+                    ;
 
-                    // 只有在编辑器建议这么做，打包之后dataPath位置并不确定
-                    // only recommend to do this in Editor.
-                    const nodeRequire = require('node:module').createRequire('" + Application.dataPath + @"/../TsProj/');
+                    (async function() {
+                        const rs = fs.createReadStream(`${CS_Application.streamingAssetsPath}/axios-project.zip`)
+                        rs.pipe(fs.createWriteStream(`${CS_Application.persistentDataPath}/axios-project.zip`));
+                        await new Promise(resolve => {
+                            rs.on('end', resolve)
+                        });
+                        const nodeRequire = require('node:module').createRequire(`${CS_Application.persistentDataPath}/axios-project/`);
+                        const yauzl = puerts.require('node-unzip.cjs');
 
-                    setTimeout(()=> {
-                        clearInterval(itv);
+                        console.log('npm extracting...');
+                        zipfile = await util.promisify(yauzl.open)(`${CS_Application.persistentDataPath}/axios-project.zip`, { lazyEntries: true });
+                        
+                        zipfile.readEntry();
+                        zipfile.on('entry', function(entry) {
+                            if (/\/$/.test(entry.fileName)) {
+                                // Directory file names end with '/'.
+                                // Note that entries for directories themselves are optional.
+                                // An entry's fileName implicitly requires its parent directories to exist.
+                                zipfile.readEntry();
+                            } else {
+                                // file entry
+                                zipfile.openReadStream(entry, function(err, readStream) {
+                                    if (err) throw err;
+                                    readStream.on('end', function() {
+                                        zipfile.readEntry();
+                                    });
+                                    var targetPath = path.join(CS_Application.persistentDataPath, entry.fileName);
+                                    var targetDir = path.dirname(targetPath);
+                                    if (!fs.existsSync(targetDir)) {
+                                        fs.mkdirSync(targetDir, { recursive: true })
+                                    }
+                                    readStream.pipe(fs.createWriteStream(targetPath));
+                                });
+                            }
+                        });
+                        await new Promise((resolve, reject) => {
+                            zipfile.on('end', resolve);
+                        });
+
+                        console.log('create server');
+                        require('node:http').createServer((req, res)=> {}).listen(8081, ()=> { console.log('listened: ', 8081) });
+
+                        console.log('axios start');
                         const axios = nodeRequire('axios');
-                        axios.get('https://puerts.github.io')
+                        await axios.get('https://puerts.github.io')
                             .then((result) => console.log('axios: ', result.data));
-                    }, 1600)
+                    })().catch(e=> console.error(e));
                 ");
             }
             else
