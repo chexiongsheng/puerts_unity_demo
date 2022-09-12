@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using Puerts;
 using System;
+using System.Net;
+using System.IO;
 using UnityEditor;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,6 +16,26 @@ namespace PuertsTest
         // Start is called before the first frame update
         void Start()
         {
+            var csStream = WebRequest
+                .Create(
+                    (Application.streamingAssetsPath.Contains("file://") ? "file://" : "") + 
+                    Application.streamingAssetsPath + "/axios-project.zip"
+                )
+                .GetResponse()
+                .GetResponseStream();
+
+            byte[] buffer = new byte[32768];
+            using (FileStream fileStream = File.Create(Application.persistentDataPath + "/axios-project.zip"))
+            {
+                while (true)
+                {
+                    int read = csStream.Read(buffer, 0, buffer.Length);
+                    if (read <= 0)
+                        break;
+                    fileStream.Write(buffer, 0, read);
+                }
+            }
+
             if (PuertsDLL.GetLibBackend() == 1)
             {
                 env = new JsEnv(new DefaultLoader(), 9222);
@@ -49,11 +71,6 @@ namespace PuertsTest
                     ;
 
                     (async function() {
-                        const rs = fs.createReadStream(`${CS_Application.streamingAssetsPath}/axios-project.zip`)
-                        rs.pipe(fs.createWriteStream(`${CS_Application.persistentDataPath}/axios-project.zip`));
-                        await new Promise(resolve => {
-                            rs.on('end', resolve)
-                        });
                         const nodeRequire = require('node:module').createRequire(`${CS_Application.persistentDataPath}/axios-project/`);
                         const yauzl = puerts.require('node-unzip.cjs');
 
