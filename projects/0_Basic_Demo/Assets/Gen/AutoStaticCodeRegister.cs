@@ -69,6 +69,15 @@ namespace PuertsStaticWrap
             jsEnv.AddLazyStaticWrapLoader(typeof(UnityEngine.MonoBehaviour), UnityEngine_MonoBehaviour_Wrap.GetRegisterInfo);
                 
                 
+            jsEnv.AddLazyStaticWrapLoader(typeof(System.IO.File), System_IO_File_Wrap.GetRegisterInfo);
+                
+                
+            jsEnv.AddLazyStaticWrapLoader(typeof(UnityEngine.Networking.UnityWebRequest), UnityEngine_Networking_UnityWebRequest_Wrap.GetRegisterInfo);
+                
+                
+            jsEnv.AddLazyStaticWrapLoader(typeof(UnityEngine.Networking.DownloadHandler), UnityEngine_Networking_DownloadHandler_Wrap.GetRegisterInfo);
+                
+                
             jsEnv.AddLazyStaticWrapLoader(typeof(UnityEngine.EventSystems.UIBehaviour), UnityEngine_EventSystems_UIBehaviour_Wrap.GetRegisterInfo);
                 
                 

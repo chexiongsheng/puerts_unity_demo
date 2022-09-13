@@ -372,6 +372,29 @@ declare module 'csharp' {
             {
                 protected [__keep_incompatibility]: never;
             }
+            class MarshalByRefObject extends System.Object
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            interface IAsyncDisposable
+            {
+            }
+            class DateTime extends System.ValueType implements System.IEquatable$1<Date>, System.IFormattable, System.ISpanFormattable, System.IComparable, System.IComparable$1<Date>, System.IConvertible, System.Runtime.Serialization.ISerializable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class Byte extends System.ValueType implements System.IEquatable$1<number>, System.IFormattable, System.ISpanFormattable, System.IComparable, System.IComparable$1<number>, System.IConvertible
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class Uri extends System.Object implements System.Runtime.Serialization.ISerializable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class Int64 extends System.ValueType implements System.IEquatable$1<bigint>, System.IFormattable, System.ISpanFormattable, System.IComparable, System.IComparable$1<bigint>, System.IConvertible
+            {
+                protected [__keep_incompatibility]: never;
+            }
         }
         namespace UnityEngine {
             /** Access to application run-time data. */
@@ -1858,6 +1881,24 @@ declare module 'csharp' {
             {
                 protected [__keep_incompatibility]: never;
             }
+            /** Type of the imported(native) data. */
+            enum AudioType
+            { UNKNOWN = 0, ACC = 1, AIFF = 2, IT = 10, MOD = 12, MPEG = 13, OGGVORBIS = 14, S3M = 17, WAV = 20, XM = 21, XMA = 22, VAG = 23, AUDIOQUEUE = 24 }
+            /** Represents  a 128-bit hash value. */
+            class Hash128 extends System.ValueType implements System.IEquatable$1<UnityEngine.Hash128>, System.IComparable, System.IComparable$1<UnityEngine.Hash128>
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            /** Data structure for downloading AssetBundles to a customized cache path. See Also:UnityWebRequestAssetBundle.GetAssetBundle for more information. */
+            class CachedAssetBundle extends System.ValueType
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            /** Helper class to generate form data to post to web servers using the UnityWebRequest or WWW classes. */
+            class WWWForm extends System.Object
+            {
+                protected [__keep_incompatibility]: never;
+            }
             interface ISerializationCallbackReceiver
             {
             }
@@ -2282,6 +2323,10 @@ declare module 'csharp' {
             interface IThreadPoolWorkItem
             {
             }
+            class CancellationToken extends System.ValueType
+            {
+                protected [__keep_incompatibility]: never;
+            }
         }
         namespace System.Reflection {
             class MemberInfo extends System.Object implements System.Reflection.ICustomAttributeProvider, System.Runtime.InteropServices._MemberInfo
@@ -2506,6 +2551,362 @@ declare module 'csharp' {
             Invoke?: () => void;
             }
             var WillRenderCanvases: { new (func: () => void): WillRenderCanvases; }
+        }
+        namespace System.IO {
+            class File extends System.Object
+            {
+                protected [__keep_incompatibility]: never;
+                public static OpenText ($path: string) : System.IO.StreamReader
+                public static CreateText ($path: string) : System.IO.StreamWriter
+                public static AppendText ($path: string) : System.IO.StreamWriter
+                public static Copy ($sourceFileName: string, $destFileName: string) : void
+                public static Copy ($sourceFileName: string, $destFileName: string, $overwrite: boolean) : void
+                public static Create ($path: string) : System.IO.FileStream
+                public static Create ($path: string, $bufferSize: number) : System.IO.FileStream
+                public static Create ($path: string, $bufferSize: number, $options: System.IO.FileOptions) : System.IO.FileStream
+                public static Delete ($path: string) : void
+                public static Exists ($path: string) : boolean
+                public static Open ($path: string, $mode: System.IO.FileMode) : System.IO.FileStream
+                public static Open ($path: string, $mode: System.IO.FileMode, $access: System.IO.FileAccess) : System.IO.FileStream
+                public static Open ($path: string, $mode: System.IO.FileMode, $access: System.IO.FileAccess, $share: System.IO.FileShare) : System.IO.FileStream
+                public static SetCreationTime ($path: string, $creationTime: Date) : void
+                public static SetCreationTimeUtc ($path: string, $creationTimeUtc: Date) : void
+                public static GetCreationTime ($path: string) : Date
+                public static GetCreationTimeUtc ($path: string) : Date
+                public static SetLastAccessTime ($path: string, $lastAccessTime: Date) : void
+                public static SetLastAccessTimeUtc ($path: string, $lastAccessTimeUtc: Date) : void
+                public static GetLastAccessTime ($path: string) : Date
+                public static GetLastAccessTimeUtc ($path: string) : Date
+                public static SetLastWriteTime ($path: string, $lastWriteTime: Date) : void
+                public static SetLastWriteTimeUtc ($path: string, $lastWriteTimeUtc: Date) : void
+                public static GetLastWriteTime ($path: string) : Date
+                public static GetLastWriteTimeUtc ($path: string) : Date
+                public static GetAttributes ($path: string) : System.IO.FileAttributes
+                public static SetAttributes ($path: string, $fileAttributes: System.IO.FileAttributes) : void
+                public static OpenRead ($path: string) : System.IO.FileStream
+                public static OpenWrite ($path: string) : System.IO.FileStream
+                public static ReadAllText ($path: string) : string
+                public static ReadAllText ($path: string, $encoding: System.Text.Encoding) : string
+                public static WriteAllText ($path: string, $contents: string) : void
+                public static WriteAllText ($path: string, $contents: string, $encoding: System.Text.Encoding) : void
+                public static ReadAllBytes ($path: string) : System.Array$1<number>
+                public static WriteAllBytes ($path: string, $bytes: System.Array$1<number>) : void
+                public static ReadAllLines ($path: string) : System.Array$1<string>
+                public static ReadAllLines ($path: string, $encoding: System.Text.Encoding) : System.Array$1<string>
+                public static ReadLines ($path: string) : System.Collections.Generic.IEnumerable$1<string>
+                public static ReadLines ($path: string, $encoding: System.Text.Encoding) : System.Collections.Generic.IEnumerable$1<string>
+                public static WriteAllLines ($path: string, $contents: System.Array$1<string>) : void
+                public static WriteAllLines ($path: string, $contents: System.Collections.Generic.IEnumerable$1<string>) : void
+                public static WriteAllLines ($path: string, $contents: System.Array$1<string>, $encoding: System.Text.Encoding) : void
+                public static WriteAllLines ($path: string, $contents: System.Collections.Generic.IEnumerable$1<string>, $encoding: System.Text.Encoding) : void
+                public static AppendAllText ($path: string, $contents: string) : void
+                public static AppendAllText ($path: string, $contents: string, $encoding: System.Text.Encoding) : void
+                public static AppendAllLines ($path: string, $contents: System.Collections.Generic.IEnumerable$1<string>) : void
+                public static AppendAllLines ($path: string, $contents: System.Collections.Generic.IEnumerable$1<string>, $encoding: System.Text.Encoding) : void
+                public static Replace ($sourceFileName: string, $destinationFileName: string, $destinationBackupFileName: string) : void
+                public static Replace ($sourceFileName: string, $destinationFileName: string, $destinationBackupFileName: string, $ignoreMetadataErrors: boolean) : void
+                public static Move ($sourceFileName: string, $destFileName: string) : void
+                public static Encrypt ($path: string) : void
+                public static Decrypt ($path: string) : void
+                public static ReadAllTextAsync ($path: string, $cancellationToken?: System.Threading.CancellationToken) : System.Threading.Tasks.Task$1<string>
+                public static ReadAllTextAsync ($path: string, $encoding: System.Text.Encoding, $cancellationToken?: System.Threading.CancellationToken) : System.Threading.Tasks.Task$1<string>
+                public static WriteAllTextAsync ($path: string, $contents: string, $cancellationToken?: System.Threading.CancellationToken) : System.Threading.Tasks.Task
+                public static WriteAllTextAsync ($path: string, $contents: string, $encoding: System.Text.Encoding, $cancellationToken?: System.Threading.CancellationToken) : System.Threading.Tasks.Task
+                public static ReadAllBytesAsync ($path: string, $cancellationToken?: System.Threading.CancellationToken) : System.Threading.Tasks.Task$1<System.Array$1<number>>
+                public static WriteAllBytesAsync ($path: string, $bytes: System.Array$1<number>, $cancellationToken?: System.Threading.CancellationToken) : System.Threading.Tasks.Task
+                public static ReadAllLinesAsync ($path: string, $cancellationToken?: System.Threading.CancellationToken) : System.Threading.Tasks.Task$1<System.Array$1<string>>
+                public static ReadAllLinesAsync ($path: string, $encoding: System.Text.Encoding, $cancellationToken?: System.Threading.CancellationToken) : System.Threading.Tasks.Task$1<System.Array$1<string>>
+                public static WriteAllLinesAsync ($path: string, $contents: System.Collections.Generic.IEnumerable$1<string>, $cancellationToken?: System.Threading.CancellationToken) : System.Threading.Tasks.Task
+                public static WriteAllLinesAsync ($path: string, $contents: System.Collections.Generic.IEnumerable$1<string>, $encoding: System.Text.Encoding, $cancellationToken?: System.Threading.CancellationToken) : System.Threading.Tasks.Task
+                public static AppendAllTextAsync ($path: string, $contents: string, $cancellationToken?: System.Threading.CancellationToken) : System.Threading.Tasks.Task
+                public static AppendAllTextAsync ($path: string, $contents: string, $encoding: System.Text.Encoding, $cancellationToken?: System.Threading.CancellationToken) : System.Threading.Tasks.Task
+                public static AppendAllLinesAsync ($path: string, $contents: System.Collections.Generic.IEnumerable$1<string>, $cancellationToken?: System.Threading.CancellationToken) : System.Threading.Tasks.Task
+                public static AppendAllLinesAsync ($path: string, $contents: System.Collections.Generic.IEnumerable$1<string>, $encoding: System.Text.Encoding, $cancellationToken?: System.Threading.CancellationToken) : System.Threading.Tasks.Task
+                public static Create ($path: string, $bufferSize: number, $options: System.IO.FileOptions, $fileSecurity: System.Security.AccessControl.FileSecurity) : System.IO.FileStream
+                public static GetAccessControl ($path: string) : System.Security.AccessControl.FileSecurity
+                public static GetAccessControl ($path: string, $includeSections: System.Security.AccessControl.AccessControlSections) : System.Security.AccessControl.FileSecurity
+                public static SetAccessControl ($path: string, $fileSecurity: System.Security.AccessControl.FileSecurity) : void
+            }
+            class TextReader extends System.MarshalByRefObject implements System.IDisposable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class StreamReader extends System.IO.TextReader implements System.IDisposable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class TextWriter extends System.MarshalByRefObject implements System.IAsyncDisposable, System.IDisposable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class StreamWriter extends System.IO.TextWriter implements System.IAsyncDisposable, System.IDisposable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class Stream extends System.MarshalByRefObject implements System.IAsyncDisposable, System.IDisposable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class FileStream extends System.IO.Stream implements System.IAsyncDisposable, System.IDisposable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            enum FileOptions
+            { None = 0, WriteThrough = -2147483648, Asynchronous = 1073741824, RandomAccess = 268435456, DeleteOnClose = 67108864, SequentialScan = 134217728, Encrypted = 16384 }
+            enum FileMode
+            { CreateNew = 1, Create = 2, Open = 3, OpenOrCreate = 4, Truncate = 5, Append = 6 }
+            enum FileAccess
+            { Read = 1, Write = 2, ReadWrite = 3 }
+            enum FileShare
+            { None = 0, Read = 1, Write = 2, ReadWrite = 3, Delete = 4, Inheritable = 16 }
+            enum FileAttributes
+            { ReadOnly = 1, Hidden = 2, System = 4, Directory = 16, Archive = 32, Device = 64, Normal = 128, Temporary = 256, SparseFile = 512, ReparsePoint = 1024, Compressed = 2048, Offline = 4096, NotContentIndexed = 8192, Encrypted = 16384, IntegrityStream = 32768, NoScrubData = 131072 }
+        }
+        namespace System.Text {
+            class Encoding extends System.Object implements System.ICloneable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+        }
+        namespace System.Security.AccessControl {
+            class ObjectSecurity extends System.Object
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class CommonObjectSecurity extends System.Security.AccessControl.ObjectSecurity
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class NativeObjectSecurity extends System.Security.AccessControl.CommonObjectSecurity
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class FileSystemSecurity extends System.Security.AccessControl.NativeObjectSecurity
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class FileSecurity extends System.Security.AccessControl.FileSystemSecurity
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            enum AccessControlSections
+            { None = 0, Audit = 1, Access = 2, Owner = 4, Group = 8, All = 15 }
+        }
+        namespace UnityEngine.Networking {
+            /** Provides methods to communicate with web servers. */
+            class UnityWebRequest extends System.Object implements System.IDisposable
+            {
+                protected [__keep_incompatibility]: never;
+                /** The string "GET", commonly used as the verb for an HTTP GET request. */
+                public static kHttpVerbGET : string/** The string "HEAD", commonly used as the verb for an HTTP HEAD request. */
+                public static kHttpVerbHEAD : string/** The string "POST", commonly used as the verb for an HTTP POST request. */
+                public static kHttpVerbPOST : string/** The string "PUT", commonly used as the verb for an HTTP PUT request. */
+                public static kHttpVerbPUT : string/** The string "CREATE", commonly used as the verb for an HTTP CREATE request. */
+                public static kHttpVerbCREATE : string/** The string "DELETE", commonly used as the verb for an HTTP DELETE request. */
+                public static kHttpVerbDELETE : string/** If true, any CertificateHandler attached to this UnityWebRequest will have CertificateHandler.Dispose called automatically when UnityWebRequest.Dispose is called. */
+                public get disposeCertificateHandlerOnDispose(): boolean;
+                public set disposeCertificateHandlerOnDispose(value: boolean);
+                /** If true, any DownloadHandler attached to this UnityWebRequest will have DownloadHandler.Dispose called automatically when UnityWebRequest.Dispose is called. */
+                public get disposeDownloadHandlerOnDispose(): boolean;
+                public set disposeDownloadHandlerOnDispose(value: boolean);
+                /** If true, any UploadHandler attached to this UnityWebRequest will have UploadHandler.Dispose called automatically when UnityWebRequest.Dispose is called. */
+                public get disposeUploadHandlerOnDispose(): boolean;
+                public set disposeUploadHandlerOnDispose(value: boolean);
+                /** Defines the HTTP verb used by this UnityWebRequest, such as GET or POST. */
+                public get method(): string;
+                public set method(value: string);
+                /** A human-readable string describing any system errors encountered by this UnityWebRequest object while handling HTTP requests or responses. (Read Only) */
+                public get error(): string;
+                /** Determines whether this UnityWebRequest will include Expect: 100-Continue in its outgoing request headers. (Default: true). */
+                public get useHttpContinue(): boolean;
+                public set useHttpContinue(value: boolean);
+                /** Defines the target URL for the UnityWebRequest to communicate with. */
+                public get url(): string;
+                public set url(value: string);
+                /** Defines the target URI for the UnityWebRequest to communicate with. */
+                public get uri(): System.Uri;
+                public set uri(value: System.Uri);
+                /** The numeric HTTP response code returned by the server, such as 200, 404 or 500. (Read Only) */
+                public get responseCode(): bigint;
+                /** Returns a floating-point value between 0.0 and 1.0, indicating the progress of uploading body data to the server. */
+                public get uploadProgress(): number;
+                /** Returns true while a UnityWebRequest’s configuration properties can be altered. (Read Only) */
+                public get isModifiable(): boolean;
+                /** Returns true after the UnityWebRequest has finished communicating with the remote server. (Read Only) */
+                public get isDone(): boolean;
+                /** The result of this UnityWebRequest. */
+                public get result(): UnityEngine.Networking.UnityWebRequest.Result;
+                /** Returns a floating-point value between 0.0 and 1.0, indicating the progress of downloading body data from the server. (Read Only) */
+                public get downloadProgress(): number;
+                /** Returns the number of bytes of body data the system has uploaded to the remote server. (Read Only) */
+                public get uploadedBytes(): bigint;
+                /** Returns the number of bytes of body data the system has downloaded from the remote server. (Read Only) */
+                public get downloadedBytes(): bigint;
+                /** Indicates the number of redirects which this UnityWebRequest will follow before halting with a “Redirect Limit Exceeded” system error. */
+                public get redirectLimit(): number;
+                public set redirectLimit(value: number);
+                /** Holds a reference to the UploadHandler object which manages body data to be uploaded to the remote server. */
+                public get uploadHandler(): UnityEngine.Networking.UploadHandler;
+                public set uploadHandler(value: UnityEngine.Networking.UploadHandler);
+                /** Holds a reference to a DownloadHandler object, which manages body data received from the remote server by this UnityWebRequest. */
+                public get downloadHandler(): UnityEngine.Networking.DownloadHandler;
+                public set downloadHandler(value: UnityEngine.Networking.DownloadHandler);
+                /** Holds a reference to a CertificateHandler object, which manages certificate validation for this UnityWebRequest. */
+                public get certificateHandler(): UnityEngine.Networking.CertificateHandler;
+                public set certificateHandler(value: UnityEngine.Networking.CertificateHandler);
+                /** Sets UnityWebRequest to attempt to abort after the number of seconds in timeout have passed. */
+                public get timeout(): number;
+                public set timeout(value: number);
+                /** Create a UnityWebRequest for HTTP GET.
+                * @param uri The URI of the resource to retrieve via HTTP GET.
+                * @returns An object that retrieves data from the uri. 
+                */
+                public static Get ($uri: string) : UnityEngine.Networking.UnityWebRequest
+                /** Create a UnityWebRequest for HTTP GET.
+                * @param uri The URI of the resource to retrieve via HTTP GET.
+                * @returns An object that retrieves data from the uri. 
+                */
+                public static Get ($uri: System.Uri) : UnityEngine.Networking.UnityWebRequest
+                /** Creates a UnityWebRequest configured for HTTP DELETE.
+                * @param uri The URI to which a DELETE request should be sent.
+                * @returns A UnityWebRequest configured to send an HTTP DELETE request. 
+                */
+                public static Delete ($uri: string) : UnityEngine.Networking.UnityWebRequest
+                public static Delete ($uri: System.Uri) : UnityEngine.Networking.UnityWebRequest
+                /** Creates a UnityWebRequest configured to send a HTTP HEAD request.
+                * @param uri The URI to which to send a HTTP HEAD request.
+                * @returns A UnityWebRequest configured to transmit a HTTP HEAD request. 
+                */
+                public static Head ($uri: string) : UnityEngine.Networking.UnityWebRequest
+                public static Head ($uri: System.Uri) : UnityEngine.Networking.UnityWebRequest
+                /** Creates a UnityWebRequest configured to upload raw data to a remote server via HTTP PUT.
+                * @param uri The URI to which the data will be sent.
+                * @param bodyData The data to transmit to the remote server.
+                If a string, the string will be converted to raw bytes via <a href="https:msdn.microsoft.comen-uslibrarysystem.text.encoding.utf8">System.Text.Encoding.UTF8<a>.
+                * @returns A UnityWebRequest configured to transmit bodyData to uri via HTTP PUT. 
+                */
+                public static Put ($uri: string, $bodyData: System.Array$1<number>) : UnityEngine.Networking.UnityWebRequest
+                public static Put ($uri: System.Uri, $bodyData: System.Array$1<number>) : UnityEngine.Networking.UnityWebRequest
+                /** Creates a UnityWebRequest configured to upload raw data to a remote server via HTTP PUT.
+                * @param uri The URI to which the data will be sent.
+                * @param bodyData The data to transmit to the remote server.
+                If a string, the string will be converted to raw bytes via <a href="https:msdn.microsoft.comen-uslibrarysystem.text.encoding.utf8">System.Text.Encoding.UTF8<a>.
+                * @returns A UnityWebRequest configured to transmit bodyData to uri via HTTP PUT. 
+                */
+                public static Put ($uri: string, $bodyData: string) : UnityEngine.Networking.UnityWebRequest
+                public static Put ($uri: System.Uri, $bodyData: string) : UnityEngine.Networking.UnityWebRequest
+                /** Creates a UnityWebRequest configured to send form data to a server via HTTP POST.
+                * @param uri The target URI to which form data will be transmitted.
+                * @param postData Form body data. Will be URLEncoded prior to transmission.
+                * @returns A UnityWebRequest configured to send form data to uri via POST. 
+                */
+                public static Post ($uri: string, $postData: string) : UnityEngine.Networking.UnityWebRequest
+                public static Post ($uri: System.Uri, $postData: string) : UnityEngine.Networking.UnityWebRequest
+                /** Create a UnityWebRequest configured to send form data to a server via HTTP POST.
+                * @param uri The target URI to which form data will be transmitted.
+                * @param formData Form fields or files encapsulated in a WWWForm object, for formatting and transmission to the remote server.
+                * @returns A UnityWebRequest configured to send form data to uri via POST. 
+                */
+                public static Post ($uri: string, $formData: UnityEngine.WWWForm) : UnityEngine.Networking.UnityWebRequest
+                public static Post ($uri: System.Uri, $formData: UnityEngine.WWWForm) : UnityEngine.Networking.UnityWebRequest
+                public static Post ($uri: string, $multipartFormSections: System.Collections.Generic.List$1<UnityEngine.Networking.IMultipartFormSection>) : UnityEngine.Networking.UnityWebRequest
+                public static Post ($uri: System.Uri, $multipartFormSections: System.Collections.Generic.List$1<UnityEngine.Networking.IMultipartFormSection>) : UnityEngine.Networking.UnityWebRequest
+                public static Post ($uri: string, $multipartFormSections: System.Collections.Generic.List$1<UnityEngine.Networking.IMultipartFormSection>, $boundary: System.Array$1<number>) : UnityEngine.Networking.UnityWebRequest
+                public static Post ($uri: System.Uri, $multipartFormSections: System.Collections.Generic.List$1<UnityEngine.Networking.IMultipartFormSection>, $boundary: System.Array$1<number>) : UnityEngine.Networking.UnityWebRequest
+                public static Post ($uri: string, $formFields: System.Collections.Generic.Dictionary$2<string, string>) : UnityEngine.Networking.UnityWebRequest
+                public static Post ($uri: System.Uri, $formFields: System.Collections.Generic.Dictionary$2<string, string>) : UnityEngine.Networking.UnityWebRequest
+                /** Escapes characters in a string to ensure they are URL-friendly. * @param s A string with characters to be escaped.
+                * @param e The text encoding to use.
+                */
+                public static EscapeURL ($s: string) : string
+                /** Escapes characters in a string to ensure they are URL-friendly. * @param s A string with characters to be escaped.
+                * @param e The text encoding to use.
+                */
+                public static EscapeURL ($s: string, $e: System.Text.Encoding) : string
+                /** Converts URL-friendly escape sequences back to normal text. * @param s A string containing escaped characters.
+                * @param e The text encoding to use.
+                */
+                public static UnEscapeURL ($s: string) : string
+                /** Converts URL-friendly escape sequences back to normal text. * @param s A string containing escaped characters.
+                * @param e The text encoding to use.
+                */
+                public static UnEscapeURL ($s: string, $e: System.Text.Encoding) : string
+                public static SerializeFormSections ($multipartFormSections: System.Collections.Generic.List$1<UnityEngine.Networking.IMultipartFormSection>, $boundary: System.Array$1<number>) : System.Array$1<number>
+                public static GenerateBoundary () : System.Array$1<number>
+                public static SerializeSimpleForm ($formFields: System.Collections.Generic.Dictionary$2<string, string>) : System.Array$1<number>
+                public static ClearCookieCache () : void
+                public static ClearCookieCache ($uri: System.Uri) : void
+                public Dispose () : void
+                public SendWebRequest () : UnityEngine.Networking.UnityWebRequestAsyncOperation
+                public Abort () : void
+                /** Retrieves the value of a custom request header.
+                * @param name Name of the custom request header. Case-insensitive.
+                * @returns The value of the custom request header. If no custom header with a matching name has been set, returns an empty string. 
+                */
+                public GetRequestHeader ($name: string) : string
+                /** Set a HTTP request header to a custom value. * @param name The key of the header to be set. Case-sensitive.
+                * @param value The header's intended value.
+                */
+                public SetRequestHeader ($name: string, $value: string) : void
+                /** Retrieves the value of a response header from the latest HTTP response received.
+                * @param name The name of the HTTP header to retrieve. Case-insensitive.
+                * @returns The value of the HTTP header from the latest HTTP response. If no header with a matching name has been received, or no responses have been received, returns null. 
+                */
+                public GetResponseHeader ($name: string) : string
+                public GetResponseHeaders () : System.Collections.Generic.Dictionary$2<string, string>
+                public constructor ()
+                public constructor ($url: string)
+                public constructor ($uri: System.Uri)
+                public constructor ($url: string, $method: string)
+                public constructor ($uri: System.Uri, $method: string)
+                public constructor ($url: string, $method: string, $downloadHandler: UnityEngine.Networking.DownloadHandler, $uploadHandler: UnityEngine.Networking.UploadHandler)
+                public constructor ($uri: System.Uri, $method: string, $downloadHandler: UnityEngine.Networking.DownloadHandler, $uploadHandler: UnityEngine.Networking.UploadHandler)
+            }
+            interface IMultipartFormSection
+            {
+            }
+            /** Asynchronous operation object returned from UnityWebRequest.SendWebRequest().
+            You can yield until it continues, register an event handler with AsyncOperation.completed, or manually check whether it's done (AsyncOperation.isDone) or progress (AsyncOperation.progress). */
+            class UnityWebRequestAsyncOperation extends UnityEngine.AsyncOperation
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            /** Helper object for UnityWebRequests. Manages the buffering and transmission of body data during HTTP requests. */
+            class UploadHandler extends System.Object implements System.IDisposable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            /** Manage and process HTTP response body data received from a remote server. */
+            class DownloadHandler extends System.Object implements System.IDisposable
+            {
+                protected [__keep_incompatibility]: never;
+                /** Returns true if this DownloadHandler has been informed by its parent UnityWebRequest that all data has been received, and this DownloadHandler has completed any necessary post-download processing. (Read Only) */
+                public get isDone(): boolean;
+                /** Error message describing a failure that occurred inside the download handler. */
+                public get error(): string;
+                /** Provides direct access to downloaded data. */
+                public get nativeData(): Unity.Collections.NativeArray$1.ReadOnly<number>;
+                /** Returns the raw bytes downloaded from the remote server, or null. (Read Only) */
+                public get data(): System.Array$1<number>;
+                /** Convenience property. Returns the bytes from data interpreted as a UTF8 string. (Read Only) */
+                public get text(): string;
+                public Dispose () : void
+            }
+            /** Responsible for rejecting or accepting certificates received on https requests. */
+            class CertificateHandler extends System.Object implements System.IDisposable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+        }
+        namespace UnityEngine.Networking.UnityWebRequest {
+            enum Result
+            { InProgress = 0, Success = 1, ConnectionError = 2, ProtocolError = 3, DataProcessingError = 4 }
+        }
+        namespace Unity.Collections.NativeArray$1 {
+            class ReadOnly<T> extends System.ValueType implements System.Collections.Generic.IEnumerable$1<T>, System.Collections.IEnumerable
+            {
+                protected [__keep_incompatibility]: never;
+            }
         }
         namespace UnityEngine.EventSystems {
             class UIBehaviour extends UnityEngine.MonoBehaviour

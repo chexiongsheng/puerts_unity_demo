@@ -45,7 +45,10 @@ public class ExamplesCfg
                 typeof(RenderMode),
                 typeof(Behaviour),
                 typeof(MonoBehaviour),
+                typeof(System.IO.File),
 
+                typeof(UnityEngine.Networking.UnityWebRequest),
+                typeof(UnityEngine.Networking.DownloadHandler),
                 typeof(UnityEngine.EventSystems.UIBehaviour),
                 typeof(UnityEngine.UI.Selectable),
                 typeof(UnityEngine.UI.Button),
@@ -87,6 +90,14 @@ public class ExamplesCfg
         }
         if (mb.DeclaringType == typeof(Type) && (mb.Name == "MakeGenericSignatureType" || mb.Name == "IsCollectible")) {
             return true;
+        }
+        if (mb.DeclaringType == typeof(System.IO.File)) {
+            if (mb.Name == "SetAccessControl" || mb.Name == "GetAccessControl") {
+                return true;
+
+            } else if (mb.Name == "Create") {
+                return true;
+            }
         }
         return false;
     }

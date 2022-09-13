@@ -16,37 +16,6 @@ namespace PuertsTest
         // Start is called before the first frame update
         void Start()
         {
-
-            UnityEngine.Debug.Log(
-                (Application.streamingAssetsPath.Contains("file://") ? "" : "file://") + 
-                Application.streamingAssetsPath + "/axios-project.zip"
-            );
-
-            UnityWebRequest req = UnityWebRequest.Get(
-                (Application.streamingAssetsPath.Contains("file://") ? "" : "file://") + 
-                Application.streamingAssetsPath + "/axios-project.zip"
-            );
-            req.SendWebRequest();
-            while (!req.isDone) 
-            {
-                if (req.isNetworkError || req.isHttpError) 
-                {
-                    break;
-                }
-            }
-
-            if (req.isNetworkError || req.isHttpError) 
-            {
-                throw new Exception("copy failed: " + req.error);
-            }
-            else
-            {
-                File.WriteAllBytes(
-                    Application.persistentDataPath + "/axios-project.zip",
-                    req.downloadHandler.data
-                );
-            }
-
             if (PuertsDLL.GetLibBackend() == 1)
             {
                 env = new JsEnv(new DefaultLoader(), 9222);
@@ -64,7 +33,7 @@ namespace PuertsTest
                     }
                     setTimeout(()=> {
                         clearInterval(itv);
-                    }, 1600)
+                    }, 1600)  
 
                     try {
                         a();
@@ -84,6 +53,24 @@ namespace PuertsTest
                     (async function() {
                         const nodeRequire = require('node:module').createRequire(`${CS_Application.persistentDataPath}/axios-project/`);
                         const yauzl = puerts.require('node-unzip.cjs');
+
+                        console.log('streamingAssets copying');
+                        var req = CS.UnityEngine.Networking.UnityWebRequest.Get(
+                            (CS_Application.streamingAssetsPath.indexOf('file://') != -1 ? '' : 'file://') + 
+                            CS_Application.streamingAssetsPath + '/axios-project.zip'
+                        );
+                        req.SendWebRequest();
+                        while (!req.isDone && !(req.isNetworkError || req.isHttpError)) {}
+
+                        if (req.isNetworkError || req.isHttpError) 
+                            throw new Exception('copy failed: ' + req.error);
+                        else {
+                            console.log(req.downloadHandler.data.Length);
+                            CS.System.IO.File.WriteAllBytes(
+                                CS_Application.persistentDataPath + '/axios-project.zip',
+                                req.downloadHandler.data
+                            );
+                        }
 
                         console.log('npm extracting...');
                         zipfile = await util.promisify(yauzl.open)(`${CS_Application.persistentDataPath}/axios-project.zip`, { lazyEntries: true });
