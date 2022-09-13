@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using Puerts;
 using System;
-using System.Net;
-using System.IO;
+using UnityEngine.Networking;
 using UnityEditor;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,24 +16,35 @@ namespace PuertsTest
         // Start is called before the first frame update
         void Start()
         {
-            var csStream = WebRequest
-                .Create(
-                    (Application.streamingAssetsPath.Contains("file://") ? "file://" : "") + 
-                    Application.streamingAssetsPath + "/axios-project.zip"
-                )
-                .GetResponse()
-                .GetResponseStream();
 
-            byte[] buffer = new byte[32768];
-            using (FileStream fileStream = File.Create(Application.persistentDataPath + "/axios-project.zip"))
+            UnityEngine.Debug.Log(
+                (Application.streamingAssetsPath.Contains("file://") ? "" : "file://") + 
+                Application.streamingAssetsPath + "/axios-project.zip"
+            );
+
+            UnityWebRequest req = UnityWebRequest.Get(
+                (Application.streamingAssetsPath.Contains("file://") ? "" : "file://") + 
+                Application.streamingAssetsPath + "/axios-project.zip"
+            );
+            req.SendWebRequest();
+            while (!req.isDone) 
             {
-                while (true)
+                if (req.isNetworkError || req.isHttpError) 
                 {
-                    int read = csStream.Read(buffer, 0, buffer.Length);
-                    if (read <= 0)
-                        break;
-                    fileStream.Write(buffer, 0, read);
+                    break;
                 }
+            }
+
+            if (req.isNetworkError || req.isHttpError) 
+            {
+                throw new Exception("copy failed: " + req.error);
+            }
+            else
+            {
+                File.WriteAllBytes(
+                    Application.persistentDataPath + "/axios-project.zip",
+                    req.downloadHandler.data
+                );
             }
 
             if (PuertsDLL.GetLibBackend() == 1)
