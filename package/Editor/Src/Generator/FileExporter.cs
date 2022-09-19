@@ -18,7 +18,7 @@ namespace Puerts.Editor
             public static Dictionary<string, List<KeyValuePair<object, int>>> configure;
             public static List<Type> genTypes;
 
-            public static void ExportDTS(string saveTo, ILoader loader = null, bool esmMode = false)
+            public static void ExportDTS(string saveTo, ILoader loader = null)
             {
                 if (Utils.filters == null)
                 {
@@ -50,11 +50,11 @@ namespace Puerts.Editor
                 }
                 using (var jsEnv = new JsEnv(loader))
                 {
-                    jsEnv.UsingFunc<DTS.TypingGenInfo, bool, string>();
-                    var typingRender = jsEnv.Eval<Func<DTS.TypingGenInfo, bool, string>>("puerts.require('puerts/templates/dts.tpl.cjs')");
+                    jsEnv.UsingFunc<DTS.TypingGenInfo, string>();
+                    var typingRender = jsEnv.ExecuteModule<Func<DTS.TypingGenInfo, string>>("puerts/templates/dts.tpl.mjs", "default");
                     using (StreamWriter textWriter = new StreamWriter(saveTo + "Typing/csharp/index.d.ts", false, Encoding.UTF8))
                     {
-                        string fileContext = typingRender(DTS.TypingGenInfo.FromTypes(tsTypes), esmMode);
+                        string fileContext = typingRender(DTS.TypingGenInfo.FromTypes(tsTypes));
                         textWriter.Write(fileContext);
                         textWriter.Flush();
                     }
@@ -96,7 +96,7 @@ namespace Puerts.Editor
                 }
                 using (var jsEnv = new JsEnv(loader))
                 {
-                    var wrapRender = jsEnv.Eval<Func<Wrapper.StaticWrapperInfo, string>>("puerts.require('puerts/templates/wrapper.tpl.cjs')");
+                    var wrapRender = jsEnv.ExecuteModule<Func<Wrapper.StaticWrapperInfo, string>>("puerts/templates/wrapper.tpl.mjs", "default");
 
 
                     Dictionary<string, bool> makeFileUniqueMap = new Dictionary<string, bool>();
@@ -138,7 +138,7 @@ namespace Puerts.Editor
                         }
                     }
 
-                    var autoRegisterRender = jsEnv.Eval<Func<Type[], Wrapper.StaticWrapperInfo[], string>>("puerts.require('puerts/templates/wrapper-reg.tpl.cjs')");
+                    var autoRegisterRender = jsEnv.ExecuteModule<Func<Type[], Wrapper.StaticWrapperInfo[], string>>("puerts/templates/wrapper-reg.tpl.mjs", "default");
                     using (StreamWriter textWriter = new StreamWriter(saveTo + "AutoStaticCodeRegister.cs", false, Encoding.UTF8))
                     {
                         string fileContent = autoRegisterRender(wrapperInfoMap.Keys.ToArray(), wrapperInfoMap.Values.ToArray());

@@ -992,38 +992,7 @@ namespace PuertsStaticWrap
             {
                 var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.UI.InputField;
                 var argHelper = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                obj.onEndEdit = argHelper.Get<UnityEngine.UI.InputField.EndEditEvent>(false);
-                
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-            
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void G_onSubmit(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.UI.InputField;
-                var result = obj.onSubmit;
-                Puerts.ResultHelper.Set((int)data, isolate, info, result);
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-            
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void S_onSubmit(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.UI.InputField;
-                var argHelper = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                obj.onSubmit = argHelper.Get<UnityEngine.UI.InputField.SubmitEvent>(false);
+                obj.onEndEdit = argHelper.Get<UnityEngine.UI.InputField.SubmitEvent>(false);
                 
             }
             catch (Exception e)
@@ -1641,8 +1610,6 @@ namespace PuertsStaticWrap
                     {"selectionColor", new Puerts.PropertyRegisterInfo(){ IsStatic = false, Getter = G_selectionColor, Setter = S_selectionColor} },
 
                     {"onEndEdit", new Puerts.PropertyRegisterInfo(){ IsStatic = false, Getter = G_onEndEdit, Setter = S_onEndEdit} },
-
-                    {"onSubmit", new Puerts.PropertyRegisterInfo(){ IsStatic = false, Getter = G_onSubmit, Setter = S_onSubmit} },
 
                     {"onValueChanged", new Puerts.PropertyRegisterInfo(){ IsStatic = false, Getter = G_onValueChanged, Setter = S_onValueChanged} },
 

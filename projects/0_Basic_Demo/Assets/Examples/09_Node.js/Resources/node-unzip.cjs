@@ -1,3 +1,4 @@
+var yauzl;
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -1407,9 +1408,7 @@ module.exports = require("zlib");
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module used 'module' so it can't be inlined
 /******/ 	var __webpack_exports__ = __webpack_require__("./index.js");
-/******/ 	var __webpack_export_target__ = exports;
-/******/ 	for(var i in __webpack_exports__) __webpack_export_target__[i] = __webpack_exports__[i];
-/******/ 	if(__webpack_exports__.__esModule) Object.defineProperty(__webpack_export_target__, "__esModule", { value: true });
+/******/ 	yauzl = __webpack_exports__;
 /******/ 	
 /******/ })()
 ;

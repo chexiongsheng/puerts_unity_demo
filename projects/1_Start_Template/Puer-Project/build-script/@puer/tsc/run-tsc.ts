@@ -4,8 +4,7 @@ import mkdirp from 'mkdirp';
 import path from 'path';
 import glob from 'glob';
 
-declare const puertsRequire: any;
-const CS = puertsRequire('csharp')
+declare const CS: any;
 
 export default function (tsConfigPath: string) {
     CS.UnityEditor.EditorUtility.DisplayProgressBar("compile ts", "compiling typescript", 0.5);

@@ -1,11 +1,9 @@
-const csharp = require("csharp");
-const puerts = require("puerts");
 try {
     //过滤路径中的非法字符
     const illegalCharacters = (function () {
         //microsoft windows platform
-        if (csharp.UnityEngine.Application.platform === csharp.UnityEngine.RuntimePlatform.WindowsEditor ||
-            csharp.UnityEngine.Application.platform === csharp.UnityEngine.RuntimePlatform.WindowsPlayer) {
+        if (CS.UnityEngine.Application.platform === CS.UnityEngine.RuntimePlatform.WindowsEditor ||
+            CS.UnityEngine.Application.platform === CS.UnityEngine.RuntimePlatform.WindowsPlayer) {
             return ['"'];
         }
         return ['*', '?', '"', '<', ">", "|"];
@@ -22,7 +20,7 @@ try {
                     return '';
                 }
             }
-            return csharp.System.IO.Path.GetDirectoryName(path);
+            return CS.System.IO.Path.GetDirectoryName(path);
         },
         resolve(dir, url) {
             for (const keyword of illegalCharacters) {
@@ -30,15 +28,15 @@ try {
                     return '';
                 }
             }
-            return csharp.System.IO.Path.GetFullPath(csharp.System.IO.Path.Combine(dir, url));
+            return CS.System.IO.Path.GetFullPath(CS.System.IO.Path.Combine(dir, url));
         },
     });
     puerts.registerBuildinModule("fs", {
         existsSync(path) {
-            return csharp.System.IO.File.Exists(path);
+            return CS.System.IO.File.Exists(path);
         },
         readFileSync(path) {
-            return csharp.System.IO.File.ReadAllText(path);
+            return CS.System.IO.File.ReadAllText(path);
         },
     });
     (function () {
@@ -49,7 +47,7 @@ try {
     })();
     require('source-map-support').install();
 
-    csharp.UnityEngine.Debug.Log("source-map-support: <color=green>enable</color>");
+    CS.UnityEngine.Debug.Log("source-map-support: <color=green>enable</color>");
 } catch (e) {
-    csharp.UnityEngine.Debug.LogError("source-map-support module exception:" + e.message + "\n" + e.stack);
+    CS.UnityEngine.Debug.LogError("source-map-support module exception:" + e.message + "\n" + e.stack);
 }

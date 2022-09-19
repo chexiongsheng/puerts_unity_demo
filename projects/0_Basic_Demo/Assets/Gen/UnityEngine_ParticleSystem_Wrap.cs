@@ -439,8 +439,6 @@ namespace PuertsStaticWrap
             {
                 var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.ParticleSystem;
         
-                if (paramLen == 0)
-            
                 {
             
                     {
@@ -449,36 +447,11 @@ namespace PuertsStaticWrap
                 
                         Puerts.ResultHelper.Set((int)data, isolate, info, result);
                         
-                        return;
+                        
                     }
                 
                 }
             
-                if (paramLen == 1)
-            
-                {
-            
-                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                
-                    if (argHelper0.IsMatch(Puerts.JsValueType.NativeObject, typeof(UnityEngine.ParticleSystem.Trails), true, false))
-                
-                    {
-                
-                        var Arg0 = argHelper0.Get<UnityEngine.ParticleSystem.Trails>(true);
-                    
-                        var result = obj.GetTrails(ref Arg0);
-                
-                        argHelper0.SetByRefValue(Arg0);
-                        
-                        Puerts.StaticTranslate<int>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, result);
-                        
-                        return;
-                    }
-                
-                }
-            
-                Puerts.PuertsDLL.ThrowException(isolate, "invalid arguments to GetTrails");
-        
             }
             catch (Exception e)
             {
@@ -1130,91 +1103,6 @@ namespace PuertsStaticWrap
         }
         
         [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void M_AllocateAxisOfRotationAttribute(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.ParticleSystem;
-        
-                {
-            
-                    {
-                
-                        obj.AllocateAxisOfRotationAttribute();
-                
-                        
-                        
-                        
-                    }
-                
-                }
-            
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-        
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void M_AllocateMeshIndexAttribute(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.ParticleSystem;
-        
-                {
-            
-                    {
-                
-                        obj.AllocateMeshIndexAttribute();
-                
-                        
-                        
-                        
-                    }
-                
-                }
-            
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-        
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void M_AllocateCustomDataAttribute(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.ParticleSystem;
-        
-                {
-            
-                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                
-                    {
-                
-                        var Arg0 = (UnityEngine.ParticleSystemCustomData)argHelper0.GetInt32(false);
-                    
-                        obj.AllocateCustomDataAttribute(Arg0);
-                
-                        
-                        
-                        
-                    }
-                
-                }
-            
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-        
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
         private static void G_isPlaying(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
         {
             try
@@ -1488,21 +1376,6 @@ namespace PuertsStaticWrap
         }
             
         [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void G_lifetimeByEmitterSpeed(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.ParticleSystem;
-                var result = obj.lifetimeByEmitterSpeed;
-                Puerts.ResultHelper.Set((int)data, isolate, info, result);
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-            
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
         private static void G_forceOverLifetime(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
         {
             try
@@ -1767,10 +1640,7 @@ namespace PuertsStaticWrap
                     { new Puerts.MethodKey { Name = "Emit", IsStatic = false}, M_Emit },
                     { new Puerts.MethodKey { Name = "TriggerSubEmitter", IsStatic = false}, M_TriggerSubEmitter },
                     { new Puerts.MethodKey { Name = "ResetPreMappedBufferMemory", IsStatic = true}, F_ResetPreMappedBufferMemory },
-                    { new Puerts.MethodKey { Name = "SetMaximumPreMappedBufferCounts", IsStatic = true}, F_SetMaximumPreMappedBufferCounts },
-                    { new Puerts.MethodKey { Name = "AllocateAxisOfRotationAttribute", IsStatic = false}, M_AllocateAxisOfRotationAttribute },
-                    { new Puerts.MethodKey { Name = "AllocateMeshIndexAttribute", IsStatic = false}, M_AllocateMeshIndexAttribute },
-                    { new Puerts.MethodKey { Name = "AllocateCustomDataAttribute", IsStatic = false}, M_AllocateCustomDataAttribute }
+                    { new Puerts.MethodKey { Name = "SetMaximumPreMappedBufferCounts", IsStatic = true}, F_SetMaximumPreMappedBufferCounts }
                 },
                 Properties = new System.Collections.Generic.Dictionary<string, Puerts.PropertyRegisterInfo>()
                 {
@@ -1804,8 +1674,6 @@ namespace PuertsStaticWrap
                     {"limitVelocityOverLifetime", new Puerts.PropertyRegisterInfo(){ IsStatic = false, Getter = G_limitVelocityOverLifetime, Setter = null} },
 
                     {"inheritVelocity", new Puerts.PropertyRegisterInfo(){ IsStatic = false, Getter = G_inheritVelocity, Setter = null} },
-
-                    {"lifetimeByEmitterSpeed", new Puerts.PropertyRegisterInfo(){ IsStatic = false, Getter = G_lifetimeByEmitterSpeed, Setter = null} },
 
                     {"forceOverLifetime", new Puerts.PropertyRegisterInfo(){ IsStatic = false, Getter = G_forceOverLifetime, Setter = null} },
 

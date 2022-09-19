@@ -389,13 +389,9 @@ namespace PuertsStaticWrap
             {
                 
         
-                if (paramLen == 1)
-            
                 {
             
                     var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                
-                    if (argHelper0.IsMatch(Puerts.JsValueType.NullOrUndefined | Puerts.JsValueType.NativeObject, typeof(System.Type), false, false))
                 
                     {
                 
@@ -405,38 +401,11 @@ namespace PuertsStaticWrap
                 
                         Puerts.ResultHelper.Set((int)data, isolate, info, result);
                         
-                        return;
-                    }
-                
-                }
-            
-                if (paramLen == 2)
-            
-                {
-            
-                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                
-                    var argHelper1 = new Puerts.ArgumentHelper((int)data, isolate, info, 1);
-                
-                    if (argHelper0.IsMatch(Puerts.JsValueType.NullOrUndefined | Puerts.JsValueType.NativeObject, typeof(System.Type), false, false) && argHelper1.IsMatch(Puerts.JsValueType.Boolean, typeof(bool), false, false))
-                
-                    {
-                
-                        var Arg0 = argHelper0.Get<System.Type>(false);
-                    
-                        var Arg1 = argHelper1.GetBoolean(false);
-                    
-                        var result = UnityEngine.Object.FindObjectsOfType(Arg0, Arg1);
-                
-                        Puerts.ResultHelper.Set((int)data, isolate, info, result);
                         
-                        return;
                     }
                 
                 }
             
-                Puerts.PuertsDLL.ThrowException(isolate, "invalid arguments to FindObjectsOfType");
-        
             }
             catch (Exception e)
             {
@@ -482,13 +451,9 @@ namespace PuertsStaticWrap
             {
                 
         
-                if (paramLen == 1)
-            
                 {
             
                     var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                
-                    if (argHelper0.IsMatch(Puerts.JsValueType.NullOrUndefined | Puerts.JsValueType.NativeObject, typeof(System.Type), false, false))
                 
                     {
                 
@@ -498,38 +463,11 @@ namespace PuertsStaticWrap
                 
                         Puerts.ResultHelper.Set((int)data, isolate, info, result);
                         
-                        return;
-                    }
-                
-                }
-            
-                if (paramLen == 2)
-            
-                {
-            
-                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                
-                    var argHelper1 = new Puerts.ArgumentHelper((int)data, isolate, info, 1);
-                
-                    if (argHelper0.IsMatch(Puerts.JsValueType.NullOrUndefined | Puerts.JsValueType.NativeObject, typeof(System.Type), false, false) && argHelper1.IsMatch(Puerts.JsValueType.Boolean, typeof(bool), false, false))
-                
-                    {
-                
-                        var Arg0 = argHelper0.Get<System.Type>(false);
-                    
-                        var Arg1 = argHelper1.GetBoolean(false);
-                    
-                        var result = UnityEngine.Object.FindObjectOfType(Arg0, Arg1);
-                
-                        Puerts.ResultHelper.Set((int)data, isolate, info, result);
                         
-                        return;
                     }
                 
                 }
             
-                Puerts.PuertsDLL.ThrowException(isolate, "invalid arguments to FindObjectOfType");
-        
             }
             catch (Exception e)
             {

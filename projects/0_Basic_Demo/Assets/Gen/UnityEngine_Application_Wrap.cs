@@ -1204,36 +1204,6 @@ namespace PuertsStaticWrap
                 Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
             }
         }
-            
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void A_unloading(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                
-                var argHelper = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                UnityEngine.Application.unloading += argHelper.Get<System.Action>(false);
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-            
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void R_unloading(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                
-                var argHelper = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                UnityEngine.Application.unloading -= argHelper.Get<System.Action>(false);
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
                 
         public static Puerts.TypeRegisterInfo GetRegisterInfo()
         {
@@ -1279,10 +1249,7 @@ namespace PuertsStaticWrap
                     { new Puerts.MethodKey { Name = "remove_wantsToQuit", IsStatic = true},  R_wantsToQuit },
 
                     { new Puerts.MethodKey { Name = "add_quitting", IsStatic = true}, A_quitting },
-                    { new Puerts.MethodKey { Name = "remove_quitting", IsStatic = true},  R_quitting },
-
-                    { new Puerts.MethodKey { Name = "add_unloading", IsStatic = true}, A_unloading },
-                    { new Puerts.MethodKey { Name = "remove_unloading", IsStatic = true},  R_unloading }
+                    { new Puerts.MethodKey { Name = "remove_quitting", IsStatic = true},  R_quitting }
                 },
                 Properties = new System.Collections.Generic.Dictionary<string, Puerts.PropertyRegisterInfo>()
                 {

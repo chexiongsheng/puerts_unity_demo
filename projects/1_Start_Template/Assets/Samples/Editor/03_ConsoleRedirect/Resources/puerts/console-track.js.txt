@@ -1,5 +1,3 @@
-const csharp = require("csharp");
-const puerts = require("puerts");
 
 const ENABLE_HYPERLINK = true;
 
@@ -51,7 +49,7 @@ puerts.on('uncaughtException', function (err) {
     output += "\nERROR: " + err;
     output += "\n==== EXCEPTION END   ===========================================================";
 
-    csharp.UnityEngine.Debug.LogError(output);
+    CS.UnityEngine.Debug.LogError(output);
 });
 // 捕获async异常
 puerts.on('unhandledRejection', (reason, p) => {
@@ -63,5 +61,5 @@ puerts.on('unhandledRejection', (reason, p) => {
     output += "\n" + reason?.stack;
     output += "\n==== REJECT END   ==============================================================";
 
-    csharp.UnityEngine.Debug.LogError(output);
+    CS.UnityEngine.Debug.LogError(output);
 });

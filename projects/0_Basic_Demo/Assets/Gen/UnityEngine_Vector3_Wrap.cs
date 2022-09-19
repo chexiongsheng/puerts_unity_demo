@@ -89,6 +89,207 @@ namespace PuertsStaticWrap
         }
     
         [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
+        private static void F_Slerp(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
+        {
+            try
+            {
+                
+        
+                {
+            
+                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
+                
+                    var argHelper1 = new Puerts.ArgumentHelper((int)data, isolate, info, 1);
+                
+                    var argHelper2 = new Puerts.ArgumentHelper((int)data, isolate, info, 2);
+                
+                    {
+                
+                        var Arg0 = argHelper0.Get<UnityEngine.Vector3>(false);
+                    
+                        var Arg1 = argHelper1.Get<UnityEngine.Vector3>(false);
+                    
+                        var Arg2 = argHelper2.GetFloat(false);
+                    
+                        var result = UnityEngine.Vector3.Slerp(Arg0, Arg1, Arg2);
+                
+                        Puerts.ResultHelper.Set((int)data, isolate, info, result);
+                        
+                        
+                    }
+                
+                }
+            
+            }
+            catch (Exception e)
+            {
+                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
+            }
+        }
+        
+        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
+        private static void F_SlerpUnclamped(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
+        {
+            try
+            {
+                
+        
+                {
+            
+                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
+                
+                    var argHelper1 = new Puerts.ArgumentHelper((int)data, isolate, info, 1);
+                
+                    var argHelper2 = new Puerts.ArgumentHelper((int)data, isolate, info, 2);
+                
+                    {
+                
+                        var Arg0 = argHelper0.Get<UnityEngine.Vector3>(false);
+                    
+                        var Arg1 = argHelper1.Get<UnityEngine.Vector3>(false);
+                    
+                        var Arg2 = argHelper2.GetFloat(false);
+                    
+                        var result = UnityEngine.Vector3.SlerpUnclamped(Arg0, Arg1, Arg2);
+                
+                        Puerts.ResultHelper.Set((int)data, isolate, info, result);
+                        
+                        
+                    }
+                
+                }
+            
+            }
+            catch (Exception e)
+            {
+                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
+            }
+        }
+        
+        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
+        private static void F_OrthoNormalize(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
+        {
+            try
+            {
+                
+        
+                if (paramLen == 2)
+            
+                {
+            
+                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
+                
+                    var argHelper1 = new Puerts.ArgumentHelper((int)data, isolate, info, 1);
+                
+                    if (argHelper0.IsMatch(Puerts.JsValueType.NativeObject, typeof(UnityEngine.Vector3), true, false) && argHelper1.IsMatch(Puerts.JsValueType.NativeObject, typeof(UnityEngine.Vector3), true, false))
+                
+                    {
+                
+                        var Arg0 = argHelper0.Get<UnityEngine.Vector3>(true);
+                    
+                        var Arg1 = argHelper1.Get<UnityEngine.Vector3>(true);
+                    
+                        UnityEngine.Vector3.OrthoNormalize(ref Arg0, ref Arg1);
+                
+                        argHelper0.SetByRefValue(Arg0);
+                        
+                        argHelper1.SetByRefValue(Arg1);
+                        
+                        
+                        
+                        return;
+                    }
+                
+                }
+            
+                if (paramLen == 3)
+            
+                {
+            
+                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
+                
+                    var argHelper1 = new Puerts.ArgumentHelper((int)data, isolate, info, 1);
+                
+                    var argHelper2 = new Puerts.ArgumentHelper((int)data, isolate, info, 2);
+                
+                    if (argHelper0.IsMatch(Puerts.JsValueType.NativeObject, typeof(UnityEngine.Vector3), true, false) && argHelper1.IsMatch(Puerts.JsValueType.NativeObject, typeof(UnityEngine.Vector3), true, false) && argHelper2.IsMatch(Puerts.JsValueType.NativeObject, typeof(UnityEngine.Vector3), true, false))
+                
+                    {
+                
+                        var Arg0 = argHelper0.Get<UnityEngine.Vector3>(true);
+                    
+                        var Arg1 = argHelper1.Get<UnityEngine.Vector3>(true);
+                    
+                        var Arg2 = argHelper2.Get<UnityEngine.Vector3>(true);
+                    
+                        UnityEngine.Vector3.OrthoNormalize(ref Arg0, ref Arg1, ref Arg2);
+                
+                        argHelper0.SetByRefValue(Arg0);
+                        
+                        argHelper1.SetByRefValue(Arg1);
+                        
+                        argHelper2.SetByRefValue(Arg2);
+                        
+                        
+                        
+                        return;
+                    }
+                
+                }
+            
+                Puerts.PuertsDLL.ThrowException(isolate, "invalid arguments to OrthoNormalize");
+        
+            }
+            catch (Exception e)
+            {
+                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
+            }
+        }
+        
+        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
+        private static void F_RotateTowards(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
+        {
+            try
+            {
+                
+        
+                {
+            
+                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
+                
+                    var argHelper1 = new Puerts.ArgumentHelper((int)data, isolate, info, 1);
+                
+                    var argHelper2 = new Puerts.ArgumentHelper((int)data, isolate, info, 2);
+                
+                    var argHelper3 = new Puerts.ArgumentHelper((int)data, isolate, info, 3);
+                
+                    {
+                
+                        var Arg0 = argHelper0.Get<UnityEngine.Vector3>(false);
+                    
+                        var Arg1 = argHelper1.Get<UnityEngine.Vector3>(false);
+                    
+                        var Arg2 = argHelper2.GetFloat(false);
+                    
+                        var Arg3 = argHelper3.GetFloat(false);
+                    
+                        var result = UnityEngine.Vector3.RotateTowards(Arg0, Arg1, Arg2, Arg3);
+                
+                        Puerts.ResultHelper.Set((int)data, isolate, info, result);
+                        
+                        
+                    }
+                
+                }
+            
+            }
+            catch (Exception e)
+            {
+                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
+            }
+        }
+        
+        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
         private static void F_Lerp(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
         {
             try
@@ -1076,234 +1277,8 @@ namespace PuertsStaticWrap
                 
                 }
             
-                if (paramLen == 2)
-            
-                {
-            
-                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                
-                    var argHelper1 = new Puerts.ArgumentHelper((int)data, isolate, info, 1);
-                
-                    if (argHelper0.IsMatch(Puerts.JsValueType.NullOrUndefined | Puerts.JsValueType.String, typeof(string), false, false) && argHelper1.IsMatch(Puerts.JsValueType.NullOrUndefined | Puerts.JsValueType.NativeObject, typeof(System.IFormatProvider), false, false))
-                
-                    {
-                
-                        var Arg0 = argHelper0.GetString(false);
-                    
-                        var Arg1 = argHelper1.Get<System.IFormatProvider>(false);
-                    
-                        var result = obj.ToString(Arg0, Arg1);
-                
-                        Puerts.StaticTranslate<string>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, result);
-                        Puerts.Utils.SetSelf((int)data, self, obj);
-                        return;
-                    }
-                
-                }
-            
                 Puerts.PuertsDLL.ThrowException(isolate, "invalid arguments to ToString");
         
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-        
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void F_Slerp(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                
-        
-                {
-            
-                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                
-                    var argHelper1 = new Puerts.ArgumentHelper((int)data, isolate, info, 1);
-                
-                    var argHelper2 = new Puerts.ArgumentHelper((int)data, isolate, info, 2);
-                
-                    {
-                
-                        var Arg0 = argHelper0.Get<UnityEngine.Vector3>(false);
-                    
-                        var Arg1 = argHelper1.Get<UnityEngine.Vector3>(false);
-                    
-                        var Arg2 = argHelper2.GetFloat(false);
-                    
-                        var result = UnityEngine.Vector3.Slerp(Arg0, Arg1, Arg2);
-                
-                        Puerts.ResultHelper.Set((int)data, isolate, info, result);
-                        
-                        
-                    }
-                
-                }
-            
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-        
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void F_SlerpUnclamped(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                
-        
-                {
-            
-                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                
-                    var argHelper1 = new Puerts.ArgumentHelper((int)data, isolate, info, 1);
-                
-                    var argHelper2 = new Puerts.ArgumentHelper((int)data, isolate, info, 2);
-                
-                    {
-                
-                        var Arg0 = argHelper0.Get<UnityEngine.Vector3>(false);
-                    
-                        var Arg1 = argHelper1.Get<UnityEngine.Vector3>(false);
-                    
-                        var Arg2 = argHelper2.GetFloat(false);
-                    
-                        var result = UnityEngine.Vector3.SlerpUnclamped(Arg0, Arg1, Arg2);
-                
-                        Puerts.ResultHelper.Set((int)data, isolate, info, result);
-                        
-                        
-                    }
-                
-                }
-            
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-        
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void F_OrthoNormalize(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                
-        
-                if (paramLen == 2)
-            
-                {
-            
-                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                
-                    var argHelper1 = new Puerts.ArgumentHelper((int)data, isolate, info, 1);
-                
-                    if (argHelper0.IsMatch(Puerts.JsValueType.NativeObject, typeof(UnityEngine.Vector3), true, false) && argHelper1.IsMatch(Puerts.JsValueType.NativeObject, typeof(UnityEngine.Vector3), true, false))
-                
-                    {
-                
-                        var Arg0 = argHelper0.Get<UnityEngine.Vector3>(true);
-                    
-                        var Arg1 = argHelper1.Get<UnityEngine.Vector3>(true);
-                    
-                        UnityEngine.Vector3.OrthoNormalize(ref Arg0, ref Arg1);
-                
-                        argHelper0.SetByRefValue(Arg0);
-                        
-                        argHelper1.SetByRefValue(Arg1);
-                        
-                        
-                        
-                        return;
-                    }
-                
-                }
-            
-                if (paramLen == 3)
-            
-                {
-            
-                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                
-                    var argHelper1 = new Puerts.ArgumentHelper((int)data, isolate, info, 1);
-                
-                    var argHelper2 = new Puerts.ArgumentHelper((int)data, isolate, info, 2);
-                
-                    if (argHelper0.IsMatch(Puerts.JsValueType.NativeObject, typeof(UnityEngine.Vector3), true, false) && argHelper1.IsMatch(Puerts.JsValueType.NativeObject, typeof(UnityEngine.Vector3), true, false) && argHelper2.IsMatch(Puerts.JsValueType.NativeObject, typeof(UnityEngine.Vector3), true, false))
-                
-                    {
-                
-                        var Arg0 = argHelper0.Get<UnityEngine.Vector3>(true);
-                    
-                        var Arg1 = argHelper1.Get<UnityEngine.Vector3>(true);
-                    
-                        var Arg2 = argHelper2.Get<UnityEngine.Vector3>(true);
-                    
-                        UnityEngine.Vector3.OrthoNormalize(ref Arg0, ref Arg1, ref Arg2);
-                
-                        argHelper0.SetByRefValue(Arg0);
-                        
-                        argHelper1.SetByRefValue(Arg1);
-                        
-                        argHelper2.SetByRefValue(Arg2);
-                        
-                        
-                        
-                        return;
-                    }
-                
-                }
-            
-                Puerts.PuertsDLL.ThrowException(isolate, "invalid arguments to OrthoNormalize");
-        
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-        
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void F_RotateTowards(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                
-        
-                {
-            
-                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                
-                    var argHelper1 = new Puerts.ArgumentHelper((int)data, isolate, info, 1);
-                
-                    var argHelper2 = new Puerts.ArgumentHelper((int)data, isolate, info, 2);
-                
-                    var argHelper3 = new Puerts.ArgumentHelper((int)data, isolate, info, 3);
-                
-                    {
-                
-                        var Arg0 = argHelper0.Get<UnityEngine.Vector3>(false);
-                    
-                        var Arg1 = argHelper1.Get<UnityEngine.Vector3>(false);
-                    
-                        var Arg2 = argHelper2.GetFloat(false);
-                    
-                        var Arg3 = argHelper3.GetFloat(false);
-                    
-                        var result = UnityEngine.Vector3.RotateTowards(Arg0, Arg1, Arg2, Arg3);
-                
-                        Puerts.ResultHelper.Set((int)data, isolate, info, result);
-                        
-                        
-                    }
-                
-                }
-            
             }
             catch (Exception e)
             {
@@ -1921,6 +1896,10 @@ namespace PuertsStaticWrap
                 Constructor = Constructor,
                 Methods = new System.Collections.Generic.Dictionary<Puerts.MethodKey, Puerts.V8FunctionCallback>()
                 {   
+                    { new Puerts.MethodKey { Name = "Slerp", IsStatic = true}, F_Slerp },
+                    { new Puerts.MethodKey { Name = "SlerpUnclamped", IsStatic = true}, F_SlerpUnclamped },
+                    { new Puerts.MethodKey { Name = "OrthoNormalize", IsStatic = true}, F_OrthoNormalize },
+                    { new Puerts.MethodKey { Name = "RotateTowards", IsStatic = true}, F_RotateTowards },
                     { new Puerts.MethodKey { Name = "Lerp", IsStatic = true}, F_Lerp },
                     { new Puerts.MethodKey { Name = "LerpUnclamped", IsStatic = true}, F_LerpUnclamped },
                     { new Puerts.MethodKey { Name = "MoveTowards", IsStatic = true}, F_MoveTowards },
@@ -1946,10 +1925,6 @@ namespace PuertsStaticWrap
                     { new Puerts.MethodKey { Name = "Min", IsStatic = true}, F_Min },
                     { new Puerts.MethodKey { Name = "Max", IsStatic = true}, F_Max },
                     { new Puerts.MethodKey { Name = "ToString", IsStatic = false}, M_ToString },
-                    { new Puerts.MethodKey { Name = "Slerp", IsStatic = true}, F_Slerp },
-                    { new Puerts.MethodKey { Name = "SlerpUnclamped", IsStatic = true}, F_SlerpUnclamped },
-                    { new Puerts.MethodKey { Name = "OrthoNormalize", IsStatic = true}, F_OrthoNormalize },
-                    { new Puerts.MethodKey { Name = "RotateTowards", IsStatic = true}, F_RotateTowards },
 
                     { new Puerts.MethodKey { Name = "get_Item", IsStatic = false}, GetItem }
 ,

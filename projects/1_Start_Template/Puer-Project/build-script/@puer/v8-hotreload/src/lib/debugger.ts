@@ -125,7 +125,9 @@ export class Debugger extends EventEmitter {
                 console.log("===================Do Update Script!!!");
             }
             let scriptSource = fs.readFileSync(filepath).toString("utf-8");
-            scriptSource = ("(function (exports, require, module, __filename, __dirname) { " + scriptSource + "\n});");
+            if (filepath.indexOf('.mjs') == -1) {
+                scriptSource = ("(function (exports, require, module, __filename, __dirname) { " + scriptSource + "\n});");
+            }
 
             let lock = await this._lock(scriptId);
             try {

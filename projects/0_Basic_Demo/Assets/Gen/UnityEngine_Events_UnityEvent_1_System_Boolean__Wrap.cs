@@ -13,18 +13,6 @@ namespace PuertsStaticWrap
             try
             {
 
-                {
-            
-                    {
-                
-                        var result = new UnityEngine.Events.UnityEvent<bool>();
-                
-                        return Puerts.Utils.GetObjectPtr((int)data, typeof(UnityEngine.Events.UnityEvent<bool>), result);
-                    
-                    }
-                
-                }
-            
     
             } catch (Exception e) {
                 Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);

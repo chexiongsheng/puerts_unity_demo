@@ -83,9 +83,9 @@ and run `npm i` in Puer-Project
     static void Watch() 
     {
         runner = new Puerts.Editor.NodeRunner();
-        runner.env.UsingAction<int>();
         try 
         {
+            runner.env.UsingAction<int>();
             runner.Run(@"require('./build-script/watch-and-hotreload.js');");
 
             UnityEngine.Debug.Log("watching tsproj");
@@ -93,6 +93,7 @@ and run `npm i` in Puer-Project
         catch(Exception e)
         {
             UnWatch();
+            UnityEngine.Debug.LogError(e.StackTrace);
             throw e;
         }
     }
@@ -105,7 +106,7 @@ and run `npm i` in Puer-Project
     [MenuItem("PuertsEditorDemo/tsc & HotReload/Watch tsProj And HotReload/off")]
     static void UnWatch() 
     {
-        runner.env = null;
+        runner = null;
         addDebugger = null;
         removeDebugger = null;
         UnityEngine.Debug.Log("stop watching tsproj");
@@ -113,6 +114,6 @@ and run `npm i` in Puer-Project
     [MenuItem("PuertsEditorDemo/tsc & HotReload/Watch tsProj And HotReload/off", true)]
     static bool UnWatchValidate() 
     {
-        return PuertsDLL.GetLibBackend() == 1 && runner.env != null;
+        return PuertsDLL.GetLibBackend() == 1 && runner != null && runner.env != null;
     }
 }

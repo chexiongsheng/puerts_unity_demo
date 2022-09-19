@@ -157,6 +157,263 @@ namespace PuertsStaticWrap
         }
     
         [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
+        private static void F_ClearCookieCache(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
+        {
+            try
+            {
+                
+        
+                if (paramLen == 0)
+            
+                {
+            
+                    {
+                
+                        UnityEngine.Networking.UnityWebRequest.ClearCookieCache();
+                
+                        
+                        
+                        return;
+                    }
+                
+                }
+            
+                if (paramLen == 1)
+            
+                {
+            
+                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
+                
+                    if (argHelper0.IsMatch(Puerts.JsValueType.NullOrUndefined | Puerts.JsValueType.NativeObject, typeof(System.Uri), false, false))
+                
+                    {
+                
+                        var Arg0 = argHelper0.Get<System.Uri>(false);
+                    
+                        UnityEngine.Networking.UnityWebRequest.ClearCookieCache(Arg0);
+                
+                        
+                        
+                        return;
+                    }
+                
+                }
+            
+                Puerts.PuertsDLL.ThrowException(isolate, "invalid arguments to ClearCookieCache");
+        
+            }
+            catch (Exception e)
+            {
+                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
+            }
+        }
+        
+        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
+        private static void M_Dispose(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
+        {
+            try
+            {
+                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.Networking.UnityWebRequest;
+        
+                {
+            
+                    {
+                
+                        obj.Dispose();
+                
+                        
+                        
+                        
+                    }
+                
+                }
+            
+            }
+            catch (Exception e)
+            {
+                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
+            }
+        }
+        
+        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
+        private static void M_SendWebRequest(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
+        {
+            try
+            {
+                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.Networking.UnityWebRequest;
+        
+                {
+            
+                    {
+                
+                        var result = obj.SendWebRequest();
+                
+                        Puerts.ResultHelper.Set((int)data, isolate, info, result);
+                        
+                        
+                    }
+                
+                }
+            
+            }
+            catch (Exception e)
+            {
+                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
+            }
+        }
+        
+        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
+        private static void M_Abort(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
+        {
+            try
+            {
+                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.Networking.UnityWebRequest;
+        
+                {
+            
+                    {
+                
+                        obj.Abort();
+                
+                        
+                        
+                        
+                    }
+                
+                }
+            
+            }
+            catch (Exception e)
+            {
+                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
+            }
+        }
+        
+        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
+        private static void M_GetRequestHeader(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
+        {
+            try
+            {
+                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.Networking.UnityWebRequest;
+        
+                {
+            
+                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
+                
+                    {
+                
+                        var Arg0 = argHelper0.GetString(false);
+                    
+                        var result = obj.GetRequestHeader(Arg0);
+                
+                        Puerts.StaticTranslate<string>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, result);
+                        
+                        
+                    }
+                
+                }
+            
+            }
+            catch (Exception e)
+            {
+                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
+            }
+        }
+        
+        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
+        private static void M_SetRequestHeader(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
+        {
+            try
+            {
+                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.Networking.UnityWebRequest;
+        
+                {
+            
+                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
+                
+                    var argHelper1 = new Puerts.ArgumentHelper((int)data, isolate, info, 1);
+                
+                    {
+                
+                        var Arg0 = argHelper0.GetString(false);
+                    
+                        var Arg1 = argHelper1.GetString(false);
+                    
+                        obj.SetRequestHeader(Arg0, Arg1);
+                
+                        
+                        
+                        
+                    }
+                
+                }
+            
+            }
+            catch (Exception e)
+            {
+                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
+            }
+        }
+        
+        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
+        private static void M_GetResponseHeader(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
+        {
+            try
+            {
+                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.Networking.UnityWebRequest;
+        
+                {
+            
+                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
+                
+                    {
+                
+                        var Arg0 = argHelper0.GetString(false);
+                    
+                        var result = obj.GetResponseHeader(Arg0);
+                
+                        Puerts.StaticTranslate<string>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, result);
+                        
+                        
+                    }
+                
+                }
+            
+            }
+            catch (Exception e)
+            {
+                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
+            }
+        }
+        
+        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
+        private static void M_GetResponseHeaders(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
+        {
+            try
+            {
+                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.Networking.UnityWebRequest;
+        
+                {
+            
+                    {
+                
+                        var result = obj.GetResponseHeaders();
+                
+                        Puerts.ResultHelper.Set((int)data, isolate, info, result);
+                        
+                        
+                    }
+                
+                }
+            
+            }
+            catch (Exception e)
+            {
+                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
+            }
+        }
+        
+        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
         private static void F_Get(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
         {
             try
@@ -802,263 +1059,6 @@ namespace PuertsStaticWrap
         }
         
         [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void F_ClearCookieCache(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                
-        
-                if (paramLen == 0)
-            
-                {
-            
-                    {
-                
-                        UnityEngine.Networking.UnityWebRequest.ClearCookieCache();
-                
-                        
-                        
-                        return;
-                    }
-                
-                }
-            
-                if (paramLen == 1)
-            
-                {
-            
-                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                
-                    if (argHelper0.IsMatch(Puerts.JsValueType.NullOrUndefined | Puerts.JsValueType.NativeObject, typeof(System.Uri), false, false))
-                
-                    {
-                
-                        var Arg0 = argHelper0.Get<System.Uri>(false);
-                    
-                        UnityEngine.Networking.UnityWebRequest.ClearCookieCache(Arg0);
-                
-                        
-                        
-                        return;
-                    }
-                
-                }
-            
-                Puerts.PuertsDLL.ThrowException(isolate, "invalid arguments to ClearCookieCache");
-        
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-        
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void M_Dispose(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.Networking.UnityWebRequest;
-        
-                {
-            
-                    {
-                
-                        obj.Dispose();
-                
-                        
-                        
-                        
-                    }
-                
-                }
-            
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-        
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void M_SendWebRequest(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.Networking.UnityWebRequest;
-        
-                {
-            
-                    {
-                
-                        var result = obj.SendWebRequest();
-                
-                        Puerts.ResultHelper.Set((int)data, isolate, info, result);
-                        
-                        
-                    }
-                
-                }
-            
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-        
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void M_Abort(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.Networking.UnityWebRequest;
-        
-                {
-            
-                    {
-                
-                        obj.Abort();
-                
-                        
-                        
-                        
-                    }
-                
-                }
-            
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-        
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void M_GetRequestHeader(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.Networking.UnityWebRequest;
-        
-                {
-            
-                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                
-                    {
-                
-                        var Arg0 = argHelper0.GetString(false);
-                    
-                        var result = obj.GetRequestHeader(Arg0);
-                
-                        Puerts.StaticTranslate<string>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, result);
-                        
-                        
-                    }
-                
-                }
-            
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-        
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void M_SetRequestHeader(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.Networking.UnityWebRequest;
-        
-                {
-            
-                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                
-                    var argHelper1 = new Puerts.ArgumentHelper((int)data, isolate, info, 1);
-                
-                    {
-                
-                        var Arg0 = argHelper0.GetString(false);
-                    
-                        var Arg1 = argHelper1.GetString(false);
-                    
-                        obj.SetRequestHeader(Arg0, Arg1);
-                
-                        
-                        
-                        
-                    }
-                
-                }
-            
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-        
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void M_GetResponseHeader(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.Networking.UnityWebRequest;
-        
-                {
-            
-                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                
-                    {
-                
-                        var Arg0 = argHelper0.GetString(false);
-                    
-                        var result = obj.GetResponseHeader(Arg0);
-                
-                        Puerts.StaticTranslate<string>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, result);
-                        
-                        
-                    }
-                
-                }
-            
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-        
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void M_GetResponseHeaders(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.Networking.UnityWebRequest;
-        
-                {
-            
-                    {
-                
-                        var result = obj.GetResponseHeaders();
-                
-                        Puerts.ResultHelper.Set((int)data, isolate, info, result);
-                        
-                        
-                    }
-                
-                }
-            
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-        
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
         private static void G_disposeCertificateHandlerOnDispose(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
         {
             try
@@ -1351,13 +1351,28 @@ namespace PuertsStaticWrap
         }
             
         [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void G_result(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
+        private static void G_isNetworkError(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
         {
             try
             {
                 var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.Networking.UnityWebRequest;
-                var result = obj.result;
-                Puerts.StaticTranslate<int>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, (int)result);
+                var result = obj.isNetworkError;
+                Puerts.StaticTranslate<bool>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, result);
+            }
+            catch (Exception e)
+            {
+                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
+            }
+        }
+            
+        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
+        private static void G_isHttpError(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
+        {
+            try
+            {
+                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.Networking.UnityWebRequest;
+                var result = obj.isHttpError;
+                Puerts.StaticTranslate<bool>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, result);
             }
             catch (Exception e)
             {
@@ -1663,6 +1678,14 @@ namespace PuertsStaticWrap
                 Constructor = Constructor,
                 Methods = new System.Collections.Generic.Dictionary<Puerts.MethodKey, Puerts.V8FunctionCallback>()
                 {   
+                    { new Puerts.MethodKey { Name = "ClearCookieCache", IsStatic = true}, F_ClearCookieCache },
+                    { new Puerts.MethodKey { Name = "Dispose", IsStatic = false}, M_Dispose },
+                    { new Puerts.MethodKey { Name = "SendWebRequest", IsStatic = false}, M_SendWebRequest },
+                    { new Puerts.MethodKey { Name = "Abort", IsStatic = false}, M_Abort },
+                    { new Puerts.MethodKey { Name = "GetRequestHeader", IsStatic = false}, M_GetRequestHeader },
+                    { new Puerts.MethodKey { Name = "SetRequestHeader", IsStatic = false}, M_SetRequestHeader },
+                    { new Puerts.MethodKey { Name = "GetResponseHeader", IsStatic = false}, M_GetResponseHeader },
+                    { new Puerts.MethodKey { Name = "GetResponseHeaders", IsStatic = false}, M_GetResponseHeaders },
                     { new Puerts.MethodKey { Name = "Get", IsStatic = true}, F_Get },
                     { new Puerts.MethodKey { Name = "Delete", IsStatic = true}, F_Delete },
                     { new Puerts.MethodKey { Name = "Head", IsStatic = true}, F_Head },
@@ -1672,15 +1695,7 @@ namespace PuertsStaticWrap
                     { new Puerts.MethodKey { Name = "UnEscapeURL", IsStatic = true}, F_UnEscapeURL },
                     { new Puerts.MethodKey { Name = "SerializeFormSections", IsStatic = true}, F_SerializeFormSections },
                     { new Puerts.MethodKey { Name = "GenerateBoundary", IsStatic = true}, F_GenerateBoundary },
-                    { new Puerts.MethodKey { Name = "SerializeSimpleForm", IsStatic = true}, F_SerializeSimpleForm },
-                    { new Puerts.MethodKey { Name = "ClearCookieCache", IsStatic = true}, F_ClearCookieCache },
-                    { new Puerts.MethodKey { Name = "Dispose", IsStatic = false}, M_Dispose },
-                    { new Puerts.MethodKey { Name = "SendWebRequest", IsStatic = false}, M_SendWebRequest },
-                    { new Puerts.MethodKey { Name = "Abort", IsStatic = false}, M_Abort },
-                    { new Puerts.MethodKey { Name = "GetRequestHeader", IsStatic = false}, M_GetRequestHeader },
-                    { new Puerts.MethodKey { Name = "SetRequestHeader", IsStatic = false}, M_SetRequestHeader },
-                    { new Puerts.MethodKey { Name = "GetResponseHeader", IsStatic = false}, M_GetResponseHeader },
-                    { new Puerts.MethodKey { Name = "GetResponseHeaders", IsStatic = false}, M_GetResponseHeaders }
+                    { new Puerts.MethodKey { Name = "SerializeSimpleForm", IsStatic = true}, F_SerializeSimpleForm }
                 },
                 Properties = new System.Collections.Generic.Dictionary<string, Puerts.PropertyRegisterInfo>()
                 {
@@ -1709,7 +1724,9 @@ namespace PuertsStaticWrap
 
                     {"isDone", new Puerts.PropertyRegisterInfo(){ IsStatic = false, Getter = G_isDone, Setter = null} },
 
-                    {"result", new Puerts.PropertyRegisterInfo(){ IsStatic = false, Getter = G_result, Setter = null} },
+                    {"isNetworkError", new Puerts.PropertyRegisterInfo(){ IsStatic = false, Getter = G_isNetworkError, Setter = null} },
+
+                    {"isHttpError", new Puerts.PropertyRegisterInfo(){ IsStatic = false, Getter = G_isHttpError, Setter = null} },
 
                     {"downloadProgress", new Puerts.PropertyRegisterInfo(){ IsStatic = false, Getter = G_downloadProgress, Setter = null} },
 

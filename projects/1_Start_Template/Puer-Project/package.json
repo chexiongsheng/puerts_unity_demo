@@ -7,6 +7,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@puerts/shell-util": "^1.0.4",
     "@types/chrome-remote-interface": "^0.31.3",
     "@types/glob": "^7.2.0",
     "@types/mkdirp": "^1.0.2",

@@ -65,36 +65,6 @@ namespace PuertsStaticWrap
         }
             
         [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void G_error(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.Networking.DownloadHandler;
-                var result = obj.error;
-                Puerts.StaticTranslate<string>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, result);
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-            
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void G_nativeData(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                var obj = Puerts.Utils.GetSelf((int)data, self) as UnityEngine.Networking.DownloadHandler;
-                var result = obj.nativeData;
-                Puerts.ResultHelper.Set((int)data, isolate, info, result);
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-            
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
         private static void G_data(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
         {
             try
@@ -138,10 +108,6 @@ namespace PuertsStaticWrap
                 {
                     
                     {"isDone", new Puerts.PropertyRegisterInfo(){ IsStatic = false, Getter = G_isDone, Setter = null} },
-
-                    {"error", new Puerts.PropertyRegisterInfo(){ IsStatic = false, Getter = G_error, Setter = null} },
-
-                    {"nativeData", new Puerts.PropertyRegisterInfo(){ IsStatic = false, Getter = G_nativeData, Setter = null} },
 
                     {"data", new Puerts.PropertyRegisterInfo(){ IsStatic = false, Getter = G_data, Setter = null} },
 

@@ -2,7 +2,7 @@
 
 import './ExtensionDecl'
 
-const { $ref, $unref, $generic, $promise, $typeof } = puerts;
+const { $ref, $unref, $generic, $promise, $typeof } = puer;
 
 //静态函数
 CS.UnityEngine.Debug.Log('hello world');

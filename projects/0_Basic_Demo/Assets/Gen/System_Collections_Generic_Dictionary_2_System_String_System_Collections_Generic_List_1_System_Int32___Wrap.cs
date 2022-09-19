@@ -378,89 +378,6 @@ namespace PuertsStaticWrap
         }
         
         [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void M_EnsureCapacity(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                var obj = Puerts.Utils.GetSelf((int)data, self) as System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<int>>;
-        
-                {
-            
-                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                
-                    {
-                
-                        var Arg0 = argHelper0.GetInt32(false);
-                    
-                        var result = obj.EnsureCapacity(Arg0);
-                
-                        Puerts.StaticTranslate<int>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, result);
-                        
-                        
-                    }
-                
-                }
-            
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-        
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void M_TrimExcess(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                var obj = Puerts.Utils.GetSelf((int)data, self) as System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<int>>;
-        
-                if (paramLen == 0)
-            
-                {
-            
-                    {
-                
-                        obj.TrimExcess();
-                
-                        
-                        
-                        return;
-                    }
-                
-                }
-            
-                if (paramLen == 1)
-            
-                {
-            
-                    var argHelper0 = new Puerts.ArgumentHelper((int)data, isolate, info, 0);
-                
-                    if (argHelper0.IsMatch(Puerts.JsValueType.Number, typeof(int), false, false))
-                
-                    {
-                
-                        var Arg0 = argHelper0.GetInt32(false);
-                    
-                        obj.TrimExcess(Arg0);
-                
-                        
-                        
-                        return;
-                    }
-                
-                }
-            
-                Puerts.PuertsDLL.ThrowException(isolate, "invalid arguments to TrimExcess");
-        
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-        
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
         private static void G_Comparer(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
         {
             try
@@ -582,8 +499,6 @@ namespace PuertsStaticWrap
                     { new Puerts.MethodKey { Name = "OnDeserialization", IsStatic = false}, M_OnDeserialization },
                     { new Puerts.MethodKey { Name = "Remove", IsStatic = false}, M_Remove },
                     { new Puerts.MethodKey { Name = "TryGetValue", IsStatic = false}, M_TryGetValue },
-                    { new Puerts.MethodKey { Name = "EnsureCapacity", IsStatic = false}, M_EnsureCapacity },
-                    { new Puerts.MethodKey { Name = "TrimExcess", IsStatic = false}, M_TrimExcess },
 
                     { new Puerts.MethodKey { Name = "get_Item", IsStatic = false}, GetItem }
 ,

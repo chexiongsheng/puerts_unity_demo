@@ -48,21 +48,6 @@ namespace PuertsStaticWrap
         }
             
         [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void G_timeAsDouble(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                
-                var result = UnityEngine.Time.timeAsDouble;
-                Puerts.StaticTranslate<double>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, result);
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-            
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
         private static void G_timeSinceLevelLoad(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
         {
             try
@@ -70,21 +55,6 @@ namespace PuertsStaticWrap
                 
                 var result = UnityEngine.Time.timeSinceLevelLoad;
                 Puerts.StaticTranslate<float>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, result);
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-            
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void G_timeSinceLevelLoadAsDouble(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                
-                var result = UnityEngine.Time.timeSinceLevelLoadAsDouble;
-                Puerts.StaticTranslate<double>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, result);
             }
             catch (Exception e)
             {
@@ -123,21 +93,6 @@ namespace PuertsStaticWrap
         }
             
         [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void G_fixedTimeAsDouble(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                
-                var result = UnityEngine.Time.fixedTimeAsDouble;
-                Puerts.StaticTranslate<double>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, result);
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-            
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
         private static void G_unscaledTime(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
         {
             try
@@ -153,21 +108,6 @@ namespace PuertsStaticWrap
         }
             
         [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void G_unscaledTimeAsDouble(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                
-                var result = UnityEngine.Time.unscaledTimeAsDouble;
-                Puerts.StaticTranslate<double>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, result);
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-            
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
         private static void G_fixedUnscaledTime(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
         {
             try
@@ -175,21 +115,6 @@ namespace PuertsStaticWrap
                 
                 var result = UnityEngine.Time.fixedUnscaledTime;
                 Puerts.StaticTranslate<float>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, result);
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-            
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void G_fixedUnscaledTimeAsDouble(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                
-                var result = UnityEngine.Time.fixedUnscaledTimeAsDouble;
-                Puerts.StaticTranslate<double>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, result);
             }
             catch (Exception e)
             {
@@ -412,21 +337,6 @@ namespace PuertsStaticWrap
         }
             
         [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
-        private static void G_realtimeSinceStartupAsDouble(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
-        {
-            try
-            {
-                
-                var result = UnityEngine.Time.realtimeSinceStartupAsDouble;
-                Puerts.StaticTranslate<double>.Set((int)data, isolate, Puerts.NativeValueApi.SetValueToResult, info, result);
-            }
-            catch (Exception e)
-            {
-                Puerts.PuertsDLL.ThrowException(isolate, "c# exception:" + e.Message + ",stack:" + e.StackTrace);
-            }
-        }
-            
-        [Puerts.MonoPInvokeCallback(typeof(Puerts.V8FunctionCallback))]
         private static void G_captureDeltaTime(IntPtr isolate, IntPtr info, IntPtr self, int paramLen, long data)
         {
             try
@@ -517,25 +427,15 @@ namespace PuertsStaticWrap
                     
                     {"time", new Puerts.PropertyRegisterInfo(){ IsStatic = true, Getter = G_time, Setter = null} },
 
-                    {"timeAsDouble", new Puerts.PropertyRegisterInfo(){ IsStatic = true, Getter = G_timeAsDouble, Setter = null} },
-
                     {"timeSinceLevelLoad", new Puerts.PropertyRegisterInfo(){ IsStatic = true, Getter = G_timeSinceLevelLoad, Setter = null} },
-
-                    {"timeSinceLevelLoadAsDouble", new Puerts.PropertyRegisterInfo(){ IsStatic = true, Getter = G_timeSinceLevelLoadAsDouble, Setter = null} },
 
                     {"deltaTime", new Puerts.PropertyRegisterInfo(){ IsStatic = true, Getter = G_deltaTime, Setter = null} },
 
                     {"fixedTime", new Puerts.PropertyRegisterInfo(){ IsStatic = true, Getter = G_fixedTime, Setter = null} },
 
-                    {"fixedTimeAsDouble", new Puerts.PropertyRegisterInfo(){ IsStatic = true, Getter = G_fixedTimeAsDouble, Setter = null} },
-
                     {"unscaledTime", new Puerts.PropertyRegisterInfo(){ IsStatic = true, Getter = G_unscaledTime, Setter = null} },
 
-                    {"unscaledTimeAsDouble", new Puerts.PropertyRegisterInfo(){ IsStatic = true, Getter = G_unscaledTimeAsDouble, Setter = null} },
-
                     {"fixedUnscaledTime", new Puerts.PropertyRegisterInfo(){ IsStatic = true, Getter = G_fixedUnscaledTime, Setter = null} },
-
-                    {"fixedUnscaledTimeAsDouble", new Puerts.PropertyRegisterInfo(){ IsStatic = true, Getter = G_fixedUnscaledTimeAsDouble, Setter = null} },
 
                     {"unscaledDeltaTime", new Puerts.PropertyRegisterInfo(){ IsStatic = true, Getter = G_unscaledDeltaTime, Setter = null} },
 
@@ -556,8 +456,6 @@ namespace PuertsStaticWrap
                     {"renderedFrameCount", new Puerts.PropertyRegisterInfo(){ IsStatic = true, Getter = G_renderedFrameCount, Setter = null} },
 
                     {"realtimeSinceStartup", new Puerts.PropertyRegisterInfo(){ IsStatic = true, Getter = G_realtimeSinceStartup, Setter = null} },
-
-                    {"realtimeSinceStartupAsDouble", new Puerts.PropertyRegisterInfo(){ IsStatic = true, Getter = G_realtimeSinceStartupAsDouble, Setter = null} },
 
                     {"captureDeltaTime", new Puerts.PropertyRegisterInfo(){ IsStatic = true, Getter = G_captureDeltaTime, Setter = S_captureDeltaTime} },
 

@@ -19,7 +19,7 @@ CS.NodeTSCAndHotReload.removeDebugger = HotReloader.removeDebugger.bind(HotReloa
 
 teaCup.watch(__dirname + '/../tsconfig.json', (fileName, fileContent) => {
     // 确定最终输出目录
-    const targetPath = __dirname + '/../../Assets/Samples/TSBehaviour/Resources/' + path.basename(fileName).replace('.js', '.cjs');
+    const targetPath = __dirname + '/../../Assets/Samples/TSBehaviour/Resources/' + path.basename(fileName).replace('.js', '.mjs');
     // 写文件
     fs.writeFileSync(
         targetPath,
