@@ -23,8 +23,7 @@ namespace Puerts.Editor
 
         public NodeRunner(string ProjectPath = "") 
         {
-
-            if (ProjectPath == "" || ProjectPath == null) 
+            if (ProjectPath == null || ProjectPath == "") 
             {
                 this.ProjectPath = DefaultProjectPath;
             }
@@ -65,7 +64,7 @@ namespace Puerts.Editor
             }
             catch (Exception e)
             {
-                throw e;
+                throw;
             }
             finally
             {
@@ -80,8 +79,7 @@ namespace Puerts.Editor
             if (env == null) env = new JsEnv();
             EditorUtility.DisplayProgressBar("PuerNode", "Running in Puer-Project", 0);
             try 
-            {
-                UnityEngine.Debug.Log(env);
+            { 
                 env.Eval(String.Format(@"
                     global.__puerProjectRoot = '{0}';
                     global.require = require('module').createRequire('{0}');

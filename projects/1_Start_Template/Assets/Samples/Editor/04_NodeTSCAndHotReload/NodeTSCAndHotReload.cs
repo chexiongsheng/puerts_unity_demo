@@ -93,7 +93,6 @@ and run `npm i` in Puer-Project
         catch(Exception e)
         {
             UnWatch();
-            UnityEngine.Debug.LogError(e.StackTrace);
             throw e;
         }
     }

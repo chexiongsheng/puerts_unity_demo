@@ -377,79 +377,112 @@ declare namespace CS {
         }
     }
     namespace UnityEngine {
-        /** Access to application run-time data. */
+        /** Access to application run-time data.
+        */
         class Application extends System.Object
         {
             protected [__keep_incompatibility]: never;
-            /** Returns true when called in any kind of built Player, or when called in the Editor in Play Mode (Read Only). */
+            /** Returns true when called in any kind of built Player, or when called in the Editor in Play Mode (Read Only).
+            */
             public static get isPlaying(): boolean;
-            /** Whether the player currently has focus. Read-only. */
+            /** Whether the player currently has focus. Read-only.
+            */
             public static get isFocused(): boolean;
-            /** Returns a GUID for this build (Read Only). */
+            /** Returns a GUID for this build (Read Only).
+            */
             public static get buildGUID(): string;
-            /** Should the player be running when the application is in the background? */
+            /** Should the player be running when the application is in the background?
+            */
             public static get runInBackground(): boolean;
             public static set runInBackground(value: boolean);
-            /** Returns true when Unity is launched with the -batchmode flag from the command line (Read Only). */
+            /** Returns true when Unity is launched with the -batchmode flag from the command line (Read Only).
+            */
             public static get isBatchMode(): boolean;
-            /** Contains the path to the game data folder on the target device (Read Only). */
+            /** Contains the path to the game data folder on the target device (Read Only).
+            */
             public static get dataPath(): string;
-            /** The path to the StreamingAssets folder (Read Only). */
+            /** The path to the StreamingAssets folder (Read Only).
+            */
             public static get streamingAssetsPath(): string;
-            /** Contains the path to a persistent data directory (Read Only). */
+            /** Contains the path to a persistent data directory (Read Only).
+            */
             public static get persistentDataPath(): string;
-            /** Contains the path to a temporary data / cache directory (Read Only). */
+            /** Contains the path to a temporary data / cache directory (Read Only).
+            */
             public static get temporaryCachePath(): string;
-            /** The URL of the document. For WebGL, this a web URL. For Android, iOS, or Universal Windows Platform (UWP) this is a deep link URL. (Read Only) */
+            /** The URL of the document. For WebGL, this a web URL. For Android, iOS, or Universal Windows Platform (UWP) this is a deep link URL. (Read Only)
+            */
             public static get absoluteURL(): string;
-            /** The version of the Unity runtime used to play the content. */
+            /** The version of the Unity runtime used to play the content.
+            */
             public static get unityVersion(): string;
-            /** Returns application version number  (Read Only). */
+            /** Returns application version number  (Read Only).
+            */
             public static get version(): string;
-            /** Returns the name of the store or package that installed the application (Read Only). */
+            /** Returns the name of the store or package that installed the application (Read Only).
+            */
             public static get installerName(): string;
-            /** Returns application identifier at runtime. On Apple platforms this is the 'bundleIdentifier' saved in the info.plist file, on Android it's the 'package' from the AndroidManifest.xml.  */
+            /** Returns application identifier at runtime. On Apple platforms this is the 'bundleIdentifier' saved in the info.plist file, on Android it's the 'package' from the AndroidManifest.xml. 
+            */
             public static get identifier(): string;
-            /** Returns application install mode (Read Only). */
+            /** Returns application install mode (Read Only).
+            */
             public static get installMode(): UnityEngine.ApplicationInstallMode;
-            /** Returns application running in sandbox (Read Only). */
+            /** Returns application running in sandbox (Read Only).
+            */
             public static get sandboxType(): UnityEngine.ApplicationSandboxType;
-            /** Returns application product name (Read Only). */
+            /** Returns application product name (Read Only).
+            */
             public static get productName(): string;
-            /** Return application company name (Read Only). */
+            /** Return application company name (Read Only).
+            */
             public static get companyName(): string;
-            /** A unique cloud project identifier. It is unique for every project (Read Only). */
+            /** A unique cloud project identifier. It is unique for every project (Read Only).
+            */
             public static get cloudProjectId(): string;
-            /** Instructs the game to try to render at a specified frame rate. */
+            /** Instructs the game to try to render at a specified frame rate.
+            */
             public static get targetFrameRate(): number;
             public static set targetFrameRate(value: number);
-            /** Returns the path to the console log file, or an empty string if the current platform does not support log files. */
+            /** Returns the path to the console log file, or an empty string if the current platform does not support log files.
+            */
             public static get consoleLogPath(): string;
-            /** Priority of background loading thread. */
+            /** Priority of background loading thread.
+            */
             public static get backgroundLoadingPriority(): UnityEngine.ThreadPriority;
             public static set backgroundLoadingPriority(value: UnityEngine.ThreadPriority);
-            /** Returns false if application is altered in any way after it was built. */
+            /** Returns false if application is altered in any way after it was built.
+            */
             public static get genuine(): boolean;
-            /** Returns true if application integrity can be confirmed. */
+            /** Returns true if application integrity can be confirmed.
+            */
             public static get genuineCheckAvailable(): boolean;
-            /** Returns the platform the game is running on (Read Only). */
+            /** Returns the platform the game is running on (Read Only).
+            */
             public static get platform(): UnityEngine.RuntimePlatform;
-            /** Is the current Runtime platform a known mobile platform. */
+            /** Is the current Runtime platform a known mobile platform.
+            */
             public static get isMobilePlatform(): boolean;
-            /** Is the current Runtime platform a known console platform. */
+            /** Is the current Runtime platform a known console platform.
+            */
             public static get isConsolePlatform(): boolean;
-            /** The language the user's operating system is running in. */
+            /** The language the user's operating system is running in.
+            */
             public static get systemLanguage(): UnityEngine.SystemLanguage;
-            /** Returns the type of Internet reachability currently possible on the device. */
+            /** Returns the type of Internet reachability currently possible on the device.
+            */
             public static get internetReachability(): UnityEngine.NetworkReachability;
-            /** Are we running inside the Unity editor? (Read Only) */
+            /** Are we running inside the Unity editor? (Read Only)
+            */
             public static get isEditor(): boolean;
             public static Quit ($exitCode: number) : void
             public static Quit () : void
             public static Unload () : void
-            /** Can the streamed level be loaded? */
+            /** Can the streamed level be loaded?
+            */
             public static CanStreamedLevelBeLoaded ($levelIndex: number) : boolean
-            /** Can the streamed level be loaded? */
+            /** Can the streamed level be loaded?
+            */
             public static CanStreamedLevelBeLoaded ($levelName: string) : boolean
             /** Returns true if the given object is part of the playing world either in any kind of built Player or in Play Mode.
             * @param obj The object to test.
@@ -457,20 +490,26 @@ declare namespace CS {
             */
             public static IsPlaying ($obj: UnityEngine.Object) : boolean
             public static GetBuildTags () : System.Array$1<string>
-            /** Set an array of feature tags for this build. */
+            /** Set an array of feature tags for this build.
+            */
             public static SetBuildTags ($buildTags: System.Array$1<string>) : void
             public static HasProLicense () : boolean
             public static RequestAdvertisingIdentifierAsync ($delegateMethod: UnityEngine.Application.AdvertisingIdentifierCallback) : boolean
-            /** Opens the URL specified, subject to the permissions and limitations of your app’s current platform and environment. This is handled in different ways depending on the nature of the URL, and with different security restrictions, depending on the runtime platform. * @param url The URL to open.
+            /** Opens the URL specified, subject to the permissions and limitations of your app’s current platform and environment. This is handled in different ways depending on the nature of the URL, and with different security restrictions, depending on the runtime platform.
+            * @param url The URL to open.
             */
             public static OpenURL ($url: string) : void
-            /** Get stack trace logging options. The default value is StackTraceLogType.ScriptOnly. */
+            /** Get stack trace logging options. The default value is StackTraceLogType.ScriptOnly.
+            */
             public static GetStackTraceLogType ($logType: UnityEngine.LogType) : UnityEngine.StackTraceLogType
-            /** Set stack trace logging options. The default value is StackTraceLogType.ScriptOnly. */
+            /** Set stack trace logging options. The default value is StackTraceLogType.ScriptOnly.
+            */
             public static SetStackTraceLogType ($logType: UnityEngine.LogType, $stackTraceType: UnityEngine.StackTraceLogType) : void
-            /** Request authorization to use the webcam or microphone on iOS. */
+            /** Request authorization to use the webcam or microphone on iOS.
+            */
             public static RequestUserAuthorization ($mode: UnityEngine.UserAuthorization) : UnityEngine.AsyncOperation
-            /** Check if the user has authorized use of the webcam or microphone in the Web Player. */
+            /** Check if the user has authorized use of the webcam or microphone in the Web Player.
+            */
             public static HasUserAuthorization ($mode: UnityEngine.UserAuthorization) : boolean
             public static add_lowMemory ($value: UnityEngine.Application.LowMemoryCallback) : void
             public static remove_lowMemory ($value: UnityEngine.Application.LowMemoryCallback) : void
@@ -490,14 +529,17 @@ declare namespace CS {
             public static remove_quitting ($value: System.Action) : void
             public constructor ()
         }
-        /** Base class for all objects Unity can reference. */
+        /** Base class for all objects Unity can reference.
+        */
         class Object extends System.Object
         {
             protected [__keep_incompatibility]: never;
-            /** The name of the object. */
+            /** The name of the object.
+            */
             public get name(): string;
             public set name(value: string);
-            /** Should the object be hidden, saved with the Scene or modifiable by the user? */
+            /** Should the object be hidden, saved with the Scene or modifiable by the user?
+            */
             public get hideFlags(): UnityEngine.HideFlags;
             public set hideFlags(value: UnityEngine.HideFlags);
             public GetInstanceID () : number
@@ -548,19 +590,23 @@ declare namespace CS {
             */
             public static Instantiate ($original: UnityEngine.Object, $parent: UnityEngine.Transform, $instantiateInWorldSpace: boolean) : UnityEngine.Object
             public static Instantiate ($original: UnityEngine.Object, $parent: UnityEngine.Transform, $worldPositionStays: boolean) : UnityEngine.Object
-            /** Removes a GameObject, component or asset. * @param obj The object to destroy.
+            /** Removes a GameObject, component or asset.
+            * @param obj The object to destroy.
             * @param t The optional amount of time to delay before destroying the object.
             */
             public static Destroy ($obj: UnityEngine.Object, $t: number) : void
-            /** Removes a GameObject, component or asset. * @param obj The object to destroy.
+            /** Removes a GameObject, component or asset.
+            * @param obj The object to destroy.
             * @param t The optional amount of time to delay before destroying the object.
             */
             public static Destroy ($obj: UnityEngine.Object) : void
-            /** Destroys the object obj immediately. You are strongly recommended to use Destroy instead. * @param obj Object to be destroyed.
+            /** Destroys the object obj immediately. You are strongly recommended to use Destroy instead.
+            * @param obj Object to be destroyed.
             * @param allowDestroyingAssets Set to true to allow assets to be destroyed.
             */
             public static DestroyImmediate ($obj: UnityEngine.Object, $allowDestroyingAssets: boolean) : void
-            /** Destroys the object obj immediately. You are strongly recommended to use Destroy instead. * @param obj Object to be destroyed.
+            /** Destroys the object obj immediately. You are strongly recommended to use Destroy instead.
+            * @param obj Object to be destroyed.
             * @param allowDestroyingAssets Set to true to allow assets to be destroyed.
             */
             public static DestroyImmediate ($obj: UnityEngine.Object) : void
@@ -569,7 +615,8 @@ declare namespace CS {
             * @returns Returns an array of all active loaded objects of Type type. 
             */
             public static FindObjectsOfType ($type: System.Type) : System.Array$1<UnityEngine.Object>
-            /** Do not destroy the target Object when loading a new Scene. * @param target An Object not destroyed on Scene change.
+            /** Do not destroy the target Object when loading a new Scene.
+            * @param target An Object not destroyed on Scene change.
             */
             public static DontDestroyOnLoad ($target: UnityEngine.Object) : void
             /** The older, non-generic version of this method. In most cases you should use the generic version of this method.
@@ -581,104 +628,127 @@ declare namespace CS {
             public static op_Inequality ($x: UnityEngine.Object, $y: UnityEngine.Object) : boolean
             public constructor ()
         }
-        /** Application installation mode (Read Only). */
+        /** Application installation mode (Read Only).
+        */
         enum ApplicationInstallMode
         { Unknown = 0, Store = 1, DeveloperBuild = 2, Adhoc = 3, Enterprise = 4, Editor = 5 }
-        /** Application sandbox type. */
+        /** Application sandbox type.
+        */
         enum ApplicationSandboxType
         { Unknown = 0, NotSandboxed = 1, Sandboxed = 2, SandboxBroken = 3 }
-        /** Stack trace logging options. */
+        /** Stack trace logging options.
+        */
         enum StackTraceLogType
         { None = 0, ScriptOnly = 1, Full = 2 }
-        /** The type of the log message in Debug.unityLogger.Log or delegate registered with Application.RegisterLogCallback. */
+        /** The type of the log message in Debug.unityLogger.Log or delegate registered with Application.RegisterLogCallback.
+        */
         enum LogType
         { Error = 0, Assert = 1, Warning = 2, Log = 3, Exception = 4 }
-        /** Priority of a thread. */
+        /** Priority of a thread.
+        */
         enum ThreadPriority
         { Low = 0, BelowNormal = 1, Normal = 2, High = 4 }
-        /** Base class for all yield instructions. */
+        /** Base class for all yield instructions.
+        */
         class YieldInstruction extends System.Object
         {
             protected [__keep_incompatibility]: never;
         }
-        /** Asynchronous operation coroutine. */
+        /** Asynchronous operation coroutine.
+        */
         class AsyncOperation extends UnityEngine.YieldInstruction
         {
             protected [__keep_incompatibility]: never;
         }
-        /** Constants to pass to Application.RequestUserAuthorization. */
+        /** Constants to pass to Application.RequestUserAuthorization.
+        */
         enum UserAuthorization
         { WebCam = 1, Microphone = 2 }
-        /** The platform application is running. Returned by Application.platform. */
+        /** The platform application is running. Returned by Application.platform.
+        */
         enum RuntimePlatform
         { OSXEditor = 0, OSXPlayer = 1, WindowsPlayer = 2, OSXWebPlayer = 3, OSXDashboardPlayer = 4, WindowsWebPlayer = 5, WindowsEditor = 7, IPhonePlayer = 8, XBOX360 = 10, PS3 = 9, Android = 11, NaCl = 12, FlashPlayer = 15, LinuxPlayer = 13, LinuxEditor = 16, WebGLPlayer = 17, MetroPlayerX86 = 18, WSAPlayerX86 = 18, MetroPlayerX64 = 19, WSAPlayerX64 = 19, MetroPlayerARM = 20, WSAPlayerARM = 20, WP8Player = 21, BB10Player = 22, BlackBerryPlayer = 22, TizenPlayer = 23, PSP2 = 24, PS4 = 25, PSM = 26, XboxOne = 27, SamsungTVPlayer = 28, WiiU = 30, tvOS = 31, Switch = 32, Lumin = 33, Stadia = 34, CloudRendering = 35, GameCoreScarlett = 36, GameCoreXboxSeries = 36, GameCoreXboxOne = 37, PS5 = 38 }
-        /** The language the user's operating system is running in. Returned by Application.systemLanguage. */
+        /** The language the user's operating system is running in. Returned by Application.systemLanguage.
+        */
         enum SystemLanguage
         { Afrikaans = 0, Arabic = 1, Basque = 2, Belarusian = 3, Bulgarian = 4, Catalan = 5, Chinese = 6, Czech = 7, Danish = 8, Dutch = 9, English = 10, Estonian = 11, Faroese = 12, Finnish = 13, French = 14, German = 15, Greek = 16, Hebrew = 17, Hugarian = 18, Icelandic = 19, Indonesian = 20, Italian = 21, Japanese = 22, Korean = 23, Latvian = 24, Lithuanian = 25, Norwegian = 26, Polish = 27, Portuguese = 28, Romanian = 29, Russian = 30, SerboCroatian = 31, Slovak = 32, Slovenian = 33, Spanish = 34, Swedish = 35, Thai = 36, Turkish = 37, Ukrainian = 38, Vietnamese = 39, ChineseSimplified = 40, ChineseTraditional = 41, Unknown = 42, Hungarian = 18 }
-        /** Describes network reachability options. */
+        /** Describes network reachability options.
+        */
         enum NetworkReachability
         { NotReachable = 0, ReachableViaCarrierDataNetwork = 1, ReachableViaLocalAreaNetwork = 2 }
-        /** Class containing methods to ease debugging while developing a game. */
+        /** Class containing methods to ease debugging while developing a game.
+        */
         class Debug extends System.Object
         {
             protected [__keep_incompatibility]: never;
-            /** Get default debug logger. */
+            /** Get default debug logger.
+            */
             public static get unityLogger(): UnityEngine.ILogger;
-            /** Reports whether the development console is visible. The development console cannot be made to appear using: */
+            /** Reports whether the development console is visible. The development console cannot be made to appear using:
+            */
             public static get developerConsoleVisible(): boolean;
             public static set developerConsoleVisible(value: boolean);
-            /** In the Build Settings dialog there is a check box called "Development Build". */
+            /** In the Build Settings dialog there is a check box called "Development Build".
+            */
             public static get isDebugBuild(): boolean;
-            /** Draws a line between specified start and end points. * @param start Point in world space where the line should start.
+            /** Draws a line between specified start and end points.
+            * @param start Point in world space where the line should start.
             * @param end Point in world space where the line should end.
             * @param color Color of the line.
             * @param duration How long the line should be visible for.
             * @param depthTest Should the line be obscured by objects closer to the camera?
             */
             public static DrawLine ($start: UnityEngine.Vector3, $end: UnityEngine.Vector3, $color: UnityEngine.Color, $duration: number) : void
-            /** Draws a line between specified start and end points. * @param start Point in world space where the line should start.
+            /** Draws a line between specified start and end points.
+            * @param start Point in world space where the line should start.
             * @param end Point in world space where the line should end.
             * @param color Color of the line.
             * @param duration How long the line should be visible for.
             * @param depthTest Should the line be obscured by objects closer to the camera?
             */
             public static DrawLine ($start: UnityEngine.Vector3, $end: UnityEngine.Vector3, $color: UnityEngine.Color) : void
-            /** Draws a line between specified start and end points. * @param start Point in world space where the line should start.
+            /** Draws a line between specified start and end points.
+            * @param start Point in world space where the line should start.
             * @param end Point in world space where the line should end.
             * @param color Color of the line.
             * @param duration How long the line should be visible for.
             * @param depthTest Should the line be obscured by objects closer to the camera?
             */
             public static DrawLine ($start: UnityEngine.Vector3, $end: UnityEngine.Vector3) : void
-            /** Draws a line between specified start and end points. * @param start Point in world space where the line should start.
+            /** Draws a line between specified start and end points.
+            * @param start Point in world space where the line should start.
             * @param end Point in world space where the line should end.
             * @param color Color of the line.
             * @param duration How long the line should be visible for.
             * @param depthTest Should the line be obscured by objects closer to the camera?
             */
             public static DrawLine ($start: UnityEngine.Vector3, $end: UnityEngine.Vector3, $color: UnityEngine.Color, $duration: number, $depthTest: boolean) : void
-            /** Draws a line from start to start + dir in world coordinates. * @param start Point in world space where the ray should start.
+            /** Draws a line from start to start + dir in world coordinates.
+            * @param start Point in world space where the ray should start.
             * @param dir Direction and length of the ray.
             * @param color Color of the drawn line.
             * @param duration How long the line will be visible for (in seconds).
             * @param depthTest Should the line be obscured by other objects closer to the camera?
             */
             public static DrawRay ($start: UnityEngine.Vector3, $dir: UnityEngine.Vector3, $color: UnityEngine.Color, $duration: number) : void
-            /** Draws a line from start to start + dir in world coordinates. * @param start Point in world space where the ray should start.
+            /** Draws a line from start to start + dir in world coordinates.
+            * @param start Point in world space where the ray should start.
             * @param dir Direction and length of the ray.
             * @param color Color of the drawn line.
             * @param duration How long the line will be visible for (in seconds).
             * @param depthTest Should the line be obscured by other objects closer to the camera?
             */
             public static DrawRay ($start: UnityEngine.Vector3, $dir: UnityEngine.Vector3, $color: UnityEngine.Color) : void
-            /** Draws a line from start to start + dir in world coordinates. * @param start Point in world space where the ray should start.
+            /** Draws a line from start to start + dir in world coordinates.
+            * @param start Point in world space where the ray should start.
             * @param dir Direction and length of the ray.
             * @param color Color of the drawn line.
             * @param duration How long the line will be visible for (in seconds).
             * @param depthTest Should the line be obscured by other objects closer to the camera?
             */
             public static DrawRay ($start: UnityEngine.Vector3, $dir: UnityEngine.Vector3) : void
-            /** Draws a line from start to start + dir in world coordinates. * @param start Point in world space where the ray should start.
+            /** Draws a line from start to start + dir in world coordinates.
+            * @param start Point in world space where the ray should start.
             * @param dir Direction and length of the ray.
             * @param color Color of the drawn line.
             * @param duration How long the line will be visible for (in seconds).
@@ -687,128 +757,153 @@ declare namespace CS {
             public static DrawRay ($start: UnityEngine.Vector3, $dir: UnityEngine.Vector3, $color: UnityEngine.Color, $duration: number, $depthTest: boolean) : void
             public static Break () : void
             public static DebugBreak () : void
-            /** Logs a message to the Unity Console. * @param message String or object to be converted to string representation for display.
+            /** Logs a message to the Unity Console.
+            * @param message String or object to be converted to string representation for display.
             * @param context Object to which the message applies.
             */
             public static Log ($message: any) : void
-            /** Logs a message to the Unity Console. * @param message String or object to be converted to string representation for display.
+            /** Logs a message to the Unity Console.
+            * @param message String or object to be converted to string representation for display.
             * @param context Object to which the message applies.
             */
             public static Log ($message: any, $context: UnityEngine.Object) : void
-            /** Logs a formatted message to the Unity Console. * @param format A composite format string.
+            /** Logs a formatted message to the Unity Console.
+            * @param format A composite format string.
             * @param args Format arguments.
             * @param context Object to which the message applies.
             * @param logType Type of message e.g. warn or error etc.
             * @param logOptions Option flags to treat the log message special.
             */
             public static LogFormat ($format: string, ...args: any[]) : void
-            /** Logs a formatted message to the Unity Console. * @param format A composite format string.
+            /** Logs a formatted message to the Unity Console.
+            * @param format A composite format string.
             * @param args Format arguments.
             * @param context Object to which the message applies.
             * @param logType Type of message e.g. warn or error etc.
             * @param logOptions Option flags to treat the log message special.
             */
             public static LogFormat ($context: UnityEngine.Object, $format: string, ...args: any[]) : void
-            /** Logs a formatted message to the Unity Console. * @param format A composite format string.
+            /** Logs a formatted message to the Unity Console.
+            * @param format A composite format string.
             * @param args Format arguments.
             * @param context Object to which the message applies.
             * @param logType Type of message e.g. warn or error etc.
             * @param logOptions Option flags to treat the log message special.
             */
             public static LogFormat ($logType: UnityEngine.LogType, $logOptions: UnityEngine.LogOption, $context: UnityEngine.Object, $format: string, ...args: any[]) : void
-            /** A variant of Debug.Log that logs an error message to the console. * @param message String or object to be converted to string representation for display.
+            /** A variant of Debug.Log that logs an error message to the console.
+            * @param message String or object to be converted to string representation for display.
             * @param context Object to which the message applies.
             */
             public static LogError ($message: any) : void
-            /** A variant of Debug.Log that logs an error message to the console. * @param message String or object to be converted to string representation for display.
+            /** A variant of Debug.Log that logs an error message to the console.
+            * @param message String or object to be converted to string representation for display.
             * @param context Object to which the message applies.
             */
             public static LogError ($message: any, $context: UnityEngine.Object) : void
-            /** Logs a formatted error message to the Unity console. * @param format A composite format string.
+            /** Logs a formatted error message to the Unity console.
+            * @param format A composite format string.
             * @param args Format arguments.
             * @param context Object to which the message applies.
             */
             public static LogErrorFormat ($format: string, ...args: any[]) : void
-            /** Logs a formatted error message to the Unity console. * @param format A composite format string.
+            /** Logs a formatted error message to the Unity console.
+            * @param format A composite format string.
             * @param args Format arguments.
             * @param context Object to which the message applies.
             */
             public static LogErrorFormat ($context: UnityEngine.Object, $format: string, ...args: any[]) : void
             public static ClearDeveloperConsole () : void
-            /** A variant of Debug.Log that logs an error message to the console. * @param context Object to which the message applies.
+            /** A variant of Debug.Log that logs an error message to the console.
+            * @param context Object to which the message applies.
             * @param exception Runtime Exception.
             */
             public static LogException ($exception: System.Exception) : void
-            /** A variant of Debug.Log that logs an error message to the console. * @param context Object to which the message applies.
+            /** A variant of Debug.Log that logs an error message to the console.
+            * @param context Object to which the message applies.
             * @param exception Runtime Exception.
             */
             public static LogException ($exception: System.Exception, $context: UnityEngine.Object) : void
-            /** A variant of Debug.Log that logs a warning message to the console. * @param message String or object to be converted to string representation for display.
+            /** A variant of Debug.Log that logs a warning message to the console.
+            * @param message String or object to be converted to string representation for display.
             * @param context Object to which the message applies.
             */
             public static LogWarning ($message: any) : void
-            /** A variant of Debug.Log that logs a warning message to the console. * @param message String or object to be converted to string representation for display.
+            /** A variant of Debug.Log that logs a warning message to the console.
+            * @param message String or object to be converted to string representation for display.
             * @param context Object to which the message applies.
             */
             public static LogWarning ($message: any, $context: UnityEngine.Object) : void
-            /** Logs a formatted warning message to the Unity Console. * @param format A composite format string.
+            /** Logs a formatted warning message to the Unity Console.
+            * @param format A composite format string.
             * @param args Format arguments.
             * @param context Object to which the message applies.
             */
             public static LogWarningFormat ($format: string, ...args: any[]) : void
-            /** Logs a formatted warning message to the Unity Console. * @param format A composite format string.
+            /** Logs a formatted warning message to the Unity Console.
+            * @param format A composite format string.
             * @param args Format arguments.
             * @param context Object to which the message applies.
             */
             public static LogWarningFormat ($context: UnityEngine.Object, $format: string, ...args: any[]) : void
-            /** Assert a condition and logs an error message to the Unity console on failure. * @param condition Condition you expect to be true.
+            /** Assert a condition and logs an error message to the Unity console on failure.
+            * @param condition Condition you expect to be true.
             * @param context Object to which the message applies.
             * @param message String or object to be converted to string representation for display.
             */
             public static Assert ($condition: boolean) : void
-            /** Assert a condition and logs an error message to the Unity console on failure. * @param condition Condition you expect to be true.
+            /** Assert a condition and logs an error message to the Unity console on failure.
+            * @param condition Condition you expect to be true.
             * @param context Object to which the message applies.
             * @param message String or object to be converted to string representation for display.
             */
             public static Assert ($condition: boolean, $context: UnityEngine.Object) : void
-            /** Assert a condition and logs an error message to the Unity console on failure. * @param condition Condition you expect to be true.
+            /** Assert a condition and logs an error message to the Unity console on failure.
+            * @param condition Condition you expect to be true.
             * @param context Object to which the message applies.
             * @param message String or object to be converted to string representation for display.
             */
             public static Assert ($condition: boolean, $message: any) : void
             public static Assert ($condition: boolean, $message: string) : void
-            /** Assert a condition and logs an error message to the Unity console on failure. * @param condition Condition you expect to be true.
+            /** Assert a condition and logs an error message to the Unity console on failure.
+            * @param condition Condition you expect to be true.
             * @param context Object to which the message applies.
             * @param message String or object to be converted to string representation for display.
             */
             public static Assert ($condition: boolean, $message: any, $context: UnityEngine.Object) : void
             public static Assert ($condition: boolean, $message: string, $context: UnityEngine.Object) : void
-            /** Assert a condition and logs a formatted error message to the Unity console on failure. * @param condition Condition you expect to be true.
+            /** Assert a condition and logs a formatted error message to the Unity console on failure.
+            * @param condition Condition you expect to be true.
             * @param format A composite format string.
             * @param args Format arguments.
             * @param context Object to which the message applies.
             */
             public static AssertFormat ($condition: boolean, $format: string, ...args: any[]) : void
-            /** Assert a condition and logs a formatted error message to the Unity console on failure. * @param condition Condition you expect to be true.
+            /** Assert a condition and logs a formatted error message to the Unity console on failure.
+            * @param condition Condition you expect to be true.
             * @param format A composite format string.
             * @param args Format arguments.
             * @param context Object to which the message applies.
             */
             public static AssertFormat ($condition: boolean, $context: UnityEngine.Object, $format: string, ...args: any[]) : void
-            /** A variant of Debug.Log that logs an assertion message to the console. * @param message String or object to be converted to string representation for display.
+            /** A variant of Debug.Log that logs an assertion message to the console.
+            * @param message String or object to be converted to string representation for display.
             * @param context Object to which the message applies.
             */
             public static LogAssertion ($message: any) : void
-            /** A variant of Debug.Log that logs an assertion message to the console. * @param message String or object to be converted to string representation for display.
+            /** A variant of Debug.Log that logs an assertion message to the console.
+            * @param message String or object to be converted to string representation for display.
             * @param context Object to which the message applies.
             */
             public static LogAssertion ($message: any, $context: UnityEngine.Object) : void
-            /** Logs a formatted assertion message to the Unity console. * @param format A composite format string.
+            /** Logs a formatted assertion message to the Unity console.
+            * @param format A composite format string.
             * @param args Format arguments.
             * @param context Object to which the message applies.
             */
             public static LogAssertionFormat ($format: string, ...args: any[]) : void
-            /** Logs a formatted assertion message to the Unity console. * @param format A composite format string.
+            /** Logs a formatted assertion message to the Unity console.
+            * @param format A composite format string.
             * @param args Format arguments.
             * @param context Object to which the message applies.
             */
@@ -821,47 +916,72 @@ declare namespace CS {
         interface ILogHandler
         {
         }
-        /** Representation of 3D vectors and points. */
+        /** Representation of 3D vectors and points.
+        */
         class Vector3 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector3>
         {
             protected [__keep_incompatibility]: never;
             public static kEpsilon : number
-            public static kEpsilonNormalSqrt : number/** X component of the vector. */
-            public x : number/** Y component of the vector. */
-            public y : number/** Z component of the vector. */
-            public z : number/** Returns this vector with a magnitude of 1 (Read Only). */
+            public static kEpsilonNormalSqrt : number
+            /** X component of the vector.
+            */
+            public x : number
+            /** Y component of the vector.
+            */
+            public y : number
+            /** Z component of the vector.
+            */
+            public z : number
+            /** Returns this vector with a magnitude of 1 (Read Only).
+            */
             public get normalized(): UnityEngine.Vector3;
-            /** Returns the length of this vector (Read Only). */
+            /** Returns the length of this vector (Read Only).
+            */
             public get magnitude(): number;
-            /** Returns the squared length of this vector (Read Only). */
+            /** Returns the squared length of this vector (Read Only).
+            */
             public get sqrMagnitude(): number;
-            /** Shorthand for writing Vector3(0, 0, 0). */
+            /** Shorthand for writing Vector3(0, 0, 0).
+            */
             public static get zero(): UnityEngine.Vector3;
-            /** Shorthand for writing Vector3(1, 1, 1). */
+            /** Shorthand for writing Vector3(1, 1, 1).
+            */
             public static get one(): UnityEngine.Vector3;
-            /** Shorthand for writing Vector3(0, 0, 1). */
+            /** Shorthand for writing Vector3(0, 0, 1).
+            */
             public static get forward(): UnityEngine.Vector3;
-            /** Shorthand for writing Vector3(0, 0, -1). */
+            /** Shorthand for writing Vector3(0, 0, -1).
+            */
             public static get back(): UnityEngine.Vector3;
-            /** Shorthand for writing Vector3(0, 1, 0). */
+            /** Shorthand for writing Vector3(0, 1, 0).
+            */
             public static get up(): UnityEngine.Vector3;
-            /** Shorthand for writing Vector3(0, -1, 0). */
+            /** Shorthand for writing Vector3(0, -1, 0).
+            */
             public static get down(): UnityEngine.Vector3;
-            /** Shorthand for writing Vector3(-1, 0, 0). */
+            /** Shorthand for writing Vector3(-1, 0, 0).
+            */
             public static get left(): UnityEngine.Vector3;
-            /** Shorthand for writing Vector3(1, 0, 0). */
+            /** Shorthand for writing Vector3(1, 0, 0).
+            */
             public static get right(): UnityEngine.Vector3;
-            /** Shorthand for writing Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity). */
+            /** Shorthand for writing Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity).
+            */
             public static get positiveInfinity(): UnityEngine.Vector3;
-            /** Shorthand for writing Vector3(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity). */
+            /** Shorthand for writing Vector3(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity).
+            */
             public static get negativeInfinity(): UnityEngine.Vector3;
-            /** Spherically interpolates between two vectors. */
+            /** Spherically interpolates between two vectors.
+            */
             public static Slerp ($a: UnityEngine.Vector3, $b: UnityEngine.Vector3, $t: number) : UnityEngine.Vector3
-            /** Spherically interpolates between two vectors. */
+            /** Spherically interpolates between two vectors.
+            */
             public static SlerpUnclamped ($a: UnityEngine.Vector3, $b: UnityEngine.Vector3, $t: number) : UnityEngine.Vector3
-            /** Makes vectors normalized and orthogonal to each other. */
+            /** Makes vectors normalized and orthogonal to each other.
+            */
             public static OrthoNormalize ($normal: $Ref<UnityEngine.Vector3>, $tangent: $Ref<UnityEngine.Vector3>) : void
-            /** Makes vectors normalized and orthogonal to each other. */
+            /** Makes vectors normalized and orthogonal to each other.
+            */
             public static OrthoNormalize ($normal: $Ref<UnityEngine.Vector3>, $tangent: $Ref<UnityEngine.Vector3>, $binormal: $Ref<UnityEngine.Vector3>) : void
             /** Rotates a vector current towards target.
             * @param current The vector being managed.
@@ -878,7 +998,8 @@ declare namespace CS {
             * @returns Interpolated value, equals to a + (b - a) * t. 
             */
             public static Lerp ($a: UnityEngine.Vector3, $b: UnityEngine.Vector3, $t: number) : UnityEngine.Vector3
-            /** Linearly interpolates between two vectors. */
+            /** Linearly interpolates between two vectors.
+            */
             public static LerpUnclamped ($a: UnityEngine.Vector3, $b: UnityEngine.Vector3, $t: number) : UnityEngine.Vector3
             /** Calculate a position between the points specified by current and target, moving no farther than the distance specified by maxDistanceDelta.
             * @param current The position to move from.
@@ -887,7 +1008,8 @@ declare namespace CS {
             * @returns The new position. 
             */
             public static MoveTowards ($current: UnityEngine.Vector3, $target: UnityEngine.Vector3, $maxDistanceDelta: number) : UnityEngine.Vector3
-            /** Gradually changes a vector towards a desired goal over time. * @param current The current position.
+            /** Gradually changes a vector towards a desired goal over time.
+            * @param current The current position.
             * @param target The position we are trying to reach.
             * @param currentVelocity The current velocity, this value is modified by the function every time you call it.
             * @param smoothTime Approximately the time it will take to reach the target. A smaller value will reach the target faster.
@@ -895,7 +1017,8 @@ declare namespace CS {
             * @param deltaTime The time since the last call to this function. By default Time.deltaTime.
             */
             public static SmoothDamp ($current: UnityEngine.Vector3, $target: UnityEngine.Vector3, $currentVelocity: $Ref<UnityEngine.Vector3>, $smoothTime: number, $maxSpeed: number) : UnityEngine.Vector3
-            /** Gradually changes a vector towards a desired goal over time. * @param current The current position.
+            /** Gradually changes a vector towards a desired goal over time.
+            * @param current The current position.
             * @param target The position we are trying to reach.
             * @param currentVelocity The current velocity, this value is modified by the function every time you call it.
             * @param smoothTime Approximately the time it will take to reach the target. A smaller value will reach the target faster.
@@ -903,7 +1026,8 @@ declare namespace CS {
             * @param deltaTime The time since the last call to this function. By default Time.deltaTime.
             */
             public static SmoothDamp ($current: UnityEngine.Vector3, $target: UnityEngine.Vector3, $currentVelocity: $Ref<UnityEngine.Vector3>, $smoothTime: number) : UnityEngine.Vector3
-            /** Gradually changes a vector towards a desired goal over time. * @param current The current position.
+            /** Gradually changes a vector towards a desired goal over time.
+            * @param current The current position.
             * @param target The position we are trying to reach.
             * @param currentVelocity The current velocity, this value is modified by the function every time you call it.
             * @param smoothTime Approximately the time it will take to reach the target. A smaller value will reach the target faster.
@@ -913,25 +1037,34 @@ declare namespace CS {
             public static SmoothDamp ($current: UnityEngine.Vector3, $target: UnityEngine.Vector3, $currentVelocity: $Ref<UnityEngine.Vector3>, $smoothTime: number, $maxSpeed: number, $deltaTime: number) : UnityEngine.Vector3
             public get_Item ($index: number) : number
             public set_Item ($index: number, $value: number) : void
-            /** Set x, y and z components of an existing Vector3. */
+            /** Set x, y and z components of an existing Vector3.
+            */
             public Set ($newX: number, $newY: number, $newZ: number) : void
-            /** Multiplies two vectors component-wise. */
+            /** Multiplies two vectors component-wise.
+            */
             public static Scale ($a: UnityEngine.Vector3, $b: UnityEngine.Vector3) : UnityEngine.Vector3
-            /** Multiplies every component of this vector by the same component of scale. */
+            /** Multiplies every component of this vector by the same component of scale.
+            */
             public Scale ($scale: UnityEngine.Vector3) : void
-            /** Cross Product of two vectors. */
+            /** Cross Product of two vectors.
+            */
             public static Cross ($lhs: UnityEngine.Vector3, $rhs: UnityEngine.Vector3) : UnityEngine.Vector3
-            /** Returns true if the given vector is exactly equal to this vector. */
+            /** Returns true if the given vector is exactly equal to this vector.
+            */
             public Equals ($other: any) : boolean
             public Equals ($other: UnityEngine.Vector3) : boolean
-            /** Reflects a vector off the plane defined by a normal. */
+            /** Reflects a vector off the plane defined by a normal.
+            */
             public static Reflect ($inDirection: UnityEngine.Vector3, $inNormal: UnityEngine.Vector3) : UnityEngine.Vector3
-            /** Makes this vector have a magnitude of 1. */
+            /** Makes this vector have a magnitude of 1.
+            */
             public static Normalize ($value: UnityEngine.Vector3) : UnityEngine.Vector3
             public Normalize () : void
-            /** Dot Product of two vectors. */
+            /** Dot Product of two vectors.
+            */
             public static Dot ($lhs: UnityEngine.Vector3, $rhs: UnityEngine.Vector3) : number
-            /** Projects a vector onto another vector. */
+            /** Projects a vector onto another vector.
+            */
             public static Project ($vector: UnityEngine.Vector3, $onNormal: UnityEngine.Vector3) : UnityEngine.Vector3
             /** Projects a vector onto a plane defined by a normal orthogonal to the plane.
             * @param planeNormal The direction from the vector towards the plane.
@@ -945,20 +1078,25 @@ declare namespace CS {
             * @returns The angle in degrees between the two vectors. 
             */
             public static Angle ($from: UnityEngine.Vector3, $to: UnityEngine.Vector3) : number
-            /** Returns the signed angle in degrees between from and to. * @param from The vector from which the angular difference is measured.
+            /** Returns the signed angle in degrees between from and to.
+            * @param from The vector from which the angular difference is measured.
             * @param to The vector to which the angular difference is measured.
             * @param axis A vector around which the other vectors are rotated.
             */
             public static SignedAngle ($from: UnityEngine.Vector3, $to: UnityEngine.Vector3, $axis: UnityEngine.Vector3) : number
-            /** Returns the distance between a and b. */
+            /** Returns the distance between a and b.
+            */
             public static Distance ($a: UnityEngine.Vector3, $b: UnityEngine.Vector3) : number
-            /** Returns a copy of vector with its magnitude clamped to maxLength. */
+            /** Returns a copy of vector with its magnitude clamped to maxLength.
+            */
             public static ClampMagnitude ($vector: UnityEngine.Vector3, $maxLength: number) : UnityEngine.Vector3
             public static Magnitude ($vector: UnityEngine.Vector3) : number
             public static SqrMagnitude ($vector: UnityEngine.Vector3) : number
-            /** Returns a vector that is made from the smallest components of two vectors. */
+            /** Returns a vector that is made from the smallest components of two vectors.
+            */
             public static Min ($lhs: UnityEngine.Vector3, $rhs: UnityEngine.Vector3) : UnityEngine.Vector3
-            /** Returns a vector that is made from the largest components of two vectors. */
+            /** Returns a vector that is made from the largest components of two vectors.
+            */
             public static Max ($lhs: UnityEngine.Vector3, $rhs: UnityEngine.Vector3) : UnityEngine.Vector3
             public static op_Addition ($a: UnityEngine.Vector3, $b: UnityEngine.Vector3) : UnityEngine.Vector3
             public static op_Subtraction ($a: UnityEngine.Vector3, $b: UnityEngine.Vector3) : UnityEngine.Vector3
@@ -969,7 +1107,8 @@ declare namespace CS {
             public static op_Equality ($lhs: UnityEngine.Vector3, $rhs: UnityEngine.Vector3) : boolean
             public static op_Inequality ($lhs: UnityEngine.Vector3, $rhs: UnityEngine.Vector3) : boolean
             public ToString () : string
-            /** Returns a nicely formatted string for this vector. */
+            /** Returns a nicely formatted string for this vector.
+            */
             public ToString ($format: string) : string
             public constructor ($x: number, $y: number, $z: number)
             public constructor ($x: number, $y: number)
@@ -977,45 +1116,59 @@ declare namespace CS {
             public static Equals ($objA: any, $objB: any) : boolean
             public constructor ()
         }
-        /** Representation of RGBA colors. */
+        /** Representation of RGBA colors.
+        */
         class Color extends System.ValueType implements System.IEquatable$1<UnityEngine.Color>
         {
             protected [__keep_incompatibility]: never;
         }
-        /** Option flags for specifying special treatment of a log message. */
+        /** Option flags for specifying special treatment of a log message.
+        */
         enum LogOption
         { None = 0, NoStacktrace = 1 }
-        /** Base class for all entities in Unity Scenes. */
+        /** Base class for all entities in Unity Scenes.
+        */
         class GameObject extends UnityEngine.Object
         {
             protected [__keep_incompatibility]: never;
-            /** The Transform attached to this GameObject. */
+            /** The Transform attached to this GameObject.
+            */
             public get transform(): UnityEngine.Transform;
-            /** The layer the game object is in. */
+            /** The layer the game object is in.
+            */
             public get layer(): number;
             public set layer(value: number);
-            /** The local active state of this GameObject. (Read Only) */
+            /** The local active state of this GameObject. (Read Only)
+            */
             public get activeSelf(): boolean;
-            /** Defines whether the GameObject is active in the Scene. */
+            /** Defines whether the GameObject is active in the Scene.
+            */
             public get activeInHierarchy(): boolean;
-            /** Gets and sets the GameObject's StaticEditorFlags. */
+            /** Gets and sets the GameObject's StaticEditorFlags.
+            */
             public get isStatic(): boolean;
             public set isStatic(value: boolean);
-            /** The tag of this game object. */
+            /** The tag of this game object.
+            */
             public get tag(): string;
             public set tag(value: string);
-            /** Scene that the GameObject is part of. */
+            /** Scene that the GameObject is part of.
+            */
             public get scene(): UnityEngine.SceneManagement.Scene;
-            /** Scene culling mask Unity uses to determine which scene to render the GameObject in. */
+            /** Scene culling mask Unity uses to determine which scene to render the GameObject in.
+            */
             public get sceneCullingMask(): bigint;
             public get gameObject(): UnityEngine.GameObject;
-            /** Creates a game object with a primitive mesh renderer and appropriate collider. * @param type The type of primitive object to create.
+            /** Creates a game object with a primitive mesh renderer and appropriate collider.
+            * @param type The type of primitive object to create.
             */
             public static CreatePrimitive ($type: UnityEngine.PrimitiveType) : UnityEngine.GameObject
-            /** Returns the component of Type type if the game object has one attached, null if it doesn't. * @param type The type of Component to retrieve.
+            /** Returns the component of Type type if the game object has one attached, null if it doesn't.
+            * @param type The type of Component to retrieve.
             */
             public GetComponent ($type: System.Type) : UnityEngine.Component
-            /** Returns the component with name type if the game object has one attached, null if it doesn't. * @param type The type of Component to retrieve.
+            /** Returns the component with name type if the game object has one attached, null if it doesn't.
+            * @param type The type of Component to retrieve.
             */
             public GetComponent ($type: string) : UnityEngine.Component
             /** Returns the component of Type type in the GameObject or any of its children using depth first search.
@@ -1033,20 +1186,24 @@ declare namespace CS {
             * @returns Returns a component if a component matching the type is found. Returns null otherwise. 
             */
             public GetComponentInParent ($type: System.Type) : UnityEngine.Component
-            /** Returns all components of Type type in the GameObject. * @param type The type of component to retrieve.
+            /** Returns all components of Type type in the GameObject.
+            * @param type The type of component to retrieve.
             */
             public GetComponents ($type: System.Type) : System.Array$1<UnityEngine.Component>
             public GetComponents ($type: System.Type, $results: System.Collections.Generic.List$1<UnityEngine.Component>) : void
-            /** Returns all components of Type type in the GameObject or any of its children children using depth first search. Works recursively. * @param type The type of Component to retrieve.
+            /** Returns all components of Type type in the GameObject or any of its children children using depth first search. Works recursively.
+            * @param type The type of Component to retrieve.
             * @param includeInactive Should Components on inactive GameObjects be included in the found set?
             */
             public GetComponentsInChildren ($type: System.Type) : System.Array$1<UnityEngine.Component>
-            /** Returns all components of Type type in the GameObject or any of its children children using depth first search. Works recursively. * @param type The type of Component to retrieve.
+            /** Returns all components of Type type in the GameObject or any of its children children using depth first search. Works recursively.
+            * @param type The type of Component to retrieve.
             * @param includeInactive Should Components on inactive GameObjects be included in the found set?
             */
             public GetComponentsInChildren ($type: System.Type, $includeInactive: boolean) : System.Array$1<UnityEngine.Component>
             public GetComponentsInParent ($type: System.Type) : System.Array$1<UnityEngine.Component>
-            /** Returns all components of Type type in the GameObject or any of its parents. * @param type The type of Component to retrieve.
+            /** Returns all components of Type type in the GameObject or any of its parents.
+            * @param type The type of Component to retrieve.
             * @param includeInactive Should inactive Components be included in the found set?
             */
             public GetComponentsInParent ($type: System.Type, $includeInactive: boolean) : System.Array$1<UnityEngine.Component>
@@ -1056,78 +1213,98 @@ declare namespace CS {
             * @returns Returns true if the component is found, false otherwise. 
             */
             public TryGetComponent ($type: System.Type, $component: $Ref<UnityEngine.Component>) : boolean
-            /** Returns one active GameObject tagged tag. Returns null if no GameObject was found. * @param tag The tag to search for.
+            /** Returns one active GameObject tagged tag. Returns null if no GameObject was found.
+            * @param tag The tag to search for.
             */
             public static FindWithTag ($tag: string) : UnityEngine.GameObject
             public SendMessageUpwards ($methodName: string, $options: UnityEngine.SendMessageOptions) : void
             public SendMessage ($methodName: string, $options: UnityEngine.SendMessageOptions) : void
             public BroadcastMessage ($methodName: string, $options: UnityEngine.SendMessageOptions) : void
-            /** Adds a component class of type componentType to the game object. C# Users can use a generic version. */
+            /** Adds a component class of type componentType to the game object. C# Users can use a generic version.
+            */
             public AddComponent ($componentType: System.Type) : UnityEngine.Component
-            /** ActivatesDeactivates the GameObject, depending on the given true or false/ value. * @param value Activate or deactivate the object, where true activates the GameObject and false deactivates the GameObject.
+            /** ActivatesDeactivates the GameObject, depending on the given true or false/ value.
+            * @param value Activate or deactivate the object, where true activates the GameObject and false deactivates the GameObject.
             */
             public SetActive ($value: boolean) : void
-            /** Is this game object tagged with tag ? * @param tag The tag to compare.
+            /** Is this game object tagged with tag ?
+            * @param tag The tag to compare.
             */
             public CompareTag ($tag: string) : boolean
             public static FindGameObjectWithTag ($tag: string) : UnityEngine.GameObject
-            /** Returns an array of active GameObjects tagged tag. Returns empty array if no GameObject was found. * @param tag The name of the tag to search GameObjects for.
+            /** Returns an array of active GameObjects tagged tag. Returns empty array if no GameObject was found.
+            * @param tag The name of the tag to search GameObjects for.
             */
             public static FindGameObjectsWithTag ($tag: string) : System.Array$1<UnityEngine.GameObject>
-            /** Calls the method named methodName on every MonoBehaviour in this game object and on every ancestor of the behaviour. * @param methodName The name of the method to call.
+            /** Calls the method named methodName on every MonoBehaviour in this game object and on every ancestor of the behaviour.
+            * @param methodName The name of the method to call.
             * @param value An optional parameter value to pass to the called method.
             * @param options Should an error be raised if the method doesn't exist on the target object?
             */
             public SendMessageUpwards ($methodName: string, $value: any, $options: UnityEngine.SendMessageOptions) : void
-            /** Calls the method named methodName on every MonoBehaviour in this game object and on every ancestor of the behaviour. * @param methodName The name of the method to call.
+            /** Calls the method named methodName on every MonoBehaviour in this game object and on every ancestor of the behaviour.
+            * @param methodName The name of the method to call.
             * @param value An optional parameter value to pass to the called method.
             * @param options Should an error be raised if the method doesn't exist on the target object?
             */
             public SendMessageUpwards ($methodName: string, $value: any) : void
-            /** Calls the method named methodName on every MonoBehaviour in this game object and on every ancestor of the behaviour. * @param methodName The name of the method to call.
+            /** Calls the method named methodName on every MonoBehaviour in this game object and on every ancestor of the behaviour.
+            * @param methodName The name of the method to call.
             * @param value An optional parameter value to pass to the called method.
             * @param options Should an error be raised if the method doesn't exist on the target object?
             */
             public SendMessageUpwards ($methodName: string) : void
-            /** Calls the method named methodName on every MonoBehaviour in this game object. * @param methodName The name of the method to call.
+            /** Calls the method named methodName on every MonoBehaviour in this game object.
+            * @param methodName The name of the method to call.
             * @param value An optional parameter value to pass to the called method.
             * @param options Should an error be raised if the method doesn't exist on the target object?
             */
             public SendMessage ($methodName: string, $value: any, $options: UnityEngine.SendMessageOptions) : void
-            /** Calls the method named methodName on every MonoBehaviour in this game object. * @param methodName The name of the method to call.
+            /** Calls the method named methodName on every MonoBehaviour in this game object.
+            * @param methodName The name of the method to call.
             * @param value An optional parameter value to pass to the called method.
             * @param options Should an error be raised if the method doesn't exist on the target object?
             */
             public SendMessage ($methodName: string, $value: any) : void
-            /** Calls the method named methodName on every MonoBehaviour in this game object. * @param methodName The name of the method to call.
+            /** Calls the method named methodName on every MonoBehaviour in this game object.
+            * @param methodName The name of the method to call.
             * @param value An optional parameter value to pass to the called method.
             * @param options Should an error be raised if the method doesn't exist on the target object?
             */
             public SendMessage ($methodName: string) : void
-            /** Calls the method named methodName on every MonoBehaviour in this game object or any of its children. */
+            /** Calls the method named methodName on every MonoBehaviour in this game object or any of its children.
+            */
             public BroadcastMessage ($methodName: string, $parameter: any, $options: UnityEngine.SendMessageOptions) : void
-            /** Calls the method named methodName on every MonoBehaviour in this game object or any of its children. */
+            /** Calls the method named methodName on every MonoBehaviour in this game object or any of its children.
+            */
             public BroadcastMessage ($methodName: string, $parameter: any) : void
-            /** Calls the method named methodName on every MonoBehaviour in this game object or any of its children. */
+            /** Calls the method named methodName on every MonoBehaviour in this game object or any of its children.
+            */
             public BroadcastMessage ($methodName: string) : void
-            /** Finds a GameObject by name and returns it. */
+            /** Finds a GameObject by name and returns it.
+            */
             public static Find ($name: string) : UnityEngine.GameObject
             public constructor ($name: string)
             public constructor ()
             public constructor ($name: string, ...components: System.Type[])
         }
-        /** Base class for everything attached to GameObjects. */
+        /** Base class for everything attached to GameObjects.
+        */
         class Component extends UnityEngine.Object
         {
             protected [__keep_incompatibility]: never;
-            /** The Transform attached to this GameObject. */
+            /** The Transform attached to this GameObject.
+            */
             public get transform(): UnityEngine.Transform;
-            /** The game object this component is attached to. A component is always attached to a game object. */
+            /** The game object this component is attached to. A component is always attached to a game object.
+            */
             public get gameObject(): UnityEngine.GameObject;
-            /** The tag of this game object. */
+            /** The tag of this game object.
+            */
             public get tag(): string;
             public set tag(value: string);
-            /** Returns the component of Type type if the game object has one attached, null if it doesn't. * @param type The type of Component to retrieve.
+            /** Returns the component of Type type if the game object has one attached, null if it doesn't.
+            * @param type The type of Component to retrieve.
             */
             public GetComponent ($type: System.Type) : UnityEngine.Component
             /** Gets the component of the specified type, if it exists.
@@ -1136,7 +1313,8 @@ declare namespace CS {
             * @returns Returns true if the component is found, false otherwise. 
             */
             public TryGetComponent ($type: System.Type, $component: $Ref<UnityEngine.Component>) : boolean
-            /** Returns the component with name type if the game object has one attached, null if it doesn't. */
+            /** Returns the component with name type if the game object has one attached, null if it doesn't.
+            */
             public GetComponent ($type: string) : UnityEngine.Component
             public GetComponentInChildren ($t: System.Type, $includeInactive: boolean) : UnityEngine.Component
             /** Returns the component of Type type in the GameObject or any of its children using depth first search.
@@ -1144,7 +1322,8 @@ declare namespace CS {
             * @returns A component of the matching type, if found. 
             */
             public GetComponentInChildren ($t: System.Type) : UnityEngine.Component
-            /** Returns all components of Type type in the GameObject or any of its children using depth first search. Works recursively. * @param t The type of Component to retrieve.
+            /** Returns all components of Type type in the GameObject or any of its children using depth first search. Works recursively.
+            * @param t The type of Component to retrieve.
             * @param includeInactive Should Components on inactive GameObjects be included in the found set? includeInactive decides which children of the GameObject will be searched.  The GameObject that you call GetComponentsInChildren on is always searched regardless. Default is false.
             */
             public GetComponentsInChildren ($t: System.Type, $includeInactive: boolean) : System.Array$1<UnityEngine.Component>
@@ -1154,279 +1333,366 @@ declare namespace CS {
             * @returns A component of the matching type, if found. 
             */
             public GetComponentInParent ($t: System.Type) : UnityEngine.Component
-            /** Returns all components of Type type in the GameObject or any of its parents. * @param t The type of Component to retrieve.
+            /** Returns all components of Type type in the GameObject or any of its parents.
+            * @param t The type of Component to retrieve.
             * @param includeInactive Should inactive Components be included in the found set?
             */
             public GetComponentsInParent ($t: System.Type, $includeInactive: boolean) : System.Array$1<UnityEngine.Component>
             public GetComponentsInParent ($t: System.Type) : System.Array$1<UnityEngine.Component>
-            /** Returns all components of Type type in the GameObject. * @param type The type of Component to retrieve.
+            /** Returns all components of Type type in the GameObject.
+            * @param type The type of Component to retrieve.
             */
             public GetComponents ($type: System.Type) : System.Array$1<UnityEngine.Component>
             public GetComponents ($type: System.Type, $results: System.Collections.Generic.List$1<UnityEngine.Component>) : void
-            /** Is this game object tagged with tag ? * @param tag The tag to compare.
+            /** Is this game object tagged with tag ?
+            * @param tag The tag to compare.
             */
             public CompareTag ($tag: string) : boolean
-            /** Calls the method named methodName on every MonoBehaviour in this game object and on every ancestor of the behaviour. * @param methodName Name of method to call.
+            /** Calls the method named methodName on every MonoBehaviour in this game object and on every ancestor of the behaviour.
+            * @param methodName Name of method to call.
             * @param value Optional parameter value for the method.
             * @param options Should an error be raised if the method does not exist on the target object?
             */
             public SendMessageUpwards ($methodName: string, $value: any, $options: UnityEngine.SendMessageOptions) : void
-            /** Calls the method named methodName on every MonoBehaviour in this game object and on every ancestor of the behaviour. * @param methodName Name of method to call.
+            /** Calls the method named methodName on every MonoBehaviour in this game object and on every ancestor of the behaviour.
+            * @param methodName Name of method to call.
             * @param value Optional parameter value for the method.
             * @param options Should an error be raised if the method does not exist on the target object?
             */
             public SendMessageUpwards ($methodName: string, $value: any) : void
-            /** Calls the method named methodName on every MonoBehaviour in this game object and on every ancestor of the behaviour. * @param methodName Name of method to call.
+            /** Calls the method named methodName on every MonoBehaviour in this game object and on every ancestor of the behaviour.
+            * @param methodName Name of method to call.
             * @param value Optional parameter value for the method.
             * @param options Should an error be raised if the method does not exist on the target object?
             */
             public SendMessageUpwards ($methodName: string) : void
-            /** Calls the method named methodName on every MonoBehaviour in this game object and on every ancestor of the behaviour. * @param methodName Name of method to call.
+            /** Calls the method named methodName on every MonoBehaviour in this game object and on every ancestor of the behaviour.
+            * @param methodName Name of method to call.
             * @param value Optional parameter value for the method.
             * @param options Should an error be raised if the method does not exist on the target object?
             */
             public SendMessageUpwards ($methodName: string, $options: UnityEngine.SendMessageOptions) : void
-            /** Calls the method named methodName on every MonoBehaviour in this game object. * @param methodName Name of the method to call.
+            /** Calls the method named methodName on every MonoBehaviour in this game object.
+            * @param methodName Name of the method to call.
             * @param value Optional parameter for the method.
             * @param options Should an error be raised if the target object doesn't implement the method for the message?
             */
             public SendMessage ($methodName: string, $value: any) : void
-            /** Calls the method named methodName on every MonoBehaviour in this game object. * @param methodName Name of the method to call.
+            /** Calls the method named methodName on every MonoBehaviour in this game object.
+            * @param methodName Name of the method to call.
             * @param value Optional parameter for the method.
             * @param options Should an error be raised if the target object doesn't implement the method for the message?
             */
             public SendMessage ($methodName: string) : void
-            /** Calls the method named methodName on every MonoBehaviour in this game object. * @param methodName Name of the method to call.
+            /** Calls the method named methodName on every MonoBehaviour in this game object.
+            * @param methodName Name of the method to call.
             * @param value Optional parameter for the method.
             * @param options Should an error be raised if the target object doesn't implement the method for the message?
             */
             public SendMessage ($methodName: string, $value: any, $options: UnityEngine.SendMessageOptions) : void
-            /** Calls the method named methodName on every MonoBehaviour in this game object. * @param methodName Name of the method to call.
+            /** Calls the method named methodName on every MonoBehaviour in this game object.
+            * @param methodName Name of the method to call.
             * @param value Optional parameter for the method.
             * @param options Should an error be raised if the target object doesn't implement the method for the message?
             */
             public SendMessage ($methodName: string, $options: UnityEngine.SendMessageOptions) : void
-            /** Calls the method named methodName on every MonoBehaviour in this game object or any of its children. * @param methodName Name of the method to call.
+            /** Calls the method named methodName on every MonoBehaviour in this game object or any of its children.
+            * @param methodName Name of the method to call.
             * @param parameter Optional parameter to pass to the method (can be any value).
             * @param options Should an error be raised if the method does not exist for a given target object?
             */
             public BroadcastMessage ($methodName: string, $parameter: any, $options: UnityEngine.SendMessageOptions) : void
-            /** Calls the method named methodName on every MonoBehaviour in this game object or any of its children. * @param methodName Name of the method to call.
+            /** Calls the method named methodName on every MonoBehaviour in this game object or any of its children.
+            * @param methodName Name of the method to call.
             * @param parameter Optional parameter to pass to the method (can be any value).
             * @param options Should an error be raised if the method does not exist for a given target object?
             */
             public BroadcastMessage ($methodName: string, $parameter: any) : void
-            /** Calls the method named methodName on every MonoBehaviour in this game object or any of its children. * @param methodName Name of the method to call.
+            /** Calls the method named methodName on every MonoBehaviour in this game object or any of its children.
+            * @param methodName Name of the method to call.
             * @param parameter Optional parameter to pass to the method (can be any value).
             * @param options Should an error be raised if the method does not exist for a given target object?
             */
             public BroadcastMessage ($methodName: string) : void
-            /** Calls the method named methodName on every MonoBehaviour in this game object or any of its children. * @param methodName Name of the method to call.
+            /** Calls the method named methodName on every MonoBehaviour in this game object or any of its children.
+            * @param methodName Name of the method to call.
             * @param parameter Optional parameter to pass to the method (can be any value).
             * @param options Should an error be raised if the method does not exist for a given target object?
             */
             public BroadcastMessage ($methodName: string, $options: UnityEngine.SendMessageOptions) : void
             public constructor ()
         }
-        /** Provides an interface to get time information from Unity. */
+        /** Provides an interface to get time information from Unity.
+        */
         class Time extends System.Object
         {
             protected [__keep_incompatibility]: never;
-            /** The time at the beginning of this frame (Read Only). */
+            /** The time at the beginning of this frame (Read Only).
+            */
             public static get time(): number;
-            /** The time since this frame started (Read Only). This is the time in seconds since the last non-additive scene has finished loading. */
+            /** The time since this frame started (Read Only). This is the time in seconds since the last non-additive scene has finished loading.
+            */
             public static get timeSinceLevelLoad(): number;
-            /** The interval in seconds from the last frame to the current one (Read Only). */
+            /** The interval in seconds from the last frame to the current one (Read Only).
+            */
             public static get deltaTime(): number;
-            /** The time since the last MonoBehaviour.FixedUpdate started (Read Only). This is the time in seconds since the start of the game. */
+            /** The time since the last MonoBehaviour.FixedUpdate started (Read Only). This is the time in seconds since the start of the game.
+            */
             public static get fixedTime(): number;
-            /** The timeScale-independent time for this frame (Read Only). This is the time in seconds since the start of the game. */
+            /** The timeScale-independent time for this frame (Read Only). This is the time in seconds since the start of the game.
+            */
             public static get unscaledTime(): number;
-            /** The timeScale-independent time at the beginning of the last MonoBehaviour.FixedUpdate phase (Read Only). This is the time in seconds since the start of the game. */
+            /** The timeScale-independent time at the beginning of the last MonoBehaviour.FixedUpdate phase (Read Only). This is the time in seconds since the start of the game.
+            */
             public static get fixedUnscaledTime(): number;
-            /** The timeScale-independent interval in seconds from the last frame to the current one (Read Only). */
+            /** The timeScale-independent interval in seconds from the last frame to the current one (Read Only).
+            */
             public static get unscaledDeltaTime(): number;
-            /** The timeScale-independent interval in seconds from the last MonoBehaviour.FixedUpdate phase to the current one (Read Only). */
+            /** The timeScale-independent interval in seconds from the last MonoBehaviour.FixedUpdate phase to the current one (Read Only).
+            */
             public static get fixedUnscaledDeltaTime(): number;
-            /** The interval in seconds at which physics and other fixed frame rate updates (like MonoBehaviour's MonoBehaviour.FixedUpdate) are performed. */
+            /** The interval in seconds at which physics and other fixed frame rate updates (like MonoBehaviour's MonoBehaviour.FixedUpdate) are performed.
+            */
             public static get fixedDeltaTime(): number;
             public static set fixedDeltaTime(value: number);
-            /** The maximum value of Time.deltaTime in any given frame. This is a time in seconds that limits the increase of Time.time between two frames. */
+            /** The maximum value of Time.deltaTime in any given frame. This is a time in seconds that limits the increase of Time.time between two frames.
+            */
             public static get maximumDeltaTime(): number;
             public static set maximumDeltaTime(value: number);
-            /** A smoothed out Time.deltaTime (Read Only). */
+            /** A smoothed out Time.deltaTime (Read Only).
+            */
             public static get smoothDeltaTime(): number;
-            /** The maximum time a frame can spend on particle updates. If the frame takes longer than this, then updates are split into multiple smaller updates. */
+            /** The maximum time a frame can spend on particle updates. If the frame takes longer than this, then updates are split into multiple smaller updates.
+            */
             public static get maximumParticleDeltaTime(): number;
             public static set maximumParticleDeltaTime(value: number);
-            /** The scale at which time passes. */
+            /** The scale at which time passes.
+            */
             public static get timeScale(): number;
             public static set timeScale(value: number);
-            /** The total number of frames since the start of the game (Read Only). */
+            /** The total number of frames since the start of the game (Read Only).
+            */
             public static get frameCount(): number;
             public static get renderedFrameCount(): number;
-            /** The real time in seconds since the game started (Read Only). */
+            /** The real time in seconds since the game started (Read Only).
+            */
             public static get realtimeSinceStartup(): number;
-            /** Slows your application’s playback time to allow Unity to save screenshots in between frames. */
+            /** Slows your application’s playback time to allow Unity to save screenshots in between frames.
+            */
             public static get captureDeltaTime(): number;
             public static set captureDeltaTime(value: number);
-            /** The reciprocal of Time.captureDeltaTime. */
+            /** The reciprocal of Time.captureDeltaTime.
+            */
             public static get captureFramerate(): number;
             public static set captureFramerate(value: number);
-            /** Returns true if called inside a fixed time step callback (like MonoBehaviour's MonoBehaviour.FixedUpdate), otherwise returns false. */
+            /** Returns true if called inside a fixed time step callback (like MonoBehaviour's MonoBehaviour.FixedUpdate), otherwise returns false.
+            */
             public static get inFixedTimeStep(): boolean;
             public constructor ()
         }
-        /** Position, rotation and scale of an object. */
+        /** Position, rotation and scale of an object.
+        */
         class Transform extends UnityEngine.Component implements System.Collections.IEnumerable
         {
             protected [__keep_incompatibility]: never;
-            /** The world space position of the Transform. */
+            /** The world space position of the Transform.
+            */
             public get position(): UnityEngine.Vector3;
             public set position(value: UnityEngine.Vector3);
-            /** Position of the transform relative to the parent transform. */
+            /** Position of the transform relative to the parent transform.
+            */
             public get localPosition(): UnityEngine.Vector3;
             public set localPosition(value: UnityEngine.Vector3);
-            /** The rotation as Euler angles in degrees. */
+            /** The rotation as Euler angles in degrees.
+            */
             public get eulerAngles(): UnityEngine.Vector3;
             public set eulerAngles(value: UnityEngine.Vector3);
-            /** The rotation as Euler angles in degrees relative to the parent transform's rotation. */
+            /** The rotation as Euler angles in degrees relative to the parent transform's rotation.
+            */
             public get localEulerAngles(): UnityEngine.Vector3;
             public set localEulerAngles(value: UnityEngine.Vector3);
-            /** The red axis of the transform in world space. */
+            /** The red axis of the transform in world space.
+            */
             public get right(): UnityEngine.Vector3;
             public set right(value: UnityEngine.Vector3);
-            /** The green axis of the transform in world space. */
+            /** The green axis of the transform in world space.
+            */
             public get up(): UnityEngine.Vector3;
             public set up(value: UnityEngine.Vector3);
-            /** Returns a normalized vector representing the blue axis of the transform in world space. */
+            /** Returns a normalized vector representing the blue axis of the transform in world space.
+            */
             public get forward(): UnityEngine.Vector3;
             public set forward(value: UnityEngine.Vector3);
-            /** A Quaternion that stores the rotation of the Transform in world space. */
+            /** A Quaternion that stores the rotation of the Transform in world space.
+            */
             public get rotation(): UnityEngine.Quaternion;
             public set rotation(value: UnityEngine.Quaternion);
-            /** The rotation of the transform relative to the transform rotation of the parent. */
+            /** The rotation of the transform relative to the transform rotation of the parent.
+            */
             public get localRotation(): UnityEngine.Quaternion;
             public set localRotation(value: UnityEngine.Quaternion);
-            /** The scale of the transform relative to the GameObjects parent. */
+            /** The scale of the transform relative to the GameObjects parent.
+            */
             public get localScale(): UnityEngine.Vector3;
             public set localScale(value: UnityEngine.Vector3);
-            /** The parent of the transform. */
+            /** The parent of the transform.
+            */
             public get parent(): UnityEngine.Transform;
             public set parent(value: UnityEngine.Transform);
-            /** Matrix that transforms a point from world space into local space (Read Only). */
+            /** Matrix that transforms a point from world space into local space (Read Only).
+            */
             public get worldToLocalMatrix(): UnityEngine.Matrix4x4;
-            /** Matrix that transforms a point from local space into world space (Read Only). */
+            /** Matrix that transforms a point from local space into world space (Read Only).
+            */
             public get localToWorldMatrix(): UnityEngine.Matrix4x4;
-            /** Returns the topmost transform in the hierarchy. */
+            /** Returns the topmost transform in the hierarchy.
+            */
             public get root(): UnityEngine.Transform;
-            /** The number of children the parent Transform has. */
+            /** The number of children the parent Transform has.
+            */
             public get childCount(): number;
-            /** The global scale of the object (Read Only). */
+            /** The global scale of the object (Read Only).
+            */
             public get lossyScale(): UnityEngine.Vector3;
-            /** Has the transform changed since the last time the flag was set to 'false'? */
+            /** Has the transform changed since the last time the flag was set to 'false'?
+            */
             public get hasChanged(): boolean;
             public set hasChanged(value: boolean);
-            /** The transform capacity of the transform's hierarchy data structure. */
+            /** The transform capacity of the transform's hierarchy data structure.
+            */
             public get hierarchyCapacity(): number;
             public set hierarchyCapacity(value: number);
-            /** The number of transforms in the transform's hierarchy data structure. */
+            /** The number of transforms in the transform's hierarchy data structure.
+            */
             public get hierarchyCount(): number;
-            /** Set the parent of the transform. * @param parent The parent Transform to use.
+            /** Set the parent of the transform.
+            * @param parent The parent Transform to use.
             * @param worldPositionStays If true, the parent-relative position, scale and rotation are modified such that the object keeps the same world space position, rotation and scale as before.
             */
             public SetParent ($p: UnityEngine.Transform) : void
-            /** Set the parent of the transform. * @param parent The parent Transform to use.
+            /** Set the parent of the transform.
+            * @param parent The parent Transform to use.
             * @param worldPositionStays If true, the parent-relative position, scale and rotation are modified such that the object keeps the same world space position, rotation and scale as before.
             */
             public SetParent ($parent: UnityEngine.Transform, $worldPositionStays: boolean) : void
-            /** Sets the world space position and rotation of the Transform component. */
+            /** Sets the world space position and rotation of the Transform component.
+            */
             public SetPositionAndRotation ($position: UnityEngine.Vector3, $rotation: UnityEngine.Quaternion) : void
-            /** Moves the transform in the direction and distance of translation. */
+            /** Moves the transform in the direction and distance of translation.
+            */
             public Translate ($translation: UnityEngine.Vector3, $relativeTo: UnityEngine.Space) : void
-            /** Moves the transform in the direction and distance of translation. */
+            /** Moves the transform in the direction and distance of translation.
+            */
             public Translate ($translation: UnityEngine.Vector3) : void
-            /** Moves the transform by x along the x axis, y along the y axis, and z along the z axis. */
+            /** Moves the transform by x along the x axis, y along the y axis, and z along the z axis.
+            */
             public Translate ($x: number, $y: number, $z: number, $relativeTo: UnityEngine.Space) : void
-            /** Moves the transform by x along the x axis, y along the y axis, and z along the z axis. */
+            /** Moves the transform by x along the x axis, y along the y axis, and z along the z axis.
+            */
             public Translate ($x: number, $y: number, $z: number) : void
-            /** Moves the transform in the direction and distance of translation. */
+            /** Moves the transform in the direction and distance of translation.
+            */
             public Translate ($translation: UnityEngine.Vector3, $relativeTo: UnityEngine.Transform) : void
-            /** Moves the transform by x along the x axis, y along the y axis, and z along the z axis. */
+            /** Moves the transform by x along the x axis, y along the y axis, and z along the z axis.
+            */
             public Translate ($x: number, $y: number, $z: number, $relativeTo: UnityEngine.Transform) : void
-            /** Applies a rotation of eulerAngles.z degrees around the z-axis, eulerAngles.x degrees around the x-axis, and eulerAngles.y degrees around the y-axis (in that order). * @param eulers The rotation to apply in euler angles.
+            /** Applies a rotation of eulerAngles.z degrees around the z-axis, eulerAngles.x degrees around the x-axis, and eulerAngles.y degrees around the y-axis (in that order).
+            * @param eulers The rotation to apply in euler angles.
             * @param relativeTo Determines whether to rotate the GameObject either locally to  the GameObject or relative to the Scene in world space.
             */
             public Rotate ($eulers: UnityEngine.Vector3, $relativeTo: UnityEngine.Space) : void
-            /** Applies a rotation of eulerAngles.z degrees around the z-axis, eulerAngles.x degrees around the x-axis, and eulerAngles.y degrees around the y-axis (in that order). * @param eulers The rotation to apply in euler angles.
+            /** Applies a rotation of eulerAngles.z degrees around the z-axis, eulerAngles.x degrees around the x-axis, and eulerAngles.y degrees around the y-axis (in that order).
+            * @param eulers The rotation to apply in euler angles.
             */
             public Rotate ($eulers: UnityEngine.Vector3) : void
-            /** The implementation of this method applies a rotation of zAngle degrees around the z axis, xAngle degrees around the x axis, and yAngle degrees around the y axis (in that order). * @param relativeTo Determines whether to rotate the GameObject either locally to the GameObject or relative to the Scene in world space.
+            /** The implementation of this method applies a rotation of zAngle degrees around the z axis, xAngle degrees around the x axis, and yAngle degrees around the y axis (in that order).
+            * @param relativeTo Determines whether to rotate the GameObject either locally to the GameObject or relative to the Scene in world space.
             * @param xAngle Degrees to rotate the GameObject around the X axis.
             * @param yAngle Degrees to rotate the GameObject around the Y axis.
             * @param zAngle Degrees to rotate the GameObject around the Z axis.
             */
             public Rotate ($xAngle: number, $yAngle: number, $zAngle: number, $relativeTo: UnityEngine.Space) : void
-            /** The implementation of this method applies a rotation of zAngle degrees around the z axis, xAngle degrees around the x axis, and yAngle degrees around the y axis (in that order). * @param xAngle Degrees to rotate the GameObject around the X axis.
+            /** The implementation of this method applies a rotation of zAngle degrees around the z axis, xAngle degrees around the x axis, and yAngle degrees around the y axis (in that order).
+            * @param xAngle Degrees to rotate the GameObject around the X axis.
             * @param yAngle Degrees to rotate the GameObject around the Y axis.
             * @param zAngle Degrees to rotate the GameObject around the Z axis.
             */
             public Rotate ($xAngle: number, $yAngle: number, $zAngle: number) : void
-            /** Rotates the object around the given axis by the number of degrees defined by the given angle. * @param angle The degrees of rotation to apply.
+            /** Rotates the object around the given axis by the number of degrees defined by the given angle.
+            * @param angle The degrees of rotation to apply.
             * @param axis The axis to apply rotation to.
             * @param relativeTo Determines whether to rotate the GameObject either locally to the GameObject or relative to the Scene in world space.
             */
             public Rotate ($axis: UnityEngine.Vector3, $angle: number, $relativeTo: UnityEngine.Space) : void
-            /** Rotates the object around the given axis by the number of degrees defined by the given angle. * @param axis The axis to apply rotation to.
+            /** Rotates the object around the given axis by the number of degrees defined by the given angle.
+            * @param axis The axis to apply rotation to.
             * @param angle The degrees of rotation to apply.
             */
             public Rotate ($axis: UnityEngine.Vector3, $angle: number) : void
-            /** Rotates the transform about axis passing through point in world coordinates by angle degrees. */
+            /** Rotates the transform about axis passing through point in world coordinates by angle degrees.
+            */
             public RotateAround ($point: UnityEngine.Vector3, $axis: UnityEngine.Vector3, $angle: number) : void
-            /** Rotates the transform so the forward vector points at target's current position. * @param target Object to point towards.
+            /** Rotates the transform so the forward vector points at target's current position.
+            * @param target Object to point towards.
             * @param worldUp Vector specifying the upward direction.
             */
             public LookAt ($target: UnityEngine.Transform, $worldUp: UnityEngine.Vector3) : void
-            /** Rotates the transform so the forward vector points at target's current position. * @param target Object to point towards.
+            /** Rotates the transform so the forward vector points at target's current position.
+            * @param target Object to point towards.
             * @param worldUp Vector specifying the upward direction.
             */
             public LookAt ($target: UnityEngine.Transform) : void
-            /** Rotates the transform so the forward vector points at worldPosition. * @param worldPosition Point to look at.
+            /** Rotates the transform so the forward vector points at worldPosition.
+            * @param worldPosition Point to look at.
             * @param worldUp Vector specifying the upward direction.
             */
             public LookAt ($worldPosition: UnityEngine.Vector3, $worldUp: UnityEngine.Vector3) : void
-            /** Rotates the transform so the forward vector points at worldPosition. * @param worldPosition Point to look at.
+            /** Rotates the transform so the forward vector points at worldPosition.
+            * @param worldPosition Point to look at.
             * @param worldUp Vector specifying the upward direction.
             */
             public LookAt ($worldPosition: UnityEngine.Vector3) : void
-            /** Transforms direction from local space to world space. */
+            /** Transforms direction from local space to world space.
+            */
             public TransformDirection ($direction: UnityEngine.Vector3) : UnityEngine.Vector3
-            /** Transforms direction x, y, z from local space to world space. */
+            /** Transforms direction x, y, z from local space to world space.
+            */
             public TransformDirection ($x: number, $y: number, $z: number) : UnityEngine.Vector3
-            /** Transforms a direction from world space to local space. The opposite of Transform.TransformDirection. */
+            /** Transforms a direction from world space to local space. The opposite of Transform.TransformDirection.
+            */
             public InverseTransformDirection ($direction: UnityEngine.Vector3) : UnityEngine.Vector3
-            /** Transforms the direction x, y, z from world space to local space. The opposite of Transform.TransformDirection. */
+            /** Transforms the direction x, y, z from world space to local space. The opposite of Transform.TransformDirection.
+            */
             public InverseTransformDirection ($x: number, $y: number, $z: number) : UnityEngine.Vector3
-            /** Transforms vector from local space to world space. */
+            /** Transforms vector from local space to world space.
+            */
             public TransformVector ($vector: UnityEngine.Vector3) : UnityEngine.Vector3
-            /** Transforms vector x, y, z from local space to world space. */
+            /** Transforms vector x, y, z from local space to world space.
+            */
             public TransformVector ($x: number, $y: number, $z: number) : UnityEngine.Vector3
-            /** Transforms a vector from world space to local space. The opposite of Transform.TransformVector. */
+            /** Transforms a vector from world space to local space. The opposite of Transform.TransformVector.
+            */
             public InverseTransformVector ($vector: UnityEngine.Vector3) : UnityEngine.Vector3
-            /** Transforms the vector x, y, z from world space to local space. The opposite of Transform.TransformVector. */
+            /** Transforms the vector x, y, z from world space to local space. The opposite of Transform.TransformVector.
+            */
             public InverseTransformVector ($x: number, $y: number, $z: number) : UnityEngine.Vector3
-            /** Transforms position from local space to world space. */
+            /** Transforms position from local space to world space.
+            */
             public TransformPoint ($position: UnityEngine.Vector3) : UnityEngine.Vector3
-            /** Transforms the position x, y, z from local space to world space. */
+            /** Transforms the position x, y, z from local space to world space.
+            */
             public TransformPoint ($x: number, $y: number, $z: number) : UnityEngine.Vector3
-            /** Transforms position from world space to local space. */
+            /** Transforms position from world space to local space.
+            */
             public InverseTransformPoint ($position: UnityEngine.Vector3) : UnityEngine.Vector3
-            /** Transforms the position x, y, z from world space to local space. The opposite of Transform.TransformPoint. */
+            /** Transforms the position x, y, z from world space to local space. The opposite of Transform.TransformPoint.
+            */
             public InverseTransformPoint ($x: number, $y: number, $z: number) : UnityEngine.Vector3
             public DetachChildren () : void
             public SetAsFirstSibling () : void
             public SetAsLastSibling () : void
-            /** Sets the sibling index. * @param index Index to set.
+            /** Sets the sibling index.
+            * @param index Index to set.
             */
             public SetSiblingIndex ($index: number) : void
             public GetSiblingIndex () : number
@@ -1435,7 +1701,8 @@ declare namespace CS {
             * @returns The returned child transform or null if no child is found. 
             */
             public Find ($n: string) : UnityEngine.Transform
-            /** Is this transform a child of parent? */
+            /** Is this transform a child of parent?
+            */
             public IsChildOf ($parent: UnityEngine.Transform) : boolean
             public GetEnumerator () : System.Collections.IEnumerator
             /** Returns a transform child by index.
@@ -1444,96 +1711,134 @@ declare namespace CS {
             */
             public GetChild ($index: number) : UnityEngine.Transform
         }
-        /** Quaternions are used to represent rotations. */
+        /** Quaternions are used to represent rotations.
+        */
         class Quaternion extends System.ValueType implements System.IEquatable$1<UnityEngine.Quaternion>
         {
             protected [__keep_incompatibility]: never;
         }
-        /** A standard 4x4 transformation matrix. */
+        /** A standard 4x4 transformation matrix.
+        */
         class Matrix4x4 extends System.ValueType implements System.IEquatable$1<UnityEngine.Matrix4x4>
         {
             protected [__keep_incompatibility]: never;
         }
-        /** The coordinate space in which to operate. */
+        /** The coordinate space in which to operate.
+        */
         enum Space
         { World = 0, Self = 1 }
-        /** Options for how to send a message. */
+        /** Options for how to send a message.
+        */
         enum SendMessageOptions
         { RequireReceiver = 0, DontRequireReceiver = 1 }
-        /** The various primitives that can be created using the GameObject.CreatePrimitive function. */
+        /** The various primitives that can be created using the GameObject.CreatePrimitive function.
+        */
         enum PrimitiveType
         { Sphere = 0, Capsule = 1, Cylinder = 2, Cube = 3, Plane = 4, Quad = 5 }
-        /** Bit mask that controls object destruction, saving and visibility in inspectors. */
+        /** Bit mask that controls object destruction, saving and visibility in inspectors.
+        */
         enum HideFlags
         { None = 0, HideInHierarchy = 1, HideInInspector = 2, DontSaveInEditor = 4, NotEditable = 8, DontSaveInBuild = 16, DontUnloadUnusedAsset = 32, DontSave = 52, HideAndDontSave = 61 }
-        /** Script interface for ParticleSystem. Unity's powerful and versatile particle system implementation. */
+        /** Script interface for ParticleSystem. Unity's powerful and versatile particle system implementation.
+        */
         class ParticleSystem extends UnityEngine.Component
         {
             protected [__keep_incompatibility]: never;
-            /** Determines whether the Particle System is playing. */
+            /** Determines whether the Particle System is playing.
+            */
             public get isPlaying(): boolean;
-            /** Determines whether the Particle System is emitting particles. A Particle System may stop emitting when its emission module has finished, it has been paused or if the system has been stopped using ParticleSystem.Stop|Stop with the ParticleSystemStopBehavior.StopEmitting|StopEmitting flag. Resume emitting by calling ParticleSystem.Play|Play. */
+            /** Determines whether the Particle System is emitting particles. A Particle System may stop emitting when its emission module has finished, it has been paused or if the system has been stopped using ParticleSystem.Stop|Stop with the ParticleSystemStopBehavior.StopEmitting|StopEmitting flag. Resume emitting by calling ParticleSystem.Play|Play.
+            */
             public get isEmitting(): boolean;
-            /** Determines whether the Particle System is in the stopped state. */
+            /** Determines whether the Particle System is in the stopped state.
+            */
             public get isStopped(): boolean;
-            /** Determines whether the Particle System is paused. */
+            /** Determines whether the Particle System is paused.
+            */
             public get isPaused(): boolean;
-            /** The current number of particles (Read Only). */
+            /** The current number of particles (Read Only).
+            */
             public get particleCount(): number;
-            /** Playback position in seconds. */
+            /** Playback position in seconds.
+            */
             public get time(): number;
             public set time(value: number);
-            /** Override the random seed used for the Particle System emission. */
+            /** Override the random seed used for the Particle System emission.
+            */
             public get randomSeed(): number;
             public set randomSeed(value: number);
-            /** Controls whether the Particle System uses an automatically-generated random number to seed the random number generator. */
+            /** Controls whether the Particle System uses an automatically-generated random number to seed the random number generator.
+            */
             public get useAutoRandomSeed(): boolean;
             public set useAutoRandomSeed(value: boolean);
-            /** Does this system support Procedural Simulation? */
+            /** Does this system support Procedural Simulation?
+            */
             public get proceduralSimulationSupported(): boolean;
-            /** Access the main Particle System settings. */
+            /** Access the main Particle System settings.
+            */
             public get main(): UnityEngine.ParticleSystem.MainModule;
-            /** Script interface for the EmissionModule of a Particle System. */
+            /** Script interface for the EmissionModule of a Particle System.
+            */
             public get emission(): UnityEngine.ParticleSystem.EmissionModule;
-            /** Script interface for the ShapeModule of a Particle System.  */
+            /** Script interface for the ShapeModule of a Particle System. 
+            */
             public get shape(): UnityEngine.ParticleSystem.ShapeModule;
-            /** Script interface for the VelocityOverLifetimeModule of a Particle System. */
+            /** Script interface for the VelocityOverLifetimeModule of a Particle System.
+            */
             public get velocityOverLifetime(): UnityEngine.ParticleSystem.VelocityOverLifetimeModule;
-            /** Script interface for the LimitVelocityOverLifetimeModule of a Particle System. . */
+            /** Script interface for the LimitVelocityOverLifetimeModule of a Particle System. .
+            */
             public get limitVelocityOverLifetime(): UnityEngine.ParticleSystem.LimitVelocityOverLifetimeModule;
-            /** Script interface for the InheritVelocityModule of a Particle System. */
+            /** Script interface for the InheritVelocityModule of a Particle System.
+            */
             public get inheritVelocity(): UnityEngine.ParticleSystem.InheritVelocityModule;
-            /** Script interface for the ForceOverLifetimeModule of a Particle System. */
+            /** Script interface for the ForceOverLifetimeModule of a Particle System.
+            */
             public get forceOverLifetime(): UnityEngine.ParticleSystem.ForceOverLifetimeModule;
-            /** Script interface for the ColorOverLifetimeModule of a Particle System. */
+            /** Script interface for the ColorOverLifetimeModule of a Particle System.
+            */
             public get colorOverLifetime(): UnityEngine.ParticleSystem.ColorOverLifetimeModule;
-            /** Script interface for the ColorByLifetimeModule of a Particle System. */
+            /** Script interface for the ColorByLifetimeModule of a Particle System.
+            */
             public get colorBySpeed(): UnityEngine.ParticleSystem.ColorBySpeedModule;
-            /** Script interface for the SizeOverLifetimeModule of a Particle System.  */
+            /** Script interface for the SizeOverLifetimeModule of a Particle System. 
+            */
             public get sizeOverLifetime(): UnityEngine.ParticleSystem.SizeOverLifetimeModule;
-            /** Script interface for the SizeBySpeedModule of a Particle System. */
+            /** Script interface for the SizeBySpeedModule of a Particle System.
+            */
             public get sizeBySpeed(): UnityEngine.ParticleSystem.SizeBySpeedModule;
-            /** Script interface for the RotationOverLifetimeModule of a Particle System. */
+            /** Script interface for the RotationOverLifetimeModule of a Particle System.
+            */
             public get rotationOverLifetime(): UnityEngine.ParticleSystem.RotationOverLifetimeModule;
-            /** Script interface for the RotationBySpeedModule of a Particle System. */
+            /** Script interface for the RotationBySpeedModule of a Particle System.
+            */
             public get rotationBySpeed(): UnityEngine.ParticleSystem.RotationBySpeedModule;
-            /** Script interface for the ExternalForcesModule of a Particle System. */
+            /** Script interface for the ExternalForcesModule of a Particle System.
+            */
             public get externalForces(): UnityEngine.ParticleSystem.ExternalForcesModule;
-            /** Script interface for the NoiseModule of a Particle System. */
+            /** Script interface for the NoiseModule of a Particle System.
+            */
             public get noise(): UnityEngine.ParticleSystem.NoiseModule;
-            /** Script interface for the CollisionModule of a Particle System. */
+            /** Script interface for the CollisionModule of a Particle System.
+            */
             public get collision(): UnityEngine.ParticleSystem.CollisionModule;
-            /** Script interface for the TriggerModule of a Particle System. */
+            /** Script interface for the TriggerModule of a Particle System.
+            */
             public get trigger(): UnityEngine.ParticleSystem.TriggerModule;
-            /** Script interface for the SubEmittersModule of a Particle System. */
+            /** Script interface for the SubEmittersModule of a Particle System.
+            */
             public get subEmitters(): UnityEngine.ParticleSystem.SubEmittersModule;
-            /** Script interface for the TextureSheetAnimationModule of a Particle System. */
+            /** Script interface for the TextureSheetAnimationModule of a Particle System.
+            */
             public get textureSheetAnimation(): UnityEngine.ParticleSystem.TextureSheetAnimationModule;
-            /** Script interface for the LightsModule of a Particle System. */
+            /** Script interface for the LightsModule of a Particle System.
+            */
             public get lights(): UnityEngine.ParticleSystem.LightsModule;
-            /** Script interface for the TrailsModule of a Particle System. */
+            /** Script interface for the TrailsModule of a Particle System.
+            */
             public get trails(): UnityEngine.ParticleSystem.TrailModule;
-            /** Script interface for the CustomDataModule of a Particle System. */
+            /** Script interface for the CustomDataModule of a Particle System.
+            */
             public get customData(): UnityEngine.ParticleSystem.CustomDataModule;
             public SetParticles ($particles: System.Array$1<UnityEngine.ParticleSystem.Particle>, $size: number, $offset: number) : void
             public SetParticles ($particles: System.Array$1<UnityEngine.ParticleSystem.Particle>, $size: number) : void
@@ -1553,48 +1858,57 @@ declare namespace CS {
             public SetPlaybackState ($playbackState: UnityEngine.ParticleSystem.PlaybackState) : void
             public GetTrails () : UnityEngine.ParticleSystem.Trails
             public SetTrails ($trailData: UnityEngine.ParticleSystem.Trails) : void
-            /** Fast-forwards the Particle System by simulating particles over the given period of time, then pauses it. * @param t Time period in seconds to advance the ParticleSystem simulation by. If restart is true, the ParticleSystem will be reset to 0 time, and then advanced by this value. If restart is false, the ParticleSystem simulation will be advanced in time from its current state by this value.
+            /** Fast-forwards the Particle System by simulating particles over the given period of time, then pauses it.
+            * @param t Time period in seconds to advance the ParticleSystem simulation by. If restart is true, the ParticleSystem will be reset to 0 time, and then advanced by this value. If restart is false, the ParticleSystem simulation will be advanced in time from its current state by this value.
             * @param withChildren Fast-forward all child Particle Systems as well.
             * @param restart Restart and start from the beginning.
             * @param fixedTimeStep Only update the system at fixed intervals, based on the value in "Fixed Time" in the Time options.
             */
             public Simulate ($t: number, $withChildren: boolean, $restart: boolean, $fixedTimeStep: boolean) : void
-            /** Fast-forwards the Particle System by simulating particles over the given period of time, then pauses it. * @param t Time period in seconds to advance the ParticleSystem simulation by. If restart is true, the ParticleSystem will be reset to 0 time, and then advanced by this value. If restart is false, the ParticleSystem simulation will be advanced in time from its current state by this value.
+            /** Fast-forwards the Particle System by simulating particles over the given period of time, then pauses it.
+            * @param t Time period in seconds to advance the ParticleSystem simulation by. If restart is true, the ParticleSystem will be reset to 0 time, and then advanced by this value. If restart is false, the ParticleSystem simulation will be advanced in time from its current state by this value.
             * @param withChildren Fast-forward all child Particle Systems as well.
             * @param restart Restart and start from the beginning.
             * @param fixedTimeStep Only update the system at fixed intervals, based on the value in "Fixed Time" in the Time options.
             */
             public Simulate ($t: number, $withChildren: boolean, $restart: boolean) : void
-            /** Fast-forwards the Particle System by simulating particles over the given period of time, then pauses it. * @param t Time period in seconds to advance the ParticleSystem simulation by. If restart is true, the ParticleSystem will be reset to 0 time, and then advanced by this value. If restart is false, the ParticleSystem simulation will be advanced in time from its current state by this value.
+            /** Fast-forwards the Particle System by simulating particles over the given period of time, then pauses it.
+            * @param t Time period in seconds to advance the ParticleSystem simulation by. If restart is true, the ParticleSystem will be reset to 0 time, and then advanced by this value. If restart is false, the ParticleSystem simulation will be advanced in time from its current state by this value.
             * @param withChildren Fast-forward all child Particle Systems as well.
             * @param restart Restart and start from the beginning.
             * @param fixedTimeStep Only update the system at fixed intervals, based on the value in "Fixed Time" in the Time options.
             */
             public Simulate ($t: number, $withChildren: boolean) : void
-            /** Fast-forwards the Particle System by simulating particles over the given period of time, then pauses it. * @param t Time period in seconds to advance the ParticleSystem simulation by. If restart is true, the ParticleSystem will be reset to 0 time, and then advanced by this value. If restart is false, the ParticleSystem simulation will be advanced in time from its current state by this value.
+            /** Fast-forwards the Particle System by simulating particles over the given period of time, then pauses it.
+            * @param t Time period in seconds to advance the ParticleSystem simulation by. If restart is true, the ParticleSystem will be reset to 0 time, and then advanced by this value. If restart is false, the ParticleSystem simulation will be advanced in time from its current state by this value.
             * @param withChildren Fast-forward all child Particle Systems as well.
             * @param restart Restart and start from the beginning.
             * @param fixedTimeStep Only update the system at fixed intervals, based on the value in "Fixed Time" in the Time options.
             */
             public Simulate ($t: number) : void
-            /** Starts the Particle System. * @param withChildren Play all child Particle Systems as well.
+            /** Starts the Particle System.
+            * @param withChildren Play all child Particle Systems as well.
             */
             public Play ($withChildren: boolean) : void
             public Play () : void
-            /** Pauses the system so no new particles are emitted and the existing particles are not updated. * @param withChildren Pause all child Particle Systems as well.
+            /** Pauses the system so no new particles are emitted and the existing particles are not updated.
+            * @param withChildren Pause all child Particle Systems as well.
             */
             public Pause ($withChildren: boolean) : void
             public Pause () : void
-            /** Stops playing the Particle System using the supplied stop behaviour. * @param withChildren Stop all child Particle Systems as well.
+            /** Stops playing the Particle System using the supplied stop behaviour.
+            * @param withChildren Stop all child Particle Systems as well.
             * @param stopBehavior Stop emitting or stop emitting and clear the system.
             */
             public Stop ($withChildren: boolean, $stopBehavior: UnityEngine.ParticleSystemStopBehavior) : void
-            /** Stops playing the Particle System using the supplied stop behaviour. * @param withChildren Stop all child Particle Systems as well.
+            /** Stops playing the Particle System using the supplied stop behaviour.
+            * @param withChildren Stop all child Particle Systems as well.
             * @param stopBehavior Stop emitting or stop emitting and clear the system.
             */
             public Stop ($withChildren: boolean) : void
             public Stop () : void
-            /** Remove all particles in the Particle System. * @param withChildren Clear all child Particle Systems as well.
+            /** Remove all particles in the Particle System.
+            * @param withChildren Clear all child Particle Systems as well.
             */
             public Clear ($withChildren: boolean) : void
             public Clear () : void
@@ -1604,111 +1918,144 @@ declare namespace CS {
             */
             public IsAlive ($withChildren: boolean) : boolean
             public IsAlive () : boolean
-            /** Emit count particles immediately. * @param count Number of particles to emit.
+            /** Emit count particles immediately.
+            * @param count Number of particles to emit.
             */
             public Emit ($count: number) : void
             public Emit ($emitParams: UnityEngine.ParticleSystem.EmitParams, $count: number) : void
-            /** Triggers the specified sub emitter on all particles of the Particle System. * @param subEmitterIndex Index of the sub emitter to trigger.
+            /** Triggers the specified sub emitter on all particles of the Particle System.
+            * @param subEmitterIndex Index of the sub emitter to trigger.
             */
             public TriggerSubEmitter ($subEmitterIndex: number) : void
             public TriggerSubEmitter ($subEmitterIndex: number, $particle: $Ref<UnityEngine.ParticleSystem.Particle>) : void
             public TriggerSubEmitter ($subEmitterIndex: number, $particles: System.Collections.Generic.List$1<UnityEngine.ParticleSystem.Particle>) : void
             public static ResetPreMappedBufferMemory () : void
-            /** Limits the amount of graphics memory Unity reserves for efficient rendering of Particle Systems. * @param vertexBuffersCount The maximum number of cached vertex buffers.
+            /** Limits the amount of graphics memory Unity reserves for efficient rendering of Particle Systems.
+            * @param vertexBuffersCount The maximum number of cached vertex buffers.
             * @param indexBuffersCount The maximum number of cached index buffers.
             */
             public static SetMaximumPreMappedBufferCounts ($vertexBuffersCount: number, $indexBuffersCount: number) : void
             public constructor ()
         }
-        /** Representation of RGBA colors in 32 bit format. */
+        /** Representation of RGBA colors in 32 bit format.
+        */
         class Color32 extends System.ValueType
         {
             protected [__keep_incompatibility]: never;
         }
-        /** The space to simulate particles in. */
+        /** The space to simulate particles in.
+        */
         enum ParticleSystemSimulationSpace
         { Local = 0, World = 1, Custom = 2 }
-        /** Control how particle systems apply transform scale. */
+        /** Control how particle systems apply transform scale.
+        */
         enum ParticleSystemScalingMode
         { Hierarchy = 0, Local = 1, Shape = 2 }
-        /** Representation of four-dimensional vectors. */
+        /** Representation of four-dimensional vectors.
+        */
         class Vector4 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector4>
         {
             protected [__keep_incompatibility]: never;
         }
-        /** Which stream of custom particle data to set. */
+        /** Which stream of custom particle data to set.
+        */
         enum ParticleSystemCustomData
         { Custom1 = 0, Custom2 = 1 }
-        /** The behavior to apply when calling ParticleSystem.Stop|Stop. */
+        /** The behavior to apply when calling ParticleSystem.Stop|Stop.
+        */
         enum ParticleSystemStopBehavior
         { StopEmittingAndClear = 0, StopEmitting = 1 }
-        /** Behaviours are Components that can be enabled or disabled. */
+        /** Behaviours are Components that can be enabled or disabled.
+        */
         class Behaviour extends UnityEngine.Component
         {
             protected [__keep_incompatibility]: never;
-            /** Enabled Behaviours are Updated, disabled Behaviours are not. */
+            /** Enabled Behaviours are Updated, disabled Behaviours are not.
+            */
             public get enabled(): boolean;
             public set enabled(value: boolean);
-            /** Has the Behaviour had active and enabled called? */
+            /** Has the Behaviour had active and enabled called?
+            */
             public get isActiveAndEnabled(): boolean;
             public constructor ()
         }
-        /** Element that can be used for screen rendering. */
+        /** Element that can be used for screen rendering.
+        */
         class Canvas extends UnityEngine.Behaviour
         {
             protected [__keep_incompatibility]: never;
-            /** Is the Canvas in World or Overlay mode? */
+            /** Is the Canvas in World or Overlay mode?
+            */
             public get renderMode(): UnityEngine.RenderMode;
             public set renderMode(value: UnityEngine.RenderMode);
-            /** Is this the root Canvas? */
+            /** Is this the root Canvas?
+            */
             public get isRootCanvas(): boolean;
-            /** Get the render rect for the Canvas. */
+            /** Get the render rect for the Canvas.
+            */
             public get pixelRect(): UnityEngine.Rect;
-            /** Used to scale the entire canvas, while still making it fit the screen. Only applies with renderMode is Screen Space. */
+            /** Used to scale the entire canvas, while still making it fit the screen. Only applies with renderMode is Screen Space.
+            */
             public get scaleFactor(): number;
             public set scaleFactor(value: number);
-            /** The number of pixels per unit that is considered the default. */
+            /** The number of pixels per unit that is considered the default.
+            */
             public get referencePixelsPerUnit(): number;
             public set referencePixelsPerUnit(value: number);
-            /** Allows for nested canvases to override pixelPerfect settings inherited from parent canvases. */
+            /** Allows for nested canvases to override pixelPerfect settings inherited from parent canvases.
+            */
             public get overridePixelPerfect(): boolean;
             public set overridePixelPerfect(value: boolean);
-            /** Force elements in the canvas to be aligned with pixels. Only applies with renderMode is Screen Space. */
+            /** Force elements in the canvas to be aligned with pixels. Only applies with renderMode is Screen Space.
+            */
             public get pixelPerfect(): boolean;
             public set pixelPerfect(value: boolean);
-            /** How far away from the camera is the Canvas generated. */
+            /** How far away from the camera is the Canvas generated.
+            */
             public get planeDistance(): number;
             public set planeDistance(value: number);
-            /** The render order in which the canvas is being emitted to the Scene. (Read Only) */
+            /** The render order in which the canvas is being emitted to the Scene. (Read Only)
+            */
             public get renderOrder(): number;
-            /** Override the sorting of canvas. */
+            /** Override the sorting of canvas.
+            */
             public get overrideSorting(): boolean;
             public set overrideSorting(value: boolean);
-            /** Canvas' order within a sorting layer. */
+            /** Canvas' order within a sorting layer.
+            */
             public get sortingOrder(): number;
             public set sortingOrder(value: number);
-            /** For Overlay mode, display index on which the UI canvas will appear. */
+            /** For Overlay mode, display index on which the UI canvas will appear.
+            */
             public get targetDisplay(): number;
             public set targetDisplay(value: number);
-            /** Unique ID of the Canvas' sorting layer. */
+            /** Unique ID of the Canvas' sorting layer.
+            */
             public get sortingLayerID(): number;
             public set sortingLayerID(value: number);
-            /** Cached calculated value based upon SortingLayerID. */
+            /** Cached calculated value based upon SortingLayerID.
+            */
             public get cachedSortingLayerValue(): number;
-            /** Get or set the mask of additional shader channels to be used when creating the Canvas mesh. */
+            /** Get or set the mask of additional shader channels to be used when creating the Canvas mesh.
+            */
             public get additionalShaderChannels(): UnityEngine.AdditionalCanvasShaderChannels;
             public set additionalShaderChannels(value: UnityEngine.AdditionalCanvasShaderChannels);
-            /** Name of the Canvas' sorting layer. */
+            /** Name of the Canvas' sorting layer.
+            */
             public get sortingLayerName(): string;
             public set sortingLayerName(value: string);
-            /** Returns the Canvas closest to root, by checking through each parent and returning the last canvas found. If no other canvas is found then the canvas will return itself. */
+            /** Returns the Canvas closest to root, by checking through each parent and returning the last canvas found. If no other canvas is found then the canvas will return itself.
+            */
             public get rootCanvas(): UnityEngine.Canvas;
-            /** Returns the canvas display size based on the selected render mode and target display. */
+            /** Returns the canvas display size based on the selected render mode and target display.
+            */
             public get renderingDisplaySize(): UnityEngine.Vector2;
-            /** Camera used for sizing the Canvas when in Screen Space - Camera. Also used as the Camera that events will be sent through for a World Space [[Canvas]. */
+            /** Camera used for sizing the Canvas when in Screen Space - Camera. Also used as the Camera that events will be sent through for a World Space [[Canvas].
+            */
             public get worldCamera(): UnityEngine.Camera;
             public set worldCamera(value: UnityEngine.Camera);
-            /** The normalized grid size that the canvas will split the renderable area into. */
+            /** The normalized grid size that the canvas will split the renderable area into.
+            */
             public get normalizedSortingGridSize(): number;
             public set normalizedSortingGridSize(value: number);
             public static add_preWillRenderCanvases ($value: UnityEngine.Canvas.WillRenderCanvases) : void
@@ -1720,94 +2067,119 @@ declare namespace CS {
             public static ForceUpdateCanvases () : void
             public constructor ()
         }
-        /** RenderMode for the Canvas. */
+        /** RenderMode for the Canvas.
+        */
         enum RenderMode
         { ScreenSpaceOverlay = 0, ScreenSpaceCamera = 1, WorldSpace = 2 }
-        /** A 2D Rectangle defined by X and Y position, width and height. */
+        /** A 2D Rectangle defined by X and Y position, width and height.
+        */
         class Rect extends System.ValueType implements System.IEquatable$1<UnityEngine.Rect>
         {
             protected [__keep_incompatibility]: never;
         }
-        /** Enum mask of possible shader channel properties that can also be included when the Canvas mesh is created. */
+        /** Enum mask of possible shader channel properties that can also be included when the Canvas mesh is created.
+        */
         enum AdditionalCanvasShaderChannels
         { None = 0, TexCoord1 = 1, TexCoord2 = 2, TexCoord3 = 4, Normal = 8, Tangent = 16 }
-        /** Representation of 2D vectors and points. */
+        /** Representation of 2D vectors and points.
+        */
         class Vector2 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector2>
         {
             protected [__keep_incompatibility]: never;
         }
-        /** A Camera is a device through which the player views the world. */
+        /** A Camera is a device through which the player views the world.
+        */
         class Camera extends UnityEngine.Behaviour
         {
             protected [__keep_incompatibility]: never;
         }
-        /** The material class. */
+        /** The material class.
+        */
         class Material extends UnityEngine.Object
         {
             protected [__keep_incompatibility]: never;
         }
-        /** MonoBehaviour is the base class from which every Unity script derives. */
+        /** MonoBehaviour is the base class from which every Unity script derives.
+        */
         class MonoBehaviour extends UnityEngine.Behaviour
         {
             protected [__keep_incompatibility]: never;
-            /** Disabling this lets you skip the GUI layout phase. */
+            /** Disabling this lets you skip the GUI layout phase.
+            */
             public get useGUILayout(): boolean;
             public set useGUILayout(value: boolean);
-            /** Allow a specific instance of a MonoBehaviour to run in edit mode (only available in the editor). */
+            /** Allow a specific instance of a MonoBehaviour to run in edit mode (only available in the editor).
+            */
             public get runInEditMode(): boolean;
             public set runInEditMode(value: boolean);
             public IsInvoking () : boolean
             public CancelInvoke () : void
-            /** Invokes the method methodName in time seconds. */
+            /** Invokes the method methodName in time seconds.
+            */
             public Invoke ($methodName: string, $time: number) : void
-            /** Invokes the method methodName in time seconds, then repeatedly every repeatRate seconds. */
+            /** Invokes the method methodName in time seconds, then repeatedly every repeatRate seconds.
+            */
             public InvokeRepeating ($methodName: string, $time: number, $repeatRate: number) : void
-            /** Cancels all Invoke calls with name methodName on this behaviour. */
+            /** Cancels all Invoke calls with name methodName on this behaviour.
+            */
             public CancelInvoke ($methodName: string) : void
-            /** Is any invoke on methodName pending? */
+            /** Is any invoke on methodName pending?
+            */
             public IsInvoking ($methodName: string) : boolean
-            /** Starts a coroutine named methodName. */
+            /** Starts a coroutine named methodName.
+            */
             public StartCoroutine ($methodName: string) : UnityEngine.Coroutine
-            /** Starts a coroutine named methodName. */
+            /** Starts a coroutine named methodName.
+            */
             public StartCoroutine ($methodName: string, $value: any) : UnityEngine.Coroutine
-            /** Starts a Coroutine. */
+            /** Starts a Coroutine.
+            */
             public StartCoroutine ($routine: System.Collections.IEnumerator) : UnityEngine.Coroutine
-            /** Stops the first coroutine named methodName, or the coroutine stored in routine running on this behaviour. * @param methodName Name of coroutine.
+            /** Stops the first coroutine named methodName, or the coroutine stored in routine running on this behaviour.
+            * @param methodName Name of coroutine.
             * @param routine Name of the function in code, including coroutines.
             */
             public StopCoroutine ($routine: System.Collections.IEnumerator) : void
-            /** Stops the first coroutine named methodName, or the coroutine stored in routine running on this behaviour. * @param methodName Name of coroutine.
+            /** Stops the first coroutine named methodName, or the coroutine stored in routine running on this behaviour.
+            * @param methodName Name of coroutine.
             * @param routine Name of the function in code, including coroutines.
             */
             public StopCoroutine ($routine: UnityEngine.Coroutine) : void
-            /** Stops the first coroutine named methodName, or the coroutine stored in routine running on this behaviour. * @param methodName Name of coroutine.
+            /** Stops the first coroutine named methodName, or the coroutine stored in routine running on this behaviour.
+            * @param methodName Name of coroutine.
             * @param routine Name of the function in code, including coroutines.
             */
             public StopCoroutine ($methodName: string) : void
             public StopAllCoroutines () : void
-            /** Logs message to the Unity Console (identical to Debug.Log). */
+            /** Logs message to the Unity Console (identical to Debug.Log).
+            */
             public static print ($message: any) : void
             public constructor ()
         }
-        /** MonoBehaviour.StartCoroutine returns a Coroutine. Instances of this class are only used to reference these coroutines, and do not hold any exposed properties or functions. */
+        /** MonoBehaviour.StartCoroutine returns a Coroutine. Instances of this class are only used to reference these coroutines, and do not hold any exposed properties or functions.
+        */
         class Coroutine extends UnityEngine.YieldInstruction
         {
             protected [__keep_incompatibility]: never;
         }
-        /** Type of the imported(native) data. */
+        /** Type of the imported(native) data.
+        */
         enum AudioType
         { UNKNOWN = 0, ACC = 1, AIFF = 2, IT = 10, MOD = 12, MPEG = 13, OGGVORBIS = 14, S3M = 17, WAV = 20, XM = 21, XMA = 22, VAG = 23, AUDIOQUEUE = 24 }
-        /** Represent the hash value. */
+        /** Represent the hash value.
+        */
         class Hash128 extends System.ValueType implements System.IComparable, System.IComparable$1<UnityEngine.Hash128>, System.IEquatable$1<UnityEngine.Hash128>
         {
             protected [__keep_incompatibility]: never;
         }
-        /** Data structure for downloading AssetBundles to a customized cache path. See Also:UnityWebRequestAssetBundle.GetAssetBundle for more information. */
+        /** Data structure for downloading AssetBundles to a customized cache path. See Also:UnityWebRequestAssetBundle.GetAssetBundle for more information.
+        */
         class CachedAssetBundle extends System.ValueType
         {
             protected [__keep_incompatibility]: never;
         }
-        /** Helper class to generate form data to post to web servers using the UnityWebRequest or WWW classes. */
+        /** Helper class to generate form data to post to web servers using the UnityWebRequest or WWW classes.
+        */
         class WWWForm extends System.Object
         {
             protected [__keep_incompatibility]: never;
@@ -1818,20 +2190,24 @@ declare namespace CS {
         interface ISerializationCallbackReceiver
         {
         }
-        /** Interface to control the Mecanim animation system. */
+        /** Interface to control the Mecanim animation system.
+        */
         class Animator extends UnityEngine.Behaviour
         {
             protected [__keep_incompatibility]: never;
         }
-        /** Interface for on-screen keyboards. Only native iPhone, Android, and Windows Store Apps are supported. */
+        /** Interface for on-screen keyboards. Only native iPhone, Android, and Windows Store Apps are supported.
+        */
         class TouchScreenKeyboard extends System.Object
         {
             protected [__keep_incompatibility]: never;
         }
-        /** Enumeration of the different types of supported touchscreen keyboards. */
+        /** Enumeration of the different types of supported touchscreen keyboards.
+        */
         enum TouchScreenKeyboardType
         { Default = 0, ASCIICapable = 1, NumbersAndPunctuation = 2, URL = 3, NumberPad = 4, PhonePad = 5, NamePhonePad = 6, EmailAddress = 7, NintendoNetworkAccount = 8, Social = 9, Search = 10, DecimalPad = 11 }
-        /** A UnityGUI event. */
+        /** A UnityGUI event.
+        */
         class Event extends System.Object
         {
             protected [__keep_incompatibility]: never;
@@ -2020,26 +2396,31 @@ declare namespace CS {
         var LogCallback: { new (func: (condition: string, stackTrace: string, type: UnityEngine.LogType) => void): LogCallback; }
     }
     namespace UnityEngine.Events {
-        /** Zero argument delegate used by UnityEvents. */
+        /** Zero argument delegate used by UnityEvents.
+        */
         interface UnityAction
         { 
         () : void; 
         Invoke?: () => void;
         }
         var UnityAction: { new (func: () => void): UnityAction; }
-        /** Abstract base class for UnityEvents. */
+        /** Abstract base class for UnityEvents.
+        */
         class UnityEventBase extends System.Object implements UnityEngine.ISerializationCallbackReceiver
         {
             protected [__keep_incompatibility]: never;
         }
-        /** A zero argument persistent callback that can be saved with the Scene. */
+        /** A zero argument persistent callback that can be saved with the Scene.
+        */
         class UnityEvent extends UnityEngine.Events.UnityEventBase implements UnityEngine.ISerializationCallbackReceiver
         {
             protected [__keep_incompatibility]: never;
-            /** Add a non persistent listener to the UnityEvent. * @param call Callback function.
+            /** Add a non persistent listener to the UnityEvent.
+            * @param call Callback function.
             */
             public AddListener ($call: UnityEngine.Events.UnityAction) : void
-            /** Remove a non persistent listener from the UnityEvent. If you have added the same listener multiple times, this method will remove all occurrences of it. * @param call Callback function.
+            /** Remove a non persistent listener from the UnityEvent. If you have added the same listener multiple times, this method will remove all occurrences of it.
+            * @param call Callback function.
             */
             public RemoveListener ($call: UnityEngine.Events.UnityAction) : void
             public Invoke () : void
@@ -2316,7 +2697,8 @@ declare namespace CS {
         }
     }
     namespace UnityEngine.SceneManagement {
-        /** Run-time data structure for *.unity file. */
+        /** Run-time data structure for *.unity file.
+        */
         class Scene extends System.ValueType
         {
             protected [__keep_incompatibility]: never;
@@ -2580,70 +2962,105 @@ declare namespace CS {
         { None = 0, Audit = 1, Access = 2, Owner = 4, Group = 8, All = 15 }
     }
     namespace UnityEngine.Networking {
-        /** Provides methods to communicate with web servers. */
+        /** Provides methods to communicate with web servers.
+        */
         class UnityWebRequest extends System.Object implements System.IDisposable
         {
             protected [__keep_incompatibility]: never;
-            /** The string "GET", commonly used as the verb for an HTTP GET request. */
-            public static kHttpVerbGET : string/** The string "HEAD", commonly used as the verb for an HTTP HEAD request. */
-            public static kHttpVerbHEAD : string/** The string "POST", commonly used as the verb for an HTTP POST request. */
-            public static kHttpVerbPOST : string/** The string "PUT", commonly used as the verb for an HTTP PUT request. */
-            public static kHttpVerbPUT : string/** The string "CREATE", commonly used as the verb for an HTTP CREATE request. */
-            public static kHttpVerbCREATE : string/** The string "DELETE", commonly used as the verb for an HTTP DELETE request. */
-            public static kHttpVerbDELETE : string/** If true, any CertificateHandler attached to this UnityWebRequest will have CertificateHandler.Dispose called automatically when UnityWebRequest.Dispose is called. */
+            /** The string "GET", commonly used as the verb for an HTTP GET request.
+            */
+            public static kHttpVerbGET : string
+            /** The string "HEAD", commonly used as the verb for an HTTP HEAD request.
+            */
+            public static kHttpVerbHEAD : string
+            /** The string "POST", commonly used as the verb for an HTTP POST request.
+            */
+            public static kHttpVerbPOST : string
+            /** The string "PUT", commonly used as the verb for an HTTP PUT request.
+            */
+            public static kHttpVerbPUT : string
+            /** The string "CREATE", commonly used as the verb for an HTTP CREATE request.
+            */
+            public static kHttpVerbCREATE : string
+            /** The string "DELETE", commonly used as the verb for an HTTP DELETE request.
+            */
+            public static kHttpVerbDELETE : string
+            /** If true, any CertificateHandler attached to this UnityWebRequest will have CertificateHandler.Dispose called automatically when UnityWebRequest.Dispose is called.
+            */
             public get disposeCertificateHandlerOnDispose(): boolean;
             public set disposeCertificateHandlerOnDispose(value: boolean);
-            /** If true, any DownloadHandler attached to this UnityWebRequest will have DownloadHandler.Dispose called automatically when UnityWebRequest.Dispose is called. */
+            /** If true, any DownloadHandler attached to this UnityWebRequest will have DownloadHandler.Dispose called automatically when UnityWebRequest.Dispose is called.
+            */
             public get disposeDownloadHandlerOnDispose(): boolean;
             public set disposeDownloadHandlerOnDispose(value: boolean);
-            /** If true, any UploadHandler attached to this UnityWebRequest will have UploadHandler.Dispose called automatically when UnityWebRequest.Dispose is called. */
+            /** If true, any UploadHandler attached to this UnityWebRequest will have UploadHandler.Dispose called automatically when UnityWebRequest.Dispose is called.
+            */
             public get disposeUploadHandlerOnDispose(): boolean;
             public set disposeUploadHandlerOnDispose(value: boolean);
-            /** Defines the HTTP verb used by this UnityWebRequest, such as GET or POST. */
+            /** Defines the HTTP verb used by this UnityWebRequest, such as GET or POST.
+            */
             public get method(): string;
             public set method(value: string);
-            /** A human-readable string describing any system errors encountered by this UnityWebRequest object while handling HTTP requests or responses. (Read Only) */
+            /** A human-readable string describing any system errors encountered by this UnityWebRequest object while handling HTTP requests or responses. (Read Only)
+            */
             public get error(): string;
-            /** Determines whether this UnityWebRequest will include Expect: 100-Continue in its outgoing request headers. (Default: true). */
+            /** Determines whether this UnityWebRequest will include Expect: 100-Continue in its outgoing request headers. (Default: true).
+            */
             public get useHttpContinue(): boolean;
             public set useHttpContinue(value: boolean);
-            /** Defines the target URL for the UnityWebRequest to communicate with. */
+            /** Defines the target URL for the UnityWebRequest to communicate with.
+            */
             public get url(): string;
             public set url(value: string);
-            /** Defines the target URI for the UnityWebRequest to communicate with. */
+            /** Defines the target URI for the UnityWebRequest to communicate with.
+            */
             public get uri(): System.Uri;
             public set uri(value: System.Uri);
-            /** The numeric HTTP response code returned by the server, such as 200, 404 or 500. (Read Only) */
+            /** The numeric HTTP response code returned by the server, such as 200, 404 or 500. (Read Only)
+            */
             public get responseCode(): bigint;
-            /** Returns a floating-point value between 0.0 and 1.0, indicating the progress of uploading body data to the server. */
+            /** Returns a floating-point value between 0.0 and 1.0, indicating the progress of uploading body data to the server.
+            */
             public get uploadProgress(): number;
-            /** Returns true while a UnityWebRequest’s configuration properties can be altered. (Read Only) */
+            /** Returns true while a UnityWebRequest’s configuration properties can be altered. (Read Only)
+            */
             public get isModifiable(): boolean;
-            /** Returns true after the UnityWebRequest has finished communicating with the remote server. (Read Only) */
+            /** Returns true after the UnityWebRequest has finished communicating with the remote server. (Read Only)
+            */
             public get isDone(): boolean;
-            /** Returns true after this UnityWebRequest encounters a system error. (Read Only) */
+            /** Returns true after this UnityWebRequest encounters a system error. (Read Only)
+            */
             public get isNetworkError(): boolean;
-            /** Returns true after this UnityWebRequest receives an HTTP response code indicating an error. (Read Only) */
+            /** Returns true after this UnityWebRequest receives an HTTP response code indicating an error. (Read Only)
+            */
             public get isHttpError(): boolean;
-            /** Returns a floating-point value between 0.0 and 1.0, indicating the progress of downloading body data from the server. (Read Only) */
+            /** Returns a floating-point value between 0.0 and 1.0, indicating the progress of downloading body data from the server. (Read Only)
+            */
             public get downloadProgress(): number;
-            /** Returns the number of bytes of body data the system has uploaded to the remote server. (Read Only) */
+            /** Returns the number of bytes of body data the system has uploaded to the remote server. (Read Only)
+            */
             public get uploadedBytes(): bigint;
-            /** Returns the number of bytes of body data the system has downloaded from the remote server. (Read Only) */
+            /** Returns the number of bytes of body data the system has downloaded from the remote server. (Read Only)
+            */
             public get downloadedBytes(): bigint;
-            /** Indicates the number of redirects which this UnityWebRequest will follow before halting with a “Redirect Limit Exceeded” system error. */
+            /** Indicates the number of redirects which this UnityWebRequest will follow before halting with a “Redirect Limit Exceeded” system error.
+            */
             public get redirectLimit(): number;
             public set redirectLimit(value: number);
-            /** Holds a reference to the UploadHandler object which manages body data to be uploaded to the remote server. */
+            /** Holds a reference to the UploadHandler object which manages body data to be uploaded to the remote server.
+            */
             public get uploadHandler(): UnityEngine.Networking.UploadHandler;
             public set uploadHandler(value: UnityEngine.Networking.UploadHandler);
-            /** Holds a reference to a DownloadHandler object, which manages body data received from the remote server by this UnityWebRequest. */
+            /** Holds a reference to a DownloadHandler object, which manages body data received from the remote server by this UnityWebRequest.
+            */
             public get downloadHandler(): UnityEngine.Networking.DownloadHandler;
             public set downloadHandler(value: UnityEngine.Networking.DownloadHandler);
-            /** Holds a reference to a CertificateHandler object, which manages certificate validation for this UnityWebRequest. */
+            /** Holds a reference to a CertificateHandler object, which manages certificate validation for this UnityWebRequest.
+            */
             public get certificateHandler(): UnityEngine.Networking.CertificateHandler;
             public set certificateHandler(value: UnityEngine.Networking.CertificateHandler);
-            /** Sets UnityWebRequest to attempt to abort after the number of seconds in timeout have passed. */
+            /** Sets UnityWebRequest to attempt to abort after the number of seconds in timeout have passed.
+            */
             public get timeout(): number;
             public set timeout(value: number);
             public static ClearCookieCache () : void
@@ -2656,7 +3073,8 @@ declare namespace CS {
             * @returns The value of the custom request header. If no custom header with a matching name has been set, returns an empty string. 
             */
             public GetRequestHeader ($name: string) : string
-            /** Set a HTTP request header to a custom value. * @param name The key of the header to be set. Case-sensitive.
+            /** Set a HTTP request header to a custom value.
+            * @param name The key of the header to be set. Case-sensitive.
             * @param value The header's intended value.
             */
             public SetRequestHeader ($name: string, $value: string) : void
@@ -2724,19 +3142,23 @@ declare namespace CS {
             public static Post ($uri: System.Uri, $multipartFormSections: System.Collections.Generic.List$1<UnityEngine.Networking.IMultipartFormSection>, $boundary: System.Array$1<number>) : UnityEngine.Networking.UnityWebRequest
             public static Post ($uri: string, $formFields: System.Collections.Generic.Dictionary$2<string, string>) : UnityEngine.Networking.UnityWebRequest
             public static Post ($uri: System.Uri, $formFields: System.Collections.Generic.Dictionary$2<string, string>) : UnityEngine.Networking.UnityWebRequest
-            /** Escapes characters in a string to ensure they are URL-friendly. * @param s A string with characters to be escaped.
+            /** Escapes characters in a string to ensure they are URL-friendly.
+            * @param s A string with characters to be escaped.
             * @param e The text encoding to use.
             */
             public static EscapeURL ($s: string) : string
-            /** Escapes characters in a string to ensure they are URL-friendly. * @param s A string with characters to be escaped.
+            /** Escapes characters in a string to ensure they are URL-friendly.
+            * @param s A string with characters to be escaped.
             * @param e The text encoding to use.
             */
             public static EscapeURL ($s: string, $e: System.Text.Encoding) : string
-            /** Converts URL-friendly escape sequences back to normal text. * @param s A string containing escaped characters.
+            /** Converts URL-friendly escape sequences back to normal text.
+            * @param s A string containing escaped characters.
             * @param e The text encoding to use.
             */
             public static UnEscapeURL ($s: string) : string
-            /** Converts URL-friendly escape sequences back to normal text. * @param s A string containing escaped characters.
+            /** Converts URL-friendly escape sequences back to normal text.
+            * @param s A string containing escaped characters.
             * @param e The text encoding to use.
             */
             public static UnEscapeURL ($s: string, $e: System.Text.Encoding) : string
@@ -2752,29 +3174,36 @@ declare namespace CS {
             public constructor ($uri: System.Uri, $method: string, $downloadHandler: UnityEngine.Networking.DownloadHandler, $uploadHandler: UnityEngine.Networking.UploadHandler)
         }
         /** Asynchronous operation object returned from UnityWebRequest.SendWebRequest().
-        You can yield until it continues, register an event handler with AsyncOperation.completed, or manually check whether it's done (AsyncOperation.isDone) or progress (AsyncOperation.progress). */
+        You can yield until it continues, register an event handler with AsyncOperation.completed, or manually check whether it's done (AsyncOperation.isDone) or progress (AsyncOperation.progress).
+        */
         class UnityWebRequestAsyncOperation extends UnityEngine.AsyncOperation
         {
             protected [__keep_incompatibility]: never;
         }
-        /** Helper object for UnityWebRequests. Manages the buffering and transmission of body data during HTTP requests. */
+        /** Helper object for UnityWebRequests. Manages the buffering and transmission of body data during HTTP requests.
+        */
         class UploadHandler extends System.Object implements System.IDisposable
         {
             protected [__keep_incompatibility]: never;
         }
-        /** Manage and process HTTP response body data received from a remote server. */
+        /** Manage and process HTTP response body data received from a remote server.
+        */
         class DownloadHandler extends System.Object implements System.IDisposable
         {
             protected [__keep_incompatibility]: never;
-            /** Returns true if this DownloadHandler has been informed by its parent UnityWebRequest that all data has been received, and this DownloadHandler has completed any necessary post-download processing. (Read Only) */
+            /** Returns true if this DownloadHandler has been informed by its parent UnityWebRequest that all data has been received, and this DownloadHandler has completed any necessary post-download processing. (Read Only)
+            */
             public get isDone(): boolean;
-            /** Returns the raw bytes downloaded from the remote server, or null. (Read Only) */
+            /** Returns the raw bytes downloaded from the remote server, or null. (Read Only)
+            */
             public get data(): System.Array$1<number>;
-            /** Convenience property. Returns the bytes from data interpreted as a UTF8 string. (Read Only) */
+            /** Convenience property. Returns the bytes from data interpreted as a UTF8 string. (Read Only)
+            */
             public get text(): string;
             public Dispose () : void
         }
-        /** Responsible for rejecting or accepting certificates received on https requests. */
+        /** Responsible for rejecting or accepting certificates received on https requests.
+        */
         class CertificateHandler extends System.Object implements System.IDisposable
         {
             protected [__keep_incompatibility]: never;
@@ -2924,7 +3353,7 @@ declare namespace CS {
         interface IClippable
         {
         }
-        class Image extends UnityEngine.UI.MaskableGraphic implements UnityEngine.UI.IMaterialModifier, UnityEngine.UI.IMaskable, UnityEngine.ICanvasRaycastFilter, UnityEngine.ISerializationCallbackReceiver, UnityEngine.UI.ICanvasElement, UnityEngine.UI.ILayoutElement, UnityEngine.UI.IClippable
+        class Image extends UnityEngine.UI.MaskableGraphic implements UnityEngine.UI.IMaterialModifier, UnityEngine.UI.IMaskable, UnityEngine.ICanvasRaycastFilter, UnityEngine.UI.ICanvasElement, UnityEngine.ISerializationCallbackReceiver, UnityEngine.UI.ILayoutElement, UnityEngine.UI.IClippable
         {
             protected [__keep_incompatibility]: never;
         }

@@ -32,7 +32,7 @@ const TEMP_PATH = `${__dirname}/../.temp`
     sx.rm("-rf", TEMP_PATH);
     
     console.log('[Puer] downloading');
-    const downNodeJS = download(`https://github.com/zombieyang/puerts/releases/download/Unity_v${options.version}/PuerTS_Nodejs_${options.version}.tgz`, path.join(TEMP_PATH, 'nodejs'), { extract: true });
+    const downNodeJS = download(`https://github.com/Tencent/puerts/releases/download/Unity_v${options.version}/PuerTS_Nodejs_${options.version}.tgz`, path.join(TEMP_PATH, 'nodejs'), { extract: true });
     // await Promise.all([downV8, downNodeJS]);
     await downNodeJS;
 

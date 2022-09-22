@@ -17,7 +17,7 @@ class Rotate {
         }
         setInterval(()=> {
             // 开启hot-reload时，你可以尝试修改该函数感受效果
-            this.speed = 3000
+            this.speed = 102
             console.log('current speed is ' + this.speed);
         }, 1000);
     }
