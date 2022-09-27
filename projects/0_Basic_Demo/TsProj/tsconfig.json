@@ -7,7 +7,7 @@
     "noImplicitAny": true,
     "typeRoots": [
       "../../../package/Typing",
-      "../../../projects/Puerts_demo/Assets/Gen/Typing",
+      "../../../projects/0_Basic_demo/Assets/Gen/Typing",
       "./node_modules/@types"
     ],
     "outDir": "output"

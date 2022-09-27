@@ -13,6 +13,339 @@ declare module 'csharp' {
             }
         }
         type $Task<T> = System.Threading.Tasks.Task$1<T>
+        namespace System {
+            class Object
+            {
+                protected [__keep_incompatibility]: never;
+                public Equals ($obj: any) : boolean
+                public static Equals ($objA: any, $objB: any) : boolean
+                public GetHashCode () : number
+                public GetType () : System.Type
+                public ToString () : string
+                public static ReferenceEquals ($objA: any, $objB: any) : boolean
+                public constructor ()
+            }
+            class ValueType extends System.Object
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class Void extends System.ValueType
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            interface IEquatable$1<T>
+            {
+            }
+            class Single extends System.ValueType implements System.IComparable, System.IComparable$1<number>, System.IConvertible, System.IEquatable$1<number>, System.IFormattable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            interface IComparable
+            {
+            }
+            interface IComparable$1<T>
+            {
+            }
+            interface IConvertible
+            {
+            }
+            interface IFormattable
+            {
+            }
+            class Boolean extends System.ValueType implements System.IComparable, System.IComparable$1<boolean>, System.IConvertible, System.IEquatable$1<boolean>
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class Int32 extends System.ValueType implements System.IComparable, System.IComparable$1<number>, System.IConvertible, System.IEquatable$1<number>, System.IFormattable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class String extends System.Object implements System.ICloneable, System.Collections.IEnumerable, System.IComparable, System.IComparable$1<string>, System.IConvertible, System.IEquatable$1<string>, System.Collections.Generic.IEnumerable$1<number>
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            interface ICloneable
+            {
+            }
+            class Char extends System.ValueType implements System.IComparable, System.IComparable$1<number>, System.IConvertible, System.IEquatable$1<number>
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class Array extends System.Object implements System.ICloneable, System.Collections.IEnumerable, System.Collections.IList, System.Collections.IStructuralComparable, System.Collections.IStructuralEquatable, System.Collections.ICollection
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class Enum extends System.ValueType implements System.IComparable, System.IConvertible, System.IFormattable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class Exception extends System.Object implements System.Runtime.InteropServices._Exception, System.Runtime.Serialization.ISerializable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class Delegate extends System.Object implements System.ICloneable, System.Runtime.Serialization.ISerializable
+            {
+                protected [__keep_incompatibility]: never;
+                public get Method(): System.Reflection.MethodInfo;
+                public get Target(): any;
+                public static CreateDelegate ($type: System.Type, $firstArgument: any, $method: System.Reflection.MethodInfo, $throwOnBindFailure: boolean) : Function
+                public static CreateDelegate ($type: System.Type, $firstArgument: any, $method: System.Reflection.MethodInfo) : Function
+                public static CreateDelegate ($type: System.Type, $method: System.Reflection.MethodInfo, $throwOnBindFailure: boolean) : Function
+                public static CreateDelegate ($type: System.Type, $method: System.Reflection.MethodInfo) : Function
+                public static CreateDelegate ($type: System.Type, $target: any, $method: string) : Function
+                public static CreateDelegate ($type: System.Type, $target: System.Type, $method: string, $ignoreCase: boolean, $throwOnBindFailure: boolean) : Function
+                public static CreateDelegate ($type: System.Type, $target: System.Type, $method: string) : Function
+                public static CreateDelegate ($type: System.Type, $target: System.Type, $method: string, $ignoreCase: boolean) : Function
+                public static CreateDelegate ($type: System.Type, $target: any, $method: string, $ignoreCase: boolean, $throwOnBindFailure: boolean) : Function
+                public static CreateDelegate ($type: System.Type, $target: any, $method: string, $ignoreCase: boolean) : Function
+                public DynamicInvoke (...args: any[]) : any
+                public Clone () : any
+                public GetObjectData ($info: System.Runtime.Serialization.SerializationInfo, $context: System.Runtime.Serialization.StreamingContext) : void
+                public GetInvocationList () : System.Array$1<Function>
+                public static Combine ($a: Function, $b: Function) : Function
+                public static Combine (...delegates: Function[]) : Function
+                public static Remove ($source: Function, $value: Function) : Function
+                public static RemoveAll ($source: Function, $value: Function) : Function
+                public static op_Equality ($d1: Function, $d2: Function) : boolean
+                public static op_Inequality ($d1: Function, $d2: Function) : boolean
+            }
+            interface MulticastDelegate
+            { 
+            (...args:any[]) : any; 
+            Invoke?: (...args:any[]) => any;
+            }
+            var MulticastDelegate: { new (func: (...args:any[]) => any): MulticastDelegate; }
+            interface Converter$2<TInput, TOutput>
+            { 
+            (input: TInput) : TOutput; 
+            Invoke?: (input: TInput) => TOutput;
+            }
+            interface Predicate$1<T>
+            { 
+            (obj: T) : boolean; 
+            Invoke?: (obj: T) => boolean;
+            }
+            interface Action$1<T>
+            { 
+            (obj: T) : void; 
+            Invoke?: (obj: T) => void;
+            }
+            interface IDisposable
+            {
+            }
+            interface Comparison$1<T>
+            { 
+            (x: T, y: T) : number; 
+            Invoke?: (x: T, y: T) => number;
+            }
+            class Double extends System.ValueType implements System.IComparable, System.IComparable$1<number>, System.IConvertible, System.IEquatable$1<number>, System.IFormattable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            interface IAsyncResult
+            {
+            }
+            class Type extends System.Reflection.MemberInfo implements System.Reflection.IReflect, System.Runtime.InteropServices._Type, System.Reflection.ICustomAttributeProvider, System.Runtime.InteropServices._MemberInfo
+            {
+                protected [__keep_incompatibility]: never;
+                public static FilterAttribute : System.Reflection.MemberFilter
+                public static FilterName : System.Reflection.MemberFilter
+                public static FilterNameIgnoreCase : System.Reflection.MemberFilter
+                public static Missing : any
+                public static Delimiter : number
+                public static EmptyTypes : System.Array$1<System.Type>
+                public get MemberType(): System.Reflection.MemberTypes;
+                public get DeclaringType(): System.Type;
+                public get DeclaringMethod(): System.Reflection.MethodBase;
+                public get ReflectedType(): System.Type;
+                public get StructLayoutAttribute(): System.Runtime.InteropServices.StructLayoutAttribute;
+                public get GUID(): System.Guid;
+                public static get DefaultBinder(): System.Reflection.Binder;
+                public get Module(): System.Reflection.Module;
+                public get Assembly(): System.Reflection.Assembly;
+                public get TypeHandle(): System.RuntimeTypeHandle;
+                public get FullName(): string;
+                public get Namespace(): string;
+                public get AssemblyQualifiedName(): string;
+                public get BaseType(): System.Type;
+                public get TypeInitializer(): System.Reflection.ConstructorInfo;
+                public get IsNested(): boolean;
+                public get Attributes(): System.Reflection.TypeAttributes;
+                public get GenericParameterAttributes(): System.Reflection.GenericParameterAttributes;
+                public get IsVisible(): boolean;
+                public get IsNotPublic(): boolean;
+                public get IsPublic(): boolean;
+                public get IsNestedPublic(): boolean;
+                public get IsNestedPrivate(): boolean;
+                public get IsNestedFamily(): boolean;
+                public get IsNestedAssembly(): boolean;
+                public get IsNestedFamANDAssem(): boolean;
+                public get IsNestedFamORAssem(): boolean;
+                public get IsAutoLayout(): boolean;
+                public get IsLayoutSequential(): boolean;
+                public get IsExplicitLayout(): boolean;
+                public get IsClass(): boolean;
+                public get IsInterface(): boolean;
+                public get IsValueType(): boolean;
+                public get IsAbstract(): boolean;
+                public get IsSealed(): boolean;
+                public get IsEnum(): boolean;
+                public get IsSpecialName(): boolean;
+                public get IsImport(): boolean;
+                public get IsSerializable(): boolean;
+                public get IsAnsiClass(): boolean;
+                public get IsUnicodeClass(): boolean;
+                public get IsAutoClass(): boolean;
+                public get IsArray(): boolean;
+                public get IsGenericType(): boolean;
+                public get IsGenericTypeDefinition(): boolean;
+                public get IsConstructedGenericType(): boolean;
+                public get IsGenericParameter(): boolean;
+                public get GenericParameterPosition(): number;
+                public get ContainsGenericParameters(): boolean;
+                public get IsByRef(): boolean;
+                public get IsPointer(): boolean;
+                public get IsPrimitive(): boolean;
+                public get IsCOMObject(): boolean;
+                public get HasElementType(): boolean;
+                public get IsContextful(): boolean;
+                public get IsMarshalByRef(): boolean;
+                public get GenericTypeArguments(): System.Array$1<System.Type>;
+                public get IsSecurityCritical(): boolean;
+                public get IsSecuritySafeCritical(): boolean;
+                public get IsSecurityTransparent(): boolean;
+                public get UnderlyingSystemType(): System.Type;
+                public static GetType ($typeName: string, $assemblyResolver: System.Func$2<System.Reflection.AssemblyName, System.Reflection.Assembly>, $typeResolver: System.Func$4<System.Reflection.Assembly, string, boolean, System.Type>) : System.Type
+                public static GetType ($typeName: string, $assemblyResolver: System.Func$2<System.Reflection.AssemblyName, System.Reflection.Assembly>, $typeResolver: System.Func$4<System.Reflection.Assembly, string, boolean, System.Type>, $throwOnError: boolean) : System.Type
+                public static GetType ($typeName: string, $assemblyResolver: System.Func$2<System.Reflection.AssemblyName, System.Reflection.Assembly>, $typeResolver: System.Func$4<System.Reflection.Assembly, string, boolean, System.Type>, $throwOnError: boolean, $ignoreCase: boolean) : System.Type
+                public MakePointerType () : System.Type
+                public MakeByRefType () : System.Type
+                public MakeArrayType () : System.Type
+                public MakeArrayType ($rank: number) : System.Type
+                public static GetTypeFromProgID ($progID: string) : System.Type
+                public static GetTypeFromProgID ($progID: string, $throwOnError: boolean) : System.Type
+                public static GetTypeFromProgID ($progID: string, $server: string) : System.Type
+                public static GetTypeFromProgID ($progID: string, $server: string, $throwOnError: boolean) : System.Type
+                public static GetTypeFromCLSID ($clsid: System.Guid) : System.Type
+                public static GetTypeFromCLSID ($clsid: System.Guid, $throwOnError: boolean) : System.Type
+                public static GetTypeFromCLSID ($clsid: System.Guid, $server: string) : System.Type
+                public static GetTypeFromCLSID ($clsid: System.Guid, $server: string, $throwOnError: boolean) : System.Type
+                public static GetTypeCode ($type: System.Type) : System.TypeCode
+                public InvokeMember ($name: string, $invokeAttr: System.Reflection.BindingFlags, $binder: System.Reflection.Binder, $target: any, $args: System.Array$1<any>, $modifiers: System.Array$1<System.Reflection.ParameterModifier>, $culture: System.Globalization.CultureInfo, $namedParameters: System.Array$1<string>) : any
+                public InvokeMember ($name: string, $invokeAttr: System.Reflection.BindingFlags, $binder: System.Reflection.Binder, $target: any, $args: System.Array$1<any>, $culture: System.Globalization.CultureInfo) : any
+                public InvokeMember ($name: string, $invokeAttr: System.Reflection.BindingFlags, $binder: System.Reflection.Binder, $target: any, $args: System.Array$1<any>) : any
+                public static GetTypeHandle ($o: any) : System.RuntimeTypeHandle
+                public GetArrayRank () : number
+                public GetConstructor ($bindingAttr: System.Reflection.BindingFlags, $binder: System.Reflection.Binder, $callConvention: System.Reflection.CallingConventions, $types: System.Array$1<System.Type>, $modifiers: System.Array$1<System.Reflection.ParameterModifier>) : System.Reflection.ConstructorInfo
+                public GetConstructor ($bindingAttr: System.Reflection.BindingFlags, $binder: System.Reflection.Binder, $types: System.Array$1<System.Type>, $modifiers: System.Array$1<System.Reflection.ParameterModifier>) : System.Reflection.ConstructorInfo
+                public GetConstructor ($types: System.Array$1<System.Type>) : System.Reflection.ConstructorInfo
+                public GetConstructors () : System.Array$1<System.Reflection.ConstructorInfo>
+                public GetConstructors ($bindingAttr: System.Reflection.BindingFlags) : System.Array$1<System.Reflection.ConstructorInfo>
+                public GetMethod ($name: string, $bindingAttr: System.Reflection.BindingFlags, $binder: System.Reflection.Binder, $callConvention: System.Reflection.CallingConventions, $types: System.Array$1<System.Type>, $modifiers: System.Array$1<System.Reflection.ParameterModifier>) : System.Reflection.MethodInfo
+                public GetMethod ($name: string, $bindingAttr: System.Reflection.BindingFlags, $binder: System.Reflection.Binder, $types: System.Array$1<System.Type>, $modifiers: System.Array$1<System.Reflection.ParameterModifier>) : System.Reflection.MethodInfo
+                public GetMethod ($name: string, $types: System.Array$1<System.Type>, $modifiers: System.Array$1<System.Reflection.ParameterModifier>) : System.Reflection.MethodInfo
+                public GetMethod ($name: string, $types: System.Array$1<System.Type>) : System.Reflection.MethodInfo
+                public GetMethod ($name: string, $bindingAttr: System.Reflection.BindingFlags) : System.Reflection.MethodInfo
+                public GetMethod ($name: string) : System.Reflection.MethodInfo
+                public GetMethods () : System.Array$1<System.Reflection.MethodInfo>
+                public GetMethods ($bindingAttr: System.Reflection.BindingFlags) : System.Array$1<System.Reflection.MethodInfo>
+                public GetField ($name: string, $bindingAttr: System.Reflection.BindingFlags) : System.Reflection.FieldInfo
+                public GetField ($name: string) : System.Reflection.FieldInfo
+                public GetFields () : System.Array$1<System.Reflection.FieldInfo>
+                public GetFields ($bindingAttr: System.Reflection.BindingFlags) : System.Array$1<System.Reflection.FieldInfo>
+                public GetInterface ($name: string) : System.Type
+                public GetInterface ($name: string, $ignoreCase: boolean) : System.Type
+                public GetInterfaces () : System.Array$1<System.Type>
+                public FindInterfaces ($filter: System.Reflection.TypeFilter, $filterCriteria: any) : System.Array$1<System.Type>
+                public GetEvent ($name: string) : System.Reflection.EventInfo
+                public GetEvent ($name: string, $bindingAttr: System.Reflection.BindingFlags) : System.Reflection.EventInfo
+                public GetEvents () : System.Array$1<System.Reflection.EventInfo>
+                public GetEvents ($bindingAttr: System.Reflection.BindingFlags) : System.Array$1<System.Reflection.EventInfo>
+                public GetProperty ($name: string, $bindingAttr: System.Reflection.BindingFlags, $binder: System.Reflection.Binder, $returnType: System.Type, $types: System.Array$1<System.Type>, $modifiers: System.Array$1<System.Reflection.ParameterModifier>) : System.Reflection.PropertyInfo
+                public GetProperty ($name: string, $returnType: System.Type, $types: System.Array$1<System.Type>, $modifiers: System.Array$1<System.Reflection.ParameterModifier>) : System.Reflection.PropertyInfo
+                public GetProperty ($name: string, $bindingAttr: System.Reflection.BindingFlags) : System.Reflection.PropertyInfo
+                public GetProperty ($name: string, $returnType: System.Type, $types: System.Array$1<System.Type>) : System.Reflection.PropertyInfo
+                public GetProperty ($name: string, $types: System.Array$1<System.Type>) : System.Reflection.PropertyInfo
+                public GetProperty ($name: string, $returnType: System.Type) : System.Reflection.PropertyInfo
+                public GetProperty ($name: string) : System.Reflection.PropertyInfo
+                public GetProperties ($bindingAttr: System.Reflection.BindingFlags) : System.Array$1<System.Reflection.PropertyInfo>
+                public GetProperties () : System.Array$1<System.Reflection.PropertyInfo>
+                public GetNestedTypes () : System.Array$1<System.Type>
+                public GetNestedTypes ($bindingAttr: System.Reflection.BindingFlags) : System.Array$1<System.Type>
+                public GetNestedType ($name: string) : System.Type
+                public GetNestedType ($name: string, $bindingAttr: System.Reflection.BindingFlags) : System.Type
+                public GetMember ($name: string) : System.Array$1<System.Reflection.MemberInfo>
+                public GetMember ($name: string, $bindingAttr: System.Reflection.BindingFlags) : System.Array$1<System.Reflection.MemberInfo>
+                public GetMember ($name: string, $type: System.Reflection.MemberTypes, $bindingAttr: System.Reflection.BindingFlags) : System.Array$1<System.Reflection.MemberInfo>
+                public GetMembers () : System.Array$1<System.Reflection.MemberInfo>
+                public GetMembers ($bindingAttr: System.Reflection.BindingFlags) : System.Array$1<System.Reflection.MemberInfo>
+                public GetDefaultMembers () : System.Array$1<System.Reflection.MemberInfo>
+                public FindMembers ($memberType: System.Reflection.MemberTypes, $bindingAttr: System.Reflection.BindingFlags, $filter: System.Reflection.MemberFilter, $filterCriteria: any) : System.Array$1<System.Reflection.MemberInfo>
+                public GetGenericParameterConstraints () : System.Array$1<System.Type>
+                public MakeGenericType (...typeArguments: System.Type[]) : System.Type
+                public GetElementType () : System.Type
+                public GetGenericArguments () : System.Array$1<System.Type>
+                public GetGenericTypeDefinition () : System.Type
+                public GetEnumNames () : System.Array$1<string>
+                public GetEnumValues () : System.Array
+                public GetEnumUnderlyingType () : System.Type
+                public IsEnumDefined ($value: any) : boolean
+                public GetEnumName ($value: any) : string
+                public IsSubclassOf ($c: System.Type) : boolean
+                public IsInstanceOfType ($o: any) : boolean
+                public IsAssignableFrom ($c: System.Type) : boolean
+                public IsEquivalentTo ($other: System.Type) : boolean
+                public static GetTypeArray ($args: System.Array$1<any>) : System.Array$1<System.Type>
+                public Equals ($o: any) : boolean
+                public Equals ($o: System.Type) : boolean
+                public static op_Equality ($left: System.Type, $right: System.Type) : boolean
+                public static op_Inequality ($left: System.Type, $right: System.Type) : boolean
+                public GetInterfaceMap ($interfaceType: System.Type) : System.Reflection.InterfaceMapping
+                public GetType () : System.Type
+                public static GetType ($typeName: string) : System.Type
+                public static GetType ($typeName: string, $throwOnError: boolean) : System.Type
+                public static GetType ($typeName: string, $throwOnError: boolean, $ignoreCase: boolean) : System.Type
+                public static ReflectionOnlyGetType ($typeName: string, $throwIfNotFound: boolean, $ignoreCase: boolean) : System.Type
+                public static GetTypeFromHandle ($handle: System.RuntimeTypeHandle) : System.Type
+                public Equals ($obj: any) : boolean
+                public static Equals ($objA: any, $objB: any) : boolean
+            }
+            class UInt64 extends System.ValueType implements System.IComparable, System.IComparable$1<bigint>, System.IConvertible, System.IEquatable$1<bigint>, System.IFormattable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            interface Func$2<T, TResult>
+            { 
+            (arg: T) : TResult; 
+            Invoke?: (arg: T) => TResult;
+            }
+            interface Func$4<T1, T2, T3, TResult>
+            { 
+            (arg1: T1, arg2: T2, arg3: T3) : TResult; 
+            Invoke?: (arg1: T1, arg2: T2, arg3: T3) => TResult;
+            }
+            class Attribute extends System.Object implements System.Runtime.InteropServices._Attribute
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class Guid extends System.ValueType implements System.IComparable, System.IComparable$1<System.Guid>, System.IEquatable$1<System.Guid>, System.IFormattable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            enum TypeCode
+            { Empty = 0, Object = 1, DBNull = 2, Boolean = 3, Char = 4, SByte = 5, Byte = 6, Int16 = 7, UInt16 = 8, Int32 = 9, UInt32 = 10, Int64 = 11, UInt64 = 12, Single = 13, Double = 14, Decimal = 15, DateTime = 16, String = 18 }
+            interface IFormatProvider
+            {
+            }
+            class RuntimeTypeHandle extends System.ValueType implements System.Runtime.Serialization.ISerializable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+            class UInt32 extends System.ValueType implements System.IComparable, System.IComparable$1<number>, System.IConvertible, System.IEquatable$1<number>, System.IFormattable
+            {
+                protected [__keep_incompatibility]: never;
+            }
+        }
         namespace UnityEngine {
             /** Class containing methods to ease debugging while developing a game. */
             class Debug extends System.Object
@@ -218,7 +551,7 @@ declare module 'csharp' {
             {
             }
             /** Representation of 3D vectors and points. */
-            class Vector3 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector3>, System.IFormattable
+            class Vector3 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector3>
             {
                 protected [__keep_incompatibility]: never;
                 public static kEpsilon : number
@@ -365,14 +698,8 @@ declare module 'csharp' {
                 public static op_Equality ($lhs: UnityEngine.Vector3, $rhs: UnityEngine.Vector3) : boolean
                 public static op_Inequality ($lhs: UnityEngine.Vector3, $rhs: UnityEngine.Vector3) : boolean
                 public ToString () : string
-                /** Returns a formatted string for this vector. * @param format A numeric format string.
-                * @param formatProvider An object that specifies culture-specific formatting.
-                */
+                /** Returns a nicely formatted string for this vector. */
                 public ToString ($format: string) : string
-                /** Returns a formatted string for this vector. * @param format A numeric format string.
-                * @param formatProvider An object that specifies culture-specific formatting.
-                */
-                public ToString ($format: string, $formatProvider: System.IFormatProvider) : string
                 public constructor ($x: number, $y: number, $z: number)
                 public constructor ($x: number, $y: number)
                 public Equals ($obj: any) : boolean
@@ -380,7 +707,7 @@ declare module 'csharp' {
                 public constructor ()
             }
             /** Representation of RGBA colors. */
-            class Color extends System.ValueType implements System.IEquatable$1<UnityEngine.Color>, System.IFormattable
+            class Color extends System.ValueType implements System.IEquatable$1<UnityEngine.Color>
             {
                 protected [__keep_incompatibility]: never;
             }
@@ -458,31 +785,19 @@ declare module 'csharp' {
                 * @param allowDestroyingAssets Set to true to allow assets to be destroyed.
                 */
                 public static DestroyImmediate ($obj: UnityEngine.Object) : void
-                /** Gets a list of all loaded objects of Type type.
+                /** The older, non-generic version of this method. In most cases you should use the generic version of this method.
                 * @param type The type of object to find.
-                * @param includeInactive If true, components attached to inactive GameObjects are also included.
-                * @returns The array of objects found matching the type specified. 
+                * @returns Returns an array of all active loaded objects of Type type. 
                 */
                 public static FindObjectsOfType ($type: System.Type) : System.Array$1<UnityEngine.Object>
-                /** Gets a list of all loaded objects of Type type.
-                * @param type The type of object to find.
-                * @param includeInactive If true, components attached to inactive GameObjects are also included.
-                * @returns The array of objects found matching the type specified. 
-                */
-                public static FindObjectsOfType ($type: System.Type, $includeInactive: boolean) : System.Array$1<UnityEngine.Object>
                 /** Do not destroy the target Object when loading a new Scene. * @param target An Object not destroyed on Scene change.
                 */
                 public static DontDestroyOnLoad ($target: UnityEngine.Object) : void
-                /** Returns the first active loaded object of Type type.
+                /** The older, non-generic version of this method. In most cases you should use the generic version of this method.
                 * @param type The type of object to find.
-                * @returns Object The first active loaded object that matches the specified type. It returns null if no Object matches the type. 
+                * @returns Returns an array of all active loaded objects of Type type. 
                 */
                 public static FindObjectOfType ($type: System.Type) : UnityEngine.Object
-                /** Returns the first active loaded object of Type type.
-                * @param type The type of object to find.
-                * @returns Object The first active loaded object that matches the specified type. It returns null if no Object matches the type. 
-                */
-                public static FindObjectOfType ($type: System.Type, $includeInactive: boolean) : UnityEngine.Object
                 public static op_Equality ($x: UnityEngine.Object, $y: UnityEngine.Object) : boolean
                 public static op_Inequality ($x: UnityEngine.Object, $y: UnityEngine.Object) : boolean
                 public constructor ()
@@ -536,11 +851,6 @@ declare module 'csharp' {
                 * @returns A component of the matching type, if found. 
                 */
                 public GetComponentInChildren ($type: System.Type) : UnityEngine.Component
-                /** Retrieves the component of Type type in the GameObject or any of its parents.
-                * @param type Type of component to find.
-                * @returns Returns a component if a component matching the type is found. Returns null otherwise. 
-                */
-                public GetComponentInParent ($type: System.Type, $includeInactive: boolean) : UnityEngine.Component
                 /** Retrieves the component of Type type in the GameObject or any of its parents.
                 * @param type Type of component to find.
                 * @returns Returns a component if a component matching the type is found. Returns null otherwise. 
@@ -640,7 +950,7 @@ declare module 'csharp' {
                 /** The tag of this game object. */
                 public get tag(): string;
                 public set tag(value: string);
-                /** Returns the component of Type type if the GameObject has one attached, null if it doesn't. Will also return disabled components. * @param type The type of Component to retrieve.
+                /** Returns the component of Type type if the game object has one attached, null if it doesn't. * @param type The type of Component to retrieve.
                 */
                 public GetComponent ($type: System.Type) : UnityEngine.Component
                 /** Gets the component of the specified type, if it exists.
@@ -649,7 +959,7 @@ declare module 'csharp' {
                 * @returns Returns true if the component is found, false otherwise. 
                 */
                 public TryGetComponent ($type: System.Type, $component: $Ref<UnityEngine.Component>) : boolean
-                /** Returns the component with name type if the GameObject has one attached, null if it doesn't. */
+                /** Returns the component with name type if the game object has one attached, null if it doesn't. */
                 public GetComponent ($type: string) : UnityEngine.Component
                 public GetComponentInChildren ($t: System.Type, $includeInactive: boolean) : UnityEngine.Component
                 /** Returns the component of Type type in the GameObject or any of its children using depth first search.
@@ -747,26 +1057,16 @@ declare module 'csharp' {
                 protected [__keep_incompatibility]: never;
                 /** The time at the beginning of this frame (Read Only). */
                 public static get time(): number;
-                /** The double precision time at the beginning of this frame (Read Only). This is the time in seconds since the start of the game. */
-                public static get timeAsDouble(): number;
                 /** The time since this frame started (Read Only). This is the time in seconds since the last non-additive scene has finished loading. */
                 public static get timeSinceLevelLoad(): number;
-                /** The double precision time since this frame started (Read Only). This is the time in seconds since the last non-additive scene has finished loading. */
-                public static get timeSinceLevelLoadAsDouble(): number;
                 /** The interval in seconds from the last frame to the current one (Read Only). */
                 public static get deltaTime(): number;
                 /** The time since the last MonoBehaviour.FixedUpdate started (Read Only). This is the time in seconds since the start of the game. */
                 public static get fixedTime(): number;
-                /** The double precision time since the last MonoBehaviour.FixedUpdate started (Read Only). This is the time in seconds since the start of the game. */
-                public static get fixedTimeAsDouble(): number;
                 /** The timeScale-independent time for this frame (Read Only). This is the time in seconds since the start of the game. */
                 public static get unscaledTime(): number;
-                /** The double precision timeScale-independent time for this frame (Read Only). This is the time in seconds since the start of the game. */
-                public static get unscaledTimeAsDouble(): number;
                 /** The timeScale-independent time at the beginning of the last MonoBehaviour.FixedUpdate phase (Read Only). This is the time in seconds since the start of the game. */
                 public static get fixedUnscaledTime(): number;
-                /** The double precision timeScale-independent time at the beginning of the last MonoBehaviour.FixedUpdate (Read Only). This is the time in seconds since the start of the game. */
-                public static get fixedUnscaledTimeAsDouble(): number;
                 /** The timeScale-independent interval in seconds from the last frame to the current one (Read Only). */
                 public static get unscaledDeltaTime(): number;
                 /** The timeScale-independent interval in seconds from the last MonoBehaviour.FixedUpdate phase to the current one (Read Only). */
@@ -790,8 +1090,6 @@ declare module 'csharp' {
                 public static get renderedFrameCount(): number;
                 /** The real time in seconds since the game started (Read Only). */
                 public static get realtimeSinceStartup(): number;
-                /** The real time in seconds since the game started (Read Only). Double precision version of Time.realtimeSinceStartup.  */
-                public static get realtimeSinceStartupAsDouble(): number;
                 /** Slows your application’s playback time to allow Unity to save screenshots in between frames. */
                 public static get captureDeltaTime(): number;
                 public static set captureDeltaTime(value: number);
@@ -970,12 +1268,12 @@ declare module 'csharp' {
                 public GetChild ($index: number) : UnityEngine.Transform
             }
             /** Quaternions are used to represent rotations. */
-            class Quaternion extends System.ValueType implements System.IEquatable$1<UnityEngine.Quaternion>, System.IFormattable
+            class Quaternion extends System.ValueType implements System.IEquatable$1<UnityEngine.Quaternion>
             {
                 protected [__keep_incompatibility]: never;
             }
             /** A standard 4x4 transformation matrix. */
-            class Matrix4x4 extends System.ValueType implements System.IEquatable$1<UnityEngine.Matrix4x4>, System.IFormattable
+            class Matrix4x4 extends System.ValueType implements System.IEquatable$1<UnityEngine.Matrix4x4>
             {
                 protected [__keep_incompatibility]: never;
             }
@@ -1028,8 +1326,6 @@ declare module 'csharp' {
                 public get limitVelocityOverLifetime(): UnityEngine.ParticleSystem.LimitVelocityOverLifetimeModule;
                 /** Script interface for the InheritVelocityModule of a Particle System. */
                 public get inheritVelocity(): UnityEngine.ParticleSystem.InheritVelocityModule;
-                /** Script interface for the Particle System Lifetime By Emitter Speed module. */
-                public get lifetimeByEmitterSpeed(): UnityEngine.ParticleSystem.LifetimeByEmitterSpeedModule;
                 /** Script interface for the ForceOverLifetimeModule of a Particle System. */
                 public get forceOverLifetime(): UnityEngine.ParticleSystem.ForceOverLifetimeModule;
                 /** Script interface for the ColorOverLifetimeModule of a Particle System. */
@@ -1079,7 +1375,6 @@ declare module 'csharp' {
                 public GetPlaybackState () : UnityEngine.ParticleSystem.PlaybackState
                 public SetPlaybackState ($playbackState: UnityEngine.ParticleSystem.PlaybackState) : void
                 public GetTrails () : UnityEngine.ParticleSystem.Trails
-                public GetTrails ($trailData: $Ref<UnityEngine.ParticleSystem.Trails>) : number
                 public SetTrails ($trailData: UnityEngine.ParticleSystem.Trails) : void
                 /** Fast-forwards the Particle System by simulating particles over the given period of time, then pauses it. * @param t Time period in seconds to advance the ParticleSystem simulation by. If restart is true, the ParticleSystem will be reset to 0 time, and then advanced by this value. If restart is false, the ParticleSystem simulation will be advanced in time from its current state by this value.
                 * @param withChildren Fast-forward all child Particle Systems as well.
@@ -1146,15 +1441,10 @@ declare module 'csharp' {
                 * @param indexBuffersCount The maximum number of cached index buffers.
                 */
                 public static SetMaximumPreMappedBufferCounts ($vertexBuffersCount: number, $indexBuffersCount: number) : void
-                public AllocateAxisOfRotationAttribute () : void
-                public AllocateMeshIndexAttribute () : void
-                /** Ensures that the ParticleSystemJobs.ParticleSystemJobData.customData1|customData1 and ParticleSystemJobs.ParticleSystemJobData.customData1|customData2 particle attribute arrays are allocated. * @param stream The custom data stream to allocate.
-                */
-                public AllocateCustomDataAttribute ($stream: UnityEngine.ParticleSystemCustomData) : void
                 public constructor ()
             }
             /** Representation of RGBA colors in 32 bit format. */
-            class Color32 extends System.ValueType implements System.IFormattable
+            class Color32 extends System.ValueType
             {
                 protected [__keep_incompatibility]: never;
             }
@@ -1165,7 +1455,7 @@ declare module 'csharp' {
             enum ParticleSystemScalingMode
             { Hierarchy = 0, Local = 1, Shape = 2 }
             /** Representation of four-dimensional vectors. */
-            class Vector4 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector4>, System.IFormattable
+            class Vector4 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector4>
             {
                 protected [__keep_incompatibility]: never;
             }
@@ -1175,6 +1465,17 @@ declare module 'csharp' {
             /** The behavior to apply when calling ParticleSystem.Stop|Stop. */
             enum ParticleSystemStopBehavior
             { StopEmittingAndClear = 0, StopEmitting = 1 }
+            /** Behaviours are Components that can be enabled or disabled. */
+            class Behaviour extends UnityEngine.Component
+            {
+                protected [__keep_incompatibility]: never;
+                /** Enabled Behaviours are Updated, disabled Behaviours are not. */
+                public get enabled(): boolean;
+                public set enabled(value: boolean);
+                /** Has the Behaviour had active and enabled called? */
+                public get isActiveAndEnabled(): boolean;
+                public constructor ()
+            }
             /** Element that can be used for screen rendering. */
             class Canvas extends UnityEngine.Behaviour
             {
@@ -1242,22 +1543,11 @@ declare module 'csharp' {
                 public static ForceUpdateCanvases () : void
                 public constructor ()
             }
-            /** Behaviours are Components that can be enabled or disabled. */
-            class Behaviour extends UnityEngine.Component
-            {
-                protected [__keep_incompatibility]: never;
-                /** Enabled Behaviours are Updated, disabled Behaviours are not. */
-                public get enabled(): boolean;
-                public set enabled(value: boolean);
-                /** Has the Behaviour had active and enabled called? */
-                public get isActiveAndEnabled(): boolean;
-                public constructor ()
-            }
             /** RenderMode for the Canvas. */
             enum RenderMode
             { ScreenSpaceOverlay = 0, ScreenSpaceCamera = 1, WorldSpace = 2 }
             /** A 2D Rectangle defined by X and Y position, width and height. */
-            class Rect extends System.ValueType implements System.IEquatable$1<UnityEngine.Rect>, System.IFormattable
+            class Rect extends System.ValueType implements System.IEquatable$1<UnityEngine.Rect>
             {
                 protected [__keep_incompatibility]: never;
             }
@@ -1265,7 +1555,7 @@ declare module 'csharp' {
             enum AdditionalCanvasShaderChannels
             { None = 0, TexCoord1 = 1, TexCoord2 = 2, TexCoord3 = 4, Normal = 8, Tangent = 16 }
             /** Representation of 2D vectors and points. */
-            class Vector2 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector2>, System.IFormattable
+            class Vector2 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector2>
             {
                 protected [__keep_incompatibility]: never;
             }
@@ -1322,13 +1612,13 @@ declare module 'csharp' {
                 public static print ($message: any) : void
                 public constructor ()
             }
-            /** MonoBehaviour.StartCoroutine returns a Coroutine. Instances of this class are only used to reference these coroutines, and do not hold any exposed properties or functions. */
-            class Coroutine extends UnityEngine.YieldInstruction
+            /** Base class for all yield instructions. */
+            class YieldInstruction extends System.Object
             {
                 protected [__keep_incompatibility]: never;
             }
-            /** Base class for all yield instructions. */
-            class YieldInstruction extends System.Object
+            /** MonoBehaviour.StartCoroutine returns a Coroutine. Instances of this class are only used to reference these coroutines, and do not hold any exposed properties or functions. */
+            class Coroutine extends UnityEngine.YieldInstruction
             {
                 protected [__keep_incompatibility]: never;
             }
@@ -1350,342 +1640,9 @@ declare module 'csharp' {
             }
             /** Enumeration of the different types of supported touchscreen keyboards. */
             enum TouchScreenKeyboardType
-            { Default = 0, ASCIICapable = 1, NumbersAndPunctuation = 2, URL = 3, NumberPad = 4, PhonePad = 5, NamePhonePad = 6, EmailAddress = 7, NintendoNetworkAccount = 8, Social = 9, Search = 10, DecimalPad = 11, OneTimeCode = 12 }
+            { Default = 0, ASCIICapable = 1, NumbersAndPunctuation = 2, URL = 3, NumberPad = 4, PhonePad = 5, NamePhonePad = 6, EmailAddress = 7, NintendoNetworkAccount = 8, Social = 9, Search = 10, DecimalPad = 11 }
             /** A UnityGUI event. */
             class Event extends System.Object
-            {
-                protected [__keep_incompatibility]: never;
-            }
-        }
-        namespace System {
-            class Object
-            {
-                protected [__keep_incompatibility]: never;
-                public Equals ($obj: any) : boolean
-                public static Equals ($objA: any, $objB: any) : boolean
-                public GetHashCode () : number
-                public GetType () : System.Type
-                public ToString () : string
-                public static ReferenceEquals ($objA: any, $objB: any) : boolean
-                public constructor ()
-            }
-            class Void extends System.ValueType
-            {
-                protected [__keep_incompatibility]: never;
-            }
-            class ValueType extends System.Object
-            {
-                protected [__keep_incompatibility]: never;
-            }
-            interface IEquatable$1<T>
-            {
-            }
-            interface IFormattable
-            {
-            }
-            class Single extends System.ValueType implements System.IComparable, System.IComparable$1<number>, System.IConvertible, System.IEquatable$1<number>, System.IFormattable
-            {
-                protected [__keep_incompatibility]: never;
-            }
-            interface IComparable
-            {
-            }
-            interface IComparable$1<T>
-            {
-            }
-            interface IConvertible
-            {
-            }
-            class Boolean extends System.ValueType implements System.IComparable, System.IComparable$1<boolean>, System.IConvertible, System.IEquatable$1<boolean>
-            {
-                protected [__keep_incompatibility]: never;
-            }
-            class Int32 extends System.ValueType implements System.IComparable, System.IComparable$1<number>, System.IConvertible, System.IEquatable$1<number>, System.IFormattable
-            {
-                protected [__keep_incompatibility]: never;
-            }
-            class String extends System.Object implements System.ICloneable, System.Collections.IEnumerable, System.IComparable, System.IComparable$1<string>, System.IConvertible, System.IEquatable$1<string>, System.Collections.Generic.IEnumerable$1<number>
-            {
-                protected [__keep_incompatibility]: never;
-            }
-            interface ICloneable
-            {
-            }
-            class Char extends System.ValueType implements System.IComparable, System.IComparable$1<number>, System.IConvertible, System.IEquatable$1<number>
-            {
-                protected [__keep_incompatibility]: never;
-            }
-            class Enum extends System.ValueType implements System.IComparable, System.IConvertible, System.IFormattable
-            {
-                protected [__keep_incompatibility]: never;
-            }
-            class Exception extends System.Object implements System.Runtime.InteropServices._Exception, System.Runtime.Serialization.ISerializable
-            {
-                protected [__keep_incompatibility]: never;
-            }
-            interface MulticastDelegate
-            { 
-            (...args:any[]) : any; 
-            Invoke?: (...args:any[]) => any;
-            }
-            var MulticastDelegate: { new (func: (...args:any[]) => any): MulticastDelegate; }
-            class Delegate extends System.Object implements System.ICloneable, System.Runtime.Serialization.ISerializable
-            {
-                protected [__keep_incompatibility]: never;
-                public get Method(): System.Reflection.MethodInfo;
-                public get Target(): any;
-                public static CreateDelegate ($type: System.Type, $firstArgument: any, $method: System.Reflection.MethodInfo, $throwOnBindFailure: boolean) : Function
-                public static CreateDelegate ($type: System.Type, $firstArgument: any, $method: System.Reflection.MethodInfo) : Function
-                public static CreateDelegate ($type: System.Type, $method: System.Reflection.MethodInfo, $throwOnBindFailure: boolean) : Function
-                public static CreateDelegate ($type: System.Type, $method: System.Reflection.MethodInfo) : Function
-                public static CreateDelegate ($type: System.Type, $target: any, $method: string) : Function
-                public static CreateDelegate ($type: System.Type, $target: System.Type, $method: string, $ignoreCase: boolean, $throwOnBindFailure: boolean) : Function
-                public static CreateDelegate ($type: System.Type, $target: System.Type, $method: string) : Function
-                public static CreateDelegate ($type: System.Type, $target: System.Type, $method: string, $ignoreCase: boolean) : Function
-                public static CreateDelegate ($type: System.Type, $target: any, $method: string, $ignoreCase: boolean, $throwOnBindFailure: boolean) : Function
-                public static CreateDelegate ($type: System.Type, $target: any, $method: string, $ignoreCase: boolean) : Function
-                public DynamicInvoke (...args: any[]) : any
-                public Clone () : any
-                public GetObjectData ($info: System.Runtime.Serialization.SerializationInfo, $context: System.Runtime.Serialization.StreamingContext) : void
-                public GetInvocationList () : System.Array$1<Function>
-                public static Combine ($a: Function, $b: Function) : Function
-                public static Combine (...delegates: Function[]) : Function
-                public static Remove ($source: Function, $value: Function) : Function
-                public static RemoveAll ($source: Function, $value: Function) : Function
-                public static op_Equality ($d1: Function, $d2: Function) : boolean
-                public static op_Inequality ($d1: Function, $d2: Function) : boolean
-            }
-            interface IFormatProvider
-            {
-            }
-            interface Converter$2<TInput, TOutput>
-            { 
-            (input: TInput) : TOutput; 
-            Invoke?: (input: TInput) => TOutput;
-            }
-            interface Predicate$1<T>
-            { 
-            (obj: T) : boolean; 
-            Invoke?: (obj: T) => boolean;
-            }
-            interface Action$1<T>
-            { 
-            (obj: T) : void; 
-            Invoke?: (obj: T) => void;
-            }
-            interface IDisposable
-            {
-            }
-            interface Comparison$1<T>
-            { 
-            (x: T, y: T) : number; 
-            Invoke?: (x: T, y: T) => number;
-            }
-            class Double extends System.ValueType implements System.IComparable, System.IComparable$1<number>, System.IConvertible, System.IEquatable$1<number>, System.IFormattable
-            {
-                protected [__keep_incompatibility]: never;
-            }
-            interface IAsyncResult
-            {
-            }
-            class Type extends System.Reflection.MemberInfo implements System.Reflection.IReflect, System.Runtime.InteropServices._Type, System.Reflection.ICustomAttributeProvider, System.Runtime.InteropServices._MemberInfo
-            {
-                protected [__keep_incompatibility]: never;
-                public static FilterAttribute : System.Reflection.MemberFilter
-                public static FilterName : System.Reflection.MemberFilter
-                public static FilterNameIgnoreCase : System.Reflection.MemberFilter
-                public static Missing : any
-                public static Delimiter : number
-                public static EmptyTypes : System.Array$1<System.Type>
-                public get MemberType(): System.Reflection.MemberTypes;
-                public get DeclaringType(): System.Type;
-                public get DeclaringMethod(): System.Reflection.MethodBase;
-                public get ReflectedType(): System.Type;
-                public get StructLayoutAttribute(): System.Runtime.InteropServices.StructLayoutAttribute;
-                public get GUID(): System.Guid;
-                public static get DefaultBinder(): System.Reflection.Binder;
-                public get Module(): System.Reflection.Module;
-                public get Assembly(): System.Reflection.Assembly;
-                public get TypeHandle(): System.RuntimeTypeHandle;
-                public get FullName(): string;
-                public get Namespace(): string;
-                public get AssemblyQualifiedName(): string;
-                public get BaseType(): System.Type;
-                public get TypeInitializer(): System.Reflection.ConstructorInfo;
-                public get IsNested(): boolean;
-                public get Attributes(): System.Reflection.TypeAttributes;
-                public get GenericParameterAttributes(): System.Reflection.GenericParameterAttributes;
-                public get IsVisible(): boolean;
-                public get IsNotPublic(): boolean;
-                public get IsPublic(): boolean;
-                public get IsNestedPublic(): boolean;
-                public get IsNestedPrivate(): boolean;
-                public get IsNestedFamily(): boolean;
-                public get IsNestedAssembly(): boolean;
-                public get IsNestedFamANDAssem(): boolean;
-                public get IsNestedFamORAssem(): boolean;
-                public get IsAutoLayout(): boolean;
-                public get IsLayoutSequential(): boolean;
-                public get IsExplicitLayout(): boolean;
-                public get IsClass(): boolean;
-                public get IsInterface(): boolean;
-                public get IsValueType(): boolean;
-                public get IsAbstract(): boolean;
-                public get IsSealed(): boolean;
-                public get IsEnum(): boolean;
-                public get IsSpecialName(): boolean;
-                public get IsImport(): boolean;
-                public get IsSerializable(): boolean;
-                public get IsAnsiClass(): boolean;
-                public get IsUnicodeClass(): boolean;
-                public get IsAutoClass(): boolean;
-                public get IsArray(): boolean;
-                public get IsGenericType(): boolean;
-                public get IsGenericTypeDefinition(): boolean;
-                public get IsConstructedGenericType(): boolean;
-                public get IsGenericParameter(): boolean;
-                public get GenericParameterPosition(): number;
-                public get ContainsGenericParameters(): boolean;
-                public get IsByRef(): boolean;
-                public get IsPointer(): boolean;
-                public get IsPrimitive(): boolean;
-                public get IsCOMObject(): boolean;
-                public get HasElementType(): boolean;
-                public get IsContextful(): boolean;
-                public get IsMarshalByRef(): boolean;
-                public get GenericTypeArguments(): System.Array$1<System.Type>;
-                public get IsSecurityCritical(): boolean;
-                public get IsSecuritySafeCritical(): boolean;
-                public get IsSecurityTransparent(): boolean;
-                public get UnderlyingSystemType(): System.Type;
-                public static GetType ($typeName: string, $assemblyResolver: System.Func$2<System.Reflection.AssemblyName, System.Reflection.Assembly>, $typeResolver: System.Func$4<System.Reflection.Assembly, string, boolean, System.Type>) : System.Type
-                public static GetType ($typeName: string, $assemblyResolver: System.Func$2<System.Reflection.AssemblyName, System.Reflection.Assembly>, $typeResolver: System.Func$4<System.Reflection.Assembly, string, boolean, System.Type>, $throwOnError: boolean) : System.Type
-                public static GetType ($typeName: string, $assemblyResolver: System.Func$2<System.Reflection.AssemblyName, System.Reflection.Assembly>, $typeResolver: System.Func$4<System.Reflection.Assembly, string, boolean, System.Type>, $throwOnError: boolean, $ignoreCase: boolean) : System.Type
-                public MakePointerType () : System.Type
-                public MakeByRefType () : System.Type
-                public MakeArrayType () : System.Type
-                public MakeArrayType ($rank: number) : System.Type
-                public static GetTypeFromProgID ($progID: string) : System.Type
-                public static GetTypeFromProgID ($progID: string, $throwOnError: boolean) : System.Type
-                public static GetTypeFromProgID ($progID: string, $server: string) : System.Type
-                public static GetTypeFromProgID ($progID: string, $server: string, $throwOnError: boolean) : System.Type
-                public static GetTypeFromCLSID ($clsid: System.Guid) : System.Type
-                public static GetTypeFromCLSID ($clsid: System.Guid, $throwOnError: boolean) : System.Type
-                public static GetTypeFromCLSID ($clsid: System.Guid, $server: string) : System.Type
-                public static GetTypeFromCLSID ($clsid: System.Guid, $server: string, $throwOnError: boolean) : System.Type
-                public static GetTypeCode ($type: System.Type) : System.TypeCode
-                public InvokeMember ($name: string, $invokeAttr: System.Reflection.BindingFlags, $binder: System.Reflection.Binder, $target: any, $args: System.Array$1<any>, $modifiers: System.Array$1<System.Reflection.ParameterModifier>, $culture: System.Globalization.CultureInfo, $namedParameters: System.Array$1<string>) : any
-                public InvokeMember ($name: string, $invokeAttr: System.Reflection.BindingFlags, $binder: System.Reflection.Binder, $target: any, $args: System.Array$1<any>, $culture: System.Globalization.CultureInfo) : any
-                public InvokeMember ($name: string, $invokeAttr: System.Reflection.BindingFlags, $binder: System.Reflection.Binder, $target: any, $args: System.Array$1<any>) : any
-                public static GetTypeHandle ($o: any) : System.RuntimeTypeHandle
-                public GetArrayRank () : number
-                public GetConstructor ($bindingAttr: System.Reflection.BindingFlags, $binder: System.Reflection.Binder, $callConvention: System.Reflection.CallingConventions, $types: System.Array$1<System.Type>, $modifiers: System.Array$1<System.Reflection.ParameterModifier>) : System.Reflection.ConstructorInfo
-                public GetConstructor ($bindingAttr: System.Reflection.BindingFlags, $binder: System.Reflection.Binder, $types: System.Array$1<System.Type>, $modifiers: System.Array$1<System.Reflection.ParameterModifier>) : System.Reflection.ConstructorInfo
-                public GetConstructor ($types: System.Array$1<System.Type>) : System.Reflection.ConstructorInfo
-                public GetConstructors () : System.Array$1<System.Reflection.ConstructorInfo>
-                public GetConstructors ($bindingAttr: System.Reflection.BindingFlags) : System.Array$1<System.Reflection.ConstructorInfo>
-                public GetMethod ($name: string, $bindingAttr: System.Reflection.BindingFlags, $binder: System.Reflection.Binder, $callConvention: System.Reflection.CallingConventions, $types: System.Array$1<System.Type>, $modifiers: System.Array$1<System.Reflection.ParameterModifier>) : System.Reflection.MethodInfo
-                public GetMethod ($name: string, $bindingAttr: System.Reflection.BindingFlags, $binder: System.Reflection.Binder, $types: System.Array$1<System.Type>, $modifiers: System.Array$1<System.Reflection.ParameterModifier>) : System.Reflection.MethodInfo
-                public GetMethod ($name: string, $types: System.Array$1<System.Type>, $modifiers: System.Array$1<System.Reflection.ParameterModifier>) : System.Reflection.MethodInfo
-                public GetMethod ($name: string, $types: System.Array$1<System.Type>) : System.Reflection.MethodInfo
-                public GetMethod ($name: string, $bindingAttr: System.Reflection.BindingFlags) : System.Reflection.MethodInfo
-                public GetMethod ($name: string) : System.Reflection.MethodInfo
-                public GetMethods () : System.Array$1<System.Reflection.MethodInfo>
-                public GetMethods ($bindingAttr: System.Reflection.BindingFlags) : System.Array$1<System.Reflection.MethodInfo>
-                public GetField ($name: string, $bindingAttr: System.Reflection.BindingFlags) : System.Reflection.FieldInfo
-                public GetField ($name: string) : System.Reflection.FieldInfo
-                public GetFields () : System.Array$1<System.Reflection.FieldInfo>
-                public GetFields ($bindingAttr: System.Reflection.BindingFlags) : System.Array$1<System.Reflection.FieldInfo>
-                public GetInterface ($name: string) : System.Type
-                public GetInterface ($name: string, $ignoreCase: boolean) : System.Type
-                public GetInterfaces () : System.Array$1<System.Type>
-                public FindInterfaces ($filter: System.Reflection.TypeFilter, $filterCriteria: any) : System.Array$1<System.Type>
-                public GetEvent ($name: string) : System.Reflection.EventInfo
-                public GetEvent ($name: string, $bindingAttr: System.Reflection.BindingFlags) : System.Reflection.EventInfo
-                public GetEvents () : System.Array$1<System.Reflection.EventInfo>
-                public GetEvents ($bindingAttr: System.Reflection.BindingFlags) : System.Array$1<System.Reflection.EventInfo>
-                public GetProperty ($name: string, $bindingAttr: System.Reflection.BindingFlags, $binder: System.Reflection.Binder, $returnType: System.Type, $types: System.Array$1<System.Type>, $modifiers: System.Array$1<System.Reflection.ParameterModifier>) : System.Reflection.PropertyInfo
-                public GetProperty ($name: string, $returnType: System.Type, $types: System.Array$1<System.Type>, $modifiers: System.Array$1<System.Reflection.ParameterModifier>) : System.Reflection.PropertyInfo
-                public GetProperty ($name: string, $bindingAttr: System.Reflection.BindingFlags) : System.Reflection.PropertyInfo
-                public GetProperty ($name: string, $returnType: System.Type, $types: System.Array$1<System.Type>) : System.Reflection.PropertyInfo
-                public GetProperty ($name: string, $types: System.Array$1<System.Type>) : System.Reflection.PropertyInfo
-                public GetProperty ($name: string, $returnType: System.Type) : System.Reflection.PropertyInfo
-                public GetProperty ($name: string) : System.Reflection.PropertyInfo
-                public GetProperties ($bindingAttr: System.Reflection.BindingFlags) : System.Array$1<System.Reflection.PropertyInfo>
-                public GetProperties () : System.Array$1<System.Reflection.PropertyInfo>
-                public GetNestedTypes () : System.Array$1<System.Type>
-                public GetNestedTypes ($bindingAttr: System.Reflection.BindingFlags) : System.Array$1<System.Type>
-                public GetNestedType ($name: string) : System.Type
-                public GetNestedType ($name: string, $bindingAttr: System.Reflection.BindingFlags) : System.Type
-                public GetMember ($name: string) : System.Array$1<System.Reflection.MemberInfo>
-                public GetMember ($name: string, $bindingAttr: System.Reflection.BindingFlags) : System.Array$1<System.Reflection.MemberInfo>
-                public GetMember ($name: string, $type: System.Reflection.MemberTypes, $bindingAttr: System.Reflection.BindingFlags) : System.Array$1<System.Reflection.MemberInfo>
-                public GetMembers () : System.Array$1<System.Reflection.MemberInfo>
-                public GetMembers ($bindingAttr: System.Reflection.BindingFlags) : System.Array$1<System.Reflection.MemberInfo>
-                public GetDefaultMembers () : System.Array$1<System.Reflection.MemberInfo>
-                public FindMembers ($memberType: System.Reflection.MemberTypes, $bindingAttr: System.Reflection.BindingFlags, $filter: System.Reflection.MemberFilter, $filterCriteria: any) : System.Array$1<System.Reflection.MemberInfo>
-                public GetGenericParameterConstraints () : System.Array$1<System.Type>
-                public MakeGenericType (...typeArguments: System.Type[]) : System.Type
-                public GetElementType () : System.Type
-                public GetGenericArguments () : System.Array$1<System.Type>
-                public GetGenericTypeDefinition () : System.Type
-                public GetEnumNames () : System.Array$1<string>
-                public GetEnumValues () : System.Array
-                public GetEnumUnderlyingType () : System.Type
-                public IsEnumDefined ($value: any) : boolean
-                public GetEnumName ($value: any) : string
-                public IsSubclassOf ($c: System.Type) : boolean
-                public IsInstanceOfType ($o: any) : boolean
-                public IsAssignableFrom ($c: System.Type) : boolean
-                public IsEquivalentTo ($other: System.Type) : boolean
-                public static GetTypeArray ($args: System.Array$1<any>) : System.Array$1<System.Type>
-                public Equals ($o: any) : boolean
-                public Equals ($o: System.Type) : boolean
-                public static op_Equality ($left: System.Type, $right: System.Type) : boolean
-                public static op_Inequality ($left: System.Type, $right: System.Type) : boolean
-                public GetInterfaceMap ($interfaceType: System.Type) : System.Reflection.InterfaceMapping
-                public GetType () : System.Type
-                public static GetType ($typeName: string) : System.Type
-                public static GetType ($typeName: string, $throwOnError: boolean) : System.Type
-                public static GetType ($typeName: string, $throwOnError: boolean, $ignoreCase: boolean) : System.Type
-                public static ReflectionOnlyGetType ($typeName: string, $throwIfNotFound: boolean, $ignoreCase: boolean) : System.Type
-                public static GetTypeFromHandle ($handle: System.RuntimeTypeHandle) : System.Type
-                public Equals ($obj: any) : boolean
-                public static Equals ($objA: any, $objB: any) : boolean
-            }
-            class Array extends System.Object implements System.ICloneable, System.Collections.IEnumerable, System.Collections.IList, System.Collections.IStructuralComparable, System.Collections.IStructuralEquatable, System.Collections.ICollection
-            {
-                protected [__keep_incompatibility]: never;
-            }
-            class UInt64 extends System.ValueType implements System.IComparable, System.IComparable$1<bigint>, System.IConvertible, System.IEquatable$1<bigint>, System.IFormattable
-            {
-                protected [__keep_incompatibility]: never;
-            }
-            interface Func$2<T, TResult>
-            { 
-            (arg: T) : TResult; 
-            Invoke?: (arg: T) => TResult;
-            }
-            interface Func$4<T1, T2, T3, TResult>
-            { 
-            (arg1: T1, arg2: T2, arg3: T3) : TResult; 
-            Invoke?: (arg1: T1, arg2: T2, arg3: T3) => TResult;
-            }
-            class Attribute extends System.Object implements System.Runtime.InteropServices._Attribute
-            {
-                protected [__keep_incompatibility]: never;
-            }
-            class Guid extends System.ValueType implements System.IComparable, System.IComparable$1<System.Guid>, System.IEquatable$1<System.Guid>, System.IFormattable
-            {
-                protected [__keep_incompatibility]: never;
-            }
-            enum TypeCode
-            { Empty = 0, Object = 1, DBNull = 2, Boolean = 3, Char = 4, SByte = 5, Byte = 6, Int16 = 7, UInt16 = 8, Int32 = 9, UInt32 = 10, Int64 = 11, UInt64 = 12, Single = 13, Double = 14, Decimal = 15, DateTime = 16, String = 18 }
-            class RuntimeTypeHandle extends System.ValueType implements System.Runtime.Serialization.ISerializable
-            {
-                protected [__keep_incompatibility]: never;
-            }
-            class UInt32 extends System.ValueType implements System.IComparable, System.IComparable$1<number>, System.IConvertible, System.IEquatable$1<number>, System.IFormattable
             {
                 protected [__keep_incompatibility]: never;
             }
@@ -1700,6 +1657,12 @@ declare module 'csharp' {
             interface ICollection extends System.Collections.IEnumerable
             {
             }
+            interface IStructuralComparable
+            {
+            }
+            interface IStructuralEquatable
+            {
+            }
             interface IEnumerator
             {
             }
@@ -1707,12 +1670,6 @@ declare module 'csharp' {
             {
             }
             interface IDictionaryEnumerator extends System.Collections.IEnumerator
-            {
-            }
-            interface IStructuralComparable
-            {
-            }
-            interface IStructuralEquatable
             {
             }
         }
@@ -1858,12 +1815,12 @@ declare module 'csharp' {
             interface _Assembly
             {
             }
+            interface _Attribute
+            {
+            }
             class StructLayoutAttribute extends System.Attribute implements System.Runtime.InteropServices._Attribute
             {
                 protected [__keep_incompatibility]: never;
-            }
-            interface _Attribute
-            {
             }
             interface _Module
             {
@@ -2013,11 +1970,11 @@ declare module 'csharp' {
             }
         }
         namespace System.Threading.Tasks {
-            class Task$1<TResult> extends System.Threading.Tasks.Task implements System.IAsyncResult, System.Threading.IThreadPoolWorkItem, System.IDisposable
+            class Task extends System.Object implements System.IAsyncResult, System.Threading.IThreadPoolWorkItem, System.IDisposable
             {
                 protected [__keep_incompatibility]: never;
             }
-            class Task extends System.Object implements System.IAsyncResult, System.Threading.IThreadPoolWorkItem, System.IDisposable
+            class Task$1<TResult> extends System.Threading.Tasks.Task implements System.IAsyncResult, System.Threading.IThreadPoolWorkItem, System.IDisposable
             {
                 protected [__keep_incompatibility]: never;
             }
@@ -2038,11 +1995,11 @@ declare module 'csharp' {
             interface IReflect
             {
             }
-            class MethodInfo extends System.Reflection.MethodBase implements System.Runtime.InteropServices._MethodBase, System.Runtime.InteropServices._MethodInfo, System.Reflection.ICustomAttributeProvider, System.Runtime.InteropServices._MemberInfo
+            class MethodBase extends System.Reflection.MemberInfo implements System.Runtime.InteropServices._MethodBase, System.Reflection.ICustomAttributeProvider, System.Runtime.InteropServices._MemberInfo
             {
                 protected [__keep_incompatibility]: never;
             }
-            class MethodBase extends System.Reflection.MemberInfo implements System.Runtime.InteropServices._MethodBase, System.Reflection.ICustomAttributeProvider, System.Runtime.InteropServices._MemberInfo
+            class MethodInfo extends System.Reflection.MethodBase implements System.Runtime.InteropServices._MethodBase, System.Runtime.InteropServices._MethodInfo, System.Reflection.ICustomAttributeProvider, System.Runtime.InteropServices._MemberInfo
             {
                 protected [__keep_incompatibility]: never;
             }
@@ -2168,10 +2125,6 @@ declare module 'csharp' {
             {
                 protected [__keep_incompatibility]: never;
             }
-            class LifetimeByEmitterSpeedModule extends System.ValueType
-            {
-                protected [__keep_incompatibility]: never;
-            }
             class ForceOverLifetimeModule extends System.ValueType
             {
                 protected [__keep_incompatibility]: never;
@@ -2282,7 +2235,7 @@ declare module 'csharp' {
             interface IMoveHandler extends UnityEngine.EventSystems.IEventSystemHandler
             {
             }
-            class AxisEventData extends UnityEngine.EventSystems.BaseEventData
+            class AbstractEventData extends System.Object
             {
                 protected [__keep_incompatibility]: never;
             }
@@ -2290,7 +2243,7 @@ declare module 'csharp' {
             {
                 protected [__keep_incompatibility]: never;
             }
-            class AbstractEventData extends System.Object
+            class AxisEventData extends UnityEngine.EventSystems.BaseEventData
             {
                 protected [__keep_incompatibility]: never;
             }
@@ -2379,10 +2332,6 @@ declare module 'csharp' {
             interface ICanvasElement
             {
             }
-            class Image extends UnityEngine.UI.MaskableGraphic implements UnityEngine.UI.IMaterialModifier, UnityEngine.UI.IMaskable, UnityEngine.ICanvasRaycastFilter, UnityEngine.ISerializationCallbackReceiver, UnityEngine.UI.ICanvasElement, UnityEngine.UI.ILayoutElement, UnityEngine.UI.IClippable
-            {
-                protected [__keep_incompatibility]: never;
-            }
             class MaskableGraphic extends UnityEngine.UI.Graphic implements UnityEngine.UI.IMaterialModifier, UnityEngine.UI.IMaskable, UnityEngine.UI.ICanvasElement, UnityEngine.UI.IClippable
             {
                 protected [__keep_incompatibility]: never;
@@ -2395,6 +2344,10 @@ declare module 'csharp' {
             }
             interface IClippable
             {
+            }
+            class Image extends UnityEngine.UI.MaskableGraphic implements UnityEngine.UI.IMaterialModifier, UnityEngine.UI.IMaskable, UnityEngine.ICanvasRaycastFilter, UnityEngine.ISerializationCallbackReceiver, UnityEngine.UI.ICanvasElement, UnityEngine.UI.ILayoutElement, UnityEngine.UI.IClippable
+            {
+                protected [__keep_incompatibility]: never;
             }
             interface ILayoutElement
             {
@@ -2520,14 +2473,12 @@ declare module 'csharp' {
             enum Transition
             { None = 0, ColorTint = 1, SpriteSwap = 2, Animation = 3 }
         }
-        namespace UnityEngine.UI.Button {
-            class ButtonClickedEvent extends UnityEngine.Events.UnityEvent implements UnityEngine.ISerializationCallbackReceiver
+        namespace UnityEngine.Events {
+            /** Abstract base class for UnityEvents. */
+            class UnityEventBase extends System.Object implements UnityEngine.ISerializationCallbackReceiver
             {
                 protected [__keep_incompatibility]: never;
-                public constructor ()
             }
-        }
-        namespace UnityEngine.Events {
             /** A zero argument persistent callback that can be saved with the Scene. */
             class UnityEvent extends UnityEngine.Events.UnityEventBase implements UnityEngine.ISerializationCallbackReceiver
             {
@@ -2540,11 +2491,6 @@ declare module 'csharp' {
                 public RemoveListener ($call: UnityEngine.Events.UnityAction) : void
                 public Invoke () : void
                 public constructor ()
-            }
-            /** Abstract base class for UnityEvents. */
-            class UnityEventBase extends System.Object implements UnityEngine.ISerializationCallbackReceiver
-            {
-                protected [__keep_incompatibility]: never;
             }
             /** Zero argument delegate used by UnityEvents. */
             interface UnityAction
@@ -2559,12 +2505,18 @@ declare module 'csharp' {
                 public AddListener ($call: UnityEngine.Events.UnityAction$1<T0>) : void
                 public RemoveListener ($call: UnityEngine.Events.UnityAction$1<T0>) : void
                 public Invoke ($arg0: T0) : void
-                public constructor ()
             }
             interface UnityAction$1<T0>
             { 
             (arg0: T0) : void; 
             Invoke?: (arg0: T0) => void;
+            }
+        }
+        namespace UnityEngine.UI.Button {
+            class ButtonClickedEvent extends UnityEngine.Events.UnityEvent implements UnityEngine.ISerializationCallbackReceiver
+            {
+                protected [__keep_incompatibility]: never;
+                public constructor ()
             }
         }
         namespace UnityEngine.UI.InputField {
