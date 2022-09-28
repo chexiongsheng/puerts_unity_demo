@@ -6,17 +6,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 you can get the english version change log at [Github Release](https://github.com/Tencent/puerts/releases)
 
-## [1.4.0-rc.1] - 2022-09-22
-1. fix the bug that inspector break point + `setInterval` will cause crash #707
-2. support multiple inspectors connection for one single JsEnv, `hotreload` can also be used with inspector at the same time now #841
-3. full platform support for Node.js (i.e. Android and iOS support added). upm package now uses Node.js Backend by default.
-4. In order to make Node.js features more convenient to use, and also to solve the problem of WebGL version in WeChat mini-games, from this version onwards, PuerTS no longer has built-in support for require. original `require('csharp')` and `require('puerts')` have been replaced by global variables `CS` and `puer `
+## [1.4.0-rc.2] - 2022-09-28
+1. full platform support for Node.js (i.e. Android and iOS support added). upm package now uses Node.js Backend by default.
+2. In order to make the Node.js function more convenient to use, and also to solve the problem of WebGL version in WeChat mini-game, from this version on, add global variables `CS` and `puer`, corresponding to the original `require('csharp')` and `require('puerts')`. Please change the using of `require` to `global.CS`, `global.puer`, `import 'xxx'`. The `require` in PuerTS will be considered to be removed in version 1.5.
+3. Add `JsEnv.Backend` and add some GC API. `LowMemoryNotification` has moved into it too.
+4. refactor `NodeRunner`
 5. `ExecuteModule` handling of multi-level dependencies fixed.
 6. GeneralSetterManager/GeneralGetterManager optimization #688
-7. Add `JsEnv.Backend` and add some GC API. `LowMemoryNotification` has moved into it too.
+7. fix the bug that inspector break point + `setInterval` will cause crash #707
+8. support multiple inspectors connection for one single JsEnv, `hotreload` can also be used with inspector at the same time now #841
+9. remove `Node.js backend`'s `--no-browser-globals`
+10. fix the problem that circular dependency will cause crash when loading ESM
+11. fix the problem that ESM throws error when loading dependency with relative path
+12. add `import.meta.url` when module is loading
+13. fix the problem that dts reports an error when generating nullable types
 
-
-## [1.4.0-preview.6] - 2022-07-25
+## [1.4.0-preview.6] - 2022-07-08
 1. support multi inspector client 
 2. fix the inspector crash problem in unity2021.3.4+
 3. fix #708
@@ -39,36 +44,6 @@ you can get the english version change log at [Github Release](https://github.co
 3. make all members become configurable #667
 4. add `require('puerts').getLastException` to get the Error instance #629
 5. change LC_RPATH setter to support silicon
-
-## [1.3.8] - 2022-08-31
-1. fix: didn't check NativeObject's type when setting fields. #954
-1. fix: easy to cause `task.GetAwaiter(...).OnCompleted is not a function` error in Unity's Ilcpp mode #966
-2. optimize: the memory usage for JSObject #947
-2. optimize: disable setting constructor's BindingMode to Lazy
-2. optimize: disable reflect extension feature in Editor's Playmode
-
-## [1.3.7] - 2022-07-28
-1. disable generic wrapper by default in 1.3 #937 #918
-2. fix: arguments number mismatch when generating BlittableCopy #938
-3. fix: MJSImporter will cause warning in 2018
-4. fix: #912
-
-## [1.3.6] - 2022-07-13
-1. fix: UnityMenu.cs code bug fix.
-2. fix: thrown error when generating generic type with constrained generic argument.
-
-## [1.3.5] - 2022-07-06
-1. fix: duplicated key error during generating: #657
-2. fix: cannot $generic a Type with Enum #856
-3. fix: did not filter the pointer type in delegate during generating: #857
-4. fix: in the d.ts, the return type of an interface's extension method would be wrong: #857
-5. fix: do not generate extension method for enum #857
-6. fix: some order of parameters with ArrayBuffer will throw an Error. #853
-7. feature: support invoking generic method without constraint: #819
-8. feature: the wrapper file of a generic type can now combine into one single file. #816
-9. feature: TypedValue can now pass to the argument of the corresponding type. #833
-10. optimize: add a reusable Github action for downloading JS backend artifact.
-11. optimize: can download the backend file by a URL in action.
 
 ## [1.3.4] - 2022-05-18
 1. the module csharp in d.ts will use export = just like what Node.js did #750

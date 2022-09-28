@@ -1,5 +1,5 @@
 ﻿
-declare namespace CS {
+    declare namespace CS {
     //keep type incompatibility / 此属性保持类型不兼容
     const __keep_incompatibility: unique symbol;
     interface $Ref<T> {
@@ -129,6 +129,9 @@ declare namespace CS {
         class Exception extends System.Object implements System.Runtime.InteropServices._Exception, System.Runtime.Serialization.ISerializable
         {
             protected [__keep_incompatibility]: never;
+        }
+        interface IFormatProvider
+        {
         }
         interface Converter$2<TInput, TOutput>
         { 
@@ -344,9 +347,6 @@ declare namespace CS {
         }
         enum TypeCode
         { Empty = 0, Object = 1, DBNull = 2, Boolean = 3, Char = 4, SByte = 5, Byte = 6, Int16 = 7, UInt16 = 8, Int32 = 9, UInt32 = 10, Int64 = 11, UInt64 = 12, Single = 13, Double = 14, Decimal = 15, DateTime = 16, String = 18 }
-        interface IFormatProvider
-        {
-        }
         class RuntimeTypeHandle extends System.ValueType implements System.Runtime.Serialization.ISerializable
         {
             protected [__keep_incompatibility]: never;
@@ -404,7 +404,7 @@ declare namespace CS {
             /** The path to the StreamingAssets folder (Read Only).
             */
             public static get streamingAssetsPath(): string;
-            /** Contains the path to a persistent data directory (Read Only).
+            /** (Read Only) Contains the path to a persistent data directory.
             */
             public static get persistentDataPath(): string;
             /** Contains the path to a temporary data / cache directory (Read Only).
@@ -527,6 +527,8 @@ declare namespace CS {
             public static remove_wantsToQuit ($value: System.Func$1<boolean>) : void
             public static add_quitting ($value: System.Action) : void
             public static remove_quitting ($value: System.Action) : void
+            public static add_unloading ($value: System.Action) : void
+            public static remove_unloading ($value: System.Action) : void
             public constructor ()
         }
         /** Base class for all objects Unity can reference.
@@ -610,20 +612,32 @@ declare namespace CS {
             * @param allowDestroyingAssets Set to true to allow assets to be destroyed.
             */
             public static DestroyImmediate ($obj: UnityEngine.Object) : void
-            /** The older, non-generic version of this method. In most cases you should use the generic version of this method.
+            /** Gets a list of all loaded objects of Type type.
             * @param type The type of object to find.
-            * @returns Returns an array of all active loaded objects of Type type. 
+            * @param includeInactive If true, components attached to inactive GameObjects are also included.
+            * @returns The array of objects found matching the type specified. 
             */
             public static FindObjectsOfType ($type: System.Type) : System.Array$1<UnityEngine.Object>
+            /** Gets a list of all loaded objects of Type type.
+            * @param type The type of object to find.
+            * @param includeInactive If true, components attached to inactive GameObjects are also included.
+            * @returns The array of objects found matching the type specified. 
+            */
+            public static FindObjectsOfType ($type: System.Type, $includeInactive: boolean) : System.Array$1<UnityEngine.Object>
             /** Do not destroy the target Object when loading a new Scene.
             * @param target An Object not destroyed on Scene change.
             */
             public static DontDestroyOnLoad ($target: UnityEngine.Object) : void
-            /** The older, non-generic version of this method. In most cases you should use the generic version of this method.
+            /** Returns the first active loaded object of Type type.
             * @param type The type of object to find.
-            * @returns Returns an array of all active loaded objects of Type type. 
+            * @returns Object The first active loaded object that matches the specified type. It returns null if no Object matches the type. 
             */
             public static FindObjectOfType ($type: System.Type) : UnityEngine.Object
+            /** Returns the first active loaded object of Type type.
+            * @param type The type of object to find.
+            * @returns Object The first active loaded object that matches the specified type. It returns null if no Object matches the type. 
+            */
+            public static FindObjectOfType ($type: System.Type, $includeInactive: boolean) : UnityEngine.Object
             public static op_Equality ($x: UnityEngine.Object, $y: UnityEngine.Object) : boolean
             public static op_Inequality ($x: UnityEngine.Object, $y: UnityEngine.Object) : boolean
             public constructor ()
@@ -667,7 +681,7 @@ declare namespace CS {
         /** The platform application is running. Returned by Application.platform.
         */
         enum RuntimePlatform
-        { OSXEditor = 0, OSXPlayer = 1, WindowsPlayer = 2, OSXWebPlayer = 3, OSXDashboardPlayer = 4, WindowsWebPlayer = 5, WindowsEditor = 7, IPhonePlayer = 8, XBOX360 = 10, PS3 = 9, Android = 11, NaCl = 12, FlashPlayer = 15, LinuxPlayer = 13, LinuxEditor = 16, WebGLPlayer = 17, MetroPlayerX86 = 18, WSAPlayerX86 = 18, MetroPlayerX64 = 19, WSAPlayerX64 = 19, MetroPlayerARM = 20, WSAPlayerARM = 20, WP8Player = 21, BB10Player = 22, BlackBerryPlayer = 22, TizenPlayer = 23, PSP2 = 24, PS4 = 25, PSM = 26, XboxOne = 27, SamsungTVPlayer = 28, WiiU = 30, tvOS = 31, Switch = 32, Lumin = 33, Stadia = 34, CloudRendering = 35, GameCoreScarlett = 36, GameCoreXboxSeries = 36, GameCoreXboxOne = 37, PS5 = 38 }
+        { OSXEditor = 0, OSXPlayer = 1, WindowsPlayer = 2, OSXWebPlayer = 3, OSXDashboardPlayer = 4, WindowsWebPlayer = 5, WindowsEditor = 7, IPhonePlayer = 8, XBOX360 = 10, PS3 = 9, Android = 11, NaCl = 12, FlashPlayer = 15, LinuxPlayer = 13, LinuxEditor = 16, WebGLPlayer = 17, MetroPlayerX86 = 18, WSAPlayerX86 = 18, MetroPlayerX64 = 19, WSAPlayerX64 = 19, MetroPlayerARM = 20, WSAPlayerARM = 20, WP8Player = 21, BB10Player = 22, BlackBerryPlayer = 22, TizenPlayer = 23, PSP2 = 24, PS4 = 25, PSM = 26, XboxOne = 27, SamsungTVPlayer = 28, WiiU = 30, tvOS = 31, Switch = 32, Lumin = 33, Stadia = 34, CloudRendering = 35, GameCoreScarlett = -1, GameCoreXboxSeries = 36, GameCoreXboxOne = 37, PS5 = 38 }
         /** The language the user's operating system is running in. Returned by Application.systemLanguage.
         */
         enum SystemLanguage
@@ -918,7 +932,7 @@ declare namespace CS {
         }
         /** Representation of 3D vectors and points.
         */
-        class Vector3 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector3>
+        class Vector3 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector3>, System.IFormattable
         {
             protected [__keep_incompatibility]: never;
             public static kEpsilon : number
@@ -1107,9 +1121,16 @@ declare namespace CS {
             public static op_Equality ($lhs: UnityEngine.Vector3, $rhs: UnityEngine.Vector3) : boolean
             public static op_Inequality ($lhs: UnityEngine.Vector3, $rhs: UnityEngine.Vector3) : boolean
             public ToString () : string
-            /** Returns a nicely formatted string for this vector.
+            /** Returns a formatted string for this vector.
+            * @param format A numeric format string.
+            * @param formatProvider An object that specifies culture-specific formatting.
             */
             public ToString ($format: string) : string
+            /** Returns a formatted string for this vector.
+            * @param format A numeric format string.
+            * @param formatProvider An object that specifies culture-specific formatting.
+            */
+            public ToString ($format: string, $formatProvider: System.IFormatProvider) : string
             public constructor ($x: number, $y: number, $z: number)
             public constructor ($x: number, $y: number)
             public Equals ($obj: any) : boolean
@@ -1118,7 +1139,7 @@ declare namespace CS {
         }
         /** Representation of RGBA colors.
         */
-        class Color extends System.ValueType implements System.IEquatable$1<UnityEngine.Color>
+        class Color extends System.ValueType implements System.IEquatable$1<UnityEngine.Color>, System.IFormattable
         {
             protected [__keep_incompatibility]: never;
         }
@@ -1181,6 +1202,11 @@ declare namespace CS {
             * @returns A component of the matching type, if found. 
             */
             public GetComponentInChildren ($type: System.Type) : UnityEngine.Component
+            /** Retrieves the component of Type type in the GameObject or any of its parents.
+            * @param type Type of component to find.
+            * @returns Returns a component if a component matching the type is found. Returns null otherwise. 
+            */
+            public GetComponentInParent ($type: System.Type, $includeInactive: boolean) : UnityEngine.Component
             /** Retrieves the component of Type type in the GameObject or any of its parents.
             * @param type Type of component to find.
             * @returns Returns a component if a component matching the type is found. Returns null otherwise. 
@@ -1303,7 +1329,7 @@ declare namespace CS {
             */
             public get tag(): string;
             public set tag(value: string);
-            /** Returns the component of Type type if the game object has one attached, null if it doesn't.
+            /** Returns the component of Type type if the GameObject has one attached, null if it doesn't. Will also return disabled components.
             * @param type The type of Component to retrieve.
             */
             public GetComponent ($type: System.Type) : UnityEngine.Component
@@ -1313,7 +1339,7 @@ declare namespace CS {
             * @returns Returns true if the component is found, false otherwise. 
             */
             public TryGetComponent ($type: System.Type, $component: $Ref<UnityEngine.Component>) : boolean
-            /** Returns the component with name type if the game object has one attached, null if it doesn't.
+            /** Returns the component with name type if the GameObject has one attached, null if it doesn't.
             */
             public GetComponent ($type: string) : UnityEngine.Component
             public GetComponentInChildren ($t: System.Type, $includeInactive: boolean) : UnityEngine.Component
@@ -1430,21 +1456,36 @@ declare namespace CS {
             /** The time at the beginning of this frame (Read Only).
             */
             public static get time(): number;
+            /** The double precision time at the beginning of this frame (Read Only). This is the time in seconds since the start of the game.
+            */
+            public static get timeAsDouble(): number;
             /** The time since this frame started (Read Only). This is the time in seconds since the last non-additive scene has finished loading.
             */
             public static get timeSinceLevelLoad(): number;
+            /** The double precision time since this frame started (Read Only). This is the time in seconds since the last non-additive scene has finished loading.
+            */
+            public static get timeSinceLevelLoadAsDouble(): number;
             /** The interval in seconds from the last frame to the current one (Read Only).
             */
             public static get deltaTime(): number;
             /** The time since the last MonoBehaviour.FixedUpdate started (Read Only). This is the time in seconds since the start of the game.
             */
             public static get fixedTime(): number;
+            /** The double precision time since the last MonoBehaviour.FixedUpdate started (Read Only). This is the time in seconds since the start of the game.
+            */
+            public static get fixedTimeAsDouble(): number;
             /** The timeScale-independent time for this frame (Read Only). This is the time in seconds since the start of the game.
             */
             public static get unscaledTime(): number;
+            /** The double precision timeScale-independent time for this frame (Read Only). This is the time in seconds since the start of the game.
+            */
+            public static get unscaledTimeAsDouble(): number;
             /** The timeScale-independent time at the beginning of the last MonoBehaviour.FixedUpdate phase (Read Only). This is the time in seconds since the start of the game.
             */
             public static get fixedUnscaledTime(): number;
+            /** The double precision timeScale-independent time at the beginning of the last MonoBehaviour.FixedUpdate (Read Only). This is the time in seconds since the start of the game.
+            */
+            public static get fixedUnscaledTimeAsDouble(): number;
             /** The timeScale-independent interval in seconds from the last frame to the current one (Read Only).
             */
             public static get unscaledDeltaTime(): number;
@@ -1477,6 +1518,9 @@ declare namespace CS {
             /** The real time in seconds since the game started (Read Only).
             */
             public static get realtimeSinceStartup(): number;
+            /** The real time in seconds since the game started (Read Only). Double precision version of Time.realtimeSinceStartup. 
+            */
+            public static get realtimeSinceStartupAsDouble(): number;
             /** Slows your application’s playback time to allow Unity to save screenshots in between frames.
             */
             public static get captureDeltaTime(): number;
@@ -1713,13 +1757,13 @@ declare namespace CS {
         }
         /** Quaternions are used to represent rotations.
         */
-        class Quaternion extends System.ValueType implements System.IEquatable$1<UnityEngine.Quaternion>
+        class Quaternion extends System.ValueType implements System.IEquatable$1<UnityEngine.Quaternion>, System.IFormattable
         {
             protected [__keep_incompatibility]: never;
         }
         /** A standard 4x4 transformation matrix.
         */
-        class Matrix4x4 extends System.ValueType implements System.IEquatable$1<UnityEngine.Matrix4x4>
+        class Matrix4x4 extends System.ValueType implements System.IEquatable$1<UnityEngine.Matrix4x4>, System.IFormattable
         {
             protected [__keep_incompatibility]: never;
         }
@@ -1756,7 +1800,7 @@ declare namespace CS {
             /** Determines whether the Particle System is paused.
             */
             public get isPaused(): boolean;
-            /** The current number of particles (Read Only).
+            /** The current number of particles (Read Only). The number doesn't include particles of child Particle Systems
             */
             public get particleCount(): number;
             /** Playback position in seconds.
@@ -1792,6 +1836,9 @@ declare namespace CS {
             /** Script interface for the InheritVelocityModule of a Particle System.
             */
             public get inheritVelocity(): UnityEngine.ParticleSystem.InheritVelocityModule;
+            /** Script interface for the Particle System Lifetime By Emitter Speed module.
+            */
+            public get lifetimeByEmitterSpeed(): UnityEngine.ParticleSystem.LifetimeByEmitterSpeedModule;
             /** Script interface for the ForceOverLifetimeModule of a Particle System.
             */
             public get forceOverLifetime(): UnityEngine.ParticleSystem.ForceOverLifetimeModule;
@@ -1857,6 +1904,7 @@ declare namespace CS {
             public GetPlaybackState () : UnityEngine.ParticleSystem.PlaybackState
             public SetPlaybackState ($playbackState: UnityEngine.ParticleSystem.PlaybackState) : void
             public GetTrails () : UnityEngine.ParticleSystem.Trails
+            public GetTrails ($trailData: $Ref<UnityEngine.ParticleSystem.Trails>) : number
             public SetTrails ($trailData: UnityEngine.ParticleSystem.Trails) : void
             /** Fast-forwards the Particle System by simulating particles over the given period of time, then pauses it.
             * @param t Time period in seconds to advance the ParticleSystem simulation by. If restart is true, the ParticleSystem will be reset to 0 time, and then advanced by this value. If restart is false, the ParticleSystem simulation will be advanced in time from its current state by this value.
@@ -1935,11 +1983,17 @@ declare namespace CS {
             * @param indexBuffersCount The maximum number of cached index buffers.
             */
             public static SetMaximumPreMappedBufferCounts ($vertexBuffersCount: number, $indexBuffersCount: number) : void
+            public AllocateAxisOfRotationAttribute () : void
+            public AllocateMeshIndexAttribute () : void
+            /** Ensures that the ParticleSystemJobs.ParticleSystemJobData.customData1|customData1 and ParticleSystemJobs.ParticleSystemJobData.customData1|customData2 particle attribute arrays are allocated.
+            * @param stream The custom data stream to allocate.
+            */
+            public AllocateCustomDataAttribute ($stream: UnityEngine.ParticleSystemCustomData) : void
             public constructor ()
         }
         /** Representation of RGBA colors in 32 bit format.
         */
-        class Color32 extends System.ValueType
+        class Color32 extends System.ValueType implements System.IFormattable
         {
             protected [__keep_incompatibility]: never;
         }
@@ -1953,7 +2007,7 @@ declare namespace CS {
         { Hierarchy = 0, Local = 1, Shape = 2 }
         /** Representation of four-dimensional vectors.
         */
-        class Vector4 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector4>
+        class Vector4 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector4>, System.IFormattable
         {
             protected [__keep_incompatibility]: never;
         }
@@ -2073,7 +2127,7 @@ declare namespace CS {
         { ScreenSpaceOverlay = 0, ScreenSpaceCamera = 1, WorldSpace = 2 }
         /** A 2D Rectangle defined by X and Y position, width and height.
         */
-        class Rect extends System.ValueType implements System.IEquatable$1<UnityEngine.Rect>
+        class Rect extends System.ValueType implements System.IEquatable$1<UnityEngine.Rect>, System.IFormattable
         {
             protected [__keep_incompatibility]: never;
         }
@@ -2083,7 +2137,7 @@ declare namespace CS {
         { None = 0, TexCoord1 = 1, TexCoord2 = 2, TexCoord3 = 4, Normal = 8, Tangent = 16 }
         /** Representation of 2D vectors and points.
         */
-        class Vector2 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector2>
+        class Vector2 extends System.ValueType implements System.IEquatable$1<UnityEngine.Vector2>, System.IFormattable
         {
             protected [__keep_incompatibility]: never;
         }
@@ -2166,7 +2220,7 @@ declare namespace CS {
         */
         enum AudioType
         { UNKNOWN = 0, ACC = 1, AIFF = 2, IT = 10, MOD = 12, MPEG = 13, OGGVORBIS = 14, S3M = 17, WAV = 20, XM = 21, XMA = 22, VAG = 23, AUDIOQUEUE = 24 }
-        /** Represent the hash value.
+        /** Represents  a 128-bit hash value.
         */
         class Hash128 extends System.ValueType implements System.IComparable, System.IComparable$1<UnityEngine.Hash128>, System.IEquatable$1<UnityEngine.Hash128>
         {
@@ -2205,7 +2259,7 @@ declare namespace CS {
         /** Enumeration of the different types of supported touchscreen keyboards.
         */
         enum TouchScreenKeyboardType
-        { Default = 0, ASCIICapable = 1, NumbersAndPunctuation = 2, URL = 3, NumberPad = 4, PhonePad = 5, NamePhonePad = 6, EmailAddress = 7, NintendoNetworkAccount = 8, Social = 9, Search = 10, DecimalPad = 11 }
+        { Default = 0, ASCIICapable = 1, NumbersAndPunctuation = 2, URL = 3, NumberPad = 4, PhonePad = 5, NamePhonePad = 6, EmailAddress = 7, NintendoNetworkAccount = 8, Social = 9, Search = 10, DecimalPad = 11, OneTimeCode = 12 }
         /** A UnityGUI event.
         */
         class Event extends System.Object
@@ -2432,6 +2486,7 @@ declare namespace CS {
             public AddListener ($call: UnityEngine.Events.UnityAction$1<T0>) : void
             public RemoveListener ($call: UnityEngine.Events.UnityAction$1<T0>) : void
             public Invoke ($arg0: T0) : void
+            public constructor ()
         }
         interface UnityAction$1<T0>
         { 
@@ -2756,6 +2811,10 @@ declare namespace CS {
         {
             protected [__keep_incompatibility]: never;
         }
+        class LifetimeByEmitterSpeedModule extends System.ValueType
+        {
+            protected [__keep_incompatibility]: never;
+        }
         class ForceOverLifetimeModule extends System.ValueType
         {
             protected [__keep_incompatibility]: never;
@@ -3028,12 +3087,9 @@ declare namespace CS {
             /** Returns true after the UnityWebRequest has finished communicating with the remote server. (Read Only)
             */
             public get isDone(): boolean;
-            /** Returns true after this UnityWebRequest encounters a system error. (Read Only)
+            /** The result of this UnityWebRequest.
             */
-            public get isNetworkError(): boolean;
-            /** Returns true after this UnityWebRequest receives an HTTP response code indicating an error. (Read Only)
-            */
-            public get isHttpError(): boolean;
+            public get result(): UnityEngine.Networking.UnityWebRequest.Result;
             /** Returns a floating-point value between 0.0 and 1.0, indicating the progress of downloading body data from the server. (Read Only)
             */
             public get downloadProgress(): number;
@@ -3194,6 +3250,9 @@ declare namespace CS {
             /** Returns true if this DownloadHandler has been informed by its parent UnityWebRequest that all data has been received, and this DownloadHandler has completed any necessary post-download processing. (Read Only)
             */
             public get isDone(): boolean;
+            /** Error message describing a failure that occurred inside the download handler.
+            */
+            public get error(): string;
             /** Returns the raw bytes downloaded from the remote server, or null. (Read Only)
             */
             public get data(): System.Array$1<number>;
@@ -3211,6 +3270,10 @@ declare namespace CS {
         interface IMultipartFormSection
         {
         }
+    }
+    namespace UnityEngine.Networking.UnityWebRequest {
+        enum Result
+        { InProgress = 0, Success = 1, ConnectionError = 2, ProtocolError = 3, DataProcessingError = 4 }
     }
     namespace UnityEngine.EventSystems {
         class UIBehaviour extends UnityEngine.MonoBehaviour
@@ -3353,7 +3416,7 @@ declare namespace CS {
         interface IClippable
         {
         }
-        class Image extends UnityEngine.UI.MaskableGraphic implements UnityEngine.UI.IMaterialModifier, UnityEngine.UI.IMaskable, UnityEngine.ICanvasRaycastFilter, UnityEngine.UI.ICanvasElement, UnityEngine.ISerializationCallbackReceiver, UnityEngine.UI.ILayoutElement, UnityEngine.UI.IClippable
+        class Image extends UnityEngine.UI.MaskableGraphic implements UnityEngine.UI.IMaterialModifier, UnityEngine.UI.IMaskable, UnityEngine.ICanvasRaycastFilter, UnityEngine.ISerializationCallbackReceiver, UnityEngine.UI.ICanvasElement, UnityEngine.UI.ILayoutElement, UnityEngine.UI.IClippable
         {
             protected [__keep_incompatibility]: never;
         }
@@ -3555,4 +3618,7 @@ declare namespace CS {
             public action () : void
         }
     }
+}
+declare module 'csharp' {
+export = CS;
 }

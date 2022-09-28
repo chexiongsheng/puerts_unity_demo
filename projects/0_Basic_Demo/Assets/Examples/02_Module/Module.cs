@@ -17,7 +17,7 @@ namespace PuertsTest
             //从Resources目录加载
             jsEnv = new JsEnv();
 
-            jsEnv.ExecuteModule("main");
+            jsEnv.ExecuteModule("main.mjs");
         }
 
         void OnDestroy()
