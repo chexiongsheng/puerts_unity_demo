@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 you can get the english version change log at [Github Release](https://github.com/Tencent/puerts/releases)
 
+## [1.3.9] - 2022-09-30
+1. fix a bug that will throw 'undefined is not a xx' error when running multi jsenv parallel.
+1. fix the problem that circular dependency will cause crash when loading ESM
+2. fix the problem that ESM throws an error when loading dependency with relative path
+3. fix the problem that dts reports an error when generating nullable types
+4. add `import.meta.url` in es module js
+
 ## [1.3.8] - 2022-08-31
 1. fix: didn't check NativeObject's type when setting fields. #954
 1. fix: easy to cause `task.GetAwaiter(...).OnCompleted is not a function` error in Unity's Ilcpp mode #966

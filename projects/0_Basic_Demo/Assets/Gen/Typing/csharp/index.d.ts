@@ -2345,7 +2345,7 @@ declare module 'csharp' {
             interface IClippable
             {
             }
-            class Image extends UnityEngine.UI.MaskableGraphic implements UnityEngine.UI.IMaterialModifier, UnityEngine.UI.IMaskable, UnityEngine.ICanvasRaycastFilter, UnityEngine.ISerializationCallbackReceiver, UnityEngine.UI.ICanvasElement, UnityEngine.UI.ILayoutElement, UnityEngine.UI.IClippable
+            class Image extends UnityEngine.UI.MaskableGraphic implements UnityEngine.UI.IMaterialModifier, UnityEngine.UI.IMaskable, UnityEngine.ICanvasRaycastFilter, UnityEngine.UI.ICanvasElement, UnityEngine.ISerializationCallbackReceiver, UnityEngine.UI.ILayoutElement, UnityEngine.UI.IClippable
             {
                 protected [__keep_incompatibility]: never;
             }
@@ -2553,7 +2553,7 @@ declare module 'csharp' {
             }
         }
         namespace PuertsDeclareTest.Plants {
-            class pumkinPeaShooter extends System.Object implements PuertsDeclareTest.Plants.Shootable, PuertsDeclareTest.Plants.Pumpkin$1.Protectable<PuertsDeclareTest.Plants.pumkinPeaShooter>
+            class pumkinPeaShooter extends System.Object implements PuertsDeclareTest.Plants.Pumpkin$1.Protectable<PuertsDeclareTest.Plants.pumkinPeaShooter>, PuertsDeclareTest.Plants.Shootable
             {
                 protected [__keep_incompatibility]: never;
                 public shoot () : void
