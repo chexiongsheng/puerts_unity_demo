@@ -1,7 +1,7 @@
 function init(monoBehaviour) {
-    let button = monoBehaviour.GetComponent(puerts.$typeof(CS.UnityEngine.UI.Button));
-    let input = monoBehaviour.transform.parent.GetComponentInChildren(puerts.$typeof(CS.UnityEngine.UI.InputField));
-    let toggle = monoBehaviour.transform.parent.GetComponentInChildren(puerts.$typeof(CS.UnityEngine.UI.Toggle));
+    let button = monoBehaviour.GetComponent(puer.$typeof(CS.UnityEngine.UI.Button));
+    let input = monoBehaviour.transform.parent.GetComponentInChildren(puer.$typeof(CS.UnityEngine.UI.InputField));
+    let toggle = monoBehaviour.transform.parent.GetComponentInChildren(puer.$typeof(CS.UnityEngine.UI.Toggle));
     button.onClick.AddListener(() => {
         console.log("button pressed..., input is: " + input.text);
     });
@@ -10,4 +10,4 @@ function init(monoBehaviour) {
     });
 }
 export { init };
-//# sourceMappingURL=UIEvent.js.map
+//# sourceMappingURL=UIEvent.mjs.map

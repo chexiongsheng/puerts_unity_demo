@@ -1,6 +1,6 @@
 //部署:npm run build
-import './ExtensionDecl';
-const { $ref, $unref, $generic, $promise, $typeof } = puerts;
+import './ExtensionDecl.mjs';
+const { $ref, $unref, $generic, $promise, $typeof } = puer;
 //静态函数
 CS.UnityEngine.Debug.Log('hello world');
 //对象构造
@@ -83,4 +83,4 @@ obj.Extension2(obj1);
     console.log('file length is ,' + result2);
 }
 asyncCall().catch(e => console.error("catch:" + e));*/
-//# sourceMappingURL=QuickStart.js.map
+//# sourceMappingURL=QuickStart.mjs.map

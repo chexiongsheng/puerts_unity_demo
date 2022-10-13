@@ -1,6 +1,6 @@
 //部署:npm run build
 
-import './ExtensionDecl'
+import './ExtensionDecl.mjs'
 
 const { $ref, $unref, $generic, $promise, $typeof } = puer;
 

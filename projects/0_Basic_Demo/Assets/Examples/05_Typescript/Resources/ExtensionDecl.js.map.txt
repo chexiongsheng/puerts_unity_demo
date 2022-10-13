@@ -1,1 +1,0 @@
-{"version":3,"file":"ExtensionDecl.js","sourceRoot":"","sources":["../ExtensionDecl.ts"],"names":[],"mappings":"AACA,+BAA+B;AAC/B,MAAM,CAAC,UAAU,CAAC,EAAE,CAAC,UAAU,CAAC,SAAS,EAAE,EAAE,CAAC,UAAU,CAAC,kBAAkB,CAAC,CAAC"}
