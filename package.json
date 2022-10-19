@@ -17,10 +17,9 @@
   },
   "homepage": "https://github.com/chexiongsheng/puerts_unity_demo#readme",
   "dependencies": {
+    "@puerts/shell-util": "^1.0.4",
     "commander": "^9.3.0",
     "download": "^8.0.0",
-    "glob": "^8.0.3",
-    "iconv-lite": "^0.6.3",
-    "shelljs": "^0.8.5"
+    "glob": "^8.0.3"
   }
 }
