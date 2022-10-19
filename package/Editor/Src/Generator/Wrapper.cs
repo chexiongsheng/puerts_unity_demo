@@ -406,12 +406,25 @@ namespace Puerts.Editor
                         } 
                         else if (valueType.IsPrimitive)
                         {
-                            if (valueType == typeof(float)) 
-                                return value.ToString() + "f";
-                            else if (valueType == typeof(char)) 
-                                return "'" + value.ToString() + "'"; 
-                            else if (valueType == typeof(bool)) 
+                            if (valueType == typeof(bool)) 
                                 return value.ToString().ToLower();
+                            else if (valueType == typeof(float)) 
+                            {
+                                if ((float)value == float.PositiveInfinity) return nameof(Single) + "." + nameof(float.PositiveInfinity);
+                                if ((float)value == float.NegativeInfinity) return nameof(Single) + "." + nameof(float.NegativeInfinity);
+                                if ((float)value == float.NaN) return nameof(Single) + "." + nameof(float.NaN);
+                                return value.ToString() + "f";
+                            }
+                            else if (valueType == typeof(double))
+                            {
+                                if ((double)value == double.PositiveInfinity) return nameof(Double) + "." + nameof(double.PositiveInfinity);
+                                if ((double)value == double.NegativeInfinity) return nameof(Double) + "." + nameof(double.NegativeInfinity);
+                                if ((double)value == double.NaN) return nameof(Double) + "." + nameof(double.NaN);
+
+                                return value.ToString();
+                            } 
+                            else if (valueType == typeof(char)) 
+                                return "(char)" + ((ushort)((char)value)); 
 
                             return value.ToString();
                         }
