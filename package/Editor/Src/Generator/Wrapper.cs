@@ -395,13 +395,25 @@ namespace Puerts.Editor
                 {
                     if (value != null)
                     {
-                        if (value is string)
+                        Type valueType = value.GetType();
+                        if (valueType == typeof(string))
                         {
                             return "\"" + value + "\"";
                         }
-                        else if (value.GetType().IsPrimitive)
+                        else if (valueType.IsEnum)
                         {
-                            return value.ToString().ToLower();
+                            return valueType.FullName.Replace("+", ".") + "." + value.ToString();
+                        } 
+                        else if (valueType.IsPrimitive)
+                        {
+                            if (valueType == typeof(float)) 
+                                return value.ToString() + "f";
+                            else if (valueType == typeof(char)) 
+                                return "'" + value.ToString() + "'"; 
+                            else if (valueType == typeof(bool)) 
+                                return value.ToString().ToLower();
+
+                            return value.ToString();
                         }
                     }
 
