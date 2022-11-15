@@ -5,6 +5,8 @@
 * This file is subject to the terms and conditions defined in file 'LICENSE', which is part of this source code package.
 */
 
+#if !EXPERIMENTAL_IL2CPP_PUERTS || !ENABLE_IL2CPP
+
 using System;
 using System.Linq;
 
@@ -156,7 +158,7 @@ namespace Puerts
             }
         }
 
-        public static string GetFriendlyName(this Type type)
+        public static string GetFriendlyName(this Type type, Type[] genericArguments = null)
         {
             if (type == typeof(int))
                 return "int";
@@ -203,9 +205,15 @@ namespace Puerts
             }
             else if (type.IsNested)
             {
-                if (type.DeclaringType.IsGenericTypeDefinition)
+                if (type.DeclaringType.IsNested) {
+                    if (type.DeclaringType.IsGenericTypeDefinition) 
+                        return GetFriendlyName(type.DeclaringType, type.GetGenericArguments())+ '.' + type.Name;
+                    else 
+                        return GetFriendlyName(type.DeclaringType)+ '.' + type.Name;
+                }
+                else if (type.DeclaringType.IsGenericTypeDefinition)
                 {
-                    var genericArgumentNames = type.GetGenericArguments()
+                    var genericArgumentNames = (genericArguments == null ? type.GetGenericArguments() : genericArguments)
                         .Select(x => GetFriendlyName(x)).ToArray();
                     return type.DeclaringType.FullName.Split('`')[0] + "<" + string.Join(", ", genericArgumentNames) + ">" + '.' + type.Name;
                 }
@@ -225,3 +233,5 @@ namespace Puerts
         }
     }
 }
+
+#endif

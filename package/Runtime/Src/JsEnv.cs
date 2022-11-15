@@ -5,6 +5,8 @@
 * This file is subject to the terms and conditions defined in file 'LICENSE', which is part of this source code package.
 */
 
+#if !EXPERIMENTAL_IL2CPP_PUERTS || !ENABLE_IL2CPP
+
 using System;
 using System.Collections.Generic;
 #if CSHARP_7_3_OR_NEWER
@@ -37,6 +39,7 @@ namespace Puerts
         internal ObjectPool objectPool;
 
         private readonly ILoader loader;
+        private bool loaderCanCheckESM;
 
         public Backend Backend;
 
@@ -76,6 +79,7 @@ namespace Puerts
             }
             // PuertsDLL.SetLogCallback(LogCallback, LogWarningCallback, LogErrorCallback);
             this.loader = loader;
+            this.loaderCanCheckESM = loader is IModuleChecker;
             
             if (externalRuntime != IntPtr.Zero)
             {
@@ -215,16 +219,23 @@ namespace Puerts
         internal string ResolveModuleContent(string identifer, out string pathForDebug) 
         {
             pathForDebug = identifer;
+            if (identifer == "csharp" || identifer == "puerts") 
+            {
+                return String.Format("export default globalThis.{0}", identifer);
+            }
             if (!loader.FileExists(identifer)) 
             {
                 return null;
             }
-            if (identifer.Length < 4 || !identifer.EndsWith(".mjs"))
+            if (loaderCanCheckESM ? 
+                !((IModuleChecker)loader).IsESM(identifer) :
+                identifer.Length < 4 || !identifer.EndsWith(".mjs")
+            )
             {
                 pathForDebug = "";
                 return String.Format(@"
-
                     export default puerts.require('{0}');
+
                 ", identifer);
             } 
             else 
@@ -899,3 +910,5 @@ namespace Puerts
         }
     }
 }
+
+#endif

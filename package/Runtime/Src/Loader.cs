@@ -5,6 +5,8 @@
 * This file is subject to the terms and conditions defined in file 'LICENSE', which is part of this source code package.
 */
 
+#if !EXPERIMENTAL_IL2CPP_PUERTS || !ENABLE_IL2CPP
+
 using System.Net.Mime;
 #if PUERTS_GENERAL || UNITY_EDITOR
 using System.IO;
@@ -17,8 +19,12 @@ namespace Puerts
         bool FileExists(string filepath);
         string ReadFile(string filepath, out string debugpath);
     }
+    public interface IModuleChecker
+    {
+        bool IsESM(string filepath);
+    }
 
-    public class DefaultLoader : ILoader
+    public class DefaultLoader : ILoader, IModuleChecker
     {
         private string root = "";
 
@@ -75,5 +81,13 @@ namespace Puerts
             return file == null ? null : file.text;
 #endif
         }
+
+        
+        public bool IsESM(string filepath) 
+        {
+            return filepath.Length >= 4 && filepath.EndsWith(".mjs");
+        }
     }
 }
+
+#endif

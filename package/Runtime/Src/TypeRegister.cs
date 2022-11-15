@@ -5,6 +5,8 @@
 * This file is subject to the terms and conditions defined in file 'LICENSE', which is part of this source code package.
 */
 
+#if !EXPERIMENTAL_IL2CPP_PUERTS || !ENABLE_IL2CPP
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -668,10 +670,7 @@ namespace Puerts
 
                 // extensionMethods
                 // 因为内存问题与crash问题移入宏中
-#if PUERTS_REFLECT_ALL_EXTENSION || UNITY_EDITOR
-    #if !PUERTS_REFLECT_ALL_EXTENSION && UNITY_EDITOR
-                if (!UnityEditor.EditorApplication.isPlaying) { 
-    #endif
+#if PUERTS_REFLECT_ALL_EXTENSION
                 IEnumerable<MethodInfo> extensionMethods = Utils.GetExtensionMethodsOf(type);
                 if (extensionMethods != null)
                 {
@@ -684,9 +683,6 @@ namespace Puerts
                         AddMethodToSlowBindingGroup(methodKey, method);
                     }
                 }
-    #if !PUERTS_REFLECT_ALL_EXTENSION && UNITY_EDITOR
-                }
-    #endif
 #endif
 
                 // fields
@@ -927,3 +923,5 @@ namespace Puerts
         }
     }
 }
+
+#endif
