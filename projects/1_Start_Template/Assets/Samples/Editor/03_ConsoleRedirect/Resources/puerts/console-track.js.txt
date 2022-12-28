@@ -1,3 +1,13 @@
+const csharp = (function () {
+    let csharp = (this ?? globalThis)["CS"];
+    if (!csharp) csharp = require("csharp");
+    return csharp;
+})();
+const puerts = (function () {
+    let puerts = (this ?? globalThis)["puerts"];
+    if (!puerts) puerts = require("puerts");
+    return puerts;
+})();
 
 const ENABLE_HYPERLINK = true;
 
@@ -7,8 +17,8 @@ function getTrack() {
     if (trackInfos && trackInfos.length > 0) {
         if (ENABLE_HYPERLINK) {
             //1.匹配函数名(可选)    /**([a-zA-z0-9#$._ ]+ \()? */
-            //2.匹配文件路径        /**([^\n\r\*\"\|\<\>]+(.js|.ts))\:([0-9]+)\:([0-9]+) */
-            let regex = /at ([a-zA-z0-9#$._ ]+ \()?([^\n\r\*\"\|\<\>]+(.js|.ts))\:([0-9]+)\:([0-9]+)\)?/g;
+            //2.匹配文件路径        /**([^\n\r\*\"\|\<\>]+(.js|.cjs|.mjs|.ts|.mts))\:([0-9]+)\:([0-9]+) */
+            let regex = /at ([a-zA-z0-9#$._ ]+ \()?([^\n\r\*\"\|\<\>]+(.js|.cjs|.mjs|.ts|.mts))\:([0-9]+)\:([0-9]+)\)?/g;
 
             for (let i = 0; i < trackInfos.length; i++) {
                 regex.lastIndex = 0;
@@ -49,17 +59,16 @@ puerts.on('uncaughtException', function (err) {
     output += "\nERROR: " + err;
     output += "\n==== EXCEPTION END   ===========================================================";
 
-    CS.UnityEngine.Debug.LogError(output);
+    csharp.UnityEngine.Debug.LogError(output);
 });
 // 捕获async异常
 puerts.on('unhandledRejection', (reason, p) => {
     let output = "";
     output += "==== REJECT START ==============================================================";
     output += "\nType: Caught Unhandled Rejection";
-    output += "\nPromise: " + p;
-    output += "\nReason: " + reason?.message;
+    output += "\nMessage: " + reason?.message;
     output += "\n" + reason?.stack;
     output += "\n==== REJECT END   ==============================================================";
 
-    CS.UnityEngine.Debug.LogError(output);
+    csharp.UnityEngine.Debug.LogError(output);
 });
