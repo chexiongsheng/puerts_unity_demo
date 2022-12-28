@@ -11,10 +11,10 @@ namespace UnityEditor.Console
 {
     public static class ConsoleRedirect
     {
-        //匹配文件路径(指定js/ts后缀)
-        static readonly Regex regex = new Regex(@"at ([a-zA-z0-9#$._ ]+ \()?([a-zA-Z0-9:/\\._ ]+(.js|.ts))\:([0-9]+)\:([0-9]+)\)?\r?\n?");
-        //匹配<a href ...>(指定js/ts后缀)
-        static readonly Regex regexHref = new Regex(@"<a href='([a-zA-Z0-9:/\\. ]+(.js|.ts))'( line='([0-9]+)')?( column='([0-9]+)')?>[a-zA-Z0-9:/\\. ]+</a>"
+        //匹配文件路径(指定.js|.cjs|.mjs|.ts|.mts后缀)^\n\r\*\"\|\<\>
+        static readonly Regex regex = new Regex("at ([a-zA-z0-9#$._ ]+ \\()?([^\n\r*\"|<>]+(.js|.cjs|.mjs|.ts|.mts))\\:([0-9]+)\\:([0-9]+)\\)?\r?\n?");
+        //匹配<a href ...>(指定.js|.cjs|.mjs|.ts|.mts后缀)
+        static readonly Regex regexHref = new Regex("<a href='([^\n\r*\"|<>]+(.js|.cjs|.mjs|.ts|.mts))'( line='([0-9]+)')?( column='([0-9]+)')?>[^\n\r*\"|<>]+</a>"
             .Replace('\'', '\"'));
 
         public static bool enable
