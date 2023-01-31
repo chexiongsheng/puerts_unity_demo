@@ -24,6 +24,22 @@ public class PuertsFilter : Editor
         get
         {
             return new List<List<string>>()  {
+                new List<string>(){"UnityEngine.Material", "IsChildOf","UnityEngine.Material"},
+                new List<string>(){"UnityEngine.Material", "RevertAllPropertyOverrides"},
+                new List<string>(){"UnityEngine.Material", "IsPropertyOverriden","System.Int32"},
+                new List<string>(){"UnityEngine.Material", "IsPropertyOverriden","System.String"},
+                new List<string>(){"UnityEngine.Material", "IsPropertyLocked","System.Int32"},
+                new List<string>(){"UnityEngine.Material", "IsPropertyLocked","System.String"},
+                new List<string>(){"UnityEngine.Material", "IsPropertyLockedByAncestor","System.Int32"},
+                new List<string>(){"UnityEngine.Material", "IsPropertyLockedByAncestor","System.String"},
+                new List<string>(){"UnityEngine.Material", "SetPropertyLock","System.Int32","System.Boolean"},
+                new List<string>(){"UnityEngine.Material", "SetPropertyLock","System.String","System.Boolean"},
+                new List<string>(){"UnityEngine.Material", "ApplyPropertyOverride","UnityEngine.Material","System.Int32","System.Boolean"},
+                new List<string>(){"UnityEngine.Material", "ApplyPropertyOverride","UnityEngine.Material","System.String","System.Boolean"},
+                new List<string>(){"UnityEngine.Material", "RevertPropertyOverride","System.Int32"},
+                new List<string>(){"UnityEngine.Material", "RevertPropertyOverride","System.String"},
+                new List<string>(){"UnityEngine.Material", "parent"},
+                new List<string>(){"UnityEngine.Material", "isVariant"},
                 new List<string>(){"System.Xml.XmlNodeList", "ItemOf"},
                 new List<string>(){"UnityEngine.WWW", "movie"},
         #if UNITY_WEBGL
