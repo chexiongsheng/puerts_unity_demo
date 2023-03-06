@@ -87,7 +87,7 @@ namespace Puerts
             {
                 return _GetApiLevel();
             } 
-            catch(Exception e) 
+            catch(Exception) 
             {
                 return GetLibVersion();
             }
@@ -392,11 +392,10 @@ namespace Puerts
         {
             if (!ValueIsBigInt(isolate, value, isByRef))
             {
-                throw new InvalidOperationException("expect a bigint");
+                return 0;
             }
             return GetBigIntFromValue(isolate, value, isByRef);
         }
-
         [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr GetObjectFromValue(IntPtr isolate, IntPtr value, bool isByRef);
 
@@ -559,7 +558,7 @@ namespace Puerts
         {
             if (!ResultIsBigInt(resultInfo))
             {
-                throw new InvalidOperationException("expect a bigint");
+                return 0;
             }
             return GetBigIntFromResult(resultInfo);
         }

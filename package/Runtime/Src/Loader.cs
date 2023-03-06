@@ -5,8 +5,6 @@
 * This file is subject to the terms and conditions defined in file 'LICENSE', which is part of this source code package.
 */
 
-#if !EXPERIMENTAL_IL2CPP_PUERTS || !ENABLE_IL2CPP
-
 using System.Net.Mime;
 #if PUERTS_GENERAL || UNITY_EDITOR
 using System.IO;
@@ -14,6 +12,9 @@ using System.IO;
 
 namespace Puerts
 {
+#if ENABLE_IL2CPP
+    [UnityEngine.Scripting.Preserve]
+#endif
     public interface ILoader
     {
         bool FileExists(string filepath);
@@ -24,14 +25,23 @@ namespace Puerts
         bool IsESM(string filepath);
     }
 
+#if ENABLE_IL2CPP
+    [UnityEngine.Scripting.Preserve]
+#endif
     public class DefaultLoader : ILoader, IModuleChecker
     {
         private string root = "";
 
+#if ENABLE_IL2CPP
+        [UnityEngine.Scripting.Preserve]
+#endif
         public DefaultLoader()
         {
         }
 
+#if ENABLE_IL2CPP
+        [UnityEngine.Scripting.Preserve]
+#endif
         public DefaultLoader(string root)
         {
             this.root = root;
@@ -48,6 +58,9 @@ namespace Puerts
                 filepath;
         }
 
+#if ENABLE_IL2CPP
+        [UnityEngine.Scripting.Preserve]
+#endif
         public bool FileExists(string filepath)
         {
 #if PUERTS_GENERAL
@@ -65,6 +78,9 @@ namespace Puerts
 #endif
         }
 
+#if ENABLE_IL2CPP
+        [UnityEngine.Scripting.Preserve]
+#endif
         public string ReadFile(string filepath, out string debugpath)
         {
 #if PUERTS_GENERAL
@@ -85,9 +101,7 @@ namespace Puerts
         
         public bool IsESM(string filepath) 
         {
-            return filepath.Length >= 4 && filepath.EndsWith(".mjs");
+            return filepath.Length >= 4 && !filepath.EndsWith(".cjs");
         }
     }
 }
-
-#endif

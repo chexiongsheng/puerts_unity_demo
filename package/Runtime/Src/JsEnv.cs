@@ -43,6 +43,9 @@ namespace Puerts
 
         public Backend Backend;
 
+        private Func<string, JSObject> moduleExecuter;
+        private delegate T JSOGetter<T>(JSObject jso, string s);
+
 #if UNITY_EDITOR
         public delegate void JsEnvCreateCallback(JsEnv env, ILoader loader, int debugPort);
         public delegate void JsEnvDisposeCallback(JsEnv env);
@@ -194,8 +197,6 @@ namespace Puerts
                     ExecuteModule("puerts/nodepatch.mjs");
                 }
 #endif
-                ExecuteModule("puerts/cjsload.mjs");
-                ExecuteModule("puerts/modular.mjs");
 
 #if UNITY_EDITOR
                 if (OnJsEnvCreate != null) 
@@ -231,7 +232,7 @@ namespace Puerts
             }
             if (loaderCanCheckESM ? 
                 !((IModuleChecker)loader).IsESM(identifer) :
-                identifer.Length < 4 || !identifer.EndsWith(".mjs")
+                identifer.Length < 4 || identifer.EndsWith(".cjs")
             )
             {
                 pathForDebug = "";
@@ -443,8 +444,7 @@ namespace Puerts
             }
         }
 
-        private List<IntPtr> tickHandler = new List<IntPtr>(); 
-        
+        private List<IntPtr> tickHandler = new List<IntPtr>();
         void RegisterTickHandler(IntPtr isolate, IntPtr info, IntPtr self, int paramLen)
         {
             try

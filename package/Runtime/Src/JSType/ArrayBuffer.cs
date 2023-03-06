@@ -5,8 +5,6 @@
 * This file is subject to the terms and conditions defined in file 'LICENSE', which is part of this source code package.
 */
 
-#if !EXPERIMENTAL_IL2CPP_PUERTS || !ENABLE_IL2CPP
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +42,9 @@ namespace Puerts
             }
         }
 
-
+#if ENABLE_IL2CPP
+        [UnityEngine.Scripting.Preserve]
+#endif
         public ArrayBuffer(IntPtr ptr, int length)
         {
             if (ptr != IntPtr.Zero)
@@ -54,8 +54,13 @@ namespace Puerts
                 System.Runtime.InteropServices.Marshal.Copy(ptr, Bytes, 0, length);
             }
         }
+        
+#if ENABLE_IL2CPP
+        [UnityEngine.Scripting.Preserve]
+#endif
+        public ArrayBuffer(IntPtr ptr, int length, int notuse) : this(ptr, length) // call by il2cpp
+        {
+        }
     }
 
 }
-
-#endif
