@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 you can get the english version change log at [Github Release](https://github.com/Tencent/puerts/releases)
 
+## [2.0.0-pre.1] - 2023-02-27
+1. Add a new language binding directly based on il2cpp and there will be huge performance benifit. see our docsite for more information.
+2. The package layout of unity code in this repository is changed to UPM layout.
+3. Move the [commonjs-support](https://github.com/puerts/puerts-commonjs) package into this package.
+
+***breaking change since 1.x***
+1. `System.DateTime` will no longer translate to `Date` in Javascript #1145
+2. TypedValue could pass to a object only. You will no longer use it to select overload.
+3. If a method has no overload and default param, PuerTS will not check the type of the params in ReflectionMode(SlowBinding).
+4. The accessor key of ref object change to `[0]` instead of `['value']`. (If all your code was using `puer.$ref` or `puer.$unref`, it will take no effect)
+5. As what we mentioned in changelog of 1.4: there will be no `require` by default in 2.0.
+
 ## [1.4.1] - 2023-03-02
 > changelog since 1.4.0
 1. fix: the crashed after getting a StackOverflowException #1208

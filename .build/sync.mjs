@@ -36,7 +36,11 @@ async function run() {
 
     console.log('[Puer] merging');
     mkdir("-p", path.join(TEMP_PATH, 'local'));
-    cp("-r", path.join(TEMP_PATH, 'remote/upm/*'), path.join(TEMP_PATH, 'local'));
+    if (options.version.startsWith("1")) {
+        cp("-r", path.join(TEMP_PATH, 'remote/Puerts/*'), path.join(TEMP_PATH, 'local'));
+    } else {
+        cp("-r", path.join(TEMP_PATH, 'remote/upm/*'), path.join(TEMP_PATH, 'local'));
+    }
 
     // inherit files like changelog/LICENSE
     glob.sync(path.join(TARGET_PATH, '/*').replace(/\\/g, '/')).forEach(filepath => {
