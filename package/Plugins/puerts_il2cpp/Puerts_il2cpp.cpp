@@ -443,7 +443,7 @@ pesapi_value TryTranslateBuiltin(pesapi_env env, Il2CppObject* obj)
             Il2CppArray* buffer;
             il2cpp_field_get_value(obj, ArrayBufferBytesField, &buffer);
 
-            return pesapi_create_binary(env, Array::GetFirstElementAddress(buffer), (size_t) length);
+            return g_unityExports.CreateJSArrayBuffer(env, Array::GetFirstElementAddress(buffer), (size_t) length);
         }
     }
     return nullptr;
@@ -537,6 +537,33 @@ pesapi_value TryTranslatePrimitive(pesapi_env env, Il2CppObject* obj)
 {
     return TryTranslatePrimitiveWithClass(env, obj);
 }
+
+pesapi_value TranslateValueType(pesapi_env env, Il2CppClass* targetClass, Il2CppObject* obj)
+{
+    auto len = targetClass->native_size;
+    if (len < 0)
+    {
+        len = targetClass->instance_size - sizeof(Il2CppObject);
+    }
+
+    auto buff = new uint8_t[len];
+    memcpy(buff, Object::Unbox(obj), len);
+    return pesapi_create_native_object(env, targetClass, buff, true);
+}
+
+pesapi_value TryTranslateValueType(pesapi_env env, Il2CppObject* obj)
+{
+    if (obj && obj->klass)
+    {
+        auto objClass = obj->klass;
+        if (Class::IsValuetype(objClass))
+        {
+            return TranslateValueType(env, objClass, obj);
+        }
+    }
+    return nullptr;
+}
+
 
 union PrimitiveValueType
 {
@@ -809,47 +836,51 @@ handle_underlying:
     return Object::Box(klass, toBox);
 }
 
-pesapi_value CSRefToJsValue(pesapi_env env, Il2CppClass *klass, Il2CppObject* obj)
+pesapi_value CSRefToJsValue(pesapi_env env, Il2CppClass *targetClass, Il2CppObject* obj)
 {
-    if (klass == il2cpp_defaults.void_class || !obj) return pesapi_create_undefined(env);
-    
-    if (!klass)
+    if (targetClass == il2cpp_defaults.void_class ) return pesapi_create_undefined(env);
+    if (!obj) return pesapi_create_null(env);
+
+    if (!targetClass)
     {
-        klass = il2cpp_defaults.object_class;
+        targetClass = il2cpp_defaults.object_class;
     }
     
-    if (Class::IsEnum(klass))
+    if (Class::IsEnum(targetClass))
     {
-        klass = Class::GetElementClass(klass);
+        targetClass = Class::GetElementClass(targetClass);
     }
     
-    pesapi_value jsVal = TryTranslatePrimitiveWithClass(env, obj, klass != il2cpp_defaults.object_class ? klass : nullptr);
+    pesapi_value jsVal = TryTranslatePrimitiveWithClass(env, obj, targetClass != il2cpp_defaults.object_class ? targetClass : nullptr);
     
     if (jsVal) 
     {
         return jsVal;
     }
-    
-    jsVal = TryTranslateBuiltin(env, obj);
-    
-    if (jsVal) 
+
+    if (Class::IsValuetype(targetClass))
     {
-        return jsVal;
-    }
-    
-    if (Class::IsValuetype(klass))
-    {
-        auto len = klass->native_size;
-        if (len < 0)
+        jsVal = TranslateValueType(env, targetClass, obj);
+        if (jsVal)
         {
-            len = klass->instance_size - sizeof(Il2CppObject);
-        }
-        
-        auto buff = new uint8_t[len];
-        memcpy(buff, Object::Unbox(obj), len);
-        return pesapi_create_native_object(env, klass, buff, true);
+            return jsVal;
+        }    
     }
-    auto objClass = obj && obj->klass ? obj->klass : klass;
+    
+    jsVal = TryTranslateValueType(env, obj);
+    if (jsVal) 
+    {
+        return jsVal;
+    }
+
+    jsVal = TryTranslateBuiltin(env, obj);
+
+    if (jsVal)
+    {
+        return jsVal;
+    }
+
+    auto objClass = obj && obj->klass ? obj->klass : targetClass;
     return pesapi_create_native_object(env, objClass, obj, false);
 }
 
@@ -1272,7 +1303,12 @@ handle_underlying:
                 auto underlyClass = Class::GetNullableArgument(parameterKlass);
                 uint32_t valueSize = underlyClass->instance_size - sizeof(Il2CppObject);
                 bool hasValue = GetValueTypeFromJs(env, jsValue, underlyClass, storage);
+#ifndef UNITY_2021_1_OR_NEWER
                 *(static_cast<uint8_t*>(storage) + valueSize) = hasValue;
+#else
+                *(static_cast<uint8_t*>(storage)) = hasValue;
+#endif    // ! 
+
                 args[i] = storage;
             }
             else if (passedByReference)
@@ -1354,8 +1390,21 @@ handle_underlying:
         
         pesapi_value jsValue = pesapi_get_arg(info, i - csArgStart);
         
-        if (Class::IsValuetype(parameterKlass) && passedByReference && !Class::IsNullable(parameterKlass))
+        if (Class::IsValuetype(parameterKlass) && passedByReference)
         {
+            if (Class::IsNullable(parameterKlass))
+            {
+#ifndef UNITY_2021_1_OR_NEWER
+                bool hasValue = !!*(static_cast<uint8_t*>(args[i]) + parameterKlass->instance_size - sizeof(Il2CppObject));
+#else
+                bool hasValue = !!*(static_cast<uint8_t*>(args[i]));
+#endif    // ! 
+                if (!hasValue)
+                {
+                    JsObjectSetRef(env, jsValue, pesapi_create_null(env));
+                    continue;
+                }
+            }
             auto underlyClass = Class::FromIl2CppType(&parameterKlass->byval_arg);
             JsObjectSetRef(env, jsValue, CSRefToJsValue(env, underlyClass, (Il2CppObject*)(((uint8_t*)args[i]) - sizeof(Il2CppObject))));
         }
@@ -1480,7 +1529,11 @@ static void ReflectionSetFieldWrapper(pesapi_callback_info info, FieldInfo* fiel
             auto underlyClass = Class::GetNullableArgument(fieldType);
             uint32_t valueSize = underlyClass->instance_size - sizeof(Il2CppObject);
             bool hasValue = GetValueTypeFromJs(env, jsValue, underlyClass, storage);
+#ifndef UNITY_2021_1_OR_NEWER
             *(static_cast<uint8_t*>(storage) + valueSize) = hasValue;
+#else
+            *(static_cast<uint8_t*>(storage)) = hasValue;
+#endif    // ! 
             SetFieldValue(csThis, field, offset, storage);
         }
         else
@@ -1547,6 +1600,7 @@ puerts::UnityExports* GetUnityExports()
     g_unityExports.CStringToCSharpString = &String::NewWrapper;
     g_unityExports.TryTranslatePrimitive = &TryTranslatePrimitive;
     g_unityExports.TryTranslateBuiltin = &TryTranslateBuiltin;
+    g_unityExports.TryTranslateValueType = &TryTranslateValueType;
     g_unityExports.GetTID = &GetTID;
     g_unityExports.ThrowInvalidOperationException = &ThrowInvalidOperationException;
     g_unityExports.GetReturnType = &GetReturnType;

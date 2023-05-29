@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Puerts.TypeMapping;
 
 namespace Puerts.Editor
 {
@@ -346,7 +347,7 @@ namespace Puerts.Editor
                                 Namespace = interfaces[i].Namespace
                             };
 
-                            if (result.IsGenericTypeDefinition && interfaces[i].IsGenericType &&
+                            if (!type.IsInterface && result.IsGenericTypeDefinition && interfaces[i].IsGenericType &&
                                 typeof(IEnumerable<>) == interfaces[i].GetGenericTypeDefinition())
                             {
                                 result.IteratorReturnName = Utils.GetTsTypeName(interfaces[i].GenericTypeArguments[0]);

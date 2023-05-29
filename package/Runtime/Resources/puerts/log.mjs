@@ -6,10 +6,24 @@
  */ 
 
 var global = global || globalThis || (function () { return this; }());
-
 let UnityEngine_Debug = puer.loadType('UnityEngine.Debug');
+if (!UnityEngine_Debug) {
+    // in quickjs, global.console is undefined
+    // so we decide polyfill the unityengine.debug.log in non-unity env
+    const CSConsole = puer.loadType('System.Console'); 
+    if (CSConsole) {
+        UnityEngine_Debug = 
+        {
+            Log: (...args) => CSConsole.WriteLine(["[Log]", ...args].join(' ')),
+            LogWarn: (...args) => CSConsole.WriteLine(["[LogWarn]", ...args].join(' ')),
+            LogError: (...args) => CSConsole.WriteLine(["[LogError]", ...args].join(' ')),
+            Assert: () => {}
+        }
+    }
+}
 
-if (UnityEngine_Debug) {
+if (UnityEngine_Debug || !global.console) {
+
     const console_org = global.console;
     var console = {}
     
@@ -81,4 +95,5 @@ if (UnityEngine_Debug) {
     
     global.console = console;
     puer.console = console;
+
 }

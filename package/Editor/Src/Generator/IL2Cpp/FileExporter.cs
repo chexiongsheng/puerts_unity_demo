@@ -12,25 +12,31 @@ using System.Text;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Puerts.Editor.Generator;
+using Puerts.TypeMapping;
+#if !PUERTS_GENERAL
 using Mono.Reflection;
+#endif
 
 namespace PuertsIl2cpp.Editor
 {
-    namespace Generator {
-        public class FileExporter {
+    namespace Generator
+    {
+        public class FileExporter
+        {
             public static List<string> GetValueTypeFieldSignatures(Type type)
             {
-                List<string> ret = (type.BaseType != null && type.BaseType.IsValueType) ? GetValueTypeFieldSignatures(type.BaseType) : new List<string>();
+                List<string> ret = new List<string>();
+                if (type.BaseType != null && type.BaseType.IsValueType) ret.Add(PuertsIl2cpp.TypeUtils.GetTypeSignature(type.BaseType));
                 foreach (var field in type.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
                 {
-                    if ((field.FieldType.IsValueType && !field.FieldType.IsPrimitive))
-                    {
-                        ret.AddRange(GetValueTypeFieldSignatures(field.FieldType));
-                    }
-                    else
-                    {
+                    // if ((field.FieldType.IsValueType && !field.FieldType.IsPrimitive))
+                    // {
+                    //     ret.AddRange(GetValueTypeFieldSignatures(field.FieldType));
+                    // }
+                    // else
+                    // {
                         ret.Add(PuertsIl2cpp.TypeUtils.GetTypeSignature(field.FieldType));
-                    }
+                    // }
                 }
                 return ret;
             }
@@ -40,6 +46,7 @@ namespace PuertsIl2cpp.Editor
                 public string Signature;
                 public string CsName;
                 public List<string> FieldSignatures;
+                public int NullableHasValuePosition;
             }
 
             class SignatureInfo
@@ -66,11 +73,10 @@ namespace PuertsIl2cpp.Editor
             {
                 return (parameterInfo.ParameterType.IsByRef || parameterInfo.ParameterType.IsPointer) ? parameterInfo.ParameterType.GetElementType() : parameterInfo.ParameterType;
             }
-            
-            public static void GenericArgumentInInstructions(MethodBase node, HashSet<Type> result, HashSet<MethodBase> proceed, HashSet<string> skipAssembles, Func<MethodBase, IEnumerable<MethodBase>> callingMethodsGetter)
+
+            public static void GenericArgumentInInstructions(MethodBase node, HashSet<Type> result, HashSet<MethodBase> proceed, Func<MethodBase, IEnumerable<MethodBase>> callingMethodsGetter)
             {
                 var declaringType = node.DeclaringType;
-                if (declaringType != null && skipAssembles.Contains(declaringType.Assembly.GetName().Name)) return;
                 if (proceed.Contains(node)) return;
                 if (node.IsGenericMethod && !node.IsGenericMethodDefinition)
                 {
@@ -82,20 +88,63 @@ namespace PuertsIl2cpp.Editor
                         }
                     }
                 }
+                if (declaringType != null && Utils.shouldNotGetArgumentsInInstructions(node)) return;
 
                 proceed.Add(node);
 
                 var callingMethods = callingMethodsGetter(node);
                 foreach (var callingMethod in callingMethods)
                 {
-                    GenericArgumentInInstructions(callingMethod, result, proceed, skipAssembles, callingMethodsGetter);
+                    GenericArgumentInInstructions(callingMethod, result, proceed, callingMethodsGetter);
                 }
+            }
+
+            private static void IterateAllValueType(Type type, List<ValueTypeInfo> list)
+            {
+                if (type.IsPrimitive) {
+                    PuertsIl2cpp.TypeUtils.GetTypeSignature(type);
+                    return;
+                }
+                Type baseType = type.BaseType;
+                while (baseType != null && baseType != typeof(System.Object))
+                {
+                    if (baseType.IsValueType) {
+                        IterateAllValueType(baseType, list);
+                    }
+                    baseType = baseType.BaseType;
+                }
+                
+                foreach (var field in type.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                {
+                    if (field.FieldType.IsValueType && !field.FieldType.IsPrimitive) IterateAllValueType(field.FieldType, list);
+                }
+
+                int value = -1;
+                if (Nullable.GetUnderlyingType(type) != null)
+                {
+                    var fields = type.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                    for (var i = 0; i < fields.Length; i++)
+                    {
+                        if (fields[i].Name == "hasValue" || fields[i].Name == "has_value") 
+                        {
+                            value = i;
+                            break;
+                        }
+                    }
+                }
+
+                list.Add(new ValueTypeInfo { 
+                    Signature = PuertsIl2cpp.TypeUtils.GetTypeSignature(type), 
+                    CsName = type.Name, 
+                    FieldSignatures = GetValueTypeFieldSignatures(type),
+                    NullableHasValuePosition = value
+                });
             }
 
             public static void GenCPPWrap(string saveTo, bool onlyConfigure = false)
             {
                 var types = from assembly in AppDomain.CurrentDomain.GetAssemblies()
-                            // where assembly.FullName.Contains("puerts") || assembly.FullName.Contains("Assembly-CSharp") || assembly.FullName.Contains("Unity")
+                                // where assembly.FullName.Contains("puerts") || assembly.FullName.Contains("Assembly-CSharp") || assembly.FullName.Contains("Unity")
                             where !(assembly.ManifestModule is System.Reflection.Emit.ModuleBuilder)
                             from type in assembly.GetTypes()
                             where type.IsPublic
@@ -103,6 +152,7 @@ namespace PuertsIl2cpp.Editor
 
                 const BindingFlags flag = BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public;
                 const BindingFlags flagForPuer = BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
+                Utils.SetFilters(Puerts.Configure.GetFilters());
 
                 var typeExcludeDelegate = types
                     .Where(t => !typeof(MulticastDelegate).IsAssignableFrom(t));
@@ -123,10 +173,10 @@ namespace PuertsIl2cpp.Editor
                     .Concat(fieldToWrapper.Select(f => f.FieldType))
                     .Distinct();
 
-                Type[] PuerDelegates = { 
+                Type[] PuerDelegates = {
                     typeof(Func<string, Puerts.JSObject>),
-                    typeof(Func<Puerts.JSObject, string, string>), 
-                    typeof(Func<Puerts.JSObject, string, int>), 
+                    typeof(Func<Puerts.JSObject, string, string>),
+                    typeof(Func<Puerts.JSObject, string, int>),
                     typeof(Func<Puerts.JSObject, string, uint>),
                     typeof(Func<Puerts.JSObject, string, long>),
                     typeof(Func<Puerts.JSObject, string, ulong>),
@@ -139,25 +189,10 @@ namespace PuertsIl2cpp.Editor
 
                 HashSet<Type> typeInGenericArgument = new HashSet<Type>();
                 HashSet<MethodBase> processed = new HashSet<MethodBase>();
-                HashSet<string> skipAssembles = new HashSet<string>()
-                {
-                    "mscorlib",
-                    "System.Core",
-                    "System.Xml",
-                    "System.Data",
-                    "System.Windows.Forms",
-                    "System.ComponentModel.DataAnnotations",
-                    "UnityEngine.CoreModule",
-                    "UnityEditor.CoreModule",
-                    "UnityEditor.Graphs",
-                    "Unity.Plastic.Newtonsoft.Json",
-                    "nunit.framework",
-                    "UnityEditor.GraphViewModule",
-                };
-
+#if !PUERTS_GENERAL
                 foreach (var method in methodToWrap)
                 {
-                    GenericArgumentInInstructions(method, typeInGenericArgument, processed, skipAssembles, mb =>
+                    GenericArgumentInInstructions(method, typeInGenericArgument, processed, mb =>
                     {
                         if (mb.GetMethodBody() == null || mb.IsGenericMethodDefinition || mb.IsAbstract) return new MethodBase[] { };
                         try
@@ -169,12 +204,12 @@ namespace PuertsIl2cpp.Editor
                         }
                         catch (Exception)
                         {
-                            
                             //UnityEngine.Debug.LogWarning(string.Format("get instructions of {0} ({2}:{3}) throw {1}", mb, e.Message, mb.DeclaringType == null ? "" : mb.DeclaringType.Assembly.GetName().Name, mb.DeclaringType));
                             return new MethodBase[] { };
                         }
                     });
                 }
+#endif
 
                 var delegateToBridge = wrapperUsedTypes
                     .Concat(PuerDelegates)
@@ -188,9 +223,13 @@ namespace PuertsIl2cpp.Editor
                 var delegateUsedTypes = delegateInvokes.SelectMany(m => m.GetParameters()).Select(pi => GetUnrefParameterType(pi))
                     .Concat(delegateInvokes.Select(m => m.ReturnType));
 
-                var valueTypeInfos = wrapperUsedTypes.Concat(delegateUsedTypes)
-                    .Where(t => t.IsValueType && !t.IsPrimitive && !t.IsEnum)
-                    .Select(t => new ValueTypeInfo { Signature = PuertsIl2cpp.TypeUtils.GetTypeSignature(t), CsName = t.Name, FieldSignatures = GetValueTypeFieldSignatures(t) })
+                var valueTypeInfos = new List<ValueTypeInfo>();
+                foreach (var type in wrapperUsedTypes.Concat(delegateUsedTypes))
+                {
+                    IterateAllValueType(type, valueTypeInfos);
+                }
+                
+                valueTypeInfos = valueTypeInfos
                     .GroupBy(s => s.Signature)
                     .Select(s => s.FirstOrDefault())
                     .ToList();
@@ -218,7 +257,7 @@ namespace PuertsIl2cpp.Editor
                     var configure = Puerts.Configure.GetConfigureByTags(new List<string>() {
                         "Puerts.BindingAttribute",
                     });
-                    
+
                     var configureTypes = new HashSet<Type>(configure["Puerts.BindingAttribute"].Select(kv => kv.Key)
                         .Where(o => o is Type)
                         .Cast<Type>()
@@ -226,24 +265,24 @@ namespace PuertsIl2cpp.Editor
                         .Where(t => !t.IsGenericTypeDefinition && !t.Name.StartsWith("<"))
                         .Distinct()
                         .ToList());
-                    
-                    Utils.filters = Puerts.Configure.GetFilters();
-                    
+
+                    // configureTypes.Clear();
+
                     genWrapperCtor = configureTypes
                         .SelectMany(t => t.GetConstructors(flag))
                         .Where(m => !Utils.IsNotSupportedMember(m, true))
                         .Where(m => Utils.getBindingMode(m) != BindingMode.DontBinding);
-                    
+
                     genWrapperMethod = configureTypes
                         .SelectMany(t => t.GetMethods(flag))
                         .Where(m => !Utils.IsNotSupportedMember(m, true))
                         .Where(m => Utils.getBindingMode(m) != BindingMode.DontBinding);
-                    
+
                     genWrapperField = configureTypes
                         .SelectMany(t => t.GetFields(flag))
                         .Where(m => !Utils.IsNotSupportedMember(m, true))
                         .Where(m => Utils.getBindingMode(m) != BindingMode.DontBinding);
-                    
+
                     var configureUsedTypes = configureTypes
                         .Concat(genWrapperCtor.SelectMany(c => c.GetParameters()).Select(pi => GetUnrefParameterType(pi)))
                         .Concat(genWrapperMethod.SelectMany(m => m.GetParameters()).Select(pi => GetUnrefParameterType(pi)))
@@ -251,21 +290,27 @@ namespace PuertsIl2cpp.Editor
                         .Concat(genWrapperField.Select(f => f.FieldType))
                         .Distinct();
                     
-                    valueTypeInfos = configureUsedTypes.Concat(delegateUsedTypes)
-                        .Where(t => t.IsValueType && !t.IsPrimitive && !t.IsEnum)
-                        .Select(t => new ValueTypeInfo { Signature = PuertsIl2cpp.TypeUtils.GetTypeSignature(t), CsName = t.Name, FieldSignatures = GetValueTypeFieldSignatures(t) })
+                    valueTypeInfos = new List<ValueTypeInfo>();
+                    foreach (var type in configureUsedTypes.Concat(delegateUsedTypes))
+                    {
+                        IterateAllValueType(type, valueTypeInfos);
+                    }
+                    
+                    valueTypeInfos = valueTypeInfos
                         .GroupBy(s => s.Signature)
                         .Select(s => s.FirstOrDefault())
                         .ToList();
 
-                    Utils.filters = null;
+                    Utils.SetFilters(null);
                 }
 
                 var wrapperInfos = genWrapperMethod
                     .Where(m => !m.IsGenericMethodDefinition && !m.IsAbstract)
-                    .Select(m  => { 
+                    .Select(m =>
+                    {
                         var isExtensionMethod = m.IsDefined(typeof(ExtensionAttribute));
-                        return new SignatureInfo {
+                        return new SignatureInfo
+                        {
                             Signature = PuertsIl2cpp.TypeUtils.GetMethodSignature(m, false, isExtensionMethod),
                             CsName = m.ToString(),
                             ReturnSignature = PuertsIl2cpp.TypeUtils.GetTypeSignature(m.ReturnType),
@@ -275,9 +320,11 @@ namespace PuertsIl2cpp.Editor
                     })
                     .Concat(
                         genWrapperCtor
-                            .Select(m  => { 
+                            .Select(m =>
+                            {
                                 var isExtensionMethod = false;
-                                return new SignatureInfo {
+                                return new SignatureInfo
+                                {
                                     Signature = PuertsIl2cpp.TypeUtils.GetMethodSignature(m, false, isExtensionMethod),
                                     CsName = m.ToString(),
                                     ReturnSignature = "v",
@@ -311,8 +358,9 @@ namespace PuertsIl2cpp.Editor
                     var cppWrapRender = jsEnv.ExecuteModule<Func<CppWrappersInfo, string>>("puerts/templates/cppwrapper.tpl.mjs", "default");
                     using (StreamWriter textWriter = new StreamWriter(Path.Combine(saveTo, "FunctionBridge.Gen.h"), false, Encoding.UTF8))
                     {
-                        string fileContext = cppWrapRender(new CppWrappersInfo { 
-                            ValueTypeInfos  = valueTypeInfos,
+                        string fileContext = cppWrapRender(new CppWrappersInfo
+                        {
+                            ValueTypeInfos = valueTypeInfos,
                             WrapperInfos = wrapperInfos,
                             BridgeInfos = bridgeInfos,
                             FieldWrapperInfos = fieldWrapperInfos
@@ -328,7 +376,7 @@ namespace PuertsIl2cpp.Editor
                 var configure = Puerts.Configure.GetConfigureByTags(new List<string>() {
                     "Puerts.BindingAttribute",
                 });
-                    
+
                 var genTypes = new HashSet<Type>(configure["Puerts.BindingAttribute"].Select(kv => kv.Key)
                     .Where(o => o is Type)
                     .Cast<Type>()
@@ -342,9 +390,9 @@ namespace PuertsIl2cpp.Editor
 #if UNITY_EDITOR
                     where !System.IO.Path.GetFileName(type.Assembly.Location).Contains("Editor")
 #endif
-                    from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public).Select(method => TypeUtils.HandleMaybeGenericMethod(method)).Where(method => method != null)
-                    where Utils.isDefined(method, typeof(ExtensionAttribute))
-                    group type by Utils.getExtendedType(method)).ToDictionary(g => g.Key, g => (g as IEnumerable<Type>).Distinct().ToList()).ToList();
+                                                  from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public).Select(method => TypeUtils.HandleMaybeGenericMethod(method)).Where(method => method != null)
+                                                  where Utils.isDefined(method, typeof(ExtensionAttribute))
+                                                  group type by Utils.getExtendedType(method)).ToDictionary(g => g.Key, g => (g as IEnumerable<Type>).Distinct().ToList()).ToList();
 
                 using (var jsEnv = new Puerts.JsEnv())
                 {
@@ -359,6 +407,7 @@ namespace PuertsIl2cpp.Editor
                     }
                 }
             }
+
             public static void GenLinkXml(string outDir)
             {
                 var configure = Puerts.Configure.GetConfigureByTags(new List<string>() {
