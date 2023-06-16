@@ -6,6 +6,35 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 you can get the english version change log at [Github Release](https://github.com/Tencent/puerts/releases)
 
+## [2.0.0-pre.5] - 2023-06-15
+1. Fix: Error occurs when generating classes with `op_explicit` #1363.
+2. Fix: Issue with `ClearModuleCache` causing a crash #1364.
+3. Fix: Error in generating when struct produces recursive definition through pointers in xil2cpp mode #1365.
+4. Fix: Crash when printing struct in xil2cpp mode #1376.
+5. Fix: Crash when assigning JSObject to numeric type C# Field/Property #1383.
+6. Fix: Issue with ineffective `Filter`.
+7. Optimization: Changed xil2cpp mode's c plugin code to be generated instead of being included in the package.
+8. Optimization: Added FAQHelper to optimize code generation and error prompts during build.
+9. Optimization: Improved error messages for reflection calls, compatible with trimmed interfaces.
+10. Optimization: Changed the separator for console.log elements from comma to space.
+11. Optimization: Improved Node.js event loop #1093 #1279.
+12. Optimization: Suppressed warnings from DefaultMode's StaticWrapper.
+13. Feature: Added `JSObject.Get<T>(string)` and refactored ExecuteModule to use this Get interface.
+13. Feature: Added Filter for xil2cpp valuetype declaration.
+
+## [2.0.0-pre.4] - 2023-05-29
+1. Fix: the Error message threw from JS to CS would have unexpected character.
+2. Fix: doc generating fix #1322 #1329
+3. Fix: if an error is thrown in constructor, some valuetype would become null unexpectly.
+4. optimize: performance in WebGL is optimized.
+5. Fix: dts with Enumerable would throw compile error #1322
+6. To distinguish the meaning between Unity Il2cpp backend, we named the new il2cpp binding mode(v2 mode) to xIl2cpp mode.
+7. Fix: in xIl2cpp mode, create Puerts.ArrayBuffer in csharp would make its memory unstable. #1340
+8. Fix: in xIl2cpp mode, it would crash when returning a valuetype in a method with returntype `System.Object`.
+9. Fix: in xIl2cpp mode, it would crash when transfering nullable valuetype. #1320
+10. Fix: in xIl2cpp mode, it would crash when setting a valuetype to ref/out arguments. #1343
+11. Register logic refactor: #1317. Now we have a new access control ability.
+
 ## [2.0.0-pre.3] - 2023-04-19
 1. Fix: ios Node.js cannot start for PuerTS's openupm version #1302
 2. Fix: the dependencies of DontBinding methods are still generated in DTS generation #1295
