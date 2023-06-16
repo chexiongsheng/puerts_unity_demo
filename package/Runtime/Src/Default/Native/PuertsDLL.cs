@@ -190,9 +190,6 @@ namespace Puerts
             SetGeneralDestructor(isolate, fn);
         }
 
-        // [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
-        // public static extern IntPtr ExecuteModule(IntPtr isolate, string path, string exportee);
-
         [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool ClearModuleCache(IntPtr isolate, string path);
 
@@ -223,6 +220,7 @@ namespace Puerts
 #endif
 
         [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
+        // in WebGL, the prefix '_' is necessary. (Dont know why)
         public static extern int _RegisterClass(IntPtr isolate, int BaseTypeId, string fullName, IntPtr constructor, IntPtr destructor, long data);
 
         public static int RegisterClass(IntPtr isolate, int BaseTypeId, string fullName, V8ConstructorCallback constructor, V8DestructorCallback destructor, long data)
@@ -280,6 +278,12 @@ namespace Puerts
 
             return RegisterProperty(isolate, classID, name, isStatic, fn1, getterData, fn2, setterData, dontDelete);
         }
+        
+        [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr GetJSObjectValueGetter(IntPtr isolate);
+        
+        [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr GetModuleExecutor(IntPtr isolate);
 
         [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern void ReturnClass(IntPtr isolate, IntPtr info, int classID);
