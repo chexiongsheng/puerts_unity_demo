@@ -98,18 +98,17 @@
       "url": "https://packages.unity.cn"
     },
     "com.unity.services.analytics": {
-      "version": "4.3.0",
+      "version": "4.2.0",
       "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.unity.ugui": "1.0.0",
-        "com.unity.services.core": "1.4.0",
-        "com.unity.nuget.newtonsoft-json": "3.0.2"
+        "com.unity.services.core": "1.4.0"
       },
       "url": "https://packages.unity.cn"
     },
     "com.unity.services.core": {
-      "version": "1.7.1",
+      "version": "1.6.0",
       "depth": 1,
       "source": "registry",
       "dependencies": {
