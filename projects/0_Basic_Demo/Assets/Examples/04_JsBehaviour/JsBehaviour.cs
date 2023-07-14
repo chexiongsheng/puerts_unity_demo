@@ -23,7 +23,7 @@ namespace PuertsTest
         {
             if (jsEnv == null) jsEnv = new JsEnv(new DefaultLoader(), 9229);
             var varname = "m_" + Time.frameCount;
-            var init = jsEnv.ExecuteModule<ModuleInit>(ModuleName, "init");
+            var init = jsEnv.ExecuteModule(ModuleName).Get<ModuleInit>("init");
 
             if (init != null) init(this);
 
