@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 you can get the english version change log at [Github Release](https://github.com/Tencent/puerts/releases)
 
+## [2.0.0] - 2023-07-31
+1. Fix: `debugpath` was not work and make VSCode debug not availabled
+2. Fix: `puer.$genericMethod` cannot get the genericMethod from super class in xil2cpp mode #1417 @danij91
+3. Fix: `GetFriendlyName is not a function` when generating extensionInfo #1437
+
 ## [2.0.0-rc.1] - 2023-07-14
 1. Fix: BlitableCopy was broken issue #1427
 2. Fix: two wrapper generation issue #1433 #1432
