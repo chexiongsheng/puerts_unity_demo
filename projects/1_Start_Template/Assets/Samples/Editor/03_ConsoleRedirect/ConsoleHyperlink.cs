@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Unity.CodeEditor;
 
@@ -34,7 +35,7 @@ namespace UnityEditor.Console
 #else
                     if (hyperLinkClickedEvent != null)
                     {
-                        var method = typeof(UnityEditor.Console.ConsoleHyperlink).GetMethod("OnClicked", BindingFlags.Static | BindingFlags.NonPublic| BindingFlags.Public);
+                        var method = typeof(UnityEditor.Console.ConsoleHyperlink).GetMethod("OnClicked", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
                         if (method != null)
                         {
                             _hyperLinkClickedHandler = Delegate.CreateDelegate(hyperLinkClickedEvent.EventHandlerType, method);
@@ -90,7 +91,6 @@ namespace UnityEditor.Console
             if (!infos.TryGetValue("href", out var path)) return;
             infos.TryGetValue("line", out var line);
             infos.TryGetValue("column", out var column);
-
             if (File.Exists(path))
             {
                 int.TryParse(line, out var _line);
@@ -101,7 +101,36 @@ namespace UnityEditor.Console
 
         public static bool OpenFileInIDE(string filepath, int line, int column)
         {
-            return CodeEditor.CurrentEditor.OpenProject(filepath, line, column);
+            bool successfully = CodeEditor.CurrentEditor.OpenProject(filepath, line, column);
+            if (successfully)
+                return true;
+
+            //尝试查找编辑器安装路径
+            string editorPath = CodeEditor.CurrentEditorInstallation,
+                editorName = string.IsNullOrEmpty(editorPath) ? string.Empty : Path.GetFileNameWithoutExtension(editorPath);
+            if (string.IsNullOrEmpty(editorName))
+                return false;
+
+            string arguments = null;
+            switch (editorName)
+            {
+                default:
+                case "Code":        //vscode编辑器
+                    arguments = CodeEditor.ParseArgument(
+                        "$(ProjectPath) -g $(File):$(Line):$(Column)",
+                        filepath,
+                        line,
+                        column
+                    );
+                    break;
+            }
+            if (string.IsNullOrEmpty(arguments))
+                return false;
+
+#if UNITY_EDITOR_WIN
+            arguments = arguments.Replace("\\", "/");
+#endif
+            return CodeEditor.OSOpenFile(editorPath, arguments);
         }
     }
 }
