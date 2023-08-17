@@ -11,10 +11,10 @@ namespace UnityEditor.Console
 {
     public static class ConsoleRedirect
     {
-        //匹配文件路径(指定.js|.cjs|.mjs|.ts|.mts后缀)^\n\r\*\"\|\<\>
-        static readonly Regex regex = new Regex("at ([a-zA-z0-9#$._ ]+ \\()?([^\n\r*\"|<>]+(.js|.cjs|.mjs|.ts|.mts))\\:([0-9]+)\\:([0-9]+)\\)?\r?\n?");
+        //匹配文件路径(指定.js|.cjs|.mjs|.ts|.mts后缀)
+        static readonly Regex regex = new Regex("at ([a-zA-z0-9#$._ ]+ \\()?([^\n\r*\"|<>]+(.cs|.js|.cjs|.mjs|.ts|.mts))\\:([0-9]+)\\:([0-9]+)\\)?\r?\n?");
         //匹配<a href ...>(指定.js|.cjs|.mjs|.ts|.mts后缀)
-        static readonly Regex regexHref = new Regex("<a href='([^\n\r*\"|<>]+(.js|.cjs|.mjs|.ts|.mts))'( line='([0-9]+)')?( column='([0-9]+)')?>[^\n\r*\"|<>]+</a>"
+        static readonly Regex regexHref = new Regex("<a href='([^\n\r*\"|<>]+(.cs|.js|.cjs|.mjs|.ts|.mts))'( line='([0-9]+)')?( column='([0-9]+)')?>[^\n\r*\"|<>]+</a>"
             .Replace('\'', '\"'));
 
         public static bool enable
@@ -70,7 +70,7 @@ namespace UnityEditor.Console
                     string column = match.Groups[6].Value;
                     if (!string.IsNullOrEmpty(line) && File.Exists(filepath))
                     {
-                        return OpenFileInIDE(filepath, !string.IsNullOrEmpty(line) ? int.Parse(line) : 0, !string.IsNullOrEmpty(column) ? int.Parse(column) : 0);
+                        return ConsoleHyperlink.OpenFileInIDE(filepath, !string.IsNullOrEmpty(line) ? int.Parse(line) : 0, !string.IsNullOrEmpty(column) ? int.Parse(column) : 0);
                     }
                 }
                 catch (Exception) { return false; }
@@ -88,7 +88,7 @@ namespace UnityEditor.Console
                     string column = match.Groups[5].Value;
                     if (File.Exists(filepath))
                     {
-                        return OpenFileInIDE(filepath, !string.IsNullOrEmpty(line) ? int.Parse(line) : 0, !string.IsNullOrEmpty(column) ? int.Parse(column) : 0);
+                        return ConsoleHyperlink.OpenFileInIDE(filepath, !string.IsNullOrEmpty(line) ? int.Parse(line) : 0, !string.IsNullOrEmpty(column) ? int.Parse(column) : 0);
                     }
                 }
                 catch (Exception) { return false; }
@@ -96,12 +96,6 @@ namespace UnityEditor.Console
             }
 
             return false;
-        }
-
-
-        static bool OpenFileInIDE(string filepath, int line, int column)
-        {
-            return CodeEditor.CurrentEditor.OpenProject(filepath, line, column);
         }
 
         public static string GetStackTrace()
