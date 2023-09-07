@@ -114,6 +114,14 @@ namespace UnityEditor.Console
             string arguments = null;
             switch (editorName)
             {
+                case "rider64":
+                    arguments = CodeEditor.ParseArgument(
+                        "$(ProjectPath) $(File):$(Line)",
+                        filepath,
+                        line,
+                        column
+                    );
+                    break;
                 default:
                 case "Code":        //vscode编辑器
                     arguments = CodeEditor.ParseArgument(
