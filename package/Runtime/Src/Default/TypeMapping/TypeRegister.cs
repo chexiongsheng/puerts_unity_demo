@@ -23,6 +23,8 @@ namespace Puerts
     class SlowBindingRegister
     {
         public RegisterInfo registerInfo;
+
+        public RegisterInfoManager RegisterInfoManager;
         public Dictionary<MethodKey, List<MethodInfo>> slowBindingMethodGroup = new Dictionary<MethodKey, List<MethodInfo>>();
         public Dictionary<string, PropertyMethods> slowBindingProperties = new Dictionary<string, PropertyMethods>();
         public List<FieldInfo> slowBindingFields = new List<FieldInfo>();
@@ -37,6 +39,7 @@ namespace Puerts
 
         internal bool AddMethod(MethodKey methodKey, MethodInfo method)
         {
+            bool isNoRegisterInfoAndAllowSlowBinding = registerInfo == null && RegisterInfoManager.DefaultBindingMode != BindingMode.DontBinding;
             if (method.IsGenericMethodDefinition)
             {
                 if (!Utils.IsSupportedMethod(method))
@@ -55,7 +58,7 @@ namespace Puerts
             if (method.IsSpecialName && method.Name.StartsWith("get_") && method.GetParameters().Length != 1) // getter of property
             {
                 string propName = method.Name.Substring(4);
-                if (registerInfo == null || needFillSlowBindingProperty.Contains(propName))
+                if (isNoRegisterInfoAndAllowSlowBinding || needFillSlowBindingProperty.Contains(propName))
                 {
                     PropertyMethods properyMethods;
                     if (!slowBindingProperties.TryGetValue(propName, out properyMethods))
@@ -69,7 +72,7 @@ namespace Puerts
             else if (method.IsSpecialName && method.Name.StartsWith("set_") && method.GetParameters().Length != 2) // setter of property
             {
                 string propName = method.Name.Substring(4);
-                if (registerInfo == null || needFillSlowBindingProperty.Contains(propName))
+                if (isNoRegisterInfoAndAllowSlowBinding || needFillSlowBindingProperty.Contains(propName))
                 {
                     PropertyMethods properyMethods;
                     if (!slowBindingProperties.TryGetValue(propName, out properyMethods))
@@ -82,7 +85,7 @@ namespace Puerts
             }
             else
             {
-                if (registerInfo == null || needFillSlowBindingMethod.Contains(methodKey.Name))
+                if (isNoRegisterInfoAndAllowSlowBinding || needFillSlowBindingMethod.Contains(methodKey.Name))
                 {
                     List<MethodInfo> overloads;
                     if (!slowBindingMethodGroup.TryGetValue(methodKey, out overloads))
@@ -99,14 +102,106 @@ namespace Puerts
 
         internal void AddField(FieldInfo fieldInfo)
         {
-            if (registerInfo == null || needFillSlowBindingProperty.Contains(fieldInfo.Name))
+            bool isNoRegisterInfoAndAllowSlowBinding = registerInfo == null && RegisterInfoManager.DefaultBindingMode != BindingMode.DontBinding;
+            if (isNoRegisterInfoAndAllowSlowBinding || needFillSlowBindingProperty.Contains(fieldInfo.Name))
                 slowBindingFields.Add(fieldInfo);
         }
     }
 
+
     internal class TypeRegister
     {
 
+        internal class FunctionCallbackFactory {
+
+            [MonoPInvokeCallback(typeof(V8ConstructorCallback))]
+            public static IntPtr EmptyConstructor(IntPtr isolate, IntPtr info, int paramLen, long data)
+            {
+                PuertsDLL.ThrowException(isolate, "not allowed to be called due to AccessControl");
+                return IntPtr.Zero;
+            }
+            
+            public static JSFunctionCallback GenFieldGetter(JsEnv jsEnv, Type type, FieldInfo field)
+            {
+                var translateFunc = jsEnv.GeneralSetterManager.GetTranslateFunc(field.FieldType);
+                if (field.IsStatic)
+                {
+                    return (IntPtr isolate, IntPtr info, IntPtr self, int argumentsLen) =>
+                    {
+                        translateFunc(jsEnv.Idx, isolate, NativeValueApi.SetValueToResult, info, field.GetValue(null));
+                    };
+                }
+                else
+                {
+                    return (IntPtr isolate, IntPtr info, IntPtr self, int argumentsLen) =>
+                    {
+                        var me = jsEnv.GeneralGetterManager.GetSelf(jsEnv.Idx, self);
+                        translateFunc(jsEnv.Idx, isolate, NativeValueApi.SetValueToResult, info, field.GetValue(me));
+                    };
+                }
+            }
+
+            public static JSFunctionCallback GenFieldSetter(JsEnv jsEnv, Type type, FieldInfo field)
+            {
+                var translateFunc = jsEnv.GeneralGetterManager.GetTranslateFunc(field.FieldType);
+                var typeMask = GeneralGetterManager.GetJsTypeMask(field.FieldType);
+                if (field.IsStatic)
+                {
+                    return (IntPtr isolate, IntPtr info, IntPtr self, int argumentsLen) =>
+                    {
+                        var valuePtr = PuertsDLL.GetArgumentValue(info, 0);
+                        var valueType = PuertsDLL.GetJsValueType(isolate, valuePtr, false);
+                        object value = null;
+                        if (
+                            !Utils.IsJsValueTypeMatchType(valueType, field.FieldType, typeMask, () =>
+                            {
+                                value = translateFunc(jsEnv.Idx, isolate, NativeValueApi.GetValueFromArgument, valuePtr,
+                                    false);
+                                return value;
+                            }, value)
+                        )
+                        {
+                            PuertsDLL.ThrowException(isolate, "expect " + typeMask + " but got " + valueType);
+                        }
+                        else
+                        {
+                            if (value == null)
+                            {
+                                value = translateFunc(jsEnv.Idx, isolate, NativeValueApi.GetValueFromArgument, valuePtr,
+                                    false);
+                            }
+
+                            field.SetValue(null, value);
+                        }
+                    };
+                }
+                else
+                {
+                    return (IntPtr isolate, IntPtr info, IntPtr self, int argumentsLen) =>
+                    {
+                        var valuePtr = PuertsDLL.GetArgumentValue(info, 0);
+                        var valueType = PuertsDLL.GetJsValueType(isolate, valuePtr, false);
+                        object value = null;
+                        if (
+                            !Utils.IsJsValueTypeMatchType(valueType, field.FieldType, typeMask, () =>
+                            {
+                                value = translateFunc(jsEnv.Idx, isolate, NativeValueApi.GetValueFromArgument, valuePtr,
+                                    false);
+                                return value;
+                            }, value)
+                        )
+                        {
+                            PuertsDLL.ThrowException(isolate, "expect " + typeMask + " but got " + valueType);
+                        }
+                        else
+                        {
+                            var me = jsEnv.GeneralGetterManager.GetSelf(jsEnv.Idx, self);
+                            field.SetValue(me, translateFunc(jsEnv.Idx, isolate, NativeValueApi.GetValueFromArgument, valuePtr, false));
+                        }
+                    };
+                }
+            }
+        }
         private JsEnv jsEnv;
 
         private RegisterInfoManager RegisterInfoManager;
@@ -374,6 +469,7 @@ namespace Puerts
             }
 
             SlowBindingRegister sbr = new SlowBindingRegister();
+            sbr.RegisterInfoManager = RegisterInfoManager;
             sbr.registerInfo = registerInfo;
 
             HashSet<string> readonlyStaticFields = new HashSet<string>();
@@ -393,7 +489,10 @@ namespace Puerts
                     {
                         if (memberRegisterInfo.Method == null || memberRegisterInfo.UseBindingMode != BindingMode.FastBinding) 
                         {
-                            if (RegisterInfoManager.DefaultBindingMode != BindingMode.DontBinding) sbr.needFillSlowBindingMethod.Add(memberRegisterInfo.Name);
+                            if (RegisterInfoManager.DefaultBindingMode != BindingMode.DontBinding && memberRegisterInfo.UseBindingMode != BindingMode.DontBinding)
+                            {
+                                sbr.needFillSlowBindingMethod.Add(memberRegisterInfo.Name);
+                            }
                             continue;
                         }
                         var result = PuertsDLL.RegisterFunction(jsEnv.isolate, typeId, memberRegisterInfo.Name, memberRegisterInfo.IsStatic, memberRegisterInfo.Method, jsEnv.Idx);
@@ -405,9 +504,12 @@ namespace Puerts
                     }
                     else if (memberRegisterInfo.MemberType == MemberType.Property)
                     {
-                        if ((memberRegisterInfo.PropertyGetter == null && memberRegisterInfo.PropertySetter == null) || memberRegisterInfo.UseBindingMode != BindingMode.FastBinding)
+                        if (
+                            (memberRegisterInfo.PropertyGetter == null && memberRegisterInfo.PropertySetter == null) || 
+                            memberRegisterInfo.UseBindingMode != BindingMode.FastBinding)
                         {
-                            if (RegisterInfoManager.DefaultBindingMode != BindingMode.DontBinding) sbr.needFillSlowBindingProperty.Add(memberRegisterInfo.Name);
+                            if (RegisterInfoManager.DefaultBindingMode != BindingMode.DontBinding && memberRegisterInfo.UseBindingMode != BindingMode.DontBinding) 
+                                sbr.needFillSlowBindingProperty.Add(memberRegisterInfo.Name);
                             continue;
                         }
                         PuertsDLL.RegisterProperty(jsEnv.isolate, typeId, memberRegisterInfo.Name, memberRegisterInfo.IsStatic, memberRegisterInfo.PropertyGetter, jsEnv.Idx, memberRegisterInfo.PropertySetter, jsEnv.Idx, !readonlyStaticFields.Contains(memberRegisterInfo.Name));
@@ -505,7 +607,7 @@ namespace Puerts
             }
             foreach (var field in sbr.slowBindingFields)
             {
-                var getterData = jsEnv.AddCallback(GenFieldGetter(type, field));
+                var getterData = jsEnv.AddCallback(FunctionCallbackFactory.GenFieldGetter(jsEnv, type, field));
 
                 V8FunctionCallback setter = null;
                 long setterData = 0;
@@ -513,7 +615,7 @@ namespace Puerts
                 if (!field.IsInitOnly && !field.IsLiteral)
                 {
                     setter = callbackWrap;
-                    setterData = jsEnv.AddCallback(GenFieldSetter(type, field));
+                    setterData = jsEnv.AddCallback(FunctionCallbackFactory.GenFieldSetter(jsEnv, type, field));
                 }
 
                 PuertsDLL.RegisterProperty(jsEnv.isolate, typeId, field.Name, field.IsStatic, callbackWrap, getterData, setter, setterData, !readonlyStaticFields.Contains(field.Name));
@@ -551,7 +653,6 @@ namespace Puerts
                             reflectConstructor = RegisterInfoManager.DefaultBindingMode != BindingMode.DontBinding;
                             break;
                         }
-                        reflectConstructor = false;
                         if (registerInfo.BlittableCopy)
                         {
                             typeId = PuertsDLL.RegisterStruct(jsEnv.isolate, -1, type.AssemblyQualifiedName, memberRegisterInfo.Constructor,
@@ -561,7 +662,13 @@ namespace Puerts
                         {
                             typeId = PuertsDLL.RegisterClass(jsEnv.isolate, baseTypeId, type.AssemblyQualifiedName, memberRegisterInfo.Constructor, null, jsEnv.Idx);
                         }
+                        return typeId;
                     }
+                }
+                
+            } else {
+                if (RegisterInfoManager.DefaultBindingMode == BindingMode.DontBinding) {
+                    return PuertsDLL.RegisterClass(jsEnv.isolate, baseTypeId, type.AssemblyQualifiedName, FunctionCallbackFactory.EmptyConstructor, null, jsEnv.Idx);
                 }
             }
 
@@ -600,87 +707,6 @@ namespace Puerts
             }
 
             return typeId;
-        }
-
-        private JSFunctionCallback GenFieldGetter(Type type, FieldInfo field)
-        {
-            var translateFunc = jsEnv.GeneralSetterManager.GetTranslateFunc(field.FieldType);
-            if (field.IsStatic)
-            {
-                return (IntPtr isolate, IntPtr info, IntPtr self, int argumentsLen) =>
-                {
-                    translateFunc(jsEnv.Idx, isolate, NativeValueApi.SetValueToResult, info, field.GetValue(null));
-                };
-            }
-            else
-            {
-                return (IntPtr isolate, IntPtr info, IntPtr self, int argumentsLen) =>
-                {
-                    var me = jsEnv.GeneralGetterManager.GetSelf(jsEnv.Idx, self);
-                    translateFunc(jsEnv.Idx, isolate, NativeValueApi.SetValueToResult, info, field.GetValue(me));
-                };
-            }
-        }
-
-        private JSFunctionCallback GenFieldSetter(Type type, FieldInfo field)
-        {
-            var translateFunc = jsEnv.GeneralGetterManager.GetTranslateFunc(field.FieldType);
-            var typeMask = GeneralGetterManager.GetJsTypeMask(field.FieldType);
-            if (field.IsStatic)
-            {
-                return (IntPtr isolate, IntPtr info, IntPtr self, int argumentsLen) =>
-                {
-                    var valuePtr = PuertsDLL.GetArgumentValue(info, 0);
-                    var valueType = PuertsDLL.GetJsValueType(isolate, valuePtr, false);
-                    object value = null;
-                    if (
-                        !Utils.IsJsValueTypeMatchType(valueType, field.FieldType, typeMask, () =>
-                        {
-                            value = translateFunc(jsEnv.Idx, isolate, NativeValueApi.GetValueFromArgument, valuePtr,
-                                false);
-                            return value;
-                        }, value)
-                    )
-                    {
-                        PuertsDLL.ThrowException(isolate, "expect " + typeMask + " but got " + valueType);
-                    }
-                    else
-                    {
-                        if (value == null)
-                        {
-                            value = translateFunc(jsEnv.Idx, isolate, NativeValueApi.GetValueFromArgument, valuePtr,
-                                false);
-                        }
-
-                        field.SetValue(null, value);
-                    }
-                };
-            }
-            else
-            {
-                return (IntPtr isolate, IntPtr info, IntPtr self, int argumentsLen) =>
-                {
-                    var valuePtr = PuertsDLL.GetArgumentValue(info, 0);
-                    var valueType = PuertsDLL.GetJsValueType(isolate, valuePtr, false);
-                    object value = null;
-                    if (
-                        !Utils.IsJsValueTypeMatchType(valueType, field.FieldType, typeMask, () =>
-                        {
-                            value = translateFunc(jsEnv.Idx, isolate, NativeValueApi.GetValueFromArgument, valuePtr,
-                                false);
-                            return value;
-                        }, value)
-                    )
-                    {
-                        PuertsDLL.ThrowException(isolate, "expect " + typeMask + " but got " + valueType);
-                    }
-                    else
-                    {
-                        var me = jsEnv.GeneralGetterManager.GetSelf(jsEnv.Idx, self);
-                        field.SetValue(me, translateFunc(jsEnv.Idx, isolate, NativeValueApi.GetValueFromArgument, valuePtr, false));
-                    }
-                };
-            }
         }
     }
 }

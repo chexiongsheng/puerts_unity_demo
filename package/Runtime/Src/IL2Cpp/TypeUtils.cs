@@ -5,6 +5,7 @@
 * This file is subject to the terms and conditions defined in file 'LICENSE', which is part of this source code package.
 */
 
+#if UNITY_2020_1_OR_NEWER
 #if EXPERIMENTAL_IL2CPP_PUERTS || UNITY_EDITOR || PUERTS_GENERAL
 
 using System;
@@ -35,7 +36,7 @@ namespace PuertsIl2cpp
         public static IEnumerable<MethodInfo> GetExtensionMethods(Type type, params Type[] extensions)
         {
             return from e in extensions from m in e.GetMethods(BindingFlags.Static | BindingFlags.Public) 
-                where GetExtendedType(m) == type select m;
+                where !m.IsSpecialName && GetExtendedType(m) == type select m;
         }
 
         public static IEnumerable<MethodInfo> Get(Type type)
@@ -452,4 +453,5 @@ namespace PuertsIl2cpp
     }
 }
 
+#endif
 #endif

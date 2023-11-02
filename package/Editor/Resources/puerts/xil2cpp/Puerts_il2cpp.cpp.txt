@@ -289,7 +289,11 @@ void* GetValueTypeFieldPtr(void *obj, FieldInfo *field, size_t offset)
 
         void* threadStaticData = NULL;
         if (field->offset == THREAD_STATIC_FIELD_OFFSET)
+#ifdef UNITY_2021_1_OR_NEWER
+            threadStaticData = Thread::GetThreadStaticDataForThread(field->parent->thread_static_fields_offset, il2cpp::vm::Thread::CurrentInternal());
+#else
             threadStaticData = Thread::GetThreadStaticDataForThread(field->parent->thread_static_fields_offset, il2cpp::vm::Thread::Current());
+#endif
         
         if (field->offset == THREAD_STATIC_FIELD_OFFSET)
         {
@@ -365,7 +369,9 @@ static void* CtorCallback(pesapi_callback_info info)
         }
         
 
-        if (!(isValueType && pesapi_get_args_len(info) == 0))
+        if (isValueType && pesapi_get_args_len(info) == 0)
+            return Ptr;
+        else
             pesapi_throw_by_string(info, "invalid arguments");
         
     } 
@@ -388,7 +394,7 @@ static void* CtorCallback(pesapi_callback_info info)
         }
     }
     
-    if(Class::IsValuetype(classInfo->Class))
+    if (isValueType)
     {
         ValueTypeFree(Ptr);
     }
