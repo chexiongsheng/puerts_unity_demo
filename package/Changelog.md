@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 you can get the english version change log at [Github Release](https://github.com/Tencent/puerts/releases)
 
+## [2.0.4] - 2024-01-09
+1. fix: the error when invoking extension method with out/ref args.
+2. fix: the error when set a JSObject to `null`.
+3. fix: the error when getting the arg index when invoking extension method with default arguments value.
+4. fix: members of valuetype created by paramless ctor will be random value.
+
 ## [2.0.3] - 2023-11-02
 1. important!: to follow the rules of Assetstore, move the generation menu from `PuerTS` to `Tools/PuerTS`
 2. feature: support dynamic import (`import()`) #1540
@@ -24,7 +30,7 @@ you can get the english version change log at [Github Release](https://github.co
 4. optimize: use universal binary instead of two binary with different arch in OSX now. @mikejurka
 5. optimize: `JsEnv` now have a public `Isolate` field to get the pointer of `v8::Isolate` @mingxxming
 6. optimize: remove our `SnapshotBlob.h`. Use v8's builtin snapshot instead. #1477
-7. optimize: The build script can now run with low version @xiezheng-XD #1495
+7. optimize: The build script can now run with low Node.js version @xiezheng-XD #1495
 8. optimize: support inspector by default in Linux @geequlim
 
 ## [2.0.1] - 2023-08-16
@@ -37,6 +43,10 @@ you can get the english version change log at [Github Release](https://github.co
 1. Fix: `debugpath` was not work and make VSCode debug not availabled
 2. Fix: `puer.$genericMethod` cannot get the genericMethod from super class in xil2cpp mode #1417 @danij91
 3. Fix: `GetFriendlyName is not a function` when generating extensionInfo #1437
+
+This is the first stable version of `2.0.0`. Shout out to everyone who attending the test.
+
+If you need any help in upgrading. See [upgrade guide](https://puerts.github.io/en/docs/puerts/unity/other/upgrade/)
 
 ## [2.0.0-rc.1] - 2023-07-14
 1. Fix: BlitableCopy was broken issue #1427
@@ -90,7 +100,7 @@ you can get the english version change log at [Github Release](https://github.co
 9. Feature: add `IResolvableLoader` to implement node_modules loading and solve #1270.
 10. Feature: add `IBuiltinLoadedListener` to allow Loader to do some operations after the built-in script is executed, which is convenient for encapsulating third-party Loader.
 
-## [2.0.0-pre.2] - 2023-02-27
+## [2.0.0-pre.1] - 2023-02-27
 1. Add a new language binding directly based on il2cpp and there will be huge performance benifit. see our docsite for more information.
 2. The package layout of unity code in this repository is changed to UPM layout.
 3. Move the [commonjs-support](https://github.com/puerts/puerts-commonjs) package into this package.
@@ -103,7 +113,9 @@ you can get the english version change log at [Github Release](https://github.co
 5. As what we mentioned in changelog of 1.4: there will be no `require` by default in 2.0.
 
 ## [1.4.1] - 2023-03-02
+
 > changelog since 1.4.0
+
 1. fix: the crashed after getting a StackOverflowException #1208
 2. fix: could not get any log in inspector with Node.js backend. #1201
 3. fix: if a error is thrown in ESM and the message contains line ends, the error message could be incorrect. #1188
@@ -120,7 +132,7 @@ you can get the english version change log at [Github Release](https://github.co
 3. optimize: do not lock the mutex when destroying a JSFunction.
 4. feature: JsEnv.ClearModuleCache can clear ESM module cache now.
 
-## [1.4.1-pre.1] - 2022-01-27
+## [1.4.1-pre.1] - 2023-01-27
 1. fix: did not filt a obsoleted property setter/getter. #1152
 2. feature: add console.time. #1170
 3. feature: now you can use JSObject to store a JS function. #1143 #1144

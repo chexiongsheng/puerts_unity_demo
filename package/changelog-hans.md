@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 you can get the english version change log at [Github Release](https://github.com/Tencent/puerts/releases)
 
+## [2.0.4] - 2024-01-09
+1. 修复：调用extension方法并且方法带out或者ref参数会报错
+2. 修复：将JSObject赋值为null会报错
+3. 修复：调用带默认参数的extension函数时index读取不正确的bug
+4. 修复：xil2cpp下，值类型无参构造字段为随机值的问题
+
 ## [2.0.3] - 2023-11-02
 1. 重要：遵循Assetstore策略，生成菜单由PuerTS改到了Tools/PuerTS内
 2. 功能：支持dynamic import（即`import()`）#1540
@@ -37,6 +43,10 @@ you can get the english version change log at [Github Release](https://github.co
 1. 修复：debugpath失效并导致VSCode调试不可用的问题
 2. 修复：xil2cpp模式下`puer.$genericMethod`无法获取父类泛型函数的问题 #1417 @danij91
 3. 修复：生成代码时报GetFriendlyName is not a function的问题 #1437
+
+这个版本是2.0第一个正式版本。感谢所有参与过2.0内测的朋友。
+
+对升级有疑问的朋友可以参见[升级指南](https://puerts.github.io/docs/puerts/unity/other/upgrade)
 
 ## [2.0.0-rc.1] - 2023-07-14
 1. 修复: BlittableCopy不可用的问题 #1427
@@ -90,7 +100,7 @@ you can get the english version change log at [Github Release](https://github.co
 3. 功能：添加`IResolvableLoader`，用于实现node_modules加载与解决 #1270 问题
 4. 功能：添加`IBuiltinLoadedListener`，可以让Loader在内置脚本执行完毕后做一些操作，便于封装第三方Loader。
 
-## [2.0.0-pre.2] - 2023-02-27
+## [2.0.0-pre.1] - 2023-02-27
 1. 添加了新的il2cpp binding方式，性能有飞跃式提升。详见官方文档`Il2cpp绑定`章节
 2. 本仓库的Unity代码变为了UPM目录结构。
 3. 将[commonjs-support](https://github.com/puerts/puerts-commonjs)包移入了本仓库。
@@ -101,6 +111,21 @@ you can get the english version change log at [Github Release](https://github.co
 3. 反射模式下，如果一个函数无重载也无默认参数，不会进行参数检查
 4. Ref所使用的下标由['value']变为[0]（如果你代码使用的是puer.$ref和puer.$unref，而不是直接使用下标的话，不受影响）
 5. 1.4版本中预告过的：2.0版本不自带require
+
+## [1.4.1] - 2023-03-02
+
+> 以下为相比1.4.0的内容
+
+1. 修复：出现stack overflow错误后JsEnv析构产生crash的问题 #1208
+2. 修复：Node.js版本连接inspector时打不出Log #1201
+3. 修复：ESM模块报错时报错信息包含换行符会导致报错信息不正确。#1188
+4. 修复：生成时Obsolete字段未被过滤的问题。 #1152
+5. 修复：将JS数字传递给C# object时，浮点数精度丢失的问题。
+6. 功能：JsEnv.ClearModuleCache现在可以清理ESM模块缓存
+7. 功能：JSObject现在可以接收一个JS函数。#1143 #1144
+8. 功能：添加PUERTS_DISABLE_SLOWBINDING，适用于需要做权限控制的地方。
+9. 功能：添加EXPERIMENTAL_PUERTS_DISABLE_SLOWBINDING，适用于需要做权限控制的地方。该功能为试验功能，还可能改动。
+10. 优化：销毁JSFunction、JSObject时不加锁
 
 ## [1.4.1-pre.2] - 2023-02-09
 1. 修复：Node.js版本连接inspector时打不出Log #1201

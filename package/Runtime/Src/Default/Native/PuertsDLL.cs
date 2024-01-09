@@ -1,7 +1,7 @@
 ﻿/*
 * Tencent is pleased to support the open source community by making Puerts available.
 * Copyright (C) 2020 THL A29 Limited, a Tencent company.  All rights reserved.
-* Puerts is licensed under the BSD 3-Clause License, except for the third-party components listed in the file 'LICENSE' which may be subject to their corresponding license terms. 
+* Puerts is licensed under the BSD 3-Clause License, except for the third-party components listed in the file 'LICENSE' which may be subject to their corresponding license terms.
 * This file is subject to the terms and conditions defined in file 'LICENSE', which is part of this source code package.
 */
 
@@ -78,18 +78,18 @@ namespace Puerts
         public static extern int GetLibVersion();
 
         public static int GetApiLevel() {
-            try 
+            try
             {
                 return _GetApiLevel();
-            } 
-            catch(DllNotFoundException)
+            }
+            catch (DllNotFoundException)
             {
 #if !PUERTS_GENERAL
                 UnityEngine.Debug.LogError("[Puer001] DllNotFoundException detected. You can solve this problem following the FAQ.");
 #endif
                 throw;
             }
-            catch(Exception) 
+            catch (Exception)
             {
                 return GetLibVersion();
             }
@@ -100,7 +100,7 @@ namespace Puerts
 
         [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr CreateJSEngine();
-        
+
         [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr CreateJSEngineWithExternalEnv(IntPtr externalRuntime, IntPtr externalContext);
 
@@ -121,7 +121,9 @@ namespace Puerts
 
         private const int TEMP_STRING_BUFFER_SIZE = 1024;
 
+#if UNITY_2017_1_OR_NEWER
         [ThreadStatic]
+#endif
         private static byte[] s_tempNativeStringBuffer;
 
         private static byte[] GetTempNativeStringBuff(int strlen)
@@ -278,10 +280,10 @@ namespace Puerts
 
             return RegisterProperty(isolate, classID, name, isStatic, fn1, getterData, fn2, setterData, dontDelete);
         }
-        
+
         [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr GetJSObjectValueGetter(IntPtr isolate);
-        
+
         [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr GetModuleExecutor(IntPtr isolate);
 
@@ -414,7 +416,7 @@ namespace Puerts
 
         public static void SetStringToOutValue(IntPtr isolate, IntPtr value, string str)
         {
-            if (str == null) 
+            if (str == null)
             {
                 SetNullToOutValue(isolate, value);
             }
@@ -428,7 +430,7 @@ namespace Puerts
         protected static extern void __SetStringToOutValue(IntPtr isolate, IntPtr value, string str);
         public static void SetStringToOutValue(IntPtr isolate, IntPtr value, string str)
         {
-            if (str == null) 
+            if (str == null)
             {
                 SetNullToOutValue(isolate, value);
             }
@@ -551,7 +553,11 @@ namespace Puerts
         public static extern bool ResultIsBigInt(IntPtr resultInfo);
 
         [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
+#if UNITY_WEBGL && !UNITY_EDITOR
+        public static extern IntPtr GetBigIntFromResult(IntPtr resultInfo);
+#else
         public static extern long GetBigIntFromResult(IntPtr resultInfo);
+#endif
 
         public static long GetBigIntFromResultCheck(IntPtr resultInfo)
         {
@@ -559,7 +565,11 @@ namespace Puerts
             {
                 return 0;
             }
+#if UNITY_WEBGL && !UNITY_EDITOR
+            return Marshal.ReadInt64(GetBigIntFromResult(resultInfo));
+#else
             return GetBigIntFromResult(resultInfo);
+#endif
         }
 
         [DllImport(DLLNAME, CallingConvention = CallingConvention.Cdecl)]
