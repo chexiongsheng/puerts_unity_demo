@@ -54,7 +54,13 @@ lst.Add(4);
 obj.PrintList(lst);
 let dic = new Dictionary();
 dic.Add("aaa", lst);
-obj.PrintList(dic.get_Item("aaa"));
+obj.PrintList(dic.get_Item("aaa"))
+//泛型数组 ts的话需加上 as CS.System.Array$1<string>,配置PuertsConfig BINDING中请添加 typeof(Array),生成对应的index.d.ts,否则CreateInstance会报错
+let Arr = CS.System.Array.CreateInstance(puer.$typeof(CS.System.String), 3);
+Arr.SetValue("aaa", 0);
+Arr.SetValue("bbb", 1);
+Arr.SetValue("ccc", 2);
+obj.PrintArray(Arr);
 //arraybuffer
 let ab = obj.GetAb(5);
 let u8a0 = new Uint8Array(ab);
