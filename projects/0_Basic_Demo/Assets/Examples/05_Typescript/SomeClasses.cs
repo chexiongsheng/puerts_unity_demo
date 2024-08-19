@@ -107,6 +107,15 @@ namespace PuertsTest
             }
         }
 
+        public void PrintArray(string[] arr)
+        {
+            Debug.Log("arr.Length=" + arr.Length);
+            for (int i = 0; i < arr.Length; i++)
+            {
+                Debug.Log(string.Format("arr[{0}]={1}", i, arr[i]));
+            }
+        }
+
         public Puerts.ArrayBuffer GetAb(int size)
         {
             byte[] bytes = new byte[size];
