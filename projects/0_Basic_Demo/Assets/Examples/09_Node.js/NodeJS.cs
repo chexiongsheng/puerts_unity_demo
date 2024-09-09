@@ -16,14 +16,16 @@ namespace PuertsTest
         // Start is called before the first frame update
         void Start()
         {
-            if (PuertsDLL.GetLibBackend() == 1)
+            env = new JsEnv(new DefaultLoader(), 9222);
+            if (env.Backend is BackendNodeJS)
             {
-                env = new JsEnv(new DefaultLoader(), 9222);
                 env.ExecuteModule("node-example.mjs");
             }
             else
             {
                 UnityEngine.Debug.LogError("NodeBackend is not supported");
+                env.Dispose();
+                env = null;
             }
         }
 
