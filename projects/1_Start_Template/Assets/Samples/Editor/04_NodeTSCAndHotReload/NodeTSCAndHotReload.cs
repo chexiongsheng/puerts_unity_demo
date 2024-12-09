@@ -100,7 +100,8 @@ and run `npm i` in Puer-Project
     [MenuItem("PuertsEditorDemo/tsc & HotReload/Watch tsProj And HotReload/on", true)]
     static bool WatchValidate() 
     {
-        return PuertsDLL.GetLibBackend() == 1 && runner == null;
+        var env = new JsEnv();
+        return env.Backend is BackendNodeJS && runner == null;
     }
 
     [MenuItem("PuertsEditorDemo/tsc & HotReload/Watch tsProj And HotReload/off")]
@@ -114,6 +115,7 @@ and run `npm i` in Puer-Project
     [MenuItem("PuertsEditorDemo/tsc & HotReload/Watch tsProj And HotReload/off", true)]
     static bool UnWatchValidate() 
     {
-        return PuertsDLL.GetLibBackend() == 1 && runner != null && runner.env != null;
+        var env = new JsEnv();
+        return env.Backend is BackendNodeJS && runner != null && runner.env != null;
     }
 }
