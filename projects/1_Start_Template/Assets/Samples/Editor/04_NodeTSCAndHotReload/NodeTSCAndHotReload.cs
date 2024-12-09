@@ -76,7 +76,8 @@ and run `npm i` in Puer-Project
     [MenuItem("PuertsEditorDemo/tsc & HotReload/Compile TsProj", true)] 
     static bool CompileValidate() 
     {
-        return PuertsDLL.GetLibBackend() == 1;
+        var env = new JsEnv();
+        return env.Backend is BackendNodeJS;
     }
 
     [MenuItem("PuertsEditorDemo/tsc & HotReload/Watch tsProj And HotReload/on")]
