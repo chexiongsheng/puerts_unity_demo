@@ -8,6 +8,14 @@
 
 namespace Puerts
 {
+    public enum BackendType : int
+    {
+        V8 = 0,
+        Node = 1,
+        QuickJS = 2,
+        Auto = 3
+    }
+
     public abstract class Backend
     {
         protected JsEnv env;
@@ -30,7 +38,7 @@ namespace Puerts
 #if THREAD_SAFE
             lock(this) {
 #endif
-#if !EXPERIMENTAL_IL2CPP_PUERTS || !ENABLE_IL2CPP
+#if PUERTS_DISABLE_IL2CPP_OPTIMIZATION || (!PUERTS_IL2CPP_OPTIMIZATION && (UNITY_WEBGL || UNITY_IPHONE)) || !ENABLE_IL2CPP
             return PuertsDLL.IdleNotificationDeadline(env.isolate, DeadlineInSeconds);
 #else
             return false;
@@ -45,7 +53,7 @@ namespace Puerts
 #if THREAD_SAFE
             lock(this) {
 #endif
-#if !EXPERIMENTAL_IL2CPP_PUERTS || !ENABLE_IL2CPP
+#if PUERTS_DISABLE_IL2CPP_OPTIMIZATION || (!PUERTS_IL2CPP_OPTIMIZATION && (UNITY_WEBGL || UNITY_IPHONE)) || !ENABLE_IL2CPP
             PuertsDLL.LowMemoryNotification(env.isolate);
 #endif
 #if THREAD_SAFE
@@ -58,7 +66,7 @@ namespace Puerts
 #if THREAD_SAFE
             lock(this) {
 #endif
-#if !EXPERIMENTAL_IL2CPP_PUERTS || !ENABLE_IL2CPP
+#if PUERTS_DISABLE_IL2CPP_OPTIMIZATION || (!PUERTS_IL2CPP_OPTIMIZATION && (UNITY_WEBGL || UNITY_IPHONE)) || !ENABLE_IL2CPP
             PuertsDLL.RequestMinorGarbageCollectionForTesting(env.isolate);
 #endif
 #if THREAD_SAFE
@@ -71,7 +79,7 @@ namespace Puerts
 #if THREAD_SAFE
             lock(this) {
 #endif
-#if !EXPERIMENTAL_IL2CPP_PUERTS || !ENABLE_IL2CPP
+#if PUERTS_DISABLE_IL2CPP_OPTIMIZATION || (!PUERTS_IL2CPP_OPTIMIZATION && (UNITY_WEBGL || UNITY_IPHONE)) || !ENABLE_IL2CPP
             PuertsDLL.RequestFullGarbageCollectionForTesting(env.isolate);
 #endif
 #if THREAD_SAFE
@@ -99,7 +107,7 @@ namespace Puerts
 #if THREAD_SAFE
             lock(this) {
 #endif
-#if !EXPERIMENTAL_IL2CPP_PUERTS || !ENABLE_IL2CPP
+#if PUERTS_DISABLE_IL2CPP_OPTIMIZATION || (!PUERTS_IL2CPP_OPTIMIZATION && (UNITY_WEBGL || UNITY_IPHONE)) || !ENABLE_IL2CPP
             PuertsDLL.LowMemoryNotification(env.isolate);
 #endif
 #if THREAD_SAFE
