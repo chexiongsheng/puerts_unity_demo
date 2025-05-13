@@ -9,8 +9,6 @@ using System.Collections.Generic;
 using Puerts;
 using System;
 using UnityEngine;
-using System.Reflection;
-using System.Linq;
 
 //1、配置类必须打[Configure]标签
 //2、必须放Editor目录
@@ -22,10 +20,7 @@ public class ExamplesCfg
     {
         get
         {
-            Debug.Log(Assembly.GetAssembly(typeof(GameObject)).GetName());
-            var ret = 
-
-            new List<Type>()
+            return new List<Type>()
             {
                 typeof(UnityEngine.Application),
                 typeof(Debug),
@@ -33,7 +28,6 @@ public class ExamplesCfg
                 typeof(Vector3),
                 typeof(List<int>),
                 typeof(Dictionary<string, List<int>>),
-                typeof(Dictionary<string, List<int>>.Enumerator),
                 typeof(PuertsTest.BaseClass),
                 typeof(PuertsTest.DerivedClass),
                 typeof(PuertsTest.BaseClassExtension),
@@ -69,12 +63,8 @@ public class ExamplesCfg
                 typeof(PuertsDeclareTest.Plants.Shootable),
                 typeof(PuertsDeclareTest.Zombies.Walkable),
                 typeof(PuertsDeclareTest.Zombies.Flyable),
-                typeof(PuertsDeclareTest.Zombies.BalloonZombie),
-                typeof(PuertsTest.ABCD),
-                typeof(System.Array)
+                typeof(PuertsDeclareTest.Zombies.BalloonZombie)
             };
-            //Debug.Log("count:" + ret.Count());
-            return ret;
         }
     }
 

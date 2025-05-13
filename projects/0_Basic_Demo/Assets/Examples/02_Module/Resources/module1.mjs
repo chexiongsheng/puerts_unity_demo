@@ -1,7 +1,5 @@
 console.log('module1 loading');
 
-throw new Error("aa");
-
 function callMe(msg) {
     console.log('callMe called', msg);
 }
