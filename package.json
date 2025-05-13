@@ -20,6 +20,7 @@
     "@puerts/shell-util": "^1.0.4",
     "commander": "^9.3.0",
     "download": "^8.0.0",
+    "eval5": "^1.4.8",
     "glob": "^8.0.3"
   }
 }
