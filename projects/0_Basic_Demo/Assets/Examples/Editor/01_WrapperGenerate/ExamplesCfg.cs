@@ -46,6 +46,12 @@ public class ExamplesCfg
                 typeof(Behaviour),
                 typeof(MonoBehaviour),
                 typeof(System.IO.File),
+                typeof(System.IO.Path),
+                typeof(System.IO.Directory),
+                typeof(System.IO.StreamWriter),
+                typeof(System.IO.TextWriter),
+                typeof(System.IO.StreamReader),
+                typeof(System.IO.TextReader),
 
                 typeof(UnityEngine.Networking.UnityWebRequest),
                 typeof(UnityEngine.Networking.DownloadHandler),
@@ -91,12 +97,21 @@ public class ExamplesCfg
         if (mb.DeclaringType == typeof(Type) && (mb.Name == "MakeGenericSignatureType" || mb.Name == "IsCollectible")) {
             return true;
         }
-        if (mb.DeclaringType == typeof(System.IO.File)) {
+        if (mb.DeclaringType == typeof(System.IO.File) || mb.DeclaringType == typeof(System.IO.Directory)) {
             if (mb.Name == "SetAccessControl" || mb.Name == "GetAccessControl") {
                 return true;
 
             } else if (mb.Name == "Create") {
                 return true;
+            }
+            if (mb.Name == "CreateDirectory")
+            {
+                System.Reflection.MethodInfo method = mb as System.Reflection.MethodInfo;
+                var ps = method.GetParameters();
+                if (method != null && ps.Length == 2 && ps[1].ParameterType.Name == "DirectorySecurity")
+                {
+                    return true;
+                }
             }
         }
         return false;
